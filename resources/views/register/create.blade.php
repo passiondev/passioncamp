@@ -190,7 +190,9 @@
                     </div>
                 </div>
             </section>
-            <section class="col-md-6 col-md-offset-1">
+        </div>
+        <div class="row">
+            <section class="col-md-6">
                 <header style="margin-bottom: 15px">
                     <h4>Payment Information</h4>
                 </header>
@@ -205,6 +207,7 @@
                             {{ Form::radio('payment_amount_type', 'deposit', null, ['v-model' => 'payment_amount_type']) }} Deposit @{{ deposit_amount | currency }}
                         </label>
                     </div>
+                    <p>Summer Camp Registration must be paid by June 13th to ensure that your student keeps their spot. Deposits are non-refundable.</p>
                 </div>
                 <div class="payment_method payment_method--credit">
                     <p class="payment-errors text-danger"></p>
@@ -228,9 +231,9 @@
         </div>
 
 
-        <div class="form-actions">
-            <button class="btn btn-primary">Submit Registration</button>
-        </div>
+        <section class="form-actions">
+            <button class="btn btn-primary btn-lg">Submit Registration</button>
+        </section>
     {{ Form::close() }}
 @endsection
 
