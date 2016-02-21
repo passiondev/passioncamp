@@ -1,0 +1,60 @@
+@import "bootstrap/front/bootstrap";
+
+section {
+    margin-bottom: 6rem;
+    &.tickets {
+        margin-bottom: 2rem;
+    }
+}
+.ticket {
+    margin-bottom: 4rem;
+}
+
+.form-group-inline {
+    display: flex;
+    .form-group {
+        padding-left: 10px;
+        padding-right: 10px;
+        @media (min-width: $screen-sm-min) {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        &:first-child {
+            padding-left: 0;
+        }
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+}
+
+.form-controls-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form-horizontal {
+    .control-label {
+        @include make-sm-column(4);
+        text-align: right;
+    }
+    .form-controls {
+        @include make-sm-column(8);
+    }
+}
+
+.control-label + .radio {
+    margin-top: 0;
+}
+
+.form-controls--radio {
+    margin-top: 4px;
+    margin-bottom: 9px;
+}
+
+p.help-block {
+    @media (min-width: $screen-xs-min) {
+        white-space: nowrap;
+    }
+}

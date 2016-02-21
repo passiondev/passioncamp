@@ -1,0 +1,1 @@
+{"version":3,"sources":["register.coffee"],"names":[],"mappings":"AAAA,IAAA;;AAAA,EAAA,GAAS,IAAA,GAAA,CACP;EAAA,EAAA,EAAI,MAAJ;EACA,UAAA,EAAY;IAAE,MAAA,EAAQ,MAAV;GADZ;CADO","file":"register.js","sourcesContent":["vm = new Vue\n  el: 'body'\n  components: { ticket: Ticket }"],"sourceRoot":"/source/"}
