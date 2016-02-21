@@ -6,6 +6,7 @@ use App\User;
 use App\Order;
 use App\Person;
 use App\Ticket;
+use App\OrderItem;
 use Omnipay\Omnipay;
 use App\Http\Requests;
 use Illuminate\Http\Request;
