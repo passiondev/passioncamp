@@ -36,4 +36,13 @@ class OrderItem extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getNameAttribute()
+    {
+        if ($this->has('item')) {
+            return $this->item->name;
+        }
+
+        return ucwords($this->type);
+    }
 }

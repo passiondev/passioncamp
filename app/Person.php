@@ -30,6 +30,11 @@ class Person extends Model
         return $this->hasOne(User::class);
     }
 
+    public function getNameAttribute()
+    {
+        return sprintf("%s %s", $this->first_name, $this->last_name);
+    }
+
     public function setBirthdateAttribute($birthdate)
     {
         $birthdate = str_replace(['.', '-'], '/', $birthdate);

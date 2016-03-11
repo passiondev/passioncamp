@@ -22,4 +22,25 @@ class TransactionSplit extends Model
     {
         return $this->belongsTo(Transaction::class);
     }
+
+    public function getNameAttribute()
+    {
+        $type = '';
+        $method = $this->transaction->type;
+
+        if ($this->amount < 0) {
+            $type = 'Refunded';
+        }
+
+        if ($method == 'Sale') {
+            $method = $this->transaction->card_type . ' ' . $this->transaction->card_num;
+        }
+
+        if (in_array($method, array('Check', 'Credit'))) {
+            $method = $method . ' ' . $this->transaction->processor_transactionId;
+        }
+
+        return trim(sprintf('%s %s', $type, $method));
+    }
 }
+
