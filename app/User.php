@@ -19,4 +19,8 @@ class User extends Authenticatable
         return $this->belongsTo(Organization::class);
     }
 
+    public function getIsSuperAdminAttribute()
+    {
+        return $this->access == 100;
+    }
 }

@@ -13,9 +13,11 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('register', 'RegisterController@store')->name('register.store');
     Route::get('register/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
 
-    Route::get('admin/organizations', 'Admin\OrganizationController@index')->name('admin.organization.index');
-    Route::get('admin/organization/{organization}', 'Admin\OrganizationController@show')->name('admin.organization.show');
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('admin/organizations', 'Admin\OrganizationController@index')->name('admin.organization.index');
+        Route::get('admin/organization/{organization}', 'Admin\OrganizationController@show')->name('admin.organization.show');
 
-    Route::get('admin/orders', 'Admin\OrderController@index')->name('admin.order.index');
-    Route::get('admin/order/{order}', 'Admin\OrderController@show')->name('admin.order.show');
+        Route::get('admin/orders', 'Admin\OrderController@index')->name('admin.order.index');
+        Route::get('admin/order/{order}', 'Admin\OrderController@show')->name('admin.order.show');
+    });
 });
