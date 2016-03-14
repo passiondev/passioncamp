@@ -19,16 +19,6 @@ class Ticket extends OrderItem
         });
     }
 
-    public function person()
-    {
-        return $this->belongsTo(Person::class);
-    }
-
-    public function room()
-    {
-        return $this->belongsTo(Room::class);
-    }
-
     /*-------------- getters -----------------*/
 
     /*-------------- setters -----------------*/

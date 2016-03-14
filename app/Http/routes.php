@@ -15,4 +15,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('admin/organizations', 'Admin\OrganizationController@index')->name('admin.organization.index');
     Route::get('admin/organization/{organization}', 'Admin\OrganizationController@show')->name('admin.organization.show');
+
+    Route::get('admin/orders', 'Admin\OrderController@index')->name('admin.order.index');
+    Route::get('admin/order/{order}', 'Admin\OrderController@show')->name('admin.order.show');
 });

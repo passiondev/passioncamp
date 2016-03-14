@@ -37,9 +37,19 @@ class OrderItem extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
     public function getNameAttribute()
     {
-        if ($this->has('item')) {
+        if ($this->item) {
             return $this->item->name;
         }
 

@@ -2,11 +2,16 @@
 
 namespace App;
 
+use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    use Eloquence;
+
     protected $table = 'orders';
+
+    protected $searchableColumns = ['id', 'tickets.person.first_name', 'tickets.person.last_name'];
 
     public function organization()
     {
@@ -49,6 +54,11 @@ class Order extends Model
     }
 
     public function getNumTicketsAttribute()
+    {
+        return $this->tickets->count();
+    }
+
+    public function getTicketCountAttribute()
     {
         return $this->tickets->count();
     }
