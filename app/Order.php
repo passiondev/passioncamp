@@ -98,4 +98,47 @@ class Order extends Model
 
         $this->transactions()->save($split);
     }
+
+    public function addContact($data)
+    {
+        $person = Person::create($data);
+
+        $user = new User;
+        $user->person()->associate($person);
+        $user->save();
+
+        $this->user()->associate($user);
+
+        return $this;
+    }
+
+    public function addTicket($data)
+    {
+        $person = Person::create(array_only($data, [
+            'first_name',
+            'last_name',
+            'email',
+            'phone',
+            'birthdate',
+            'gender',
+            'grade',
+            'allergies',
+        ]));
+
+        $ticket_data = array_only($data, [
+            'school',
+            'shirtsize',
+            'roommate_requested',
+            'location'
+        ]);
+
+        $ticket = new Ticket;
+        $ticket->order()->associate($this);
+        $ticket->person()->associate($person);
+        $ticket->organization_id = $this->organization_id;
+        $ticket->agegroup = $data['agegroup'];
+        $ticket->price = $data['price'];
+        $ticket->ticket_data = $ticket_data;
+        $ticket->save();
+    }
 }

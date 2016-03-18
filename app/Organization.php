@@ -38,6 +38,16 @@ class Organization extends Model
         return $this->hasMany(TransactionSplit::class);
     }
 
+    public function authUsers()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function attendees()
+    {
+        return $this->hasManyThrough(OrderItem::class, Order::class)->where('type', 'ticket');
+    }
+
     public function getNumTicketsAttribute()
     {
         $quantity = $this->tickets->sum('quantity');
@@ -65,5 +75,33 @@ class Organization extends Model
     public function getBalanceAttribute()
     {
         return $this->total_cost - $this->total_paid;
+    }
+
+    public function getCanReceivePaymentAttribute()
+    {
+        return $this->slug == 'pcc';
+    }
+
+    public function addPayment($data)
+    {
+        if ($data->type == 'check') {
+            return $this->addCheckPayment($data);
+        }
+
+        if ($data->type == 'credit') {
+            return $this->addCreditPayment($data);
+        }
+
+        throw new \Exception("Could not add payment: payment type not available.");
+    }
+
+    private function addCheckPayment($data)
+    {
+        # code...
+    }
+
+    private function addCreditPayment($data)
+    {
+        # code...
     }
 }

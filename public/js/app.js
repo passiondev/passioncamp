@@ -10597,6 +10597,10 @@ $(function() {
 },{"./register":7,"jquery.payment":1}],7:[function(require,module,exports){
 var Ticket, Vue, chunk, computed, data, methods, vm, watch;
 
+if (!document.getElementById('registerForm')) {
+  return;
+}
+
 Vue = require('vue');
 
 chunk = require('lodash.chunk');

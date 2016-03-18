@@ -4,9 +4,10 @@
     <div class="container">
         <header class="page-header">
             <h1>Registrations</h1>
+            <a href="/registration/create">Add Registration</a>
         </header>
 
-        <form action="/admin/orders" method="GET">
+        <form action="/orders" method="GET">
             <div class="form-group">
                 <input type="search" name="search" class="form-control" placeholder="Search..." value="{{ request('search') }}">
             </div>
@@ -17,7 +18,7 @@
                 <p><i>No results</i></p>
             @endif
             @foreach($orders as $order)
-                <a href="{{ route('admin.order.show', $order) }}">
+                <a href="{{ route('order.show', $order) }}">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="row">

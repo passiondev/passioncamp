@@ -146,7 +146,7 @@ class RegisterController extends Controller
             $m->subject('SMMR CMP Confirmation');
         });
 
-        return redirect()->route('register.confirmation')->with('order_id', $order->id);;
+        return redirect()->route('register.confirmation')->with('order_id', $order->id);
     }
 
     public function confirmation(Request $request)

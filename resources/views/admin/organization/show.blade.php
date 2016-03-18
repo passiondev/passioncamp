@@ -4,6 +4,7 @@
     <div class="container">
         <header class="page-header">
             <h1>{{ $organization->church->name }}</h1>
+            <a href="{{ route('admin.organization.edit', $organization) }}">Edit Church</a>
         </header>
 
         <div class="row">
@@ -46,6 +47,7 @@
                             <div class="transaction">
                                 <div class="item left">
                                     {{ $item->name }} <small>({{ number_format($item->quantity) }} @ {{ money_format('%.2n', $item->cost) }})</small>
+                                    <a href="{{ route('admin.organization.item.edit', [$organization, $item]) }}">edit</a>
                                 </div>
                                 <div class="item right">{{ money_format('%.2n', $item->quantity * $item->cost) }}</div>
                             </div>
@@ -101,6 +103,22 @@
                     </ul>
                 </div>
             @endif
+            <div class="info-box__content">
+                <a href="{{ route('admin.organization.item.create', $organization) }}">Add Item</a>
+            </div>
         </div>
+
+        @if ($organization->authUsers->count() > 0)
+            <h3>Auth Users</h3>
+            <a href="{{ route('admin.organization.user.create', $organization) }}">Add Auth User</a>
+            <table class="table table-striped">
+                @foreach ($organization->authUsers as $user)
+                    <tr>
+                        <th>{{ $user->person->name or '' }}</th>
+                        <td>{{ $user->username }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
     </div>
 @stop

@@ -48,8 +48,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/admin/organizations') }}">Organizations</a></li>
-                    <li><a href="{{ url('/admin/orders') }}">Registrations</a></li>
+                    @if (Auth::user() && Auth::user()->is_super_admin)
+                        <li><a href="{{ route('admin.organization.index') }}">Churches</a></li>
+                    @endif
+                    <li><a href="{{ route('order.index') }}">Registrations</a></li>
+                    <li><a href="{{ route('ticket.index') }}">Attendees</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

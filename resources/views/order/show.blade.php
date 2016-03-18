@@ -4,6 +4,7 @@
     <div class="container">
         <header class="page-header">
             <h1>Registration #{{ $order->id }}</h1>
+            <a href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
         </header>
         <table class="table table-striped">
             <tbody>

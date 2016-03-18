@@ -1,3 +1,5 @@
+return if ! document.getElementById('registerForm')
+
 Vue = require('vue')
 chunk = require('lodash.chunk')
 

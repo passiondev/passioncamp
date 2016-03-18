@@ -23,4 +23,13 @@ class User extends Authenticatable
     {
         return $this->access == 100;
     }
+
+    public function getAuthOrganizationAttribute()
+    {
+        if ($this->is_super_admin) {
+            return 'PASSION CAMP ADMIN';
+        }
+
+        return $this->organization->church->name;
+    }
 }
