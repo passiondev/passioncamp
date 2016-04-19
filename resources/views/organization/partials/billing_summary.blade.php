@@ -48,29 +48,27 @@
             </li>
         </ul>
     </div>
-    @if ($organization->transactions->count() > 0)
-        <div class="info-box__title">
-            <h5>Payments</h5>
-        </div>
-        <div class="info-box__content">
-            <ul class="block-list price-list">
-            @foreach ($organization->transactions as $split)
-                <li>
-                    <div class="transaction">
-                        <div class="item left">
-                            {{ $split->name }}
-                        </div>
-                        <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
-                            @currency($split->amount)
-                        </div>
+    <div class="info-box__title">
+        <h5>Payments</h5>
+    </div>
+    <div class="info-box__content">
+        <ul class="block-list price-list">
+        @foreach ($organization->transactions as $split)
+            <li>
+                <div class="transaction">
+                    <div class="item left">
+                        {{ $split->name }}
                     </div>
-                    <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
-                </li>
-            @endforeach
-            </ul>
-        </div>
-        <div class="info-box__content">
-            <a href="{{ auth()->user()->is_super_admin ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="button small">Make Payment</a>
-        </div>
-    @endif
+                    <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
+                        @currency($split->amount)
+                    </div>
+                </div>
+                <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
+            </li>
+        @endforeach
+        </ul>
+    </div>
+    <div class="info-box__content">
+        <a href="{{ auth()->user()->is_super_admin ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="button small">Make Payment</a>
+    </div>
 </div>
