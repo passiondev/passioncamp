@@ -13,14 +13,14 @@ class UserRepository
         $person = new Person;
 
         $person->forceFill([
-                array_get($data, 'first_name'),
-                array_get($data, 'last_name'),
-                array_get($data, 'email'),
-                array_get($data, 'street'),
-                array_get($data, 'city'),
-                array_get($data, 'state'),
-                array_get($data, 'zip'),
-                array_get($data, 'country'),
+            'first_name' => array_get($data, 'first_name'),
+            'last_name' => array_get($data, 'last_name'),
+            'email' => array_get($data, 'email'),
+            'street' => array_get($data, 'street'),
+            'city' => array_get($data, 'city'),
+            'state' => array_get($data, 'state'),
+            'zip' => array_get($data, 'zip'),
+            'country' => array_get($data, 'country'),
         ])->save();
 
         $user->forceFill([
@@ -29,7 +29,7 @@ class UserRepository
             'access' => $access
         ])->person()->associate($person);
 
-        event(new UserCreated($user));
+        // event(new UserCreated($user));
 
         return $user;
     }
