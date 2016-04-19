@@ -13,7 +13,7 @@ class StripeController extends Controller
         session_start();
 
         $provider = new \AdamPaterson\OAuth2\Client\Provider\Stripe([
-            'clientId'          => 'ca_8EBFvP2V0tVMsD4Da23xzTgpwFRKjolZ',
+            'clientId'          => 'ca_8EBFdgpjjgyczC5KXY1m7IVAKTz2FxGV',
             'clientSecret'      => config('services.stripe.secret'),
             'redirectUri'       => route('stripe.connect'),
         ]);
