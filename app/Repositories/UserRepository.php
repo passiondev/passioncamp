@@ -2,6 +2,9 @@
 
 namespace App\Repositories;
 
+use App\User;
+use App\Person;
+
 class UserRepository
 {
     public function create(array $data, $access = 1)
@@ -28,7 +31,7 @@ class UserRepository
 
         event(new UserCreated($user));
 
-    //     return $user;
+        return $user;
     }
 
     public function getAdminUsers()
