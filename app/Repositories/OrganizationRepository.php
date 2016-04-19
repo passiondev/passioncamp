@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Organization;
+
 class OrganizationRepository
 {
     public function getChurchNameAndLocationList()
