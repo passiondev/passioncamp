@@ -23,6 +23,15 @@ class TicketController extends Controller
 
     public function store(Request $request, Order $order)
     {
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            // 'shirtsize' => 'required',
+            'gender' => 'required',
+            'grade' => 'required',
+            // 'birthdate' => 'required',
+        ]);
+
         $order->addTicket($request->all());
 
         return redirect()->route('order.show', $order)->with('success', 'Ticket created');
