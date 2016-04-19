@@ -6,10 +6,11 @@ use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends OrderItem
 {
-    use Eloquence, FormAccessible;
+    use Eloquence, FormAccessible, SoftDeletes;
 
     protected $table = 'order_item';
     

@@ -14,6 +14,11 @@ Route::get('/home', function () {
 // Route::any('signature', 'EchosignController@signature');
 
 Route::group(['middleware' => 'web'], function () {
+    Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
+        Route::get('registration', 'RegisterController@create')->name('register.create');
+        Route::post('registration', 'RegisterController@store')->name('register.store');
+        Route::get('registration/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
+    });    
     Route::get('login', 'Auth\AuthController@showLoginForm');
     Route::post('login', 'Auth\AuthController@login');
     Route::get('logout', 'Auth\AuthController@logout');
@@ -25,10 +30,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
     Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\PasswordController@reset');
-
-    Route::get('registration', 'RegisterController@create')->name('register.create');
-    Route::post('registration', 'RegisterController@store')->name('register.store');
-    Route::get('registration/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
 
     Route::group(['middleware' => 'auth'], function () {
         Route::resource('admin/organization', 'OrganizationController');

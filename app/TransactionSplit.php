@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TransactionSplit extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'transaction_split';
 
     public function organization()
