@@ -25,7 +25,6 @@ class UserRepository
 
         $user->forceFill([
             'email' => array_get($data, 'email'),
-            'password' => bcrypt(array_get($data, 'password')),
             'access' => $access
         ])->person()->associate($person);
 
