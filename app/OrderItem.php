@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderItem extends Model
@@ -56,5 +57,24 @@ class OrderItem extends Model
         }
 
         return ucwords($this->type);
+    }
+
+    public function isOrganizationItem()
+    {
+        return ! is_null($this->org_type);
+    }
+
+    public function getIsCanceledAttribute()
+    {
+        return (bool) $this->canceled_at;
+    }
+
+    public function cancel()
+    {
+        $this->canceled_at = \Carbon\Carbon::now();
+        $this->canceled_by_id = Auth::id();
+        $this->save();
+
+        return $this;
     }
 }

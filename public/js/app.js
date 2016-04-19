@@ -10581,6 +10581,8 @@ module.exports = Vue;
 },{"_process":4}],6:[function(require,module,exports){
 module.exports = require('./register');
 
+module.exports = require('./transaction');
+
 require('jquery.payment');
 
 $(function() {
@@ -10594,7 +10596,7 @@ $(function() {
 });
 
 
-},{"./register":7,"jquery.payment":1}],7:[function(require,module,exports){
+},{"./register":7,"./transaction":8,"jquery.payment":1}],7:[function(require,module,exports){
 var Ticket, Vue, chunk, computed, data, methods, vm, watch;
 
 if (!document.getElementById('registerForm')) {
@@ -10740,4 +10742,65 @@ vm = new Vue({
 });
 
 
-},{"lodash.chunk":3,"vue":5}]},{},[6]);
+},{"lodash.chunk":3,"vue":5}],8:[function(require,module,exports){
+var Vue, data, methods, vm;
+
+if (!document.getElementById('transactionForm')) {
+  return;
+}
+
+Vue = require('vue');
+
+data = {
+  payment_method: null
+};
+
+methods = {
+  submitHandler: function(e) {
+    var cardCVC, cardExpiry, cardNumber, cardType;
+    if (this.payment_method !== 'credit') {
+      return e.target.submit();
+    }
+    this.form = $(e.target);
+    cardNumber = $('.js-form-input-card-number').val();
+    cardType = $.payment.cardType(cardNumber);
+    cardExpiry = $('.js-form-input-card-expiry').payment('cardExpiryVal');
+    cardCVC = $('.js-form-input-card-cvc').val();
+    if (!$.payment.validateCardNumber(cardNumber)) {
+      this.form.find('.payment-errors').text('Your card number is not valid.');
+      return false;
+    }
+    if (!$.payment.validateCardExpiry(cardExpiry)) {
+      this.form.find('.payment-errors').text('Your card expiration date is not valid.');
+      return false;
+    }
+    if (!$.payment.validateCardCVC(cardCVC, cardType)) {
+      this.form.find('.payment-errors').text('Your card security code date is not valid.');
+      return false;
+    }
+    this.buttons = $('button', this.form).prop('disabled', true);
+    return Stripe.card.createToken(this.form, this.stripeResponseHandler);
+  },
+  stripeResponseHandler: function(status, response) {
+    if (response.error) {
+      this.form.find('.payment-errors').text(response.error.message);
+      return this.buttons.prop('disabled', false);
+    } else {
+      this.form.append($('<input type="hidden" name="stripeToken" />').val(response.id));
+      return this.form.submit();
+    }
+  }
+};
+
+vm = new Vue({
+  el: '#transactionForm',
+  data: data,
+  methods: methods,
+  props: ['canMakeStripePayments'],
+  created: function() {
+    return this.payment_method = this.canMakeStripePayments === '1' ? 'credit' : 'check';
+  }
+});
+
+
+},{"vue":5}]},{},[6]);

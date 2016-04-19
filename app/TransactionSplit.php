@@ -32,12 +32,12 @@ class TransactionSplit extends Model
             $type = 'Refunded';
         }
 
-        if ($method == 'Sale') {
+        if ($method == 'Sale' || $this->transaction->source == 'stripe') {
             $method = $this->transaction->card_type . ' ' . $this->transaction->card_num;
         }
 
         if (in_array($method, array('Check', 'Credit'))) {
-            $method = $method . ' ' . $this->transaction->processor_transactionId;
+            $method = $method . ' ' . $this->transaction->processor_transactionid;
         }
 
         return trim(sprintf('%s %s', $type, $method));

@@ -8,6 +8,7 @@ use App\Organization;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -18,15 +19,27 @@ class UserController extends Controller
 
     public function store(Request $request, Organization $organization)
     {
-        $person = Person::create($request->only('first_name', 'last_name', 'email'));
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|unique:user,email',
+        ]);
 
-        $user = new User;
-        $user->organization()->associate($organization);
-        $user->person()->associate($person);
-        $user->username = $request->email;
-        $user->access = 1;
-        $user->save();
+        $user = User::make($request->all())
+                ->setAttribute('access', 1);
+                
+        $organization->authUsers()->save($user);
+
+        $this->sendAccountCreationEmail($user);
 
         return redirect()->route('admin.organization.show', $organization)->with('success', 'User added.');
+    }
+
+    public function sendAccountCreationEmail(User $user)
+    {
+        Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {
+            $m->subject('Create Your Account');
+            $m->to($user->email);
+        });
     }
 }

@@ -4,6 +4,12 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/mattdfloyd/echosign"
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
@@ -17,7 +23,9 @@
         "sofa/eloquence": "~5.1",
         "barryvdh/laravel-debugbar": "~2.1",
         "omnipay/stripe": "~2.0",
-        "sebpro/artisanext": "0.2.*"
+        "sebpro/artisanext": "0.2.*",
+        "nsbucky/echosignv3": "dev-master",
+        "adam-paterson/oauth2-stripe": "~1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

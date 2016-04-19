@@ -21,4 +21,21 @@ class OrderPolicy
     {
         return $user->organization_id === $order->organization_id;
     }
+
+    public function recordTransaction(User $user, Order $order)
+    {
+        if (! $order->organization->settings->exists('use_transactions')) {
+            return false;
+        }
+
+        if ($user->organization_id == $order->organization_id) {
+            return true;
+        }
+
+        if ($user->is_super_admin) {
+            return true;
+        }
+
+        return false;
+    }
 }

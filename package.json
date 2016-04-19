@@ -7,7 +7,7 @@
     "bootstrap-sass": "^3.3.6"
   },
   "dependencies": {
-    "bootstrap-sass": "^3.3.6",
+    "bootstrap-sass": "^4.0.0",
     "elixir-coffeeify": "^1.0.3",
     "gulp": "^3.9.1",
     "jquery-mask-plugin": "^1.13.4",

@@ -1,0 +1,36 @@
+table {
+  border-collapse: collapse;
+  margin: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+tr,
+td,
+th {
+  vertical-align: middle;
+}
+
+tr {
+}
+
+th {
+  font-weight: 600;
+  text-align: left;
+
+  thead > tr > & {
+    border-bottom: 1px solid shade($base-border-color, 25%);
+  }
+}
+
+th, td {
+  padding: $small-spacing;
+
+  tbody > tr > & {
+    border-top: $base-border;
+  }
+  tbody > tr:last-child > & {
+    border-bottom: $base-border;
+  }
+}
+

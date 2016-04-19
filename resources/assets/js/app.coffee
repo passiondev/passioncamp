@@ -1,4 +1,5 @@
 module.exports = require('./register')
+module.exports = require('./transaction')
 
 require('jquery.payment')
 

@@ -8,6 +8,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     protected $table = 'user';
+
+    protected $fillable = ['username', 'email'];
+
+    public static function make(array $attributes = [])
+    {
+        $model = new static($attributes);
+
+        $model->person()->associate(
+            Person::create($attributes)
+        );
+
+        return $model;
+    }
     
     public function person()
     {
@@ -31,5 +44,18 @@ class User extends Authenticatable
         }
 
         return $this->organization->church->name;
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->person && $this->person->setAttribute('email', $value);
+        $this->attributes['email'] = $value;
+
+        return $this;
+    }
+
+    public function getHashAttribute()
+    {
+        return hash_hmac('sha256', $this->email, env('APP_KEY'));
     }
 }

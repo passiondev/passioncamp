@@ -1,0 +1,93 @@
+@mixin button-color-variant($color) {
+  background-color: $color;
+  color: #fff;
+  &:hover,
+  &:focus {
+    background-color: shade($color, 20%);
+    color: #fff;
+  }
+  &:disabled {
+    &:hover {
+      background-color: $color;
+    }
+  }
+}
+@mixin button-outline-variant($color) {
+  background-color: #fff;
+  border: 1px solid $color;
+  color: $color;
+  transition: border-color $base-duration $base-timing, color $base-duration $base-timing;
+  &:hover,
+  &:focus {
+    border-color: shade($color, 20%);
+    color: shade($color, 20%);
+  }
+  &:disabled {
+    &:hover {
+      border-color: $color;
+    }
+  }
+}
+
+#{$all-buttons}, button, .button {
+  appearance: none;
+  border: 0;
+  border-radius: $base-border-radius;
+  cursor: pointer;
+  display: inline-block;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 600;
+  line-height: 1;
+  padding: $small-spacing $base-spacing;
+  text-decoration: none;
+  transition: background-color $base-duration $base-timing;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &.small {
+    font-size: modular-scale(-1);
+    padding: $small-spacing $small-spacing;
+  }
+  &.xsmall {
+    font-size: modular-scale(-1);
+    padding: $small-spacing/1.5 $small-spacing/1.5;
+  }
+}
+
+#{$all-buttons}, button, .button {
+  &, &.primary {
+    @include button-color-variant($action-color);
+  }
+  &.danger {
+    @include button-color-variant($brand-danger);
+  }
+  &.success {
+    @include button-color-variant($brand-success);
+  }
+  &.warning {
+    @include button-color-variant($brand-warning);
+  }
+  &.outline {
+    &, &.primary {
+      @include button-outline-variant($action-color);
+    }
+    &.danger {
+      @include button-outline-variant($brand-danger);
+    }
+    &.success {
+      @include button-outline-variant($brand-success);
+    }
+    &.warning {
+      @include button-outline-variant($brand-warning);
+    }
+  }
+}
+

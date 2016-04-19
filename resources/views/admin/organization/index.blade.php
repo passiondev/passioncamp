@@ -3,16 +3,18 @@
 @section('content')
     <div class="container">
         <header class="page-header">
-            <h1>Churches</h1>
-            <a href="{{ route('admin.organization.create') }}">Add Church</a>
+            <h1 class="page-header__title">Churches</h1>
+            <div class="page-header__actions">
+                <a class="button small" href="{{ route('admin.organization.create') }}">Add Church</a>
+            </div>
         </header>
 
         <table class="table">
             <thead>
                 <tr>
                     <th>Church</th>
-                    <th>Contact</th>
                     <th>Location</th>
+                    <th>Contact</th>
                     <th>Tickets</th>
                 </tr>
             </thead>
@@ -27,7 +29,7 @@
                         </td>
                         <td>
                             @if ($organization->contact)
-                                {{ $organization->contact->name }} <small>({{ $organization->contact->email }})</small>
+                                {{ $organization->contact->name }} <br> <small>{{ $organization->contact->email }}</small>
                             @endif
                         </td>
                         <td>

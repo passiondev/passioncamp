@@ -1,0 +1,25 @@
+@import "bower_components/bourbon/core/bourbon";
+@import "bower_components/neat/app/assets/stylesheets/neat";
+@import "base/base";
+
+@import "admin/navigation";
+
+html {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+
+.container {
+    @include outer-container(80%);
+}
+
+.panel {
+    display: block;
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1em;
+    padding: 1em;    
+}

@@ -42,4 +42,7 @@ return [
         ]
     ],
 
+    'echosign' => [
+    ],
+
 ];

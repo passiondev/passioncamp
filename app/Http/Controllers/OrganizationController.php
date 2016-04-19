@@ -30,6 +30,14 @@ class OrganizationController extends Controller
     {
         $organization->load('church', 'studentPastor', 'contact', 'items', 'transactions', 'authUsers');
 
+        if (is_null($organization->contact)) {
+            $organization->contact = new Person;
+        }
+
+        if (is_null($organization->studentPastor)) {
+            $organization->studentPastor = new Person;
+        }
+
         return view('admin.organization.show', compact('organization'));
     }
 

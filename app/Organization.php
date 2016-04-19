@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Transaction;
+use Omnipay\Omnipay;
+use App\TransactionSplit;
 use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
@@ -25,7 +28,7 @@ class Organization extends Model
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class)->whereNotNull('org_type');
     }
 
     public function tickets()
@@ -46,6 +49,50 @@ class Organization extends Model
     public function attendees()
     {
         return $this->hasManyThrough(OrderItem::class, Order::class)->where('type', 'ticket');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function settings()
+    {
+        return $this->hasMany(OrganizationSettings::class);
+    }
+
+    public function setting($key, $value = null)
+    {
+        if (! is_null($value)) {
+            $key = array($key => $value);
+        }
+
+        if (is_array($key)) {
+            collect($key)->each(function ($value, $key) {
+                return $this->addSetting($key, $value);
+            });
+
+            return $this;
+        }
+
+        $setting = $this->settings()->where('key', $key)->first();
+
+        return $setting ? $setting->value : false;
+    }
+
+    protected function addSetting($key, $value)
+    {
+        $setting = $this->settings()->where('key', $key)->first();
+
+        if (! $setting) {
+            $setting = new OrganizationSettings;
+            $setting->key = $key;
+            $setting->organization()->associate($this);
+        }
+
+        $setting->value = $value;
+
+        $setting->save();
     }
 
     public function getNumTicketsAttribute()
@@ -84,11 +131,11 @@ class Organization extends Model
 
     public function addPayment($data)
     {
-        if ($data->type == 'check') {
+        if ($data['type'] == 'check') {
             return $this->addCheckPayment($data);
         }
 
-        if ($data->type == 'credit') {
+        if ($data['type'] == 'credit') {
             return $this->addCreditPayment($data);
         }
 
@@ -97,11 +144,69 @@ class Organization extends Model
 
     private function addCheckPayment($data)
     {
-        # code...
+        $transaction = new Transaction;
+        $transaction->amount = $data['amount'];
+        $transaction->processor_transactionid = $data['transaction_id'];
+        $transaction->type = ucwords($data['type']);
+        $transaction->save();
+
+        $split = new TransactionSplit;
+        $split->transaction()->associate($transaction);
+        $split->organization()->associate($this);
+        $split->amount = $data['amount'];
+        $split->save();
     }
 
     private function addCreditPayment($data)
     {
-        # code...
+        $gateway = Omnipay::create('Stripe');
+        $gateway->setApiKey(config('services.stripe.secret'));
+
+        $charge = $gateway->purchase([
+            'amount' => number_format($data['amount'], 2, '.', ''),
+            'currency' => 'USD',
+            'description' => 'Passion Camp',
+            'token' => $data['stripeToken'],
+        ])->send();
+
+        if (! $charge->isSuccessful()) {
+            throw new \Exception($charge->getMessage());
+            return false;
+        }
+
+        $transaction = new Transaction;
+        $transaction->amount = $data['amount'];
+        $transaction->processor_transactionid = $charge->getTransactionReference();
+        $transaction->card_type = $charge->getSource()['brand'];
+        $transaction->card_num = $charge->getSource()['last4'];
+        $transaction->type = ucwords($data['type']);
+        $transaction->source = 'stripe';
+        $transaction->save();
+
+        $split = new TransactionSplit;
+        $split->transaction()->associate($transaction);
+        $split->organization()->associate($this);
+        $split->amount = $data['amount'];
+        $split->save();
+    }
+
+    public function getTicketCountAttribute()
+    {
+        return $this->tickets->sum('quantity');
+    }
+
+    public function getTicketsRemainingCountAttribute()
+    {
+        return $this->ticket_count - $this->orders->ticket_count;
+    }
+
+    public function getCanMakeStripePaymentsAttribute()
+    {
+        return (bool) $this->setting('stripe_access_token');
+    }
+
+    public function getCanRecordTransactionsAttribute()
+    {
+        return (bool) $this->setting('use_transactions');
     }
 }

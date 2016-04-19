@@ -3,86 +3,70 @@
 @section('content')
     <div class="container">
         <header class="page-header">
-            <h1>Registration #{{ $order->id }}</h1>
-            <a href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
+            <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
         </header>
-        <table class="table table-striped">
-            <tbody>
-                @foreach($order->tickets as $ticket)
-                    <tr>
-                        <th>{{ $ticket->person->name }}</th>
-                        <td>{{ $ticket->agegroup }}</td>
-                        <td>@ordinal($ticket->person->grade)</td>
-                        <td>@currency($ticket->price)</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
 
-        <div class="info-box">
-            <div class="info-box__title">
-                <h5>Registration Summary</h5>
-            </div>
-            <div class="info-box__content">
-                <ul class="block-list price-list">
-                    <li>
-                        <div class="transaction">
-                            <div class="item left">Attendees <span class="label-info label round">{{ $order->ticket_count }}</span></div>
-                            <div class="item right">@currency($order->ticket_total)</div>
-                        </div>
-                    </li>
-                    @if ($order->donation_total > 0)
-                        <li>
-                            <div class="transaction">
-                                <div class="item left">Donation</div>
-                                <div class="item right">@currency($order->donation_total)</div>
-                            </div>
-                        </li>
-                    @endif
-                    <li class="callout paid">
-                        <div class="transaction">
-                            <div class="item left">Total</div>
-                            <div class="item right">@currency($order->grand_total)</div>
-                        </div>
-                    </li>
-                    <li class="callout paid">
-                        <div class="transaction">
-                            <div class="item left">Paid</div>
-                            <div class="item right">@currency($order->transactions_total)</div>
-                        </div>
-                    </li>
-                    <li class="callout balance">
-                        <div class="transaction">
-                            <div class="item left">Balance</div>
-                            <div class="item right">@currency($order->balance)</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            @if ($order->transactions->count() > 0)
-                <div class="info-box__title">
-                    <h5>Transactions</h5>
+        <section>
+            <header class="section__header">
+                <h4>Attendees</h4>
+                <div class="section-header__actions">
+                    <a class="button small" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
+                    @can ('record-transactions', $order->organization)
+                        <a href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a>
+                    @endcan
                 </div>
-                <div class="info-box__content">
-                    <ul class="block-list price-list">
-                    @foreach ($order->transactions as $split)
-                        <li>
-                            <div class="transaction">
-                                <div class="item left">{{ $split->name }}</div>
-                                <div class="item right item--{{ $split->amount>0?'success':'warning' }}">@currency($split->amount)</div>
-                            </div>
-                            <small class="caption">@daydatetime($split->created_at)</small>
-                        </li>
-                    @endforeach
-                    </ul>
+            </header>
+            @if ($order->tickets->count() > 0)
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th></th>
+                            @can ('record-transactions', $order->organization)
+                                <th>Ticket Price</th>
+                            @endcan
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($order->tickets as $ticket)
+                            <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
+                                <th>{{ $ticket->person->name }}</th>
+                                <td><span class="label label--{{ $ticket->agegroup }}">{{ ucwords($ticket->agegroup) }} - @ordinal($ticket->person->grade)</span></td>
+                                @can ('record-transactions', $order->organization)
+                                    <td>@currency($ticket->price)</td>
+                                @endcan
+                                <td>
+                                    @can ('edit', $ticket)
+                                        <a href="{{ route('ticket.edit', $ticket) }}">edit</a>
+                                    @endcan
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <div class="callout secondary" style="margin-top: 1rem;text-align:center">
+                    <a class="button" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
                 </div>
             @endif
-            <div class="info-box__content">
-                @if($order->organization->slug == 'pcc' && $order->balance < 0)
-                    <a href="" class="button small alert">Process Refund</a>
-                @endif
-                <a href="" class="button small">Record Transacation</a>
+        </section>
+        <div class="row">
+            <div class="large-4 columns">
+                <h4>Contact</h4>
+                <dl>
+                    <dt>{{ $order->user->person->name }}</dt>
+                    <dd>{{ $order->user->person->phone }}</dd>
+                    <dd>{{ $order->user->person->email }}</dd>
+                </dl>
+                <a href="{{ route('order.contact.edit', $order) }}" class="xsmall outline button">edit</a>
             </div>
+            @can ('record-transactions', $order->organization)
+                <div class="large-7 columns">
+                    @include('order/partials/registration_summary')
+                </div>
+            @endcan
         </div>
+
     </div>
 @stop

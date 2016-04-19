@@ -9,14 +9,16 @@ use App\Http\Controllers\Controller;
 
 class TicketController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorize('owner', request()->order);
+    }
+
     public function create(Order $order)
     {
-        $gradeOptions = [];
-        foreach (range(6,12) as $grade) {
-            $gradeOptions[$grade] = number_ordinal($grade);
-        }
+        $ticket_price = $order->organization->setting('ticket_price') ? $order->organization->setting('ticket_price') : 0;
 
-        return view('order.ticket.create', compact('gradeOptions'))->withOrder($order);
+        return view('order.ticket.create', compact('ticket_price'))->withOrder($order);
     }
 
     public function store(Request $request, Order $order)

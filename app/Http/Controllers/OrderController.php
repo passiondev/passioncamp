@@ -9,19 +9,27 @@ use App\Organization;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\OrderRepository;
+use App\Repositories\OrganizationRepository;
 
 class OrderController extends Controller
 {
+    protected $orders;
+    protected $organizations;
+
+    public function __construct(OrderRepository $orders, OrganizationRepository $organizations)
+    {
+        $this->orders = $orders;
+        $this->organizations = $organizations;
+    }
+
     public function index(Request $request)
     {
-        $orders = Order::search($request->search)->with('tickets', 'tickets.person');
-
-        // if user is not super admin, add org id to query
-        if (! Auth::user()->is_super_admin) {
-            $orders->where('organization_id', Auth::user()->organization_id);
-        }
-
-        $orders = $orders->paginate(5);
+        $orders = $this->orders
+                  ->forUser(Auth::user())
+                  ->search($request->search)
+                  ->with('tickets.person')
+                  ->paginate(5);
 
         return view('order.index', compact('orders'));
     }
@@ -30,17 +38,12 @@ class OrderController extends Controller
     {
         $this->authorize('owner', $order);
 
-        $order->load('tickets', 'tickets.person', 'donations', 'items', 'transactions', 'transactions.transaction', 'organization');
-
         return view('order.show', compact('order'));
     }
 
     public function create()
     {
-        $organizationOptions = [];
-        Organization::with('church')->get()->sortBy('church.name')->each(function ($organization) use (&$organizationOptions) {
-            $organizationOptions[$organization->id] = $organization->church->name . ', ' . $organization->church->city . ', ' . $organization->church->state;
-        });
+        $organizationOptions = $this->organizations->getChurchNameAndLocationList();
 
         return view('order.create', compact('organizationOptions'));
     }

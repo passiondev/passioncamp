@@ -3,122 +3,57 @@
 @section('content')
     <div class="container">
         <header class="page-header">
-            <h1>{{ $organization->church->name }}</h1>
-            <a href="{{ route('admin.organization.edit', $organization) }}">Edit Church</a>
+            <h1 class="page-header__title">{{ $organization->church->name }}</h1>
+            <div class="page-header__actions">
+                <a class="button small" href="{{ route('admin.organization.item.create', $organization) }}">Add Item</a>                
+                <a class="button small" href="{{ route('admin.organization.edit', $organization) }}">Edit Church</a>
+            </div>
         </header>
 
-        <div class="row">
-            <div class="col-sm-4">
+        <section class="row">
+            <div class="large-4 columns">
                 <h5>Church</h5>
-                <dl>
+                <dl class="m-b-2">
                     <dt>{{ $organization->church->name }}</dt>
                     <dd>{{ $organization->church->street }}<br>{{ $organization->church->city }}, {{ $organization->church->state }} {{ $organization->church->zip }}</dd>
                     <dd>{{ $organization->church->website }}</dd>
                     <dd>{{ $organization->church->pastor_name }}</dd>
                 </dl>
-            </div>
-            <div class="col-sm-4">
                 <h5>Contact</h5>
-                <dl>
+                <dl class="m-b-2">
                     <dt>{{ $organization->contact->name }}</dt>
                     <dd>{{ $organization->contact->email }}</dd>
                     <dd>{{ $organization->contact->phone }}</dd>
                     <dd>{{ $organization->contact_desciption }}</dd>
                 </dl>
-            </div>
-            <div class="col-sm-4">
                 <h5>Student Pastor</h5>
-                <dl>
+                <dl class="m-b-2">
                     <dt>{{ $organization->studentPastor->name }}</dt>
                     <dd>{{ $organization->studentPastor->email }}</dd>
                     <dd>{{ $organization->studentPastor->phone }}</dd>
                 </dl>
             </div>
-        </div>
+            <div class="large-8 columns">
+                @include('organization/partials/billing_summary')
+            </div>
+        </section>
 
-        <div class="info-box">
-            <div class="info-box__title">
-                <h5>Transaction Summary</h5>
-            </div>
-            <div class="info-box__content">
-                <ul class="block-list price-list">
-                    @foreach ($organization->items as $item)
-                        <li>
-                            <div class="transaction">
-                                <div class="item left">
-                                    {{ $item->name }} <small>({{ number_format($item->quantity) }} @ {{ money_format('%.2n', $item->cost) }})</small>
-                                    <a href="{{ route('admin.organization.item.edit', [$organization, $item]) }}">edit</a>
-                                </div>
-                                <div class="item right">{{ money_format('%.2n', $item->quantity * $item->cost) }}</div>
-                            </div>
-                        </li>
+        <section>
+            <header class="section__header">
+                <h3>Auth Users</h3>
+                <a href="{{ route('admin.organization.user.create', $organization) }}">Add Auth User</a>
+            </header>
+            @if ($organization->authUsers->count() > 0)
+                <table class="table table-striped">
+                    @foreach ($organization->authUsers as $user)
+                        <tr>
+                            <th>{{ $user->person->name or '' }}</th>
+                            <td>{{ $user->email }}</td>
+                            <td><input type="text" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}"></td>
+                        </tr>
                     @endforeach
-                    <li class="callout paid">
-                        <div class="transaction">
-                            <div class="item left">Total</div>
-                            <div class="item right">{{ money_format('%.2n', $organization->total_cost) }}</div>
-                        </div>
-                    </li>
-                    <li class="callout paid">
-                        <div class="transaction">
-                            <div class="item left">Paid</div>
-                            <div class="item right">{{ money_format('%.2n', $organization->total_paid) }}</div>
-                        </div>
-                    </li>
-                    @if ($organization->deposit_balance > 0)
-                        <li class="callout deposit_due">
-                            <div class="transaction">
-                                <div class="item left">Deposit Due</div>
-                                <div class="item right">{{ money_format('%.2n', $organization->deposit_balance) }}</div>
-                            </div>
-                        </li>
-                    @endif
-                    <li class="callout balance">
-                        <div class="transaction">
-                            <div class="item left">Balance</div>
-                            <div class="item right">{{ money_format('%.2n', $organization->balance) }}</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            @if ($organization->transactions->count() > 0)
-                <div class="info-box__title">
-                    <h5>Payments</h5>
-                </div>
-                <div class="info-box__content">
-                    <ul class="block-list price-list">
-                    @foreach ($organization->transactions as $split)
-                        <li>
-                            <div class="transaction">
-                                <div class="item left">
-                                    {{ $split->name }}
-                                </div>
-                                <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
-                                    {{ money_format('%.2n', $split->amount) }}
-                                </div>
-                            </div>
-                            <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
-                        </li>
-                    @endforeach
-                    </ul>
-                </div>
+                </table>
             @endif
-            <div class="info-box__content">
-                <a href="{{ route('admin.organization.item.create', $organization) }}">Add Item</a>
-            </div>
-        </div>
-
-        @if ($organization->authUsers->count() > 0)
-            <h3>Auth Users</h3>
-            <a href="{{ route('admin.organization.user.create', $organization) }}">Add Auth User</a>
-            <table class="table table-striped">
-                @foreach ($organization->authUsers as $user)
-                    <tr>
-                        <th>{{ $user->person->name or '' }}</th>
-                        <td>{{ $user->username }}</td>
-                    </tr>
-                @endforeach
-            </table>
-        @endif
+        </section>
     </div>
 @stop

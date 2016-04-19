@@ -3,6 +3,7 @@
 namespace App;
 
 use Sofa\Eloquence\Eloquence;
+use App\Collections\OrderCollection;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -12,6 +13,11 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $searchableColumns = ['id', 'tickets.person.first_name', 'tickets.person.last_name'];
+
+    public function newCollection(array $models = [])
+    {
+        return new OrderCollection($models);
+    }
 
     public function organization()
     {
@@ -43,6 +49,11 @@ class Order extends Model
         return $this->hasMany(OrderItem::class)->where('type', 'ticket');
     }
 
+    public function activeTickets()
+    {
+        return $this->tickets()->whereNull('canceled_at');
+    }
+
     public function donations()
     {
         return $this->hasMany(OrderItem::class)->where('type', 'donation');
@@ -55,30 +66,62 @@ class Order extends Model
 
     public function getNumTicketsAttribute()
     {
-        return $this->tickets->count();
+        return $this->ticket_count;
     }
 
     public function getTicketCountAttribute()
     {
-        return $this->tickets->count();
+        return $this->tickets->filter(function ($item) {
+            return ! $item->is_canceled;
+        })->count();
+    }
+
+    public function getStudentCountAttribute()
+    {
+        return $this->getTicketsOfAgegroupCount('student');
+    }
+
+    public function getLeaderCountAttribute()
+    {
+        return $this->getTicketsOfAgegroupCount('leader');
+    }
+
+    private function getTicketsOfAgegroupCount($agegroup)
+    {
+        return $this->tickets->filter(function ($item) {
+            return ! $item->is_canceled;
+        })->filter(function ($ticket) use ($agegroup) {
+            return $ticket->agegroup == $agegroup;
+        })->count();
     }
 
     public function getTicketTotalAttribute()
     {
-        return $this->tickets->sum('price');
+        return $this->tickets->filter(function ($item) {
+            return ! $item->is_canceled;
+        })->sum('price');
     }
 
     public function getDonationTotalAttribute()
     {
-        return $this->donations->sum('price');
+        return $this->donations->filter(function ($item) {
+            return ! $item->is_canceled;
+        })->sum('price');
     }
 
     public function getGrandTotalAttribute()
     {
-        return $this->items->sum('price');
+        return $this->items->filter(function ($item) {
+            return ! $item->is_canceled;
+        })->sum('price');
     }
 
     public function getTransactionsTotalAttribute()
+    {
+        return $this->transaction_total;
+    }
+
+    public function getTransactionTotalAttribute()
     {
         return $this->transactions->sum('amount');
     }
@@ -133,12 +176,14 @@ class Order extends Model
         ]);
 
         $ticket = new Ticket;
+
         $ticket->order()->associate($this);
+        $ticket->organization()->associate($this->organization);
         $ticket->person()->associate($person);
-        $ticket->organization_id = $this->organization_id;
-        $ticket->agegroup = $data['agegroup'];
-        $ticket->price = $data['price'];
+
+        $ticket->fill($data);
         $ticket->ticket_data = $ticket_data;
+
         $ticket->save();
     }
 }

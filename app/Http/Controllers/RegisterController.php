@@ -8,12 +8,20 @@ use App\Person;
 use App\Ticket;
 use App\OrderItem;
 use Omnipay\Omnipay;
+use App\Organization;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class RegisterController extends Controller
 {
+    protected $organization;
+
+    public function __construct()
+    {
+        $this->organization = Organization::findOrFail(8);
+    }
+
     public function create()
     {
         return view('register.create');
@@ -34,7 +42,7 @@ class RegisterController extends Controller
             'num_tickets' => 'required|numeric|min:1',
             'tickets.*.first_name' => 'required',
             'tickets.*.last_name' => 'required',
-            'tickets.*.shirt_size' => 'required',
+            'tickets.*.shirtsize' => 'required',
             'tickets.*.gender' => 'required',
             'tickets.*.grade' => 'required',
             'tickets.*.birthdate' => 'required',
@@ -47,7 +55,7 @@ class RegisterController extends Controller
         $user->save();
         
         $order = new Order;
-        $order->organization_id = 8;
+        $order->organization_id = $this->organization->id;
         $order->user()->associate($user);
         $order->save();
 
@@ -56,7 +64,7 @@ class RegisterController extends Controller
         if ($donation_total > 0) {
             $item = new OrderItem;
             $item->order()->associate($order);
-            $item->organization_id = $order->organization_id;
+            $item->organization_id = $this->organization->id;
             $item->type = 'donation';
             $item->price = $donation_total;
             $item->save();
@@ -84,7 +92,7 @@ class RegisterController extends Controller
 
             $ticket = new Ticket;
             $ticket->agegroup = 'student';
-            $ticket->organization_id = $order->organization_id;
+            $ticket->organization_id = $this->organization->id;
             $ticket->order()->associate($order);
             $ticket->person()->associate($person);
             $ticket->ticket_data = $ticket_data;
@@ -98,7 +106,7 @@ class RegisterController extends Controller
             foreach (range(1, $remaining_ticket_count) as $i) {
                 $ticket = new Ticket;
                 $ticket->type = 'ticket';
-                $ticket->organization_id = $order->organization_id;
+                $ticket->organization_id = $this->organization->id;
                 $ticket->order()->associate($order);
                 $ticket->person()->associate(Person::create());
                 $ticket->price = $ticket_price;
@@ -107,35 +115,32 @@ class RegisterController extends Controller
             $order->load('tickets');
         }
         
-        // make and record payment
-        $gateway = Omnipay::create('Stripe');
-        $gateway->setApiKey(config('services.stripe.pcc.secret'));
-
         // deposit or full amount
         $payment_amount = $order->grand_total;
         if ($request->payment_amount_type == 'deposit') {
             $payment_amount = 60 * $order->tickets->count();
         }
 
-        $charge = $gateway->purchase([
-            'amount' => number_format($payment_amount, 2, '.', ''),
-            'currency' => 'USD',
-            'token' => $request->stripeToken,
-            'description' => 'Passion Camp',
-            'metadata' => ['order_id' => $order->id, 'email' => $order->user->person->email, 'name' => $order->user->person->name]
-        ])->send();
-
-        if (! $charge->isSuccessful()) {
-            // DB::rollback();
-            return redirect()->route('register.create')->withInput()->with('error', $charge->getMessage());
+        try {
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            $charge = \Stripe\Charge::create(array(
+              'amount' => $payment_amount * 100,
+              'currency' => 'usd',
+              'source' => $request->stripeToken,
+              'description' => 'Passion Camp',
+              'metadata' => ['order_id' => $order->id, 'email' => $order->user->person->email, 'name' => $order->user->person->name]
+            ), array('stripe_account' => $this->organization->setting('stripe_user_id')));
+        } catch (\Exception $e) {
+            return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
         }
+
         // Add payment to order
         $order->addTransaction([
             'source' => 'stripe',
-            'processor_transactionid' => $charge->getTransactionReference(),
-            'amount' => $charge->getData()['amount'] / 100,
-            'card_type' => $charge->getSource()['brand'],
-            'card_num' => $charge->getSource()['last4'],
+            'processor_transactionid' => $charge->id,
+            'amount' => $charge->amount / 100,
+            'card_type' => $charge->source->brand,
+            'card_num' => $charge->source->last4,
         ]);
 
 
