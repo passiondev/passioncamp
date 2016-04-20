@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\Collections\OrderItemCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderItem extends Model
@@ -21,6 +22,11 @@ class OrderItem extends Model
         static::creating(function ($item) {
             $item->attributes['type'] = $item->type;
         });
+    }
+
+    public function newCollection(array $models = [])
+    {
+        return new OrderItemCollection($models);
     }
 
     public function organization()

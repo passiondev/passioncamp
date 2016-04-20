@@ -72,9 +72,7 @@ class Order extends Model
 
     public function getTicketCountAttribute()
     {
-        return $this->tickets->filter(function ($item) {
-            return ! $item->is_canceled;
-        })->count();
+        return $this->tickets->active()->count();
     }
 
     public function getStudentCountAttribute()
@@ -89,32 +87,22 @@ class Order extends Model
 
     private function getTicketsOfAgegroupCount($agegroup)
     {
-        return $this->tickets->filter(function ($item) {
-            return ! $item->is_canceled;
-        })->filter(function ($ticket) use ($agegroup) {
-            return $ticket->agegroup == $agegroup;
-        })->count();
+        return $this->tickets->active()->ofAgegroup($agegroup)->count();
     }
 
     public function getTicketTotalAttribute()
     {
-        return $this->tickets->filter(function ($item) {
-            return ! $item->is_canceled;
-        })->sum('price');
+        return $this->tickets->active()->sum('price');
     }
 
     public function getDonationTotalAttribute()
     {
-        return $this->donations->filter(function ($item) {
-            return ! $item->is_canceled;
-        })->sum('price');
+        return $this->donations->active()->sum('price');
     }
 
     public function getGrandTotalAttribute()
     {
-        return $this->items->filter(function ($item) {
-            return ! $item->is_canceled;
-        })->sum('price');
+        return $this->items->active()->sum('price');
     }
 
     public function getTransactionsTotalAttribute()
