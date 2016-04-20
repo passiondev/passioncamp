@@ -49,7 +49,7 @@
                         <tr>
                             <th>{{ $user->person->name or '' }}</th>
                             <td>{{ $user->email }}</td>
-                            <td><input type="text" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}"></td>
+                            <td><input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}"></td>
                         </tr>
                     @endforeach
                 </table>
