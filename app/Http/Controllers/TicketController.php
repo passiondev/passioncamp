@@ -31,6 +31,10 @@ class TicketController extends Controller
                    ->with('person', 'order', 'organization')
                    ->paginate(15);
 
+        if (! $request->search && ! $request->page) {
+            return redirect()->route('ticket.index', ['page' => $tickets->lastPage()]);
+        }
+
         return view('ticket.index', compact('tickets'));
     }
 

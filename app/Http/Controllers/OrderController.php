@@ -31,6 +31,10 @@ class OrderController extends Controller
                   ->with('tickets.person')
                   ->paginate(5);
 
+        if (! $request->search && ! $request->page) {
+            return redirect()->route('order.index', ['page' => $orders->lastPage()]);
+        }
+
         return view('order.index', compact('orders'));
     }
 
