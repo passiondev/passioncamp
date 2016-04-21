@@ -47,7 +47,7 @@ class Order extends Model
 
     public function tickets()
     {
-        return $this->hasMany(OrderItem::class)->where('type', 'ticket');
+        return $this->hasMany(Ticket::class);
     }
 
     public function activeTickets()
