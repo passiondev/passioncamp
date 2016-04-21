@@ -1,5 +1,3 @@
-return if ! document.getElementById('transactionForm')
-
 Vue = require('vue')
 
 data =
@@ -42,9 +40,9 @@ methods =
       # and submit
       @form.submit()
 
-vm = new Vue
-  el: '#transactionForm'
-  data: data
+Vue.component 'Transaction',
+  data: ->
+    data
   methods: methods
   props: [
     'canMakeStripePayments'

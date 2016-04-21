@@ -23,7 +23,7 @@
             @endif
             @foreach ($tickets as $ticket)
                 <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                    <th><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->person->name }}</a></th>
+                    <th><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></th>
                     @if (Auth::user()->is_super_admin)
                         <td>{{ $ticket->organization->church->name }}</td>
                         <td>{{ $ticket->organization->church->location }}</td>
@@ -35,7 +35,9 @@
                     <td>
                         @can ('edit', $ticket)
                             @unless ($ticket->waiver)
-                                <a href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
+                                <Waiver inline-template>
+                                    <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
+                                </Waiver>
                             @else
                                 {{ $ticket->waiver->status }}
                             @endif

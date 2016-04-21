@@ -1,10 +1,11 @@
 {
   "private": true,
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "bootstrap-sass": "^3.3.6",
     "elixir-coffeeify": "^1.0.3",
+    "gulp": "^3.9.1",
     "laravel-elixir": "^4.2.1",
-    "bootstrap-sass": "^3.3.6"
+    "vue-resource": "^0.7.0"
   },
   "dependencies": {
     "bootstrap-sass": "^4.0.0",

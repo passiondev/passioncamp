@@ -1,7 +1,12 @@
 module.exports = require('./register')
 module.exports = require('./transaction')
+module.exports = require('./components/Waiver')
 
 require('jquery.payment')
+
+Vue = require('vue')
+new Vue
+    el: 'body'
 
 $ ->
   $('.js-form-input-date').inputmask({ alias: "mm/dd/yyyy"});

@@ -9,48 +9,50 @@
 
         <div class="row">
             <div class="medium-5 columns">
-                {{ Form::open(['route' => ['order.transaction.store', $order], 'id' => 'transactionForm', 'can-make-stripe-payments' => $order->organization->can_make_stripe_payments, 'novalidate', 'v-on:submit.prevent' => 'submitHandler']) }}
+                <Transaction inline-template can-make-stripe-payments="{{ $order->organization->can_make_stripe_payments }}">
+                    {{ Form::open(['route' => ['order.transaction.store', $order], 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler']) }}
 
-                    <p class="payment-errors text-danger"></p>
+                        <p class="payment-errors text-danger"></p>
 
-                    <div class="form-group">
-                        {{ Form::label('type', 'Payment Method', ['class' => 'control-label']) }}
-                        {{ Form::select('type', $payment_methods, null, ['id' => 'type', 'class' => 'form-control', 'v-model' => 'payment_method']) }}
-                    </div>
-                    <div class="payment_method payment_method--other" v-show="payment_method != 'credit'">
                         <div class="form-group">
-                            {{ Form::label('transaction_id', 'Transaction ID', ['class' => 'control-label']) }}
-                            {{ Form::text('transaction_id', null, ['id' => 'transaction_id', 'class' => 'form-control', 'placeholder' => 'Check or other indentifying #']) }}
+                            {{ Form::label('type', 'Payment Method', ['class' => 'control-label']) }}
+                            {{ Form::select('type', $payment_methods, null, ['id' => 'type', 'class' => 'form-control', 'v-model' => 'payment_method']) }}
                         </div>
-                    </div>
-                    @if ($order->organization->can_make_stripe_payments)
-                        <div class="payment_method payment_method--credit" v-show="payment_method == 'credit'">
+                        <div class="payment_method payment_method--other" v-show="payment_method != 'credit'">
                             <div class="form-group">
-                                <label for="cc_number" class="control-label">Card Number</label>
-                                <input type="text" id="cc_number" class="form-control js-form-input-card-number" data-stripe="number" required>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group small-6 columns">
-                                    <label for="cc_exp_month" class="control-label">Expiration</label>
-                                    <input type="text" id="cc_expiry" class="form-control js-form-input-card-expiry" placeholder="mm / yy" data-stripe="exp" required>
-                                </div>
-                                <div class="form-group small-6 columns">
-                                    <label for="cc_cvc" class="control-label">CVC</label>
-                                    <input id="cc_cvc" type="text" size="8" data-stripe="cvc" class="form-control js-form-input-card-cvc">
-                                </div>
+                                {{ Form::label('transaction_id', 'Transaction ID', ['class' => 'control-label']) }}
+                                {{ Form::text('transaction_id', null, ['id' => 'transaction_id', 'class' => 'form-control', 'placeholder' => 'Check or other indentifying #']) }}
                             </div>
                         </div>
-                    @endif
-                    <div class="form-group">
-                        {{ Form::label('amount', 'Amount', ['class' => 'control-label']) }}
-                        {{ Form::text('amount', $order->balance < 0 ? '' : $order->balance, ['id' => 'amount', 'class' => 'form-control', 'number']) }}
-                    </div>
-                    <div class="form-group form-actions">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+                        @if ($order->organization->can_make_stripe_payments)
+                            <div class="payment_method payment_method--credit" v-show="payment_method == 'credit'">
+                                <div class="form-group">
+                                    <label for="cc_number" class="control-label">Card Number</label>
+                                    <input type="text" id="cc_number" class="form-control js-form-input-card-number" data-stripe="number" required>
+                                </div>
 
-                {{ Form::close() }}
+                                <div class="row">
+                                    <div class="form-group small-6 columns">
+                                        <label for="cc_exp_month" class="control-label">Expiration</label>
+                                        <input type="text" id="cc_expiry" class="form-control js-form-input-card-expiry" placeholder="mm / yy" data-stripe="exp" required>
+                                    </div>
+                                    <div class="form-group small-6 columns">
+                                        <label for="cc_cvc" class="control-label">CVC</label>
+                                        <input id="cc_cvc" type="text" size="8" data-stripe="cvc" class="form-control js-form-input-card-cvc">
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="form-group">
+                            {{ Form::label('amount', 'Amount', ['class' => 'control-label']) }}
+                            {{ Form::text('amount', $order->balance < 0 ? '' : $order->balance, ['id' => 'amount', 'class' => 'form-control', 'number']) }}
+                        </div>
+                        <div class="form-group form-actions">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    {{ Form::close() }}
+                </Transaction>
             </div>
         </div>
     </div>

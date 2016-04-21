@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ticket;
 
 use App\Ticket;
 use App\Waiver;
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interactions\Echosign\Agreement;
 
@@ -19,7 +19,9 @@ class WaiverController extends Controller
     public function create(Request $request, Ticket $ticket)
     {
         if ($ticket->waiver) {
-            abort(403, 'Waiver already exists for ticket.'); 
+            return $request->ajax() || $request->wantsJson()
+                   ? response(['status' => $ticket->waiver->status], 403)
+                   : abort(403, 'Waiver already exists for ticket.');
         }
 
         $agreement = new Agreement;
@@ -35,7 +37,7 @@ class WaiverController extends Controller
         );
 
         return $request->ajax() || $request->wantsJson()
-               ? response()->json(['documentKey' => $ticket->waiver->documentKey])
+               ? response()->json(['status' => $ticket->load('waiver')->waiver->status])
                : redirect()->back();
     }
 }

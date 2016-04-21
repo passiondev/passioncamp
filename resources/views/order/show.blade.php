@@ -25,17 +25,29 @@
                             @can ('record-transactions', $order->organization)
                                 <th>Ticket Price</th>
                             @endcan
+                            <th>Camp Waiver</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($order->tickets as $ticket)
                             <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                                <th>{{ $ticket->person->name }}</th>
+                                <th>{{ $ticket->name }}</th>
                                 <td><span class="label label--{{ $ticket->agegroup }}">{{ ucwords($ticket->agegroup) }} - @ordinal($ticket->person->grade)</span></td>
                                 @can ('record-transactions', $order->organization)
                                     <td>@currency($ticket->price)</td>
                                 @endcan
+                                <td>
+                                    @can ('edit', $ticket)
+                                        @unless ($ticket->waiver)
+                                            <Waiver inline-template>
+                                                <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
+                                            </Waiver>
+                                        @else
+                                            {{ $ticket->waiver->status }}
+                                        @endif
+                                    @endcan
+                                </td>
                                 <td>
                                     @can ('edit', $ticket)
                                         <a href="{{ route('ticket.edit', $ticket) }}">edit</a>

@@ -1,5 +1,3 @@
-return if ! document.getElementById('registerForm')
-
 Vue = require('vue')
 chunk = require('lodash.chunk')
 
@@ -92,9 +90,9 @@ computed =
   payment_amount: ->
     if @payment_amount_type == 'deposit' then @deposit_amount else @full_amount
 
-vm = new Vue
-  el: '#registerForm'
-  data: data
+Vue.component 'register-form',
+  data: ->
+    data
   watch: watch
   methods: methods
   computed: computed
