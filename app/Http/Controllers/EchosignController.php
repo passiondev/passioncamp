@@ -6,11 +6,28 @@ use App\Http\Requests;
 use Echosign\BaseUris;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Interactions\Echosign\Callback;
 use Echosign\Transports\GuzzleTransport;
 use League\OAuth2\Client\Token\AccessToken;
 
 class EchosignController extends Controller
 {
+    protected $callback;
+
+    public function __construct(Callback $callback)
+    {
+        $this->callback = $callback;
+    }
+
+    public function callback(Request $request)
+    {
+        if ($this->callback->validator($request->all())->fails()) {
+            return '';
+        }
+
+        $this->callback->handle($request->all());
+    }
+
     public function test()
     {
         $provider = new \App\Echosign\Provider([

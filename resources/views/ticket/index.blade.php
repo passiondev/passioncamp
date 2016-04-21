@@ -34,7 +34,11 @@
                     @endcan
                     <td>
                         @can ('edit', $ticket)
-                            <a href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
+                            @unless ($ticket->waiver)
+                                <a href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
+                            @else
+                                {{ $ticket->waiver->status }}
+                            @endif
                         @endcan
                     </td>
                 </tr>

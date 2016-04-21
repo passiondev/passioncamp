@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Ticket;
 
 use App\Ticket;
+use App\Waiver;
+use App\Http\Requests\Request;
 use App\Http\Controllers\Controller;
 use App\Interactions\Echosign\Agreement;
 
@@ -14,8 +16,12 @@ class WaiverController extends Controller
         $this->authorize('owner', request()->ticket->order);
     }
 
-    public function create(Ticket $ticket)
+    public function create(Request $request, Ticket $ticket)
     {
+        if ($ticket->waiver) {
+            abort(403, 'Waiver already exists for ticket.'); 
+        }
+
         $agreement = new Agreement;
         $agreementId = $agreement->create($ticket->order->user->person->email, [
             'name' => $ticket->person->name,
@@ -24,12 +30,12 @@ class WaiverController extends Controller
             'location' => $ticket->organization->church->location,
         ]);
 
-        $ticket->forceFill([
-            'signature_request_id' => $agreementId,
-            'signature_request_sent_at' => \Carbon\Carbon::now(),
-            'signature_request_status' => $agreement->getStatus($agreementId),
-        ])->save();
+        $ticket->waiver()->save(
+            new Waiver(['documentKey' => $agreementId])
+        );
 
-        return redirect()->back();
+        return $request->ajax() || $request->wantsJson()
+               ? response()->json(['documentKey' => $ticket->waiver->documentKey])
+               : redirect()->back();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Waiver;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,7 +35,7 @@ class Ticket extends OrderItem
 
     public function waiver()
     {
-        return new Waiver($this);
+        return $this->hasOne(Waiver::class);
     }
 
     /*-------------- getters -----------------*/

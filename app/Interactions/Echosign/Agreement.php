@@ -6,7 +6,9 @@ use App\Ticket;
 use Echosign\Agreements;
 use Echosign\Creators\Agreement;
 use Echosign\Transports\GuzzleTransport;
+use Echosign\RequestBuilders\Agreement\FileInfo;
 use Echosign\RequestBuilders\Agreement\MergefieldInfo;
+use Echosign\RequestBuilders\Agreement\DocumentCreationInfo;
 
 class Agreement extends BaseEchosignInteraction
 {
@@ -23,14 +25,22 @@ class Agreement extends BaseEchosignInteraction
             new MergefieldInfo(ucwords(array_get($data, 'agegroup')), 'Drop Down 3'),
         ];
 
-        $agreementCreator = new Agreement( $this->token );
-        try {
+        $fileInfo = new FileInfo;
+        $fileInfo->setLibraryDocumentId($this->libraryDocumentId);
+
+        $documentCreationInfo = new DocumentCreationInfo($fileInfo, $this->agreementName, 'ESIGN', 'SENDER_SIGNATURE_NOT_REQUIRED');
+        $documentCreationInfo->setCallBackInfo(config('services.echosign.callback'));
+
+        $agreementCreator = new Agreement($this->token);
+
+        // try {
             $agreementId = $agreementCreator
                 ->setMergeFieldInfos($mergefieldInfos)
-                ->createFromLibraryDocumentId($to, $this->message, $this->libraryDocumentId, $this->agreementName);            
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+                ->setDocumentCreationInfo($documentCreationInfo)
+                ->send($fileInfo, $this->agreementName, $this->message, 'matt.floyd@268generation.com');            
+        // } catch (\Exception $e) {
+        //     dd($e->getMessage());
+        // }
 
         return $agreementId;
     }

@@ -2,38 +2,21 @@
 
 namespace App;
 
+use App\Ticket;
 use Echosign\Agreements;
+use Illuminate\Database\Eloquent\Model;
 use Echosign\Transports\GuzzleTransport;
 
-class Waiver
+class Waiver extends Model
 {
-    protected $ticket;
+    protected $fillable = [
+        'documentKey',
+        'eventType',
+        'status',
+    ];
 
-    public function __construct(Ticket $ticket)
+    public function ticket()
     {
-        $this->ticket = $ticket;
-    }
-
-    public function create()
-    {
-        return;
-    }
-
-    public function status($update = true)
-    {
-        if ($update) {
-            $this->updateStatus();
-        }
-
-        return $this->ticket->waiver_status;
-    }
-
-    public function getStatus()
-    {
-        $transport   = new GuzzleTransport();
-        $agreement    = new Agreements( $this->token, $transport );
-        $agreementInfo = $agreement->status($this->ticket->waiver_id);
-
-        return $agreementInfo->getStatus();
+        return $this->belongsTo(Ticket::class);
     }
 }

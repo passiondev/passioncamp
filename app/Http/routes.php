@@ -19,6 +19,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('registration', 'RegisterController@store')->name('register.store');
         Route::get('registration/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
     });    
+
+    Route::any('echosign/callback', 'EchosignController@callback')->name('echosign.callback');
+
     Route::get('login', 'Auth\AuthController@showLoginForm');
     Route::post('login', 'Auth\AuthController@login');
     Route::get('logout', 'Auth\AuthController@logout');

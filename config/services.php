@@ -43,6 +43,9 @@ return [
     ],
 
     'echosign' => [
+        'callback' => env('ECHOSIGN_CALLBACK', function () {
+            return route('echosign.callback');
+        }),
     ],
 
 ];
