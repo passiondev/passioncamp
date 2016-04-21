@@ -23,6 +23,7 @@
                     <tr>
                         <th>
                             {{ link_to_route('admin.organization.show', $organization->church->name, $organization) }}
+                            <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>
                         </th>
                         <td>
                             {{ $organization->church->location }}
