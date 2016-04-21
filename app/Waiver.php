@@ -19,4 +19,16 @@ class Waiver extends Model
     {
         return $this->belongsTo(Ticket::class);
     }
+
+    public function getStatusAttribute($status)
+    {
+        switch ($status) {
+            case '':
+            case 'OUT_FOR_SIGNATURE':
+                return 'pending';
+            
+            default:
+                return $status;
+        }
+    }
 }
