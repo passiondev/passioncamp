@@ -39,6 +39,12 @@ class Ticket extends OrderItem
     }
 
     /*-------------- getters -----------------*/
+    public function getNameAttribute()
+    {
+        return $this->person && strlen($this->person->first_name)
+               ? $this->person->name
+               : "Ticket #{$this->id}";
+    }
 
     /*-------------- setters -----------------*/
     public function setTicketDataAttribute($ticket_data)
