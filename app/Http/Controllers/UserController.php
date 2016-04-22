@@ -7,6 +7,7 @@ use App\User;
 use App\Organization;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Postmark\PostmarkClient;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 
@@ -69,10 +70,15 @@ class UserController extends Controller
 
     public function sendAccountCreationEmail(User $user)
     {
-        Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {
-            $m->subject('Create Your Account');
-            $m->to($user->email);
-        });
+        // Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {
+        //     $m->subject('Create Your Account');
+        //     $m->to($user->email);
+        // });
+        $client = new PostmarkClient("e717520f-5d7b-4e98-a7fe-a65da0630435");
+        $client->sendEmailWithTemplate('passioncamp@268generation.com', $user->email, 574163, [
+            'name' => $user->person->first_name,
+            'link' => route('complete.registration', [$user, $user->hash])
+        ]);
     }
 
 }

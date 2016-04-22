@@ -25,7 +25,8 @@
         "omnipay/stripe": "~2.0",
         "sebpro/artisanext": "0.2.*",
         "nsbucky/echosignv3": "dev-master",
-        "adam-paterson/oauth2-stripe": "~1.1"
+        "adam-paterson/oauth2-stripe": "~1.1",
+        "wildbit/postmark-php": "~2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
