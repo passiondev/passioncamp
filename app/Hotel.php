@@ -27,7 +27,7 @@ class Hotel extends Item
 
     public function getRegisteredCountAttribute()
     {
-        return $this->items->count();
+        return number_format($this->items->sum('quantity'));
     }
 
     public function getCapacityAttribute($capacity)
