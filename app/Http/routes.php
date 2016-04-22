@@ -52,6 +52,9 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('admin/organization/{organization}/registrations', 'Organization\OrderController@index')->name('admin.organization.order.index');
 
+        Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
+        Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
+
         Route::get('registrations', 'OrderController@index')->name('order.index');
         Route::get('registration/create', 'OrderController@create')->name('order.create');
         Route::post('registration/store', 'OrderController@store')->name('order.store');

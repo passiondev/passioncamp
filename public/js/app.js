@@ -12163,19 +12163,11 @@ Vue.component('Waiver', {
 
 
 },{"vue":29,"vue-resource":18}],32:[function(require,module,exports){
-var Ticket, Vue, chunk, computed, data, methods, watch;
+var Ticket, Vue, chunk;
 
 Vue = require('vue');
 
 chunk = require('lodash.chunk');
-
-data = {
-  num_tickets: null,
-  fund_amount: null,
-  fund_amount_other: null,
-  payment_amount_type: null,
-  tickets: tickets_data
-};
 
 Ticket = function(number) {
   this.number = number;
@@ -12192,116 +12184,116 @@ Ticket = function(number) {
   return this.roomate_requested = null;
 };
 
-watch = {
-  num_tickets: function(num_tickets) {
-    var results;
-    if (num_tickets < 1) {
-      this.num_tickets = 1;
-    }
-    if (num_tickets > 200) {
-      this.num_tickets = 200;
-    }
-    while (this.num_tickets > this.tickets.length) {
-      this.tickets.push(new Ticket(this.tickets.length + 1));
-    }
-    results = [];
-    while (this.num_tickets < this.tickets.length) {
-      results.push(this.tickets.pop());
-    }
-    return results;
-  },
-  fund_amount_other: function(amount) {
-    if (amount > 0) {
-      return this.fund_amount = 'other';
-    }
-  },
-  fund_amount: function(amount) {
-    if (amount >= 0) {
-      return this.fund_amount_other = null;
-    }
-  }
-};
-
-methods = {
-  submitHandler: function(e) {
-    var cardCVC, cardExpiry, cardNumber, cardType;
-    if (this.payment_method === 'check' || (this.payment_method === 'none' && this.grand_total === 0)) {
-      return e.target.submit();
-    }
-    this.form = $(e.target);
-    cardNumber = $('.js-form-input-card-number').val();
-    cardType = $.payment.cardType(cardNumber);
-    cardExpiry = $('.js-form-input-card-expiry').payment('cardExpiryVal');
-    cardCVC = $('.js-form-input-card-cvc').val();
-    if (!$.payment.validateCardNumber(cardNumber)) {
-      this.form.find('.payment-errors').text('Your card number is not valid.');
-      return false;
-    }
-    if (!$.payment.validateCardExpiry(cardExpiry)) {
-      this.form.find('.payment-errors').text('Your card expiration date is not valid.');
-      return false;
-    }
-    if (!$.payment.validateCardCVC(cardCVC, cardType)) {
-      this.form.find('.payment-errors').text('Your card security code date is not valid.');
-      return false;
-    }
-    this.buttons = $('button', this.form).prop('disabled', true);
-    return Stripe.card.createToken(this.form, this.stripeResponseHandler);
-  },
-  stripeResponseHandler: function(status, response) {
-    if (response.error) {
-      this.form.find('.payment-errors').text(response.error.message);
-      return this.buttons.prop('disabled', false);
-    } else {
-      this.form.append($('<input type="hidden" name="stripeToken" />').val(response.id));
-      return this.form.submit();
-    }
-  }
-};
-
-computed = {
-  ticket_rows: function() {
-    return chunk(this.tickets, 2);
-  },
-  ticket_price: function() {
-    if (this.num_tickets >= 2) {
-      return ticket_price - 20;
-    } else {
-      return ticket_price;
-    }
-  },
-  ticket_total: function() {
-    return this.num_tickets * this.ticket_price;
-  },
-  donation_total: function() {
-    if (this.fund_amount === 'other') {
-      return this.fund_amount_other;
-    } else {
-      return this.fund_amount;
-    }
-  },
-  deposit_amount: function() {
-    return this.num_tickets * 60 + this.donation_total;
-  },
-  full_amount: function() {
-    return this.ticket_total + this.donation_total;
-  },
-  payment_amount: function() {
-    if (this.payment_amount_type === 'deposit') {
-      return this.deposit_amount;
-    } else {
-      return this.full_amount;
-    }
-  }
-};
-
 Vue.component('register-form', {
   data: function() {
-    return data;
+    return {
+      num_tickets: null,
+      fund_amount: null,
+      fund_amount_other: null,
+      payment_amount_type: null,
+      tickets: tickets_data
+    };
   },
-  watch: watch,
-  methods: methods,
-  computed: computed
+  watch: {
+    num_tickets: function(num_tickets) {
+      var results;
+      if (num_tickets < 1) {
+        this.num_tickets = 1;
+      }
+      if (num_tickets > 200) {
+        this.num_tickets = 200;
+      }
+      while (this.num_tickets > this.tickets.length) {
+        this.tickets.push(new Ticket(this.tickets.length + 1));
+      }
+      results = [];
+      while (this.num_tickets < this.tickets.length) {
+        results.push(this.tickets.pop());
+      }
+      return results;
+    },
+    fund_amount_other: function(amount) {
+      if (amount > 0) {
+        return this.fund_amount = 'other';
+      }
+    },
+    fund_amount: function(amount) {
+      if (amount >= 0) {
+        return this.fund_amount_other = null;
+      }
+    }
+  },
+  methods: {
+    submitHandler: function(e) {
+      var cardCVC, cardExpiry, cardNumber, cardType;
+      if (this.payment_method === 'check' || (this.payment_method === 'none' && this.grand_total === 0)) {
+        return e.target.submit();
+      }
+      this.form = $(e.target);
+      cardNumber = $('.js-form-input-card-number').val();
+      cardType = $.payment.cardType(cardNumber);
+      cardExpiry = $('.js-form-input-card-expiry').payment('cardExpiryVal');
+      cardCVC = $('.js-form-input-card-cvc').val();
+      if (!$.payment.validateCardNumber(cardNumber)) {
+        this.form.find('.payment-errors').text('Your card number is not valid.');
+        return false;
+      }
+      if (!$.payment.validateCardExpiry(cardExpiry)) {
+        this.form.find('.payment-errors').text('Your card expiration date is not valid.');
+        return false;
+      }
+      if (!$.payment.validateCardCVC(cardCVC, cardType)) {
+        this.form.find('.payment-errors').text('Your card security code date is not valid.');
+        return false;
+      }
+      this.buttons = $('button', this.form).prop('disabled', true);
+      return Stripe.card.createToken(this.form, this.stripeResponseHandler);
+    },
+    stripeResponseHandler: function(status, response) {
+      if (response.error) {
+        this.form.find('.payment-errors').text(response.error.message);
+        return this.buttons.prop('disabled', false);
+      } else {
+        this.form.append($('<input type="hidden" name="stripeToken" />').val(response.id));
+        return this.form.submit();
+      }
+    }
+  },
+  computed: {
+    ticket_rows: function() {
+      return chunk(this.tickets, 2);
+    },
+    ticket_price: function() {
+      if (this.num_tickets >= 2) {
+        return ticket_price - 20;
+      } else {
+        return ticket_price;
+      }
+    },
+    ticket_total: function() {
+      return this.num_tickets * this.ticket_price;
+    },
+    donation_total: function() {
+      if (this.fund_amount === 'other') {
+        return this.fund_amount_other;
+      } else {
+        return this.fund_amount;
+      }
+    },
+    deposit_amount: function() {
+      return this.num_tickets * 60 + this.donation_total;
+    },
+    full_amount: function() {
+      return this.ticket_total + this.donation_total;
+    },
+    payment_amount: function() {
+      if (this.payment_amount_type === 'deposit') {
+        return this.deposit_amount;
+      } else {
+        return this.full_amount;
+      }
+    }
+  }
 });
 
 

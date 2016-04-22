@@ -19,6 +19,7 @@
                 <li class="menu-text">Passion Camp</li>
                 @if (auth()->user() && auth()->user()->is_super_admin)
                     <li><a href="{{ route('admin.organization.index') }}">Churches</a></li>
+                    <li><a href="{{ route('hotel.index') }}">Hotels</a></li>
                 @else
                     <li><a href="{{ route('account.dashboard') }}">Dashboard</a></li>
                 @endif

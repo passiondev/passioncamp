@@ -34,6 +34,16 @@ class Organization extends Model
         return $this->hasMany(OrderItem::class)->whereNotNull('org_type');
     }
 
+    public function hotelItems()
+    {
+        return $this->items()->where('org_type', 'hotel');
+    }
+
+    public function hotels()
+    {
+        return $this->belongsToMany(Hotel::class, 'order_item', 'organization_id', 'item_id');
+    }
+
     public function tickets()
     {
         return $this->items()->where('org_type', 'ticket');
@@ -211,5 +221,12 @@ class Organization extends Model
     public function getCanRecordTransactionsAttribute()
     {
         return (bool) $this->setting('use_transactions');
+    }
+
+    public function roomCountForHotel($hotel)
+    {
+        $items = $this->hotelItems()->where('item_id', $hotel->id);
+
+        return number_format($items->sum('quantity'));
     }
 }

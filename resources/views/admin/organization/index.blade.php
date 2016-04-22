@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <header class="page-header">
-            <h1 class="page-header__title">Churches</h1>
+            <h1 class="page-header__title">Churches <span class="label">{{ $organizations->count() }}</span></h1>
             <div class="page-header__actions">
                 <a class="button small" href="{{ route('admin.organization.create') }}">Add Church</a>
             </div>
