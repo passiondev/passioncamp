@@ -20,7 +20,7 @@
     {{ Form::select('grade', $gradeOptions, null, ['id' => 'grade', 'class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    {{ Form::label('allergies', $order->organization->slug == 'pcc' ? 'Medical/Food Allergies' : 'Special Considerations (physical/visual/hearing impairment, etc.)', ['class' => 'control-label']) }}
+    {{ Form::label('allergies', 'Special Considerations (medical/food allergies, physical or vision/hearing impairment, etc.)', ['class' => 'control-label']) }}
     {{ Form::text('allergies', null, ['id' => 'allergies', 'class' => 'form-control']) }}
 </div>
 @if ($order->organization->slug == 'pcc')
