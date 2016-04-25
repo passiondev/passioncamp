@@ -18,7 +18,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('registration', 'RegisterController@create')->name('register.create');
         Route::post('registration', 'RegisterController@store')->name('register.store');
         Route::get('registration/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
-    });    
+    });
 
     Route::any('echosign/callback', 'EchosignController@callback')->name('echosign.callback');
 
@@ -70,6 +70,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('registration/{order}/transaction', 'Order\TransactionController@store')->name('order.transaction.store');
 
         Route::get('tickets', 'TicketController@index')->name('ticket.index');
+        Route::get('tickets/export', 'Ticket\ExportController@index')->name('ticket.export.index');
         Route::get('ticket/{ticket}', function (\App\Ticket $ticket) {
             return redirect()->route('order.show', $ticket->order);
         })->name('ticket.show');

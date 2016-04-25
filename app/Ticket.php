@@ -55,4 +55,33 @@ class Ticket extends OrderItem
 
         $this->attributes['ticket_data' ] = $ticket_data;
     }
+
+    public function getShirtSizeAttribute()
+    {
+        $shirt_size = $this->ticket_data('shirtsize');
+        $sizes = ['XS','S','M','L','XL'];
+
+        if (is_null($shirt_size)) {
+            return null;
+        }
+
+        return in_array($shirt_size, $sizes) ? $shirt_size : array_get($sizes, $shirt_size);
+    }
+
+    public function getSchoolAttribute()
+    {
+        return $this->ticket_data('school');
+    }
+
+    public function getRoommateRequestedAttribute()
+    {
+        return $this->ticket_data('roommate_requested');
+    }
+
+    private function ticket_data($key)
+    {
+        $data = json_decode($this->ticket_data, true);
+
+        return array_get($data, $key);
+    }
 }

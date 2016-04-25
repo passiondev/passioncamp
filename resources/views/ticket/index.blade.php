@@ -4,6 +4,9 @@
     <div class="container">
         <header class="page-header">
             <h1 class="page-header__title">Attendees</h1>
+            <div class="page-header__actions">
+                <a href="{{ route('ticket.export.index') }}">Export</a>
+            </div>
         </header>
 
         <div class="callout primary">
