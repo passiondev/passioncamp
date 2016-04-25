@@ -43,7 +43,7 @@ class TicketController extends Controller
         $formData = array_merge(
             $ticket->getAttributes(), 
             $ticket->person->getAttributes(), 
-            ['birthdate' => $ticket->person->birthdate->format('m/d/Y')]
+            ['birthdate' => $ticket->person->birthdate ? $ticket->person->birthdate->format('m/d/Y') : '']
         );
 
         $ticket_price = $ticket->price;
