@@ -53,6 +53,7 @@
                         <tr>
                             <td>{{ $user->person->name ?? '' }}</td>
                             <td>{{ $user->email }}</td>
+                            <td><a href="{{ route('user.edit', $user) }}">edit</a></td>
                             <td>
                                 @unless ($user->password)
                                     <small><i>pending</i></small>

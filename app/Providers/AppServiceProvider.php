@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('gradeOptions', $gradeOptions);
         });
 
-        view()->composer('user.create', function ($view) {
+        view()->composer('user.partials.form', function ($view) {
             $organizationOptions = [];
 
             \App\Organization::with('church')->each(function ($organization) use (&$organizationOptions) {

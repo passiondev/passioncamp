@@ -7,6 +7,7 @@ use App\Order;
 use App\Ticket;
 use App\OrderItem;
 use App\Organization;
+use App\Policies\UserPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\OrderItemPolicy;
 use App\Policies\OrganizationPolicy;
@@ -25,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         Order::class     => OrderPolicy::class,
         OrderItem::class => OrderItemPolicy::class,
         Ticket::class    => OrderItemPolicy::class,
+        User::class    => UserPolicy::class,
     ];
 
     /**

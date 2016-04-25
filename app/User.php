@@ -46,7 +46,7 @@ class User extends Authenticatable
             return 'PASSION CAMP ADMIN';
         }
 
-        return $this->organization->church->name;
+        return $this->organization->church->name . ' - ' . $this->organization->church->location;
     }
 
     public function setEmailAttribute($value)

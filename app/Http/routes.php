@@ -81,7 +81,9 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('ticket/{ticket}/waiver/create', 'Ticket\WaiverController@create')->name('ticket.waiver.create');
 
-        // Route::get('users', 'UserController@index')->name('user.index');
+        Route::get('users', 'UserController@index')->name('user.index');
+        Route::get('user/{user}/edit', 'UserController@edit')->name('user.edit');
+        Route::put('user/{user}/update', 'UserController@update')->name('user.update');
 
         // Route::any('stripe/connect', 'StripeController@connect')->name('stripe.connect');
 

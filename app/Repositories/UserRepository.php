@@ -26,15 +26,36 @@ class UserRepository
         $user->forceFill([
             'email' => array_get($data, 'email'),
             'access' => $access
-        ])->person()->associate($person);
+        ])->person()->associate($person)->save();
 
         // event(new UserCreated($user));
 
         return $user;
     }
 
+    public function update(User $user, array $data, $access)
+    {
+        $user->forceFill([
+            'email' => array_get($data, 'email'),
+            'access' => $access
+        ])->save();
+
+        $user->person->forceFill([
+            'first_name' => array_get($data, 'first_name'),
+            'last_name' => array_get($data, 'last_name'),
+            'email' => array_get($data, 'email'),
+            'street' => array_get($data, 'street'),
+            'city' => array_get($data, 'city'),
+            'state' => array_get($data, 'state'),
+            'zip' => array_get($data, 'zip'),
+            'country' => array_get($data, 'country'),
+        ])->save();
+
+        return $user;
+    }
+
     public function getAdminUsers()
     {
-        return User::where('access', '>=', '1')->get();
+        return User::whereNotNull('email')->get();
     }
 }

@@ -20,6 +20,7 @@
                 @if (auth()->user() && auth()->user()->is_super_admin)
                     <li><a href="{{ route('admin.organization.index') }}">Churches</a></li>
                     <li><a href="{{ route('hotel.index') }}">Hotels</a></li>
+                    <li><a href="{{ route('user.index') }}">Users</a></li>
                 @else
                     <li><a href="{{ route('account.dashboard') }}">Dashboard</a></li>
                 @endif
