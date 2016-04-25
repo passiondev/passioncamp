@@ -33,14 +33,14 @@ class Agreement extends BaseEchosignInteraction
 
         $agreementCreator = new Agreement($this->token);
 
-        // try {
+        try {
             $agreementId = $agreementCreator
                 ->setMergeFieldInfos($mergefieldInfos)
                 ->setDocumentCreationInfo($documentCreationInfo)
-                ->send($fileInfo, $this->agreementName, $this->message, 'matt.floyd@268generation.com');            
-        // } catch (\Exception $e) {
-        //     dd($e->getMessage());
-        // }
+                ->send($fileInfo, $this->agreementName, $this->message, $to);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         return $agreementId;
     }
