@@ -38,7 +38,7 @@
                                     <td>@currency($ticket->price)</td>
                                 @endcan
                                 <td>
-                                    @can ('edit', $ticket)
+                                    @unless ($ticket->is_canceled)
                                         @unless ($ticket->waiver)
                                             <Waiver inline-template>
                                                 <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
@@ -46,11 +46,11 @@
                                         @else
                                             {{ $ticket->waiver->status }}
                                         @endif
-                                    @endcan
+                                    @endunless
                                 </td>
                                 <td>
                                     @can ('edit', $ticket)
-                                        <a href="{{ route('ticket.edit', $ticket) }}">edit</a>
+                                        <a style="text-decoration:none!important" href="{{ route('ticket.edit', $ticket) }}">edit</a>
                                     @endcan
                                 </td>
                             </tr>

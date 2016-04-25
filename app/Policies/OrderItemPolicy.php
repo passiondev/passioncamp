@@ -20,10 +20,6 @@ class OrderItemPolicy
             return $user->is_super_admin;
         }
 
-        if ($item->is_canceled) {
-            return false;
-        }
-
         return true;
     }
 }

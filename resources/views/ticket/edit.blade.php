@@ -18,12 +18,16 @@
         <hr>
         
         <footer style="display:flex;justify-content: flex-end">
-            {{ Form::open(['route' => ['ticket.cancel', $ticket], 'method' => 'PATCH']) }}
-                <button class="outline warning small" style="margin-right: 1rem">Cancel Ticket</button>
-            {{ Form::close() }}
-            {{ Form::open(['route' => ['ticket.delete', $ticket], 'method' => 'DELETE']) }}
-                <button class="outline danger small">Delete Ticket</button>
-            {{ Form::close() }}
+            @unless ($ticket->is_canceled)
+                {{ Form::open(['route' => ['ticket.cancel', $ticket], 'method' => 'PATCH']) }}
+                    <button class="outline warning small" style="margin-right: 1rem">Cancel Ticket</button>
+                {{ Form::close() }}
+            @endif
+            @if (Auth::user()->is_super_admin)
+                {{ Form::open(['route' => ['ticket.delete', $ticket], 'method' => 'DELETE']) }}
+                    <button class="outline danger small">Delete Ticket</button>
+                {{ Form::close() }}
+            @endif
         </footer>
 
     </div>
