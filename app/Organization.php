@@ -6,6 +6,8 @@ use App\Transaction;
 use Omnipay\Omnipay;
 use App\TransactionSplit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use App\Collections\OrganizationCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model
@@ -14,6 +16,13 @@ class Organization extends Model
 
     protected $table = 'organization';
     
+    public function scopeActive($query)
+    {
+        return $this->whereHas('items', function ($q) {
+            $q->where('quantity', '>', '0');
+        });
+    }
+
     public function church()
     {
         return $this->belongsTo(Church::class);
