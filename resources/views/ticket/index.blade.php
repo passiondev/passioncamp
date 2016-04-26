@@ -31,7 +31,12 @@
                         <td>{{ $ticket->organization->church->name }}</td>
                         <td>{{ $ticket->organization->church->location }}</td>
                     @endif
-                    <td><span class="label label--{{ $ticket->agegroup }}">{{ ucwords($ticket->agegroup) }} - {{ number_ordinal($ticket->person->grade) }}</span></td>
+                    <td>
+                        <span class="label label--{{ $ticket->agegroup }}">
+                            {{ ucwords($ticket->agegroup) }}
+                            @if ($ticket->agegroup == 'student') - @ordinal($ticket->person->grade)@endif
+                        </span>
+                    </td>
                     @can ('record-transactions', $ticket->organization)
                         <td>@currency($ticket->price)</td>
                     @endcan
