@@ -32,7 +32,7 @@ class TicketRepository
 
     public function update(Ticket $ticket, array $data)
     {
-        $ticket = $this->make($data, $ticket)->save();
+        $this->make($data, $ticket)->save();
         $ticket->person->fill($data)->save();
     }
 }
