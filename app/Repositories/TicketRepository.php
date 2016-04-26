@@ -15,9 +15,24 @@ class TicketRepository
         return Ticket::where('organization_id', $user->organization_id);
     }
 
-    public function update(Ticket $ticket, $data)
+    public function make(array $data, Ticket $ticket = null)
     {
-        $ticket->fill($data)->save();
+        $ticket = $ticket ?: new Ticket;
+
+        $ticket_data = array_only($data, [
+            'school',
+            'shirtsize',
+            'roommate_requested'
+        ]);
+
+        $ticket->fill($data)->setAttribute('ticket_data', $ticket_data);
+
+        return $ticket;
+    }
+
+    public function update(Ticket $ticket, array $data)
+    {
+        $ticket = $this->make($data, $ticket)->save();
         $ticket->person->fill($data)->save();
     }
 }

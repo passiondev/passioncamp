@@ -41,9 +41,11 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $formData = array_merge(
-            $ticket->getAttributes(), 
-            $ticket->person->getAttributes(), 
-            ['birthdate' => $ticket->person->birthdate ? $ticket->person->birthdate->format('m/d/Y') : '']
+            $ticket->getAttributes(),
+            $ticket->person->getAttributes(),
+            ['birthdate' => $ticket->person->birthdate ? $ticket->person->birthdate->format('m/d/Y') : ''],
+            $ticket->ticket_data(),
+            ['shirtsize' => $ticket->shirt_size]
         );
 
         $ticket_price = $ticket->price;

@@ -26,8 +26,28 @@
     </div>
     @if ($order->organization->slug == 'pcc')
         <div class="form-group">
+            {{ Form::label('email', 'Email', ['class' => 'control-label']) }}
+            {{ Form::email('email', null, ['id' => 'email', 'class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('phone', 'Phone', ['class' => 'control-label']) }}
+            {{ Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
             {{ Form::label('birthdate', 'Birthdate', ['class' => 'control-label']) }}
             {{ Form::text('birthdate', null, ['id' => 'birthdate', 'class' => 'form-control js-form-input-date']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('shirtsize', 'Shirt Size', ['class' => 'control-label']) }}
+            {{ Form::text('shirtsize', null, ['id' => 'shirtsize', 'class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('school', 'School', ['class' => 'control-label']) }}
+            {{ Form::text('school', null, ['id' => 'school', 'class' => 'form-control']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('roommate_requested', 'Roommate Requested', ['class' => 'control-label']) }}
+            {{ Form::text('roommate_requested', null, ['id' => 'roommate_requested', 'class' => 'form-control']) }}
         </div>
     @endif
     @can ('record-transactions', $order->organization)

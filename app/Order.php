@@ -4,6 +4,7 @@ namespace App;
 
 use Sofa\Eloquence\Eloquence;
 use App\Collections\OrderCollection;
+use App\Repositories\TicketRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,9 +12,16 @@ class Order extends Model
 {
     use Eloquence, SoftDeletes;
 
+    protected $ticket_repo;
+
     protected $table = 'orders';
 
     protected $searchableColumns = ['id', 'tickets.person.first_name', 'tickets.person.last_name'];
+
+    public function __construct()
+    {
+        $this->ticket_repo = new TicketRepository;
+    }
 
     public function newCollection(array $models = [])
     {
@@ -157,22 +165,10 @@ class Order extends Model
             'allergies',
         ]));
 
-        $ticket_data = array_only($data, [
-            'school',
-            'shirtsize',
-            'roommate_requested',
-            'location'
-        ]);
-
-        $ticket = new Ticket;
-
-        $ticket->order()->associate($this);
-        $ticket->organization()->associate($this->organization);
-        $ticket->person()->associate($person);
-
-        $ticket->fill($data);
-        $ticket->ticket_data = $ticket_data;
-
-        $ticket->save();
+        $this->ticket_repo->make($data)
+            ->order()->associate($this)
+            ->organization()->associate($this->organization)
+            ->person()->associate($person)
+            ->save();
     }
 }
