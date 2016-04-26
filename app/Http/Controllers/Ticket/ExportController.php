@@ -25,23 +25,32 @@ class ExportController extends Controller
                    ->get();
 
         $tickets = $tickets->active()->map(function ($ticket) {
-            return [
+            $data = [];
+            $data = [
                 'id'         => $ticket->id,
                 'order id'   => $ticket->order_id,
                 'created at' => (string) $ticket->created_at,
 
+                'type' => $ticket->agegroup,
                 'first name' => $ticket->person->first_name,
                 'last name'  => $ticket->person->last_name,
-                'email'      => $ticket->person->email,
-                'phone'      => $ticket->person->email,
-                'birthdate' => (string) $ticket->person->birthdate,
                 'gender' => $ticket->person->gender,
-                'shirt size' => $ticket->shirt_size,
                 'grade' => $ticket->person->grade,
-                'school' => $ticket->school,
-                'allergies' => $ticket->person->allergies,
-                'roomate requested' => $ticket->roommate_requested,
-                
+                'special considerations' => $ticket->person->allergies,
+            ];
+
+            if (Auth::user()->is_super_admin || Auth::user()->organization->slug == 'pcc') {
+                $data += [
+                    'email'      => $ticket->person->email,
+                    'phone'      => $ticket->person->email,
+                    'birthdate' => (string) $ticket->person->birthdate,
+                    'shirt size' => $ticket->shirtsize,
+                    'school' => $ticket->school,
+                    'roommate requested' => $ticket->roommate_requested,
+                ];
+            }
+
+            $data += [
                 'contact first name' => $ticket->order->user->person->first_name,
                 'contact last name' => $ticket->order->user->person->last_name,
                 'contact email' => $ticket->order->user->person->email,
