@@ -16,9 +16,9 @@
         {{ Form::radio('gender', 'M', null, ['id' => 'gender--M']) }} <label for="gender--M">Male</label>
         {{ Form::radio('gender', 'F', null, ['id' => 'gender--F']) }} <label for="gender--F">Female</label>
     </fieldset>
-    <div class="form-group" v-show="agegroup == 'student'">
+    <div class="form-group">
         {{ Form::label('grade', 'Grade', ['class' => 'control-label']) }}
-        {{ Form::select('grade', $gradeOptions, null, ['id' => 'grade', 'class' => 'form-control']) }}
+        {{ Form::select('grade', (['' => ''] + $gradeOptions), null, ['id' => 'grade', 'class' => 'form-control']) }}
     </div>
     <div class="form-group">
         {{ Form::label('allergies', 'Special Considerations (medical/food allergies, physical or vision/hearing impairment, etc.)', ['class' => 'control-label']) }}

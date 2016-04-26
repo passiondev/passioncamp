@@ -35,7 +35,9 @@
                                     @foreach($order->tickets as $ticket)
                                         <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                                             <th>{{ $ticket->person->name }}</th>
-                                            <td><span class="label label--{{ $ticket->agegroup }}">{{ ucwords($ticket->agegroup) }} - @ordinal($ticket->person->grade)</span></td>
+                                            <td>
+                                                @include('ticket/partials/label')
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

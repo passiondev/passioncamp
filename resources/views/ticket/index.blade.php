@@ -32,10 +32,7 @@
                         <td>{{ $ticket->organization->church->location }}</td>
                     @endif
                     <td>
-                        <span class="label label--{{ $ticket->agegroup }}">
-                            {{ ucwords($ticket->agegroup) }}
-                            @if ($ticket->agegroup == 'student') - @ordinal($ticket->person->grade)@endif
-                        </span>
+                        @include('ticket/partials/label')
                     </td>
                     @can ('record-transactions', $ticket->organization)
                         <td>@currency($ticket->price)</td>
