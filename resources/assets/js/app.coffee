@@ -1,6 +1,7 @@
 module.exports = require('./register')
 module.exports = require('./transaction')
 module.exports = require('./components/Waiver')
+module.exports = require('./components/TicketForm')
 
 require('jquery.payment')
 

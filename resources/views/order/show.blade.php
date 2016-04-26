@@ -33,7 +33,12 @@
                         @foreach($order->tickets as $ticket)
                             <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                                 <th>{{ $ticket->name }}</th>
-                                <td><span class="label label--{{ $ticket->agegroup }}">{{ ucwords($ticket->agegroup) }} - @ordinal($ticket->person->grade)</span></td>
+                                <td>
+                                    <span class="label label--{{ $ticket->agegroup }}">
+                                        {{ ucwords($ticket->agegroup) }}
+                                        @if ($ticket->agegroup == 'student') - @ordinal($ticket->person->grade)@endif
+                                    </span>
+                                </td>
                                 @can ('record-transactions', $order->organization)
                                     <td>@currency($ticket->price)</td>
                                 @endcan

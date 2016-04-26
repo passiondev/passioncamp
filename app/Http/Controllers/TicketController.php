@@ -53,6 +53,14 @@ class TicketController extends Controller
 
     public function update(Request $request, Ticket $ticket)
     {
+        $this->validate($request, [
+            'agegroup' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'gender' => 'required',
+            'grade' => 'required_if:agegroup,student',
+        ]);
+
         $this->tickets->update($ticket, $request->all());
 
         return redirect()->route('order.show', $ticket->order);

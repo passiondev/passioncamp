@@ -24,12 +24,11 @@ class TicketController extends Controller
     public function store(Request $request, Order $order)
     {
         $this->validate($request, [
+            'agegroup' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            // 'shirtsize' => 'required',
             'gender' => 'required',
-            'grade' => 'required',
-            // 'birthdate' => 'required',
+            'grade' => 'required_if:agegroup,student',
         ]);
 
         $order->addTicket($request->all());

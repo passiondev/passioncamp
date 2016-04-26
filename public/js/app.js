@@ -12115,6 +12115,8 @@ module.exports = require('./transaction');
 
 module.exports = require('./components/Waiver');
 
+module.exports = require('./components/TicketForm');
+
 require('jquery.payment');
 
 Vue = require('vue');
@@ -12134,7 +12136,23 @@ $(function() {
 });
 
 
-},{"./components/Waiver":31,"./register":32,"./transaction":33,"jquery.payment":1,"vue":29}],31:[function(require,module,exports){
+},{"./components/TicketForm":31,"./components/Waiver":32,"./register":33,"./transaction":34,"jquery.payment":1,"vue":29}],31:[function(require,module,exports){
+var Vue;
+
+Vue = require('vue');
+
+Vue.use(require('vue-resource'));
+
+Vue.component('ticket-form', {
+  data: function() {
+    return {
+      agegroup: 'student'
+    };
+  }
+});
+
+
+},{"vue":29,"vue-resource":18}],32:[function(require,module,exports){
 var Vue;
 
 Vue = require('vue');
@@ -12162,7 +12180,7 @@ Vue.component('Waiver', {
 });
 
 
-},{"vue":29,"vue-resource":18}],32:[function(require,module,exports){
+},{"vue":29,"vue-resource":18}],33:[function(require,module,exports){
 var Ticket, Vue, chunk;
 
 Vue = require('vue');
@@ -12297,7 +12315,7 @@ Vue.component('register-form', {
 });
 
 
-},{"lodash.chunk":3,"vue":29}],33:[function(require,module,exports){
+},{"lodash.chunk":3,"vue":29}],34:[function(require,module,exports){
 var Vue, data, methods;
 
 Vue = require('vue');
