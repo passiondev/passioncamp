@@ -161,6 +161,7 @@ return [
         Sebpro\ArtisanExt\ArtisanExtServiceProvider::class,
         Sofa\Eloquence\ServiceProvider::class,
         // Barryvdh\Debugbar\ServiceProvider::class,
+        Jenssegers\Rollbar\RollbarServiceProvider::class,
     ],
 
     /*
