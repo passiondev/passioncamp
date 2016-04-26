@@ -25,6 +25,7 @@ th {
 
 th, td {
   padding: $small-spacing;
+  word-break: break-word;
 
   tbody > tr > & {
     border-top: $base-border;
