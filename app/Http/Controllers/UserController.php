@@ -19,16 +19,13 @@ class UserController extends Controller
     public function __construct(UserRepository $users)
     {
         $this->users = $users;
+        $this->middleware('super')->only('index');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $users = $this->users->getAdminUsers();
+        $users->load('person', 'organization.orders');
 
         return view('user.index', compact('users'));
     }

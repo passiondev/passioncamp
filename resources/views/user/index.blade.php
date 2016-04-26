@@ -14,6 +14,11 @@
                     <td>{{ $user->person->name or '' }}</td>
                     <td>{{ $user->auth_organization }}</td>
                     <td><a href="{{ route('user.edit', $user) }}">edit</a></td>
+                    <td>
+                        @if (Auth::user()->id != $user->id)
+                            <a href="{{ route('user.impersonate', $user) }}">impersonate</a>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </table>

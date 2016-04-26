@@ -33,6 +33,9 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu vertical medium-horizontal">
+                @if (Session::has('spark:impersonator'))
+                    <li><a href="{{ route('user.stop-impersonating') }}">End Impersonation</a></li>
+                @endif
                 <li><a href="{{ route('profile') }}">Profile</a></li>
             </ul>
         </div>
