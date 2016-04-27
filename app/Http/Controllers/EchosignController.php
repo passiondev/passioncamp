@@ -30,12 +30,12 @@ class EchosignController extends Controller
 
     public function test()
     {
-        $provider = new \App\Echosign\Provider([
+        $provider = new Provider([
             'clientId'                => 'CBJCHBCAABAAZGBwHutkhmyBZGaOpFdVGKlyR5POt183',
             'clientSecret'            => 'q947CW0KP_BtZqi401EFobhA1QDRiu2f',
             'redirectUri'             => 'https://camp.dev:44300/test',
             'urlAuthorize'            => 'https://secure.na1.echosign.com/public/oauth',
-            'scopes'                  => ['agreement_read', 'agreement_send', 'library_read'],
+            'scopes'                  => ['agreement_read', 'agreement_send', 'agreement_write', 'library_read'],
         ]);
 
         if (isset($_GET['error'])) {
@@ -75,15 +75,15 @@ dd(json_encode($accessToken));
 
     public function refresh()
     {
-        $provider = new \App\Echosign\Provider([
+        $provider = new \App\Interactions\Echosign\Provider([
             'clientId'                => 'CBJCHBCAABAAZGBwHutkhmyBZGaOpFdVGKlyR5POt183',
             'clientSecret'            => 'q947CW0KP_BtZqi401EFobhA1QDRiu2f',
             'redirectUri'             => 'https://camp.dev:44300/refresh',
             'urlAuthorize'            => 'https://secure.na1.echosign.com/public/oauth',
-            'scopes'                  => ['agreement_read', 'agreement_send', 'library_read'],
+            'scopes'                  => ['agreement_read', 'agreement_send', 'agreement_write', 'library_read'],
         ]);
 
-        $accessToken = new \App\Echosign\AccessToken(json_decode('{"access_token":"3AAABLblqZhCJTbR4G8CYBChHEMPBP5EQZ3sDDd_e-X46-vXnrmm3scFZBcy7vuswfzJ4fxZPCo_UDra_mN-RwCDItHZxmVVo","refresh_token":"3AAABLblqZhB9gaUV8EvuGXWLtz4hJoTJIkyT3nvl4awMUSkvxzDVLt1ClxMpfHQXWRqSegjnLu4*","expires":1458580895,"api_access_point":"api.na1.echosign.com"}', true));
+        $accessToken = new \App\Interactions\Echosign\AccessToken(json_decode('{"access_token":"3AAABLblqZhCJTbR4G8CYBChHEMPBP5EQZ3sDDd_e-X46-vXnrmm3scFZBcy7vuswfzJ4fxZPCo_UDra_mN-RwCDItHZxmVVo","refresh_token":"3AAABLblqZhB9gaUV8EvuGXWLtz4hJoTJIkyT3nvl4awMUSkvxzDVLt1ClxMpfHQXWRqSegjnLu4*","expires":1458580895,"api_access_point":"api.na1.echosign.com"}', true));
 
         if ($accessToken->hasExpired()) {
             $provider->setApiAccessPoint($accessToken->getApiBaseUri());

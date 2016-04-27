@@ -44,7 +44,10 @@
                                     <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
                                 </Waiver>
                             @else
-                                {{ $ticket->waiver->status }}
+                                {{ $ticket->waiver->status }}<br>
+                                <Waiver inline-template>
+                                    <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
+                                </Waiver>
                             @endif
                         @endcan
                     </td>

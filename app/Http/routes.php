@@ -83,6 +83,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::patch('ticket/{ticket}/cancel', 'TicketController@cancel')->name('ticket.cancel');
 
         Route::get('ticket/{ticket}/waiver/create', 'Ticket\WaiverController@create')->name('ticket.waiver.create');
+        Route::get('ticket/{ticket}/waiver/reminder', 'Ticket\WaiverController@reminder')->name('ticket.waiver.reminder');
 
         Route::get('users', 'UserController@index')->name('user.index');
         Route::get('user/create', 'UserController@create')->name('user.create');

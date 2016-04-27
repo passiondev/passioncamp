@@ -15,7 +15,7 @@ class Provider extends AbstractProvider
     private $api_access_point = 'https://api.na1.echosign.com';
 
     public $scopeSeparator = '+';
-    public $scopes = ['agreement_read'];
+    public $scopes = ['agreement_read', 'agreement_send', 'agreement_write', 'library_read'];
 
     public function __construct(array $options = [], array $collaborators = [])
     {

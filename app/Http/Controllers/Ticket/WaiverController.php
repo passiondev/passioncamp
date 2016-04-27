@@ -6,6 +6,7 @@ use App\Ticket;
 use App\Waiver;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Interactions\Echosign\Reminder;
 use App\Interactions\Echosign\Agreement;
 
 class WaiverController extends Controller
@@ -35,6 +36,16 @@ class WaiverController extends Controller
         $ticket->waiver()->save(
             new Waiver(['documentKey' => $agreementId])
         );
+
+        return $request->ajax() || $request->wantsJson()
+               ? response()->json(['status' => $ticket->load('waiver')->waiver->status])
+               : redirect()->back();
+    }
+
+    public function reminder(Request $request, Ticket $ticket)
+    {
+        $reminder = new Reminder;
+        $response = $reminder->create($ticket->waiver->documentKey);
 
         return $request->ajax() || $request->wantsJson()
                ? response()->json(['status' => $ticket->load('waiver')->waiver->status])

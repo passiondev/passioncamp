@@ -7,7 +7,7 @@ use App\Interactions\Echosign\AccessToken;
 
 abstract class BaseEchosignInteraction
 {
-    protected $token = '3AAABLblqZhCJTbR4G8CYBChHEMPBP5EQZ3sDDd_e-X46-vXnrmm3scFZBcy7vuswfzJ4fxZPCo_UDra_mN-RwCDItHZxmVVo';
+    protected $token = '3AAABLblqZhBuivyuNPElxMIE5IHrsN0fQVxQdfhYFcf7LjIrCuElLMIDvR7vAGJ5JmE2Y22TN3WdHmyt2EFMX9gsUUZ5R-Xy';
 
     public function __construct()
     {
@@ -21,13 +21,13 @@ abstract class BaseEchosignInteraction
             'clientSecret'            => 'q947CW0KP_BtZqi401EFobhA1QDRiu2f',
             'redirectUri'             => 'https://camp.dev:44300/refresh',
             'urlAuthorize'            => 'https://secure.na1.echosign.com/public/oauth',
-            'scopes'                  => ['agreement_read', 'agreement_send', 'library_read'],
+            'scopes'                  => ['agreement_read', 'agreement_send', 'library_read', 'agreement_write'],
         ]);
 
         $accessToken = new AccessToken([
             'access_token' => $this->token,
-            'refresh_token' => '3AAABLblqZhB9gaUV8EvuGXWLtz4hJoTJIkyT3nvl4awMUSkvxzDVLt1ClxMpfHQXWRqSegjnLu4*',
-            'expires' => 1458580895,
+            'refresh_token' => '3AAABLblqZhA1sXd6tdoAw4iQigaSOPQXtmDY0UjWeETW5idxnVsYI772OB1YidWKaVZe2-_1Nek*',
+            'expires' => 1461792738,
             'api_access_point' => 'api.na1.echosign.com'
         ]);
 
