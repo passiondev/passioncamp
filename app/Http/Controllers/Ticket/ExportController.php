@@ -25,7 +25,6 @@ class ExportController extends Controller
                    ->get();
 
         $tickets = $tickets->active()->map(function ($ticket) {
-            $data = [];
             $data = [
                 'id'         => $ticket->id,
                 'order id'   => $ticket->order_id,
@@ -56,6 +55,8 @@ class ExportController extends Controller
                 'contact email' => $ticket->order->user->person->email,
                 'contact phone' => $ticket->order->user->person->phone,
             ];
+
+            return $data;
         });
 
         //we create the CSV into memory
