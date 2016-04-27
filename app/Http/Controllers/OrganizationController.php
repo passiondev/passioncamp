@@ -21,7 +21,7 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        $organizations = Organization::with('church', 'contact', 'tickets')->active()->get();
+        $organizations = Organization::active()->with('contact', 'church', 'tickets')->get();
 
         return view('admin.organization.index', compact('organizations'));
     }
