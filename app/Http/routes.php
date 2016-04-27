@@ -5,15 +5,16 @@ Route::any('/', function() {
     return redirect('http://passioncitychurch.com/students');
 });
 
-Route::get('/home', function () {
-    return redirect()->route('account.dashboard');
-});
 
 // Route::any('test', 'EchosignController@test');
 // Route::any('refresh', 'EchosignController@refresh');
 // Route::any('signature', 'EchosignController@signature');
 
 Route::group(['middleware' => 'web'], function () {
+    Route::get('/home', function () {
+        return redirect()->route(Auth::user()->is_super_admin ? 'admin.organization.index' : 'account.dashboard');
+    });
+
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
         Route::get('registration', 'RegisterController@create')->name('register.create');
         Route::post('registration', 'RegisterController@store')->name('register.store');
