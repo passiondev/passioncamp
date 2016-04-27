@@ -1,7 +1,7 @@
 <?php
 
 Route::any('/', function() {
-    return redirect()->route('account.dashboard');
+    return redirect('/home');
     return redirect('http://passioncitychurch.com/students');
 });
 

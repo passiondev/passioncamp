@@ -11,6 +11,7 @@ abstract class BaseController extends Controller
 
     public function __construct()
     {
+        $this->middleware('church');
         $this->organization = Auth::user()->organization;
     }
 }
