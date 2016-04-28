@@ -47,7 +47,7 @@
                     <aside class="panel-side"></aside>
                     <footer class="panel-footer">
                         <ul class="footer-meta">
-                            @auth('owner')
+                            @if (Auth::user()->is_super_admin)
                                 <li class="meta--church">{{ $order->organization->church->name }}</li>
                             @endif
                             <li class="meta--registration">Registration #{{ $order->id }}</li>
