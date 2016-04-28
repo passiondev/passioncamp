@@ -43,7 +43,7 @@ return [
     ],
 
     'echosign' => [
-        'callback' => env('ECHOSIGN_CALLBACK', '/echosign/callback'),
+        'callback' => env('ECHOSIGN_CALLBACK', 'echosign.callback'),
     ],
 
     'rollbar' => [

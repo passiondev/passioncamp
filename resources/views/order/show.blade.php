@@ -47,6 +47,9 @@
                                             </Waiver>
                                         @else
                                             {{ $ticket->waiver->status }}
+                                            <Waiver inline-template>
+                                                <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
+                                            </Waiver>
                                         @endif
                                     @endunless
                                 </td>
