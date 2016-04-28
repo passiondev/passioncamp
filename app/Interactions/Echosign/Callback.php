@@ -17,6 +17,7 @@ class Callback
 
     public function validator(array $data)
     {
+        \Log::info($data);
         return Validator::make($data, [
             'eventType' => 'required',
             'status' => 'required',
