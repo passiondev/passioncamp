@@ -16,6 +16,11 @@ class Organization extends Model
 
     protected $table = 'organization';
     
+    public function newCollection(array $models = [])
+    {
+        return new OrganizationCollection($models);
+    }
+
     public function scopeActive($query)
     {
         return $this->whereHas('items', function ($q) {
