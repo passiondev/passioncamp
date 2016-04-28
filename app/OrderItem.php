@@ -29,6 +29,11 @@ class OrderItem extends Model
         return new OrderItemCollection($models);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->whereNull('canceled_at');
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

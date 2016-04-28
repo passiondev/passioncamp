@@ -19,17 +19,29 @@ class ExportController extends Controller
 
     public function index()
     {
-        $tickets = $this->tickets
-                   ->forUser(Auth::user())
-                   ->with('person', 'order.user.person')
+        $tickets = $this->tickets->forUser(Auth::user())
+                   ->active()
+                   ->with('person', 'order.user.person', 'waiver')
                    ->get();
+
+        if ($tickets->count() == 0) {
+            abort(404, 'No tickets to export.');
+        }
 
         $tickets = $tickets->active()->map(function ($ticket) {
             $data = [
                 'id'         => $ticket->id,
                 'order id'   => $ticket->order_id,
                 'created at' => (string) $ticket->created_at,
+            ];
 
+            if (Auth::user()->is_super_admin) {
+                $data += [
+                    'church' => $ticket->organization->church->name
+                ];
+            }
+
+            $data += [
                 'type' => $ticket->agegroup,
                 'first name' => $ticket->person->first_name,
                 'last name'  => $ticket->person->last_name,
@@ -41,7 +53,7 @@ class ExportController extends Controller
             if (Auth::user()->is_super_admin || Auth::user()->organization->slug == 'pcc') {
                 $data += [
                     'email'      => $ticket->person->email,
-                    'phone'      => $ticket->person->email,
+                    'phone'      => $ticket->person->phone,
                     'birthdate' => (string) $ticket->person->birthdate,
                     'shirt size' => $ticket->shirtsize,
                     'school' => $ticket->school,
@@ -50,6 +62,7 @@ class ExportController extends Controller
             }
 
             $data += [
+                'waiver status' => $ticket->waiver ? $ticket->waiver->status : '',
                 'contact first name' => $ticket->order->user->person->first_name,
                 'contact last name' => $ticket->order->user->person->last_name,
                 'contact email' => $ticket->order->user->person->email,
