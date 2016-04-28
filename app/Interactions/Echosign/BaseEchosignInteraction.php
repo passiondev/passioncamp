@@ -7,7 +7,7 @@ use App\Interactions\Echosign\AccessToken;
 
 abstract class BaseEchosignInteraction
 {
-    protected $token = '3AAABLblqZhBuivyuNPElxMIE5IHrsN0fQVxQdfhYFcf7LjIrCuElLMIDvR7vAGJ5JmE2Y22TN3WdHmyt2EFMX9gsUUZ5R-Xy';
+    protected $token = '3AAABLblqZhAscwAuVs2hZJSpI8O8DhgUHc_6JjXx13uqixcssy_1qCK3EP_NLP75sZvHZyVOmIVjKXkM-B2_lEJ6EBPHA0q_';
 
     public function __construct()
     {
