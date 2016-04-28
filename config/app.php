@@ -162,6 +162,7 @@ return [
         Sofa\Eloquence\ServiceProvider::class,
         // Barryvdh\Debugbar\ServiceProvider::class,
         Jenssegers\Rollbar\RollbarServiceProvider::class,
+        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
     ],
 
     /*

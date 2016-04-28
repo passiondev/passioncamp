@@ -5,14 +5,17 @@ namespace App\Interactions\Echosign;
 use Validator;
 use App\Waiver;
 use App\Repositories\WaiverRepository;
+use App\Interactions\Echosign\Download;
 
 class Callback
 {
     protected $waiver;
+    protected $download;
 
-    public function __construct(WaiverRepository $waiver)
+    public function __construct(WaiverRepository $waiver, Download $download)
     {
         $this->waiver = $waiver;
+        $this->download = $download;
     }
 
     public function validator(array $data)
@@ -30,5 +33,15 @@ class Callback
         $waiver = Waiver::where('documentKey', $data['documentKey'])->firstOrFail();
 
         $this->waiver->update($waiver, $data);
+
+        switch ($data['status']) {
+            case 'SIGNED':
+            default:
+                $this->waiver->download(
+                    $waiver, 
+                    $this->download->handle($data['documentKey'])
+                );
+                break;
+        }
     }
 }
