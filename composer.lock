@@ -2049,7 +2049,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mattdfloyd/echosign",
-                "reference": "d6e9dfdd37acbe1164be2fca97db45dd66cd7da4"
+                "reference": "1fb19d665fd01c5fdeac3f7537905d21dbcbc763"
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.1",
@@ -2084,7 +2084,7 @@
                 "REST",
                 "adobe"
             ],
-            "time": "2016-04-18 16:45:21"
+            "time": "2016-04-28 19:13:42"
         },
         {
             "name": "omnipay/common",
