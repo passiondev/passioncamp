@@ -29,7 +29,7 @@ class Agreement extends BaseEchosignInteraction
         $fileInfo->setLibraryDocumentId($this->libraryDocumentId);
 
         $documentCreationInfo = new DocumentCreationInfo($fileInfo, $this->agreementName, 'ESIGN', 'SENDER_SIGNATURE_NOT_REQUIRED');
-        $documentCreationInfo->setCallBackInfo(config('services.echosign.callback'));
+        $documentCreationInfo->setCallBackInfo(route(config('services.echosign.callback')));
 
         $agreementCreator = new Agreement($this->token);
 
