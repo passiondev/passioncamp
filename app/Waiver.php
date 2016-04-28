@@ -28,7 +28,7 @@ class Waiver extends Model
                 return 'pending';
             
             default:
-                return $status;
+                return strtolower(str_replace('_', ' ', $status));
         }
     }
 }
