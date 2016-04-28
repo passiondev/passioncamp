@@ -36,7 +36,6 @@ class Callback
 
         switch ($data['status']) {
             case 'SIGNED':
-            default:
                 $this->waiver->download(
                     $waiver, 
                     $this->download->handle($data['documentKey'])
