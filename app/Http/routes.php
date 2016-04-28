@@ -11,10 +11,6 @@ Route::any('/', function() {
 // Route::any('signature', 'EchosignController@signature');
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/home', function () {
-        return redirect()->route(Auth::user()->is_super_admin ? 'admin.organization.index' : 'account.dashboard');
-    });
-
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
         Route::get('registration', 'RegisterController@create')->name('register.create');
         Route::post('registration', 'RegisterController@store')->name('register.store');
@@ -36,6 +32,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('password/reset', 'Auth\PasswordController@reset');
 
     Route::group(['middleware' => 'auth'], function () {
+        Route::get('/home', function () {
+            return redirect()->route(Auth::user()->is_super_admin ? 'admin.organization.index' : 'account.dashboard');
+        });
+
         Route::group(['middleware' => 'super'], function () {
             Route::resource('admin/organization', 'OrganizationController');
 
