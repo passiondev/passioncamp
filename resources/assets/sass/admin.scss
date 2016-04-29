@@ -9,7 +9,11 @@
 @include foundation-forms;
 @include foundation-badge;
 @include foundation-callout;
+@include foundation-reveal;
 @include foundation-visibility-classes;
+@include foundation-close-button;
+@include foundation-flex-video;
+
 
 @import "base/base";
 @import "admin/info_box";
