@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use Eloquence, SoftDeletes;
+    use Eloquence, SoftDeletes, Notated;
 
     protected $ticket_repo;
 

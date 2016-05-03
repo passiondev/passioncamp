@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notated;
 use App\Transaction;
 use Omnipay\Omnipay;
 use App\TransactionSplit;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Notated;
 
     protected $table = 'organization';
     

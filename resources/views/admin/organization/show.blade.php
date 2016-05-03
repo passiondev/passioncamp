@@ -55,5 +55,28 @@
                 </table>
             @endif
         </section>
+        <section class="panel panel-default" id="notes">
+            <header class="panel-heading">
+                <h4>Notes</h4>
+            </header>
+            <div class="panel-body">
+                @foreach ($organization->notes as $note)
+                    <div class="note">
+                        <p class="note__body">
+                            {!! nl2br($note->body) !!}
+                        </p>
+                        <h6 class="note__author">&mdash; {{ $note->author ? $note->author->email :'' }} <span title="{{ $note->created_at->toDayDateTimeString() }}">{{ $note->created_at->toDayDateTimeString() }}</span></h6>
+                    </div>
+                @endforeach
+                {!! Form::open(['route' => ['admin.organization.note.store', $organization]]) !!}
+                    <div class="form-group">
+                        {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Add Note</button>
+                    </div>
+                {!! Form::close() !!}
+            </div>
+        </section>
     </div>
 @stop

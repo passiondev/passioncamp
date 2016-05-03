@@ -39,6 +39,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['middleware' => 'super'], function () {
             Route::resource('admin/organization', 'OrganizationController');
 
+            Route::post('admin/organization/{organization}/note', 'Organization\NoteController@store')->name('admin.organization.note.store');
+
             Route::get('admin/organization/{organization}/item/create', 'Organization\ItemController@create')->name('admin.organization.item.create');
             Route::post('admin/organization/{organization}/item/store', 'Organization\ItemController@store')->name('admin.organization.item.store');
             Route::get('admin/organization/{organization}/item/{item}/edit', 'Organization\ItemController@edit')->name('admin.organization.item.edit');
@@ -62,6 +64,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('registration/create', 'OrderController@create')->name('order.create');
         Route::post('registration/store', 'OrderController@store')->name('order.store');
         Route::get('registration/{order}', 'OrderController@show')->name('order.show');
+        
+        Route::post('registration/{order}/note', 'Order\NoteController@store')->name('order.note.store');
 
         Route::get('registration/{order}/contact/edit', 'Order\ContactController@edit')->name('order.contact.edit');
         Route::patch('registration/{order}/contact', 'Order\ContactController@update')->name('order.contact.update');
