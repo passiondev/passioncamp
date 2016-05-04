@@ -6,6 +6,13 @@
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
         </header>
 
+        @unless ($order->user && $order->user->person)
+            <div class="callout warning" style="margin-bottom:2rem">
+                <p>Please add a point of contact for this registration.</p>
+                <p><a href="{{ route('order.contact.create', $order) }}" class="button outline small">Add Contact</a></p>
+            </div>
+        @endif
+
         <section>
             <header class="section__header">
                 <h4>Attendees</h4>
