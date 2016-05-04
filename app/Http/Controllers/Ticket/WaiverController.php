@@ -19,6 +19,12 @@ class WaiverController extends Controller
 
     public function create(Request $request, Ticket $ticket)
     {
+        if (! $ticket->order->hasContactInfo()) {
+            return $request->ajax() || $request->wantsJson()
+                   ? response(['status' => 'Contact info missing'], 403)
+                   : abort(403, 'Contact info missing.');
+        }
+
         if ($ticket->waiver) {
             return $request->ajax() || $request->wantsJson()
                    ? response(['status' => $ticket->waiver->status], 403)

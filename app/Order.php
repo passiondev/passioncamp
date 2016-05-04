@@ -171,4 +171,9 @@ class Order extends Model
             ->person()->associate($person)
             ->save();
     }
+
+    public function hasContactInfo()
+    {
+        return $this->user && $this->user->person && $this->user->person->email;
+    }
 }
