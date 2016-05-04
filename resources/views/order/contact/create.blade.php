@@ -3,17 +3,17 @@
 @section('content')
     <div class="container">
         <header class="page-header">
-            <h1>Edit Contact</h1>
+            <h1>Add Contact</h1>
         </header>
 
         <div class="row">
             <div class="large-5 columns">
-                {{ Form::model($contact, ['route' => ['order.contact.update', $order], 'method' => 'PATCH']) }}
+                {{ Form::open(['route' => ['order.contact.store', $order]]) }}
 
                     @include('order.contact.partials.form')
-
+                    
                     <div class="form-group form-actions">
-                        <button type="submit">Update</button>
+                        <button type="submit">Create</button>
                         <a href="{{ route('order.show', $order) }}" style="margin-left:1rem">Go Back</a>
                     </div>
 

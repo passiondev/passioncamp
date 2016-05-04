@@ -67,6 +67,8 @@ Route::group(['middleware' => 'web'], function () {
         
         Route::post('registration/{order}/note', 'Order\NoteController@store')->name('order.note.store');
 
+        Route::get('registration/{order}/contact/create', 'Order\ContactController@create')->name('order.contact.create');
+        Route::post('registration/{order}/contact', 'Order\ContactController@store')->name('order.contact.store');
         Route::get('registration/{order}/contact/edit', 'Order\ContactController@edit')->name('order.contact.edit');
         Route::patch('registration/{order}/contact', 'Order\ContactController@update')->name('order.contact.update');
 

@@ -71,12 +71,16 @@
         <div class="row">
             <div class="large-4 columns">
                 <h4>Contact</h4>
-                <dl>
-                    <dt>{{ $order->user->person->name }}</dt>
-                    <dd>{{ $order->user->person->phone }}</dd>
-                    <dd>{{ $order->user->person->email }}</dd>
-                </dl>
-                <a href="{{ route('order.contact.edit', $order) }}" class="xsmall outline button">edit</a>
+                @if ($order->user && $order->user->person)
+                    <dl>
+                        <dt>{{ $order->user->person->name }}</dt>
+                        <dd>{{ $order->user->person->phone }}</dd>
+                        <dd>{{ $order->user->person->email }}</dd>
+                    </dl>
+                    <a href="{{ route('order.contact.edit', $order) }}" class="xsmall outline button">edit</a>
+                @else
+                    <a href="{{ route('order.contact.create', $order) }}" class="xsmall outline button">add contact</a>
+                @endif
             </div>
             @can ('record-transactions', $order->organization)
                 <div class="large-7 columns">
