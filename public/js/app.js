@@ -12132,7 +12132,8 @@ $(function() {
   $('.js-form-input-card-number').payment('formatCardNumber');
   $('.js-form-input-card-cvc').payment('formatCardCVC');
   $('.js-form-input-card-expiry').payment('formatCardExpiry');
-  return $('[data-numeric]').payment('restrictNumeric');
+  $('[data-numeric]').payment('restrictNumeric');
+  return $('.ui.sidebar').sidebar('attach events', '.toc.item');
 });
 
 

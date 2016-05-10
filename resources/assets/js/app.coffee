@@ -15,3 +15,6 @@ $ ->
   $('.js-form-input-card-cvc').payment('formatCardCVC')
   $('.js-form-input-card-expiry').payment('formatCardExpiry')
   $('[data-numeric]').payment('restrictNumeric')
+
+  $('.ui.sidebar')
+    .sidebar('attach events', '.toc.item')

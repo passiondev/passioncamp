@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
+    <div class="ui container">
         <header class="page-header">
             <h1>Hotels</h1>
         </header>
-        <table class="table">
+        <table class="ui very basic unstackable fixed table">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -18,7 +18,7 @@
             <tbody>
                 @foreach ($hotels as $hotel)
                     <tr>
-                        <th><a href="{{ route('hotel.show', $hotel) }}">{{ $hotel->name }}</a></th>
+                        <td><a href="{{ route('hotel.show', $hotel) }}">{{ $hotel->name }}</a></td>
                         <td style="text-align:center">{{ $hotel->capacity }}</td>
                         <td style="text-align:center">{{ $hotel->registered_count }}</td>
                         <td style="text-align:center">{{ $hotel->remaining_count }}</td>

@@ -1,42 +1,40 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
+    <div class="ui container">
         <header class="page-header">
             <h1>Add Registration</h1>
         </header>
 
-        <div class="row">
-            <div class="large-5 columns">
-                {{ Form::open(['route' => 'order.store']) }}
+        <div class="ui stackable grid">
+            <div class="seven wide column">
+                {{ Form::open(['route' => 'order.store', 'class' => 'ui form']) }}
 
                     @if (Auth::user()->is_super_admin)
-                        <div class="form-group">
-                            {{ Form::label('organization', 'Church', ['class' => 'control-label']) }}
-                            {{ Form::select('organization', $organizationOptions, null, ['id' => 'organization', 'class' => 'form-control']) }}
+                        <div class="field">
+                            {{ Form::label('organization', 'Church') }}
+                            {{ Form::select('organization', $organizationOptions, null, ['id' => 'organization', 'class' => 'ui dropdown']) }}
                         </div>
                     @endif
 
                     <h4>Parent/Contact Information</h4>
-                    <div class="form-group">
-                        {{ Form::label('first_name', 'First Name', ['class' => 'control-label']) }}
-                        {{ Form::text('first_name', null, ['id' => 'first_name', 'class' => 'form-control']) }}
+                    <div class="field">
+                        {{ Form::label('first_name', 'First Name') }}
+                        {{ Form::text('first_name', null, ['id' => 'first_name']) }}
                     </div>
-                    <div class="form-group">
-                        {{ Form::label('last_name', 'Last Name', ['class' => 'control-label']) }}
-                        {{ Form::text('last_name', null, ['id' => 'last_name', 'class' => 'form-control']) }}
+                    <div class="field">
+                        {{ Form::label('last_name', 'Last Name') }}
+                        {{ Form::text('last_name', null, ['id' => 'last_name']) }}
                     </div>
-                    <div class="form-group">
-                        {{ Form::label('email', 'Email Address', ['class' => 'control-label']) }}
-                        {{ Form::email('email', null, ['id' => 'email', 'class' => 'form-control']) }}
+                    <div class="field">
+                        {{ Form::label('email', 'Email Address') }}
+                        {{ Form::email('email', null, ['id' => 'email']) }}
                     </div>
-                    <div class="form-group">
-                        {{ Form::label('phone', 'Phone Number', ['class' => 'control-label']) }}
-                        {{ Form::text('phone', null, ['id' => 'phone', 'class' => 'form-control']) }}
+                    <div class="field">
+                        {{ Form::label('phone', 'Phone Number') }}
+                        {{ Form::text('phone', null, ['id' => 'phone']) }}
                     </div>
-                    <div class="form-group form-actions">
-                        <button class="btn btn-primary">Create Registration</button>
-                    </div>
+                    <button class="ui primary button">Create Registration</button>
 
                 {{ Form::close() }}
             </div>

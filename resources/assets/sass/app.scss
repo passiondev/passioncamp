@@ -1,1 +1,60 @@
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "bower_components/bourbon/core/bourbon";
+
+@import "admin/info_box";
+
+ul {
+    padding-left: 0;
+}
+
+dl {
+    margin-top: 0;
+    
+    > dt {
+        font-weight: bold;
+    }
+    > dd {
+        margin-left: 0;
+    }
+}
+
+.ui.container {
+    padding-bottom: 3rem;
+}
+
+.ui.checkbox label {
+    cursor: pointer;
+}
+
+h1, h2, h3, h4, h5, h6, .ui.heading {
+    .ui.label {
+        position: relative;
+        top: -.5833em;
+    }
+}
+
+.ui.menu .toc.item {
+    display: none;
+}
+
+.ui.pagination {
+    .pages {
+        display: inline-flex;
+        @media only screen and (max-width: 768px) {
+            .item {
+                display: none;
+            }
+            .active.item {
+                display: inherit;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .ui.menu.page-nav .left.menu {
+        display: none;
+    }
+    .ui.menu .toc.item {
+        display: block;
+    }
+}

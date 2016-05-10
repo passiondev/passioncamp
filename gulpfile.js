@@ -1,5 +1,6 @@
 var elixir = require('laravel-elixir');
 
+
 require('elixir-coffeeify');
 require('laravel-elixir-vueify');
 
@@ -9,6 +10,6 @@ elixir(function(mix) {
     mix.sass('admin.scss');
     mix.coffeeify('app.coffee');
     mix.browserSync({
-        proxy: 'camp.dev'
+        proxy: 'passioncamp2016.dev'
     });
 });

@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
-        <header class="page-header">
+    <div class="ui container">
+        <header class="ui dividing header page-header">
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
         </header>
 
@@ -14,9 +14,9 @@
         @endif
 
         <section>
-            <header class="section__header">
-                <h4>Attendees</h4>
-                <div class="section-header__actions">
+            <header class="ui dividing header section__header">
+                <h3>Attendees</h3>
+                <div class="sub header section-header__actions">
                     <a class="button small" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
                     @can ('record-transactions', $order->organization)
                         <a href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a>
@@ -24,8 +24,8 @@
                 </div>
             </header>
             @if ($order->tickets->count() > 0)
-                <table class="table table-striped">
-                    <thead>
+                <table class="ui very basic striped table">
+                    <thead class="mobile hidden">
                         <tr>
                             <th>Name</th>
                             <th></th>
@@ -39,7 +39,7 @@
                     <tbody>
                         @foreach($order->tickets as $ticket)
                             <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                                <th>{{ $ticket->name }}</th>
+                                <td>{{ $ticket->name }}</td>
                                 <td>
                                     @include('ticket/partials/label')
                                 </td>
@@ -52,6 +52,8 @@
                                             <Waiver inline-template>
                                                 <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
                                             </Waiver>
+                                        @elseif ($ticket->waiver->status == 'signed')
+                                            {{ $ticket->waiver->status }}
                                         @else
                                             {{ $ticket->waiver->status }}
                                             <Waiver inline-template>
@@ -75,8 +77,11 @@
                 </div>
             @endif
         </section>
-        <div class="row">
-            <div class="large-4 columns">
+
+        <div class="ui divider"></div>
+
+        <div class="ui stackable grid">
+            <div class="six wide column">
                 <h4>Contact</h4>
                 @if ($order->hasContactInfo())
                     <dl>
@@ -84,40 +89,43 @@
                         <dd>{{ $order->user->person->phone }}</dd>
                         <dd>{{ $order->user->person->email }}</dd>
                     </dl>
-                    <a href="{{ route('order.contact.edit', $order) }}" class="xsmall outline button">edit</a>
+                    <a href="{{ route('order.contact.edit', $order) }}" class="ui mini basic blue button">edit</a>
                 @else
-                    <a href="{{ route('order.contact.create', $order) }}" class="xsmall outline button">add contact</a>
+                    <a href="{{ route('order.contact.create', $order) }}" class="ui mini basic blue button">add contact</a>
                 @endif
             </div>
             @can ('record-transactions', $order->organization)
-                <div class="large-7 columns">
+                <div class="ten wide column">
                     @include('order/partials/registration_summary')
                 </div>
             @endcan
         </div>
         @if (auth()->user()->is_super_admin)
-            <section class="panel panel-default" id="notes">
-                <header class="panel-heading">
+            <section class="ui segment panel panel-default" id="notes">
+                <header class="ui dividing header panel-heading">
                     <h4>Notes</h4>
                 </header>
-                <div class="panel-body">
+                <div class="ui comments">
                     @foreach ($order->notes as $note)
-                        <div class="note">
-                            <p class="note__body">
-                                {!! nl2br($note->body) !!}
-                            </p>
-                            <h6 class="note__author">&mdash; {{ $note->author ? $note->author->email :'' }} <span title="{{ $note->created_at->toDayDateTimeString() }}">{{ $note->created_at->toDayDateTimeString() }}</span></h6>
+                        <div class="comment">
+                            <div class="content">
+                                <span class="author">{{ $note->author ? $note->author->email :'' }}</span>
+                                <div class="metadata">
+                                    <span class="date">{{ $note->created_at->diffForHumans() }}</span>
+                                </div>
+                                <div class="text">
+                                    {!! nl2br($note->body) !!}
+                                </div>
+                            </div>
                         </div>
                     @endforeach
-                    {!! Form::open(['route' => ['order.note.store', $order]]) !!}
-                        <div class="form-group">
-                            {!! Form::textarea('body', null, ['class' => 'form-control']) !!}
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-primary">Add Note</button>
-                        </div>
-                    {!! Form::close() !!}
                 </div>
+                {!! Form::open(['route' => ['order.note.store', $order], 'class' => 'ui form']) !!}
+                    <div class="field">
+                        {!! Form::textarea('body', null, ['rows' => '3']) !!}
+                    </div>
+                    <button class="ui small primary button">Add Note</button>
+                {!! Form::close() !!}
             </section>
         @endif
     </div>

@@ -1,19 +1,19 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
+    <div class="ui container">
         <header class="page-header">
             <h1 class="page-header__title">
                 Churches
-                <span class="label">{{ $organizations->count() }} Churches</span>
-                <span class="label">{{ $organizations->sumTicketQuantity() }} Tickets</span>
+                <div class="ui label purple">{{ $organizations->count() }} <div class="detail">Churches</div></div>
+                <div class="ui label teal">{{ $organizations->sumTicketQuantity() }} <div class="detail">Tickets</div></div>
             </h1>
             <div class="page-header__actions">
-                <a class="button small" href="{{ route('admin.organization.create') }}">Add Church</a>
+                <a href="{{ route('admin.organization.create') }}">Add Church</a>
             </div>
         </header>
 
-        <table class="table">
+        <table class="ui very basic striped table">
             <thead>
                 <tr>
                     <th>Church</th>
@@ -25,10 +25,10 @@
             <tbody>
                 @foreach ($organizations as $organization)
                     <tr>
-                        <th>
+                        <td>
                             {{ link_to_route('admin.organization.show', $organization->church->name, $organization) }}
                             <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>
-                        </th>
+                        </td>
                         <td>
                             {{ $organization->church->location }}
                         </td>

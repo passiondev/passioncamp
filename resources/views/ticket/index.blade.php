@@ -1,32 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
-        <header class="page-header">
+    <div class="ui container">
+        <header class="ui dividing header page-header">
             <h1 class="page-header__title">Attendees</h1>
-            <div class="page-header__actions">
+            <div class="sub header page-header__actions">
                 <a href="{{ route('ticket.export.index') }}">Export</a>
             </div>
         </header>
 
-        <div class="callout primary">
+        <div class="ui padded raised segment">
             <form action="/tickets" method="GET">
-                <div class="form-group input-group">
+                <div class="ui big fluid action input">
                     <input type="search" name="search" class="form-control input-group-field" placeholder="Search..." value="{{ request('search') }}">
-                    <div class="input-group-button">
-                        <button type="submit">Search</button>
-                    </div>
+                    <button class="ui icon button" type="submit"><i class="search icon"></i></button>
                 </div>
             </form>
         </div>
 
-        <table class="table">
+        <table class="ui very basic table">
             @unless($tickets->count())
                 <p><i>No results</i></p>
             @endif
             @foreach ($tickets as $ticket)
                 <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                    <th><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></th>
+                    <td><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></td>
                     @if (Auth::user()->is_super_admin)
                         <td>{{ $ticket->organization->church->name }}</td>
                         <td>{{ $ticket->organization->church->location }}</td>
@@ -55,6 +53,6 @@
             @endforeach
         </table>
 
-        {{ $tickets->appends(Request::only('search'))->links() }}
+        {{ $tickets->appends(Request::only('search'))->links(new \App\Pagination\Semantic($tickets)) }}
     </div>
 @stop
