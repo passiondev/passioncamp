@@ -18,10 +18,10 @@
             </form>
         </div>
 
-        <table class="ui very basic table">
-            @unless($tickets->count())
-                <p><i>No results</i></p>
-            @endif
+        @unless($tickets->count())
+            <p><i>No results</i></p>
+        @endif
+        <table class="ui basic striped table">
             @foreach ($tickets as $ticket)
                 <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                     <td><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></td>
