@@ -54,6 +54,11 @@
                                     <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}">
                                 </div>
                             </td>
+                            <td>
+                                @can ('impersonate', $user)
+                                    <a href="{{ route('user.impersonate', $user) }}">impersonate</a>
+                                @endcan
+                            </td>
                         </tr>
                     @endforeach
                 </table>

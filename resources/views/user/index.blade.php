@@ -15,7 +15,7 @@
                     <td>{{ $user->auth_organization }}</td>
                     <td><a href="{{ route('user.edit', $user) }}">edit</a></td>
                     <td>
-                        @if (Auth::user()->id != $user->id)
+                        @can ('impersonate', $user)
                             <a href="{{ route('user.impersonate', $user) }}">impersonate</a>
                         @endif
                     </td>
