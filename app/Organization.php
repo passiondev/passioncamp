@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Room;
 use App\Notated;
 use App\Transaction;
 use Omnipay\Omnipay;
@@ -54,6 +55,11 @@ class Organization extends Model
         return $this->items()->where('org_type', 'hotel');
     }
 
+    public function getHotelItemsCountAttribute()
+    {
+        return $this->hotelItems()->sum('quantity');
+    }
+
     public function hotels()
     {
         return $this->belongsToMany(Hotel::class, 'order_item', 'organization_id', 'item_id');
@@ -87,6 +93,16 @@ class Organization extends Model
     public function settings()
     {
         return $this->hasMany(OrganizationSettings::class);
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function getRoomsNeededAttribute()
+    {
+        return $this->hotel_items_count - $this->rooms()->count();
     }
 
     public function setting($key, $value = null)

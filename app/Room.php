@@ -9,6 +9,8 @@ class Room extends Model
 {
     use SoftDeletes;
 
+    protected $table = 'room';
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

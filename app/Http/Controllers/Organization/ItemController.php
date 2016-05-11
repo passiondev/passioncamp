@@ -8,6 +8,7 @@ use App\Organization;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\OrderItems\OrgItemUpdated;
 
 class ItemController extends Controller
 {
@@ -29,6 +30,8 @@ class ItemController extends Controller
         $orderItem->org_type = $item->type;
         $orderItem->save();
 
+        event(new OrgItemAdded($orderItem));
+
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item added.');
     }
 
@@ -43,6 +46,8 @@ class ItemController extends Controller
     {
         $item->fill($request->only('cost', 'quantity'));
         $item->save();
+
+        event(new OrgItemUpdated($item));
 
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item updated.');
     }
