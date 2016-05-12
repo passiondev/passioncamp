@@ -6,7 +6,6 @@ use App\Notated;
 use App\Transaction;
 use Omnipay\Omnipay;
 use App\TransactionSplit;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Collections\OrganizationCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;

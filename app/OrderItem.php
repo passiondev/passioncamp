@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 use App\Collections\OrderItemCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
