@@ -8,11 +8,8 @@ class TicketRepository
 {
     public function forUser($user)
     {
-        if ($user->is_super_admin) {
-            return (new Ticket);
-        }
-
-        return Ticket::where('organization_id', $user->organization_id);
+        \Log::warning('TicketRepository@forUser deprecated');
+        return Ticket::forUser($user);
     }
 
     public function make(array $data, Ticket $ticket = null)

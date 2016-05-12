@@ -2,6 +2,50 @@
 
 @import "admin/info_box";
 
+.roominglist .pusher {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .grid {
+        flex-grow: 1;
+        display: flex;
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            &.eleven {
+                width: 68.75%;
+            }
+            &.five {
+                width: 31.25%;
+            }
+
+            h1 {
+                flex-shrink: 0;
+            }
+            .scroll {
+                flex-grow: 1;
+                overflow-x: hidden;
+                overflow-y: auto;
+                margin: 0;
+                &::-webkit-scrollbar {
+                    width: 8px;
+                }
+
+                  &::-webkit-scrollbar-track {
+    background-color: rgba(57,57,57, .1);
+    border-radius: 6px
+                }
+                &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: rgba(156, 156, 156, .6);
+                }
+            }
+        }
+    }
+}
+
 ul {
     padding-left: 0;
 }

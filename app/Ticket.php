@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use App\Waiver;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,22 @@ class Ticket extends OrderItem
         static::addGlobalScope('type', function (Builder $builder) {
             $builder->where('type', '=', 'ticket');
         });
+    }
+
+    public function scopeForUser($query, $user = null)
+    {
+        $user = $user ?? Auth::user();
+
+        if ($user->is_super_admin) {
+            return $query;
+        }
+
+        return $query->where('organization_id', $user->organization_id);
+    }
+
+    public function scopeUnassigned($query)
+    {
+        return $query->whereNull('room_id');
     }
 
     public function waiver()

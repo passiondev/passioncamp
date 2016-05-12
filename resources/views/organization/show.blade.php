@@ -67,11 +67,3 @@
         </div>
     </div>
 @stop
-
-@section('foot')
-<script>
-$(function(){
-    new Foundation.Reveal($('#portalIntroVideo'))
-})
-</script>
-@endsection

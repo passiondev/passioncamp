@@ -12133,7 +12133,26 @@ $(function() {
   $('.js-form-input-card-cvc').payment('formatCardCVC');
   $('.js-form-input-card-expiry').payment('formatCardExpiry');
   $('[data-numeric]').payment('restrictNumeric');
-  return $('.ui.sidebar').sidebar('attach events', '.toc.item');
+  $('.ui.sidebar').sidebar('attach events', '.toc.item');
+  $('.js-draggable').draggable({
+    containment: 'document',
+    cursor: 'move',
+    cursorAt: {
+      left: 10
+    },
+    helper: 'clone',
+    opacity: .6,
+    appendTo: '.pusher',
+    revert: 'invalid',
+    revertDuration: 200,
+    addClasses: false
+  });
+  return $('.js-droppable').droppable({
+    drop: function(e, ui) {
+      console.log($(this));
+      return $(ui.draggable).appendTo($('.tickets .segments', this));
+    }
+  });
 });
 
 

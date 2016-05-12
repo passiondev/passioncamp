@@ -18,3 +18,19 @@ $ ->
 
   $('.ui.sidebar')
     .sidebar('attach events', '.toc.item')
+
+  $('.js-draggable').draggable
+    containment: 'document'
+    cursor: 'move'
+    cursorAt:
+      left: 10
+    helper: 'clone'
+    opacity: .6
+    appendTo: '.pusher'
+    revert: 'invalid'
+    revertDuration: 200
+    addClasses: false
+  $('.js-droppable').droppable
+    drop: (e, ui) ->
+      console.log $(@)
+      $(ui.draggable).appendTo($('.tickets .segments', @));

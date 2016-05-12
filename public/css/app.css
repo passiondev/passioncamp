@@ -112,6 +112,52 @@
 .price-list .callout.balance, .price-list .callout.balance .item {
   background-color: #d7e9f7; }
 
+.roominglist .pusher {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%; }
+  .roominglist .pusher .grid {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    .roominglist .pusher .grid .column {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column; }
+      .roominglist .pusher .grid .column.eleven {
+        width: 68.75%; }
+      .roominglist .pusher .grid .column.five {
+        width: 31.25%; }
+      .roominglist .pusher .grid .column h1 {
+        -webkit-flex-shrink: 0;
+        -ms-flex-negative: 0;
+        flex-shrink: 0; }
+      .roominglist .pusher .grid .column .scroll {
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin: 0; }
+        .roominglist .pusher .grid .column .scroll::-webkit-scrollbar {
+          width: 8px; }
+        .roominglist .pusher .grid .column .scroll::-webkit-scrollbar-track {
+          background-color: rgba(57, 57, 57, 0.1);
+          border-radius: 6px; }
+        .roominglist .pusher .grid .column .scroll::-webkit-scrollbar-thumb {
+          border-radius: 6px;
+          background-color: rgba(156, 156, 156, 0.6); }
+
 ul {
   padding-left: 0; }
 

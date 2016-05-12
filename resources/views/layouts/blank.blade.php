@@ -9,6 +9,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('semantic/dist/semantic.min.css') }}" rel="stylesheet">
+    <link href="http://code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('head')
 </head>
@@ -24,30 +25,6 @@
     </div>
 
     <div class="pusher">
-        <header class="ui secondary pointing large menu page-nav">
-            <a class="toc item">
-                <i class="sidebar icon"></i>
-            </a>
-            <div class="header item">
-                Passion Camp
-            </div>
-            <div class="left menu">
-                @include ('menu.left')
-            </div>
-            <div class="right menu">
-                @if (Session::has('spark:impersonator'))
-                    <a class="item" href="{{ route('user.stop-impersonating') }}">End Impersonation</a>
-                @endif
-
-                <div class="mobile hidden">
-                    @include ('menu.right')
-                </div>
-
-                <a class="item" title="Sign Out" href="{{ route('logout') }}">
-                    <i class="sign out icon"></i>
-                </a>
-            </div>
-        </header>
 
         @yield('content')
     </div>

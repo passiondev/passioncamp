@@ -118,5 +118,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('transaction/{transaction}/refund', 'TransactionController@storeRefund')->name('transaction.refund.store');
         Route::patch('transaction/{transaction}', 'TransactionController@update')->name('transaction.update');
         Route::delete('transaction/{transaction}', 'TransactionController@delete')->name('transaction.delete');
+
+        Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
     });
 });

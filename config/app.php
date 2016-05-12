@@ -160,7 +160,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Sebpro\ArtisanExt\ArtisanExtServiceProvider::class,
         Sofa\Eloquence\ServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
+        // Barryvdh\Debugbar\ServiceProvider::class,
         Jenssegers\Rollbar\RollbarServiceProvider::class,
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
     ],
