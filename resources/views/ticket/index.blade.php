@@ -20,10 +20,10 @@
             </form>
         </div>
 
+        @unless($tickets->count())
+            <p><i>No results</i></p>
+        @endif
         <table class="table">
-            @unless($tickets->count())
-                <p><i>No results</i></p>
-            @endif
             @foreach ($tickets as $ticket)
                 <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                     <th><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></th>
@@ -45,9 +45,11 @@
                                 </Waiver>
                             @else
                                 {{ $ticket->waiver->status }}<br>
-                                <Waiver inline-template>
-                                    <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
-                                </Waiver>
+                                @unless ($ticket->waiver->status == 'signed')
+                                    <Waiver inline-template>
+                                        <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
+                                    </Waiver>
+                                @endif
                             @endif
                         @endcan
                     </td>
