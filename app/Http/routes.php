@@ -120,5 +120,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::delete('transaction/{transaction}', 'TransactionController@delete')->name('transaction.delete');
 
         Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
+        Route::get('roominglist/{room}', 'RoomingListController@show')->name('roominglist.show');
+        Route::put('roominglist/{ticket}/assign/{room}', 'RoomingListController@assign')->name('roominglist.assign');
+        Route::put('roominglist/{ticket}/unassign', 'RoomingListController@unassign')->name('roominglist.unassign');
     });
 });

@@ -10,6 +10,6 @@ elixir(function(mix) {
     mix.sass('admin.scss');
     mix.coffeeify('app.coffee');
     mix.browserSync({
-        proxy: 'passioncamp2016.dev'
+        proxy: 'passioncamp2016.mdf'
     });
 });

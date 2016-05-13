@@ -12126,6 +12126,11 @@ new Vue({
 });
 
 $(function() {
+  $.ajaxSetup({
+    headers: {
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+    }
+  });
   $('.js-form-input-date').inputmask({
     alias: "mm/dd/yyyy"
   });
@@ -12133,27 +12138,128 @@ $(function() {
   $('.js-form-input-card-cvc').payment('formatCardCVC');
   $('.js-form-input-card-expiry').payment('formatCardExpiry');
   $('[data-numeric]').payment('restrictNumeric');
-  $('.ui.sidebar').sidebar('attach events', '.toc.item');
-  $('.js-draggable').draggable({
-    containment: 'document',
-    cursor: 'move',
-    cursorAt: {
-      left: 10
-    },
-    helper: 'clone',
-    opacity: .6,
-    appendTo: '.pusher',
-    revert: 'invalid',
-    revertDuration: 200,
-    addClasses: false
-  });
-  return $('.js-droppable').droppable({
-    drop: function(e, ui) {
-      console.log($(this));
-      return $(ui.draggable).appendTo($('.tickets .segments', this));
-    }
-  });
+  return $('.ui.sidebar').sidebar('attach events', '.toc.item');
 });
+
+window.App = {};
+
+App.Assignments = (function() {
+  function Assignments() {
+    this.makeDraggable($('.js-draggable'));
+    this.makeDroppable($('.js-droppable'));
+    $('.pusher').css({
+      height: '100%'
+    });
+  }
+
+  Assignments.prototype.makeDraggable = function(el) {
+    return $(el).draggable({
+      containment: 'document',
+      cursor: 'move',
+      cursorAt: {
+        left: 10
+      },
+      helper: 'clone',
+      opacity: .8,
+      appendTo: '.pusher',
+      revert: 'invalid',
+      revertDuration: 200,
+      addClasses: false
+    });
+  };
+
+  Assignments.prototype.makeDroppable = function(el) {
+    return $(el).droppable({
+      drop: this.drop
+    });
+  };
+
+  Assignments.prototype.drop = function(e, ui) {
+    $('.tickets .segments', $(e.target)).addClass('hastickets').append($(ui.draggable));
+    return new App.Assignment($(ui.draggable), $(e.target));
+  };
+
+  return Assignments;
+
+})();
+
+App.Assignment = (function() {
+  function Assignment(ticket, room) {
+    this.ticket = ticket;
+    this.room = room;
+    this.ticket_id = $(this.ticket).data('id');
+    this.previous_room_id = $(this.ticket).data('room-id');
+    this.room_id = $(this.room).data('id');
+    if (this.room_id > 0) {
+      this.assign();
+    }
+    if (this.room_id === 0 && this.previous_room_id !== 0) {
+      this.unassign();
+    }
+  }
+
+  Assignment.prototype.assign = function() {
+    return $.ajax({
+      url: "/roominglist/" + this.ticket_id + "/assign/" + this.room_id,
+      method: "PUT"
+    }).success((function(_this) {
+      return function(data) {
+        if (data.view) {
+          $(_this.room).parent().empty().append($(data.view).contents());
+        }
+        return new App.Assignments();
+      };
+    })(this)).fail((function(_this) {
+      return function(data) {
+        if (_this.previous_room_id === 0) {
+          $(_this.ticket).prependTo($('#unassigned'));
+        }
+        if (typeof console.log === "function") {
+          console.log(data.responseJSON.message);
+        }
+        if (data.responseJSON && data.responseJSON.view) {
+          $(_this.room).parent().empty().append($(data.responseJSON.view).contents());
+        }
+        return new App.Assignments();
+      };
+    })(this)).always((function(_this) {
+      return function() {
+        if (_this.previous_room_id > 0) {
+          return _this.reload(_this.previous_room_id);
+        }
+      };
+    })(this));
+  };
+
+  Assignment.prototype.unassign = function() {
+    $(this.ticket).prependTo($('#unassigned'));
+    return $.ajax({
+      url: "/roominglist/" + this.ticket_id + "/unassign",
+      method: "PUT"
+    }).success((function(_this) {
+      return function(data) {
+        _this.reload(_this.previous_room_id);
+        return new App.Assignments();
+      };
+    })(this));
+  };
+
+  Assignment.prototype.reload = function(room_id) {
+    return $.ajax({
+      url: "/roominglist/" + room_id
+    }).success((function(_this) {
+      return function(data) {
+        if (data.view) {
+          $(".room[data-id='" + room_id).parent().empty().append($(data.view).contents());
+        }
+        return new App.Assignments();
+      };
+    })(this));
+  };
+
+  return Assignment;
+
+})();
 
 
 },{"./components/TicketForm":31,"./components/Waiver":32,"./register":33,"./transaction":34,"jquery.payment":1,"vue":29}],31:[function(require,module,exports){

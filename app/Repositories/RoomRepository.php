@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Room;
+use App\Ticket;
 
 class RoomRepository
 {
@@ -30,5 +31,14 @@ class RoomRepository
         for ($i = $current+1; $i <= $needed; $i++) {
             $this->create($organization, "Room #{$i}");
         }
+     }
+
+     public function assign(Room $room, Ticket $ticket)
+     {
+        if ($room->is_at_capacity) {
+            throw new \Exception("{$room->name} is at capacity. {$ticket->name} has been added to the unassigned list.");
+        }
+        
+        $ticket->room()->associate($room)->save();
      }
 }

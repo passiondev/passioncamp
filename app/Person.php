@@ -35,7 +35,7 @@ class Person extends Model
 
     public function getNameAttribute()
     {
-        return sprintf("%s %s", $this->first_name, $this->last_name);
+        return ucwords(sprintf("%s %s", $this->first_name, $this->last_name));
     }
 
     public function setBirthdateAttribute($birthdate)

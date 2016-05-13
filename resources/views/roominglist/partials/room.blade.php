@@ -1,5 +1,5 @@
-<div class="room five wide column js-droppable">
-    <div class="ui segment">
+<div class="column">
+    <div class="room ui segment js-droppable" data-id="{{ $room->id }}">
         <header class="ui dividing header">
             <h4>{{ $room->name }}</h4>
         </header>
@@ -17,9 +17,9 @@
         </div>
         <div class="ui divider" style="margin:.5rem 0"></div>
         <div class="tickets">
-                <div class="ui segments">
-                    @each ('roominglist.partials.ticket', $room->tickets, 'ticket', 'roominglist.partials.noticket')
-                </div>
+            <div class="ui segments">
+                @each ('roominglist.partials.ticket', $room->tickets, 'ticket', 'roominglist.partials.noticket')
+            </div>
         </div>
     </div>
 </div>

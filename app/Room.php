@@ -42,4 +42,9 @@ class Room extends Model
     {
         return number_format($capacity);
     }
+
+    public function getIsAtCapacityAttribute()
+    {
+        return $this->assigned >= $this->capacity;
+    }
 }

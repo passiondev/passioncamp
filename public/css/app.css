@@ -118,8 +118,7 @@
   display: flex;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
-  flex-direction: column;
-  height: 100%; }
+  flex-direction: column; }
   .roominglist .pusher .grid {
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
@@ -135,14 +134,15 @@
       -ms-flex-direction: column;
       flex-direction: column; }
       .roominglist .pusher .grid .column.eleven {
-        width: 68.75%; }
+        width: 70%; }
       .roominglist .pusher .grid .column.five {
-        width: 31.25%; }
+        width: 30%; }
       .roominglist .pusher .grid .column h1 {
         -webkit-flex-shrink: 0;
         -ms-flex-negative: 0;
         flex-shrink: 0; }
       .roominglist .pusher .grid .column .scroll {
+        padding: 0 20px;
         -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
         flex-grow: 1;
@@ -157,6 +157,24 @@
         .roominglist .pusher .grid .column .scroll::-webkit-scrollbar-thumb {
           border-radius: 6px;
           background-color: rgba(156, 156, 156, 0.6); }
+  .roominglist .pusher .ticket {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    .roominglist .pusher .ticket .meta {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      margin-left: 1rem; }
 
 ul {
   padding-left: 0; }
@@ -173,6 +191,9 @@ dl {
 
 .ui.checkbox label {
   cursor: pointer; }
+
+.hastickets .noticket {
+  display: none; }
 
 h1 .ui.label, h2 .ui.label, h3 .ui.label, h4 .ui.label, h5 .ui.label, h6 .ui.label, .ui.heading .ui.label {
   position: relative;

@@ -55,6 +55,11 @@ class Ticket extends OrderItem
         return $this->hasOne(Waiver::class);
     }
 
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
     /*-------------- getters -----------------*/
     public function getNameAttribute()
     {
