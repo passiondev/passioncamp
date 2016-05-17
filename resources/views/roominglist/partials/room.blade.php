@@ -18,7 +18,7 @@
         <div class="ui divider" style="margin:.5rem 0"></div>
         <div class="tickets">
             <div class="ui segments">
-                @each ('roominglist.partials.ticket', $room->tickets, 'ticket', 'roominglist.partials.noticket')
+                @each ('roominglist.partials.ticket', $room->tickets->assigendSort(), 'ticket', 'roominglist.partials.noticket')
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@ class Room extends Model
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class)->active();
     }
 
     public function scopeForUser($query, $user = null)
@@ -35,7 +35,7 @@ class Room extends Model
 
     public function getAssignedAttribute()
     {
-        return $this->tickets()->active()->count();
+        return $this->tickets()->count();
     }
 
     public function getCapacityAttribute($capacity)
