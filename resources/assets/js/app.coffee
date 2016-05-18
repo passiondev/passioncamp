@@ -23,6 +23,18 @@ $ ->
   $('.ui.sidebar')
     .sidebar('attach events', '.toc.item')
 
+  $('.js-filter').each ->
+    $target = $($(@).data 'filter')
+    $items = $($(@).data('filter-item'), $target)
+    console.log $target
+    console.log $items
+
+    $(@).on 'keyup', =>
+      search = $(@).val()
+      $items.each ->
+        mismatch = $(@).text().search(new RegExp(search, "i")) < 0
+        if mismatch then $(@).hide() else $(@).show()
+
 window.App = {}
 class App.Assignments
   constructor: ->

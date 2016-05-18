@@ -147,7 +147,7 @@
         -ms-flex-positive: 1;
         flex-grow: 1;
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: scroll;
         margin: 0; }
         .roominglist .pusher .grid .column .scroll::-webkit-scrollbar {
           width: 8px; }
@@ -175,6 +175,8 @@
       -ms-flex-align: center;
       align-items: center;
       margin-left: 1rem; }
+  .roominglist .pusher .ui-draggable-handle {
+    cursor: move; }
 
 ul {
   padding-left: 0; }

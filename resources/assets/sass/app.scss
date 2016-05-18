@@ -27,7 +27,7 @@
                 padding: 0 20px;
                 flex-grow: 1;
                 overflow-x: hidden;
-                overflow-y: auto;
+                overflow-y: scroll;
                 margin: 0;
                 &::-webkit-scrollbar {
                     width: 8px;
@@ -53,6 +53,9 @@
             align-items: center;
             margin-left: 1rem;
         }
+    }
+    .ui-draggable-handle {
+        cursor: move;
     }
 }
 

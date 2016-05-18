@@ -12138,7 +12138,29 @@ $(function() {
   $('.js-form-input-card-cvc').payment('formatCardCVC');
   $('.js-form-input-card-expiry').payment('formatCardExpiry');
   $('[data-numeric]').payment('restrictNumeric');
-  return $('.ui.sidebar').sidebar('attach events', '.toc.item');
+  $('.ui.sidebar').sidebar('attach events', '.toc.item');
+  return $('.js-filter').each(function() {
+    var $items, $target;
+    $target = $($(this).data('filter'));
+    $items = $($(this).data('filter-item'), $target);
+    console.log($target);
+    console.log($items);
+    return $(this).on('keyup', (function(_this) {
+      return function() {
+        var search;
+        search = $(_this).val();
+        return $items.each(function() {
+          var mismatch;
+          mismatch = $(this).text().search(new RegExp(search, "i")) < 0;
+          if (mismatch) {
+            return $(this).hide();
+          } else {
+            return $(this).show();
+          }
+        });
+      };
+    })(this));
+  });
 });
 
 window.App = {};
