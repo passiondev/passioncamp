@@ -121,6 +121,8 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
         Route::get('roominglist/{room}', 'RoomingListController@show')->name('roominglist.show');
+        Route::get('roominglist/{room}/edit', 'RoomingListController@edit')->name('roominglist.edit');
+        Route::patch('roominglist/{room}', 'RoomingListController@update')->name('roominglist.update');
         Route::put('roominglist/{ticket}/assign/{room}', 'RoomingListController@assign')->name('roominglist.assign');
         Route::put('roominglist/{ticket}/unassign', 'RoomingListController@unassign')->name('roominglist.unassign');
     });

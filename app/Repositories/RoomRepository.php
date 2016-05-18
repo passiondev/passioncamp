@@ -16,6 +16,15 @@ class RoomRepository
         $room->save();
     }
 
+    public function update(Room $room, array $data)
+    {
+        $room->forceFill([
+            'capacity' => array_get($data, 'capacity'),
+            'description' => array_get($data, 'description'),
+            'notes' => array_get($data, 'notes'),
+        ])->save();
+    }
+
     public function bulkCreate($organization)
     {
         // does the organization need rooms?

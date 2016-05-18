@@ -61,4 +61,21 @@ class RoomingListController extends Controller
         $ticket->save();
     }
 
+    public function edit(Room $room)
+    {
+        return view('roominglist.edit', compact('room'));
+    }
+
+    public function update(Request $request, Room $room)
+    {
+        $this->validate($request, [
+            'capacity' => 'required|numeric|min:1|max:5',
+            'description' => 'max:255',
+            'notes' => 'max:255',
+        ]);
+
+        $this->rooms->update($room, $request->all());
+
+        return redirect()->route('roominglist.index');
+    }
 }
