@@ -30,7 +30,7 @@ class ItemController extends Controller
         $orderItem->org_type = $item->type;
         $orderItem->save();
 
-        event(new OrgItemAdded($orderItem));
+        event(new OrgItemUpdated($orderItem));
 
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item added.');
     }
