@@ -56,9 +56,11 @@
                                             {{ $ticket->waiver->status }}
                                         @else
                                             {{ $ticket->waiver->status }}
-                                            <Waiver inline-template>
-                                                <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
-                                            </Waiver>
+                                            @unless ($ticket->waiver->status == 'signed')
+                                                <Waiver inline-template>
+                                                    <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
+                                                </Waiver>
+                                            @endif
                                         @endif
                                     @endunless
                                 </td>

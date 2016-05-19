@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Collections\OrganizationSettingsCollection;
 
 class OrganizationSettings extends Model

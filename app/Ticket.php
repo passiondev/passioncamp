@@ -5,7 +5,6 @@ namespace App;
 use Auth;
 use App\Waiver;
 use Sofa\Eloquence\Eloquence;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
