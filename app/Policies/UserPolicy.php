@@ -25,4 +25,11 @@ class UserPolicy
     {
         return $this->edit($authUser, $user);
     }
+
+    public function impersonate(User $authUser, User $user)
+    {
+        if ($authUser->id == $user->id) {
+            return false;
+        }
+    }
 }

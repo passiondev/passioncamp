@@ -1,0 +1,15 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@fontName          :   "";
+@importGoogleFonts: false;
+
+@headerFont        : "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+@pageFont          : "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+/* This is the single variable that controls them all */
+@emSize   : 14px;
+
+/* The size of page text  */
+@fontSize : 14px;

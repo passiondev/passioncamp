@@ -25,8 +25,7 @@ class TicketController extends Controller
 
     public function index(Request $request)
     {
-        $tickets = $this->tickets
-                   ->forUser(Auth::user())
+        $tickets = Ticket::forUser()
                    ->search($request->search)
                    ->with('person', 'order', 'organization')
                    ->paginate(15);

@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
+    <div class="ui container">
         <header class="page-header">
             <div class="page-header__title">
                 <h1>Add Attendee</h1>
@@ -9,7 +9,7 @@
             </div>
         </header>
 
-        {{ Form::open(['route' => ['order.ticket.store', $order]]) }}
+        {{ Form::open(['route' => ['order.ticket.store', $order], 'class' => 'ui form']) }}
 
             @include ('ticket/partials/form', ['submitButtonText' => 'Create Ticket'])
             

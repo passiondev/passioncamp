@@ -9,7 +9,7 @@ trait Notated
 {
     public function notes()
     {
-        return $this->morphMany(Note::class, 'notated')->orderBy('created_at', 'DESC');
+        return $this->morphMany(Note::class, 'notated');
     }
 
     public function addNote($body)

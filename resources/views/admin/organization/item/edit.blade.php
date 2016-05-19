@@ -1,28 +1,27 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
+    <div class="ui container">
         <header class="page-header">
             <h1>Edit Item</h1>
         </header>
 
-        {{ Form::open(['route' => ['admin.organization.item.update', $organization, $item], 'method' => 'PUT']) }}
+        {{ Form::open(['route' => ['admin.organization.item.update', $organization, $item], 'method' => 'PUT', 'class' => 'ui form']) }}
 
-            <div class="form-group">
-                {{ Form::label('item', 'Item', ['class' => 'control-label']) }}
+            <div class="field">
+                {{ Form::label('item', 'Item') }}
                 <p class="form-control-static">{{ $item->item->name }}</p>
             </div>
-            <div class="form-group">
-                {{ Form::label('quantity', 'Quantity', ['class' => 'control-label']) }}
-                {{ Form::number('quantity', number_format($item->quantity), ['id' => 'quantity', 'class' => 'form-control']) }}
+            <div class="field">
+                {{ Form::label('quantity', 'Quantity') }}
+                {{ Form::number('quantity', number_format($item->quantity), ['id' => 'quantity']) }}
             </div>
-            <div class="form-group">
-                {{ Form::label('cost', 'Cost/ea', ['class' => 'control-label']) }}
-                {{ Form::text('cost', $item->cost, ['id' => 'cost', 'class' => 'form-control']) }}
+            <div class="field">
+                {{ Form::label('cost', 'Cost/ea') }}
+                {{ Form::text('cost', $item->cost, ['id' => 'cost']) }}
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary">Update</button>
-            </div>
+
+            <button class="ui primary button">Update</button>
 
         {{ Form::close() }}
 

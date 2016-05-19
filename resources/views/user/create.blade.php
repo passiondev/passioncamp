@@ -1,12 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
+    <div class="ui container">
         <header class="page-header">
             <h1>Add User</h1>
         </header>
 
-        {{ Form::open(['route' => 'user.store']) }}
+        {{ Form::open(['route' => 'user.store', 'class' => 'ui form']) }}
 
             @include('user.partials.form', ['action_text' => 'Create User'])
 

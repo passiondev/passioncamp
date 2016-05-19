@@ -30,6 +30,8 @@ class ImpersonationController extends Controller
      */
     public function impersonate(Request $request, User $user)
     {
+        $this->authorize($user);
+
         $request->session()->flush();
 
         // We will store the original user's ID in the session so we can remember who we

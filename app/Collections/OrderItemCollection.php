@@ -20,4 +20,32 @@ class OrderItemCollection extends Collection
             return $ticket->agegroup == $agegroup;
         });
     }
+
+    public function unassigendSort()
+    {
+        return $this->sortBy(function ($ticket, $key) {
+            return sprintf(
+                "%02d__%s__%d__%s__%s",
+                $ticket->person->grade == 0 ? 99 : $ticket->person->grade,
+                $ticket->person->gender == 'M' ? 1 : -1,
+                $ticket->agegroup == 'leader' ? 1 : -1,
+                $ticket->person->first_name,
+                $ticket->person->last_name
+            );
+        });
+    }
+
+    public function assigendSort()
+    {
+        return $this->sortBy(function ($ticket, $key) {
+            return sprintf(
+                "%s__%02d__%d__%s__%s",
+                $ticket->agegroup == 'leader' ? -1 : 1,
+                $ticket->person->grade == 0 ? 99 : $ticket->person->grade,
+                $ticket->person->gender == 'M' ? 1 : -1,
+                $ticket->person->first_name,
+                $ticket->person->last_name
+            );
+        });
+    }
 }

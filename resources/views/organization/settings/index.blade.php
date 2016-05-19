@@ -1,13 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.semantic')
 
 @section('content')
-    <div class="container">
-        <div class="page-header">
+    <div class="ui container">
+        <div class="ui dividing header page-header">
             <h1>Account Settings</h1>
         </div>
 
-        <section class="row">
-            <div class="large-4 columns">
+        <section class="ui three column grid">
+            <div class="column">
                 <h4>Church</h4>
                 <dl class="m-b-2">
                     <dt>{{ $organization->church->name }}</dt>
@@ -19,7 +19,7 @@
                 </dl>
             </div>
             @if ($organization->contact)
-                <div class="large-4 columns">
+                <div class="column">
                     <h4>Contact</h4>
                     <dl class="m-b-2">
                         <dt>{{ $organization->contact->name }}</dt>
@@ -30,7 +30,7 @@
                 </div>
             @endif
             @if ($organization->studentPastor)
-                <div class="large-4 columns">
+                <div class="column">
                     <h4>Student Pastor</h4>
                     <dl class="m-b-2">
                         <dt>{{ $organization->studentPastor->name }}</dt>
@@ -39,15 +39,18 @@
                     </dl>
                 </div>
             @endif
-
         </section>
         
-        <section>
-            <header class="section__header">
+        <div class="ui divider"></div>
+
+        <section class="ui segment">
+            <header class="ui header section__header">
                 <h3>Auth Users</h3>
-                <a href="{{ route('user.create') }}" class="button small">Add User</a>
+                <div class="sub header">
+                    <a href="{{ route('user.create') }}" class="button small">Add User</a>
+                </div>
             </header>
-            <table>
+            <table class="ui very basic table">
                 <tr>
                     @foreach (auth()->user()->organization->authUsers as $user)
                         <tr>

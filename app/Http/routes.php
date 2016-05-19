@@ -21,7 +21,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('login', 'Auth\AuthController@showLoginForm');
     Route::post('login', 'Auth\AuthController@login');
-    Route::get('logout', 'Auth\AuthController@logout');
+    Route::get('logout', 'Auth\AuthController@logout')->name('logout');
 
     Route::get('register/{user}/{hash}', 'Auth\AuthController@showRegistrationForm')->name('complete.registration');
     Route::post('register/{user}/{hash}', 'Auth\AuthController@register');
@@ -118,5 +118,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('transaction/{transaction}/refund', 'TransactionController@storeRefund')->name('transaction.refund.store');
         Route::patch('transaction/{transaction}', 'TransactionController@update')->name('transaction.update');
         Route::delete('transaction/{transaction}', 'TransactionController@delete')->name('transaction.delete');
+
+        Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
+        Route::get('roominglist/{room}', 'RoomingListController@show')->name('roominglist.show');
+        Route::get('roominglist/{room}/edit', 'RoomingListController@edit')->name('roominglist.edit');
+        Route::patch('roominglist/{room}', 'RoomingListController@update')->name('roominglist.update');
+        Route::put('roominglist/{ticket}/assign/{room}', 'RoomingListController@assign')->name('roominglist.assign');
+        Route::put('roominglist/{ticket}/unassign', 'RoomingListController@unassign')->name('roominglist.unassign');
     });
 });

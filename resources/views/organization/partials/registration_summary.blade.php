@@ -10,7 +10,7 @@
             <li>
                 <div class="transaction">
                     <div class="item left">
-                        Attendees <span class="badge">{{ number_format($organization->orders->ticket_count) }}</small>
+                        Attendees <span class="ui blue circular label">{{ number_format($organization->orders->ticket_count) }}</small>
                     </div>
                     <div class="item right">@currency($organization->orders->ticket_total)</div>
                 </div>

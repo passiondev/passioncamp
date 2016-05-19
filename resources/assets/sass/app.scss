@@ -1,1 +1,121 @@
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "bower_components/bourbon/core/bourbon";
+
+@import "admin/info_box";
+
+.roominglist .pusher {
+    display: flex;
+    flex-direction: column;
+
+    .grid {
+        flex-grow: 1;
+        display: flex;
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            &.eleven {
+                width: 70%;
+            }
+            &.five {
+                width: 30%;
+            }
+
+            h1 {
+                flex-shrink: 0;
+            }
+            .scroll {
+                padding: 0 20px;
+                flex-grow: 1;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                margin: 0;
+                &::-webkit-scrollbar {
+                    width: 8px;
+                }
+
+                  &::-webkit-scrollbar-track {
+    background-color: rgba(57,57,57, .1);
+    border-radius: 6px
+                }
+                &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: rgba(156, 156, 156, .6);
+                }
+            }
+        }
+    }
+    .ticket {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .meta {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+    }
+    .ui-draggable-handle {
+        cursor: move;
+    }
+}
+
+ul {
+    padding-left: 0;
+}
+
+dl {
+    margin-top: 0;
+    
+    > dt {
+        font-weight: bold;
+    }
+    > dd {
+        margin-left: 0;
+    }
+}
+
+.ui.container {
+    padding-bottom: 3rem;
+}
+
+.ui.checkbox label {
+    cursor: pointer;
+}
+
+.hastickets .noticket {
+    display: none;
+}
+
+h1, h2, h3, h4, h5, h6, .ui.heading {
+    .ui.label {
+        position: relative;
+        top: -.5833em;
+    }
+}
+
+.ui.menu .toc.item {
+    display: none;
+}
+
+.ui.pagination {
+    .pages {
+        display: inline-flex;
+        @media only screen and (max-width: 768px) {
+            .item {
+                display: none;
+            }
+            .active.item {
+                display: inherit;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .ui.menu.page-nav .left.menu {
+        display: none;
+    }
+    .ui.menu .toc.item {
+        display: block;
+    }
+}

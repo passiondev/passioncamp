@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use App\Waiver;
 use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,9 +33,30 @@ class Ticket extends OrderItem
         });
     }
 
+    public function scopeForUser($query, $user = null)
+    {
+        $user = $user ?? Auth::user();
+
+        if ($user->is_super_admin) {
+            return $query;
+        }
+
+        return $query->where('organization_id', $user->organization_id);
+    }
+
+    public function scopeUnassigned($query)
+    {
+        return $query->whereNull('room_id');
+    }
+
     public function waiver()
     {
         return $this->hasOne(Waiver::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
     }
 
     /*-------------- getters -----------------*/

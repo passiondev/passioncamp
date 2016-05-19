@@ -1,7 +1,7 @@
 .info-box {
-  background-color: $white;
+  background-color: #fff;
   margin-bottom: 2rem;
-  border-bottom: $base-border;
+  border-bottom: 1px solid #dcdcdc;
 
 }
 
@@ -62,7 +62,7 @@
 
 .price-list {
   li {
-    background-color: $white;
+    background-color: #fff;
   }
   .transaction {
     display: flex;
@@ -84,7 +84,7 @@
   }
   .item {
     z-index: 2;
-    background-color: $white;
+    background-color: #fff;
 
     &.right {
       padding-left: .4rem;
@@ -118,13 +118,13 @@
   .callout {
     &.total {
       margin-top: .75rem;
-      &, & .item { background-color: tint($primary-color, 95%); }
+      &, & .item { background-color: tint(#2185D0, 95%); }
     }
     &.deposit_due {
-      &, & .item { background-color: tint($warning-color, 85%); }
+      &, & .item { background-color: tint(#F2C037, 85%); }
     }
     &.balance {
-      &, & .item { background-color: tint($primary-color, 82%); }
+      &, & .item { background-color: tint(#2185D0, 82%); }
     }
   }
 }
