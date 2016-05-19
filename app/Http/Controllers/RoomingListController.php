@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
 use App\Room;
 use Exception;
 use App\Ticket;
@@ -28,6 +29,8 @@ class RoomingListController extends Controller
 
     public function show(Request $request, Room $room)
     {
+        $this->authorize('owner', $room);
+
         return $request->ajax() || $request->wantsJson()
             ? response()->json([
                 'view' => view('roominglist.partials.room')->withRoom($room->fresh('tickets'))->render()
@@ -37,6 +40,9 @@ class RoomingListController extends Controller
 
     public function assign(Request $request, Ticket $ticket, Room $room)
     {
+        $this->authorize('owner', $ticket);
+        $this->authorize('owner', $room);
+
         try {
             $this->rooms->assign($room, $ticket);
         } catch (Exception $e) {
@@ -57,17 +63,23 @@ class RoomingListController extends Controller
 
     public function unassign(Request $request, Ticket $ticket)
     {
+        $this->authorize('owner', $ticket);
+
         $ticket->room_id = null;
         $ticket->save();
     }
 
     public function edit(Room $room)
     {
+        $this->authorize('owner', $room);
+
         return view('roominglist.edit', compact('room'));
     }
 
     public function update(Request $request, Room $room)
     {
+        $this->authorize('owner', $room);
+
         $this->validate($request, [
             'capacity' => 'required|numeric|min:1|max:5',
             'description' => 'max:255',

@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrderItemPolicy

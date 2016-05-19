@@ -12232,12 +12232,12 @@ App.Assignment = (function() {
         return new App.Assignments();
       };
     })(this)).fail((function(_this) {
-      return function(data) {
+      return function(data, status, message) {
         if (_this.previous_room_id === 0) {
           $(_this.ticket).prependTo($('#unassigned'));
         }
         if (typeof console.log === "function") {
-          console.log(data.responseJSON.message);
+          console.log(data.responseJSON != null ? data.responseJSON.message : message);
         }
         if (data.responseJSON && data.responseJSON.view) {
           $(_this.room).parent().empty().append($(data.responseJSON.view).contents());

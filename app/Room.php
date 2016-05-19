@@ -45,6 +45,11 @@ class Room extends Model
 
     public function getIsAtCapacityAttribute()
     {
-        return $this->assigned >= $this->capacity;
+        return (bool) ! $this->remaining;
+    }
+
+    public function getRemainingAttribute()
+    {
+        return $this->capacity - $this->assigned;
     }
 }

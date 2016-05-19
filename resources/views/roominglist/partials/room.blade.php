@@ -1,20 +1,18 @@
 <div class="column">
-    <div class="room ui segment js-droppable" data-id="{{ $room->id }}">
-        <header>
-            <div class="ui dividing header" style="display:flex;justify-content:space-between;align-items:baseline">
-                <h4>{{ $room->name }}</h4>
-                <div class="ui sub header" style="text-transform:none">
-                    <a href="{{ route('roominglist.edit', $room) }}">edit</a>
-                </div>
+    <div class="room ui segment js-droppable {{ $room->is_at_capacity ? 'full' : '' }}" data-id="{{ $room->id }}">
+        <header class="ui dividing header" style="display:flex;justify-content:space-between;align-items:baseline">
+            <h4>{{ $room->name }}</h4>
+            <div class="ui sub header" style="text-transform:none">
+                <a href="{{ route('roominglist.edit', $room) }}">edit</a>
             </div>
-            @if (strlen($room->description) || strlen($room->notes))
-                <div>
-                    <h5>{{ $room->description }}</h5>
-                    <p>{{ $room->notes }}</p>
-                </div>
-                <div class="ui divider"></div>
-            @endif
         </header>
+        @if (strlen($room->description) || strlen($room->notes))
+            <div>
+                <h5>{{ $room->description }}</h5>
+                <p>{{ $room->notes }}</p>
+            </div>
+            <div class="ui divider"></div>
+        @endif
         <div class="stats">
             <div class="ui mini statistics" style="font-size:.675em">
                 <div class="blue statistic" style="margin-bottom: 0">

@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Room;
 use App\User;
 use App\Order;
 use App\Ticket;
 use App\OrderItem;
 use App\Organization;
+use App\Policies\RoomPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\OrderItemPolicy;
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         OrderItem::class => OrderItemPolicy::class,
         Ticket::class    => OrderItemPolicy::class,
         User::class    => UserPolicy::class,
+        Room::class    => RoomPolicy::class,
     ];
 
     /**

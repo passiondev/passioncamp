@@ -78,9 +78,9 @@ class App.Assignment
       if data.view
         $(@room).parent().empty().append($(data.view).contents())
       new App.Assignments()
-    ).fail( (data) =>
+    ).fail( (data, status, message) =>
       $(@ticket).prependTo $('#unassigned') if @previous_room_id == 0
-      console.log? data.responseJSON.message
+      console.log? if data.responseJSON? then data.responseJSON.message else message
       
       if data.responseJSON && data.responseJSON.view
         $(@room).parent().empty().append($(data.responseJSON.view).contents())

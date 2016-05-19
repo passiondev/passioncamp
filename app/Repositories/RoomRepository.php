@@ -48,6 +48,10 @@ class RoomRepository
             throw new \Exception("{$room->name} is at capacity. {$ticket->name} has been added to the unassigned list.");
         }
         
+        if ($room->organization_id !== $ticket->organization_id) {
+            throw new \Exception("{$room->name} and {$ticket->name} do not belong to the same owner.");
+        }
+        
         $ticket->room()->associate($room)->save();
      }
 }
