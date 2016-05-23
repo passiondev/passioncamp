@@ -66,5 +66,7 @@ class WaiverController extends Controller
             $agreement->cancel($waiver->documentKey);
             $waiver->cancel();
         });
+
+        return redirect()->back();
     }
 }
