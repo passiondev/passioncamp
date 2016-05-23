@@ -4,6 +4,7 @@ namespace App\Interactions\Echosign;
 
 use Validator;
 use App\Waiver;
+use App\Events\Waivers\EmailBounced;
 use App\Repositories\WaiverRepository;
 use App\Interactions\Echosign\Download;
 
@@ -41,6 +42,8 @@ class Callback
                     $this->download->handle($data['documentKey'])
                 );
                 break;
+            case 'EMAIL_BOUNCED':
+                event(new EmailBounced($waiver));
         }
     }
 }

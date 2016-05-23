@@ -16,6 +16,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderItems\OrgItemUpdated' => [
             'App\Listeners\CreateRooms',
         ],
+        'App\Events\Waivers\EmailBounced' => [
+            'App\Listeners\Waivers\EmailBounced\CancelSignatureRequest',
+            'App\Listeners\Waivers\EmailBounced\CancelWaiverRecord',
+            'App\Listeners\Waivers\EmailBounced\SendNotification',
+        ]
     ];
 
     /**
