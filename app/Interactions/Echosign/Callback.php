@@ -35,6 +35,11 @@ class Callback
 
         $this->waiver->update($waiver, $data);
 
+        switch ($data['eventType']) {
+            case 'EMAIL_BOUNCED':
+                event(new EmailBounced($waiver));
+        }
+
         switch ($data['status']) {
             case 'SIGNED':
                 $this->waiver->download(
@@ -42,8 +47,6 @@ class Callback
                     $this->download->handle($data['documentKey'])
                 );
                 break;
-            case 'EMAIL_BOUNCED':
-                event(new EmailBounced($waiver));
         }
     }
 }
