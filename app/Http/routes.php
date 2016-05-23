@@ -90,6 +90,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('ticket/{ticket}/waiver/create', 'Ticket\WaiverController@create')->name('ticket.waiver.create');
         Route::get('ticket/{ticket}/waiver/reminder', 'Ticket\WaiverController@reminder')->name('ticket.waiver.reminder');
+        Route::get('ticket/{ticket}/waiver/cancel', 'Ticket\WaiverController@cancel')->name('ticket.waiver.cancel');
 
         Route::get('users', 'UserController@index')->name('user.index');
         Route::get('user/create', 'UserController@create')->name('user.create');

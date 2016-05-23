@@ -60,6 +60,9 @@
                                                 <Waiver inline-template>
                                                     <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
                                                 </Waiver>
+                                                @if (Auth::user()->is_super_admin)
+                                                    <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
+                                                @endif
                                             @endif
                                         @endif
                                     @endunless
@@ -82,7 +85,7 @@
 
         <div class="ui divider"></div>
 
-        <div class="ui stackable grid">
+        <div class="ui grid">
             <div class="six wide column">
                 <h4>Contact</h4>
                 @if ($order->hasContactInfo())

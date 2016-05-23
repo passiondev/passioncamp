@@ -14,6 +14,11 @@ class Waiver extends Model
         'status',
     ];
 
+    public function scopeActive($query)
+    {
+        return $query->whereNull('canceled_at');
+    }
+
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);
@@ -29,5 +34,14 @@ class Waiver extends Model
             default:
                 return strtolower(str_replace('_', ' ', $status));
         }
+    }
+
+    public function cancel()
+    {
+        $this->canceled_at = \Carbon\Carbon::now();
+        $this->canceled_by_id = \Auth::id();
+        $this->save();
+
+        return $this;
     }
 }

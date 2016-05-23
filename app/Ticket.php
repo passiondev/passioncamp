@@ -51,7 +51,12 @@ class Ticket extends OrderItem
 
     public function waiver()
     {
-        return $this->hasOne(Waiver::class);
+        return $this->hasOne(Waiver::class)->active();
+    }
+
+    public function waivers()
+    {
+        return $this->hasMany(Waiver::class)->active();
     }
 
     public function room()
