@@ -38,6 +38,7 @@ class Callback
         switch ($data['eventType']) {
             case 'EMAIL_BOUNCED':
                 event(new EmailBounced($waiver));
+                break;
         }
 
         switch ($data['status']) {
