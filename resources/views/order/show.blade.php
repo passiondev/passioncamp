@@ -4,6 +4,9 @@
     <div class="ui container">
         <header class="ui dividing header page-header">
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
+            @if (Auth::user()->is_super_admin)
+                <h2>{{ $order->organization->church->name }}</h2>
+            @endif
         </header>
 
         @unless ($order->hasContactInfo())
