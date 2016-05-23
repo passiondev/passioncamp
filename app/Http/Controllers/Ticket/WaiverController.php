@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interactions\Echosign\Reminder;
 use App\Interactions\Echosign\Agreement;
-use Echosign\RequestBuilders\AgreementStatusUpdateInfo;
 
 class WaiverController extends Controller
 {
@@ -59,12 +58,12 @@ class WaiverController extends Controller
                : redirect()->back();
     }
 
-    public function cancel(Request $request, Ticket $ticket, Agreement $agreement, AgreementStatusUpdateInfo $status)
+    public function cancel(Request $request, Ticket $ticket, Agreement $agreement)
     {
         abort_unless(\Auth::user()->is_super_admin, 403);
 
-        $ticket->waivers->each(function ($waiver) use ($agreement, $status) {
-            $agreement->cancel($waiver->documentKey, $status);
+        $ticket->waivers->each(function ($waiver) use ($agreement) {
+            $agreement->cancel($waiver->documentKey);
             $waiver->cancel();
         });
     }

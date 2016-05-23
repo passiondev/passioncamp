@@ -8,6 +8,7 @@ use Echosign\Creators\Agreement;
 use Echosign\Transports\GuzzleTransport;
 use Echosign\RequestBuilders\Agreement\FileInfo;
 use Echosign\RequestBuilders\Agreement\MergefieldInfo;
+use Echosign\RequestBuilders\AgreementStatusUpdateInfo;
 use Echosign\RequestBuilders\Agreement\DocumentCreationInfo;
 
 class Agreement extends BaseEchosignInteraction
@@ -52,6 +53,13 @@ class Agreement extends BaseEchosignInteraction
         $agreementInfo = $agreement->status($agreementId);
 
         return $agreementInfo->getStatus();
+    }
+
+    public function cancel($agreementId)
+    {
+        $transport   = new GuzzleTransport();
+        $agreement    = new Agreements( $this->token, $transport );
+        $agreementInfo = $agreement->cancel($agreementId, new AgreementStatusUpdateInfo);
     }
 
 }
