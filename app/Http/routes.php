@@ -37,6 +37,13 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['middleware' => 'super'], function () {
+            Route::('deployrooms', function () {
+                $rooms = new RoomRepository;
+                App\Organization::all()->each(function ($organization) use ($rooms) {
+                    $rooms->bulkCreate($organization);
+                });
+            });
+
             Route::resource('admin/organization', 'OrganizationController');
 
             Route::post('admin/organization/{organization}/note', 'Organization\NoteController@store')->name('admin.organization.note.store');
