@@ -37,7 +37,7 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['middleware' => 'super'], function () {
-            Route::('deployrooms', function () {
+            Route::get('deployrooms', function () {
                 $rooms = new RoomRepository;
                 App\Organization::all()->each(function ($organization) use ($rooms) {
                     $rooms->bulkCreate($organization);
