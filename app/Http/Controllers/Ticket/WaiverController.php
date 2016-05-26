@@ -52,6 +52,12 @@ class WaiverController extends Controller
     {
         $reminder = new Reminder;
         $response = $reminder->create($ticket->waiver->documentKey);
+        if ($response) {
+            $ticket->waiver->status = $response;
+            $ticket->waiver->save();
+        } else {
+            \Log::error(print_r($response->getErrorMessages(), true));
+        }
 
         return $request->ajax() || $request->wantsJson()
                ? response()->json(['status' => $ticket->load('waiver')->waiver->status])

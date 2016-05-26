@@ -17,6 +17,6 @@ class Reminder extends BaseEchosignInteraction
 
     public function create($agreementId)
     {
-        $this->reminder_creator->create($agreementId);
+        return $this->reminder_creator->create($agreementId);
     }
 }
