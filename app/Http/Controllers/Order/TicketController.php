@@ -9,13 +9,10 @@ use App\Http\Controllers\Controller;
 
 class TicketController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorize('owner', request()->order);
-    }
-
     public function create(Order $order)
     {
+        $this->authorize('owner', $order);
+
         $ticket_price = $order->organization->setting('ticket_price') ? $order->organization->setting('ticket_price') : 0;
 
         return view('order.ticket.create', compact('ticket_price'))->withOrder($order);
@@ -23,6 +20,8 @@ class TicketController extends Controller
 
     public function store(Request $request, Order $order)
     {
+        $this->authorize('owner', $order);
+
         $this->validate($request, [
             'agegroup' => 'required',
             'first_name' => 'required',

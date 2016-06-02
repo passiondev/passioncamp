@@ -11,13 +11,10 @@ use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorize('owner', request()->order);
-    }
-
     public function create(Order $order)
     {
+        $this->authorize('owner', $order);
+
         $payment_methods = ['credit' => 'Credit', 'check' => 'Check', 'other' => 'Other'];
 
         if (! $order->organization->can_make_stripe_payments) {
@@ -29,6 +26,8 @@ class TransactionController extends Controller
 
     public function store(Request $request, Order $order)
     {
+        $this->authorize('owner', $order);
+
         $transaction = null;
 
         if ($order->organization->can_make_stripe_payments && $request->type == 'credit') {
