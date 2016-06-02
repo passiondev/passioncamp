@@ -14,9 +14,7 @@ class OrganizationController extends Controller
 {
     public function __construct()
     {
-        if (! (Auth::user() && Auth::user()->is_super_admin)) {
-            abort(403);
-        }
+        $this->middleware('super');
     }
 
     public function index()

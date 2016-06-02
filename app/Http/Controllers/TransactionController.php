@@ -13,18 +13,20 @@ class TransactionController extends Controller
 
     public function __construct(TransactionRepository $transactions)
     {
-        $this->authorize('owner', request()->transaction->order);
-
         $this->transactions = $transactions;
     }
 
     public function refund(TransactionSplit $transaction)
     {
+        $this->authorize('owner', $transaction->order);
+
         return view('transaction.refund')->withTransaction($transaction);
     }
 
     public function storeRefund(Request $request, TransactionSplit $transaction)
     {
+        $this->authorize('owner', $transaction->order);
+
         try {
             $this->transactions->refund($transaction, $request->amount);
         } catch (\Exception $e) {
@@ -37,6 +39,8 @@ class TransactionController extends Controller
 
     public function edit(TransactionSplit $transaction)
     {
+        $this->authorize('owner', $transaction->order);
+
         $transactionData = [
             'amount' => $transaction->amount,
             'processor_transactionid' => $transaction->transaction->processor_transactionid
@@ -47,6 +51,8 @@ class TransactionController extends Controller
 
     public function update(Request $request, TransactionSplit $transaction)
     {
+        $this->authorize('owner', $transaction->order);
+
         $transaction->forceFill([
             'amount' => $request->amount,
         ])->save();
@@ -61,6 +67,8 @@ class TransactionController extends Controller
 
     public function delete(TransactionSplit $transaction)
     {
+        $this->authorize('owner', $transaction->order);
+
         $order = $transaction->order;
 
         $transaction->delete();

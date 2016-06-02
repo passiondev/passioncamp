@@ -10,18 +10,17 @@ use App\Http\Controllers\Controller;
 
 class ContactController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorize('owner', request()->order);
-    }
-
     public function create(Order $order)
     {
+        $this->authorize('owner', $order);
+
         return view('order.contact.create')->withOrder($order);
     }
 
     public function store(Request $request, Order $order)
     {
+        $this->authorize('owner', $order);
+
         $person = Person::create($request->only('first_name', 'last_name', 'email', 'phone'));
         
         $user = new User;
@@ -36,12 +35,16 @@ class ContactController extends Controller
 
     public function edit(Order $order)
     {
+        $this->authorize('owner', $order);
+
         $contact = $order->user->person;
         return view('order.contact.edit', compact('contact'))->withOrder($order);
     }
 
     public function update(Request $request, Order $order)
     {
+        $this->authorize('owner', $order);
+
         $contact = $order->user->person;
 
         $contact->update($request->only('first_name', 'last_name', 'email', 'phone'));

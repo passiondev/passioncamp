@@ -11,14 +11,10 @@ use App\Interactions\Echosign\Agreement;
 
 class WaiverController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->authorize('owner', request()->ticket->order);
-    }
-
     public function create(Request $request, Ticket $ticket)
     {
+        $this->authorize('owner', $ticket->order);
+
         if (! $ticket->order->hasContactInfo()) {
             return $request->ajax() || $request->wantsJson()
                    ? response(['status' => 'Contact info missing'], 403)
@@ -50,6 +46,8 @@ class WaiverController extends Controller
 
     public function reminder(Request $request, Ticket $ticket)
     {
+        $this->authorize('owner', $ticket->order);
+
         $reminder = new Reminder;
         $response = $reminder->create($ticket->waiver->documentKey);
         if ($response) {
@@ -66,6 +64,8 @@ class WaiverController extends Controller
 
     public function cancel(Request $request, Ticket $ticket, Agreement $agreement)
     {
+        $this->authorize('owner', $ticket->order);
+
         abort_unless(\Auth::user()->is_super_admin, 403);
 
         $ticket->waivers->each(function ($waiver) use ($agreement) {

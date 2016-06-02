@@ -11,9 +11,7 @@ class HotelController extends Controller
 {
     public function __construct()
     {
-        if (! (request()->user() && request()->user()->is_super_admin)) {
-            abort(403);
-        }
+        $this->middleware('super');
     }
 
     public function index()
