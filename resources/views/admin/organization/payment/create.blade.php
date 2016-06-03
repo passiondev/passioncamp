@@ -11,7 +11,14 @@
                 <Transaction inline-template can-make-stripe-payments="1">
                     {{ Form::open(['route' => (auth()->user()->isSuperAdmin() ? ['admin.organization.payment.store', $organization] : ['payment.store']), 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }}
 
-                        <p class="payment-errors text-danger"></p>
+                        <div class="ui visible error message payment-errors" v-show="errors.length > 0">
+                            <div class="header">
+                                There was an error with your submission.
+                            </div>
+                            <ul class="list">
+                                <li v-for="error in errors">@{{ error }}</li>
+                            </ul>
+                        </div>
 
                         @if (auth()->user()->isSuperAdmin())
                             <div class="field">

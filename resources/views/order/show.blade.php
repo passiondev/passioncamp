@@ -9,6 +9,24 @@
             @endif
         </header>
 
+        <div class="ui secondary menu">
+            @can ('add-attendees', $order)
+                <div class="item">
+                    <a class="ui primary button" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
+                </div>
+            @endcan
+            @can ('record-transactions', $order->organization)
+                <div class="item">
+                    <a class="ui primary button" href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a>
+                </div>
+            @endcan
+            @if (Auth::user()->isOrderOwner())
+                <div class="item">
+                    <a class="ui primary button" href="{{ route('order.payment.create', $order) }}" class="button small">Make Payment</a>
+                </div>
+            @endif
+        </div>
+
         @unless ($order->hasContactInfo())
             <div class="callout warning" style="margin-bottom:2rem">
                 <p>Please add a point of contact for this registration.</p>
@@ -19,14 +37,6 @@
         <section>
             <header class="ui dividing header section__header">
                 <h3>Attendees</h3>
-                <div class="sub header section-header__actions">
-                    @can ('add-attendees', $order)
-                        <a class="button small" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
-                    @endcan
-                    @can ('record-transactions', $order->organization)
-                        <a href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a>
-                    @endcan
-                </div>
             </header>
             @if ($order->tickets->count() > 0)
                 <table class="ui very basic striped table">
@@ -90,7 +100,7 @@
 
         <div class="ui divider"></div>
 
-        <div class="ui grid">
+        <div class="ui stackable grid">
             <div class="six wide column">
                 <h4>Contact</h4>
                 @if ($order->hasContactInfo())

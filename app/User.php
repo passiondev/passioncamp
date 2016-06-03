@@ -71,7 +71,7 @@ class User extends Authenticatable
         }
 
         if ($this->isOrderOwner()) {
-            return 'Order Admin';
+            return 'Order Owner';
         }
 
         return $this->organization->church->name . ' - ' . $this->organization->church->location;

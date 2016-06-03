@@ -95,6 +95,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('registration/{order}/transaction/create', 'Order\TransactionController@create')->name('order.transaction.create');
         Route::post('registration/{order}/transaction', 'Order\TransactionController@store')->name('order.transaction.store');
 
+        Route::get('registration/{order}/payment/create', 'Order\PaymentController@create')->name('order.payment.create');
+        Route::post('registration/{order}/payment', 'Order\PaymentController@store')->name('order.payment.store');
+
         Route::get('tickets', 'TicketController@index')->name('ticket.index');
         Route::get('tickets/export', 'Ticket\ExportController@index')->name('ticket.export.index');
         Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show');

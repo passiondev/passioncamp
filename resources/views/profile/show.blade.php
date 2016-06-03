@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="ui container">
-        <header class="page-header">
+        <header class="ui dividing header">
             <h1>Update Profile</h1>
         </header>
 

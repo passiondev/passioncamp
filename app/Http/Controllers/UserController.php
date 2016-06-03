@@ -26,7 +26,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->users->getAdminUsers();
-        $users->load('person', 'organization.orders');
+        $users->load('person', 'organization.orders', 'organization.church');
 
         return view('user.index', compact('users'));
     }
