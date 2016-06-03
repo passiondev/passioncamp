@@ -8,11 +8,6 @@ use App\Http\Controllers\Controller;
 
 class NoteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('super');
-    }
-
     public function store(Request $request, Organization $organization)
     {
         $this->validate($request, [

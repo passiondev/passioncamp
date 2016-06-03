@@ -50,5 +50,8 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verify.auth.order' => \App\Http\Middleware\VerifyUserIsOrderAdmin::class,
+        'admin' => \App\Http\Middleware\VerifyUserIsAdmin::class,
+        'redirect.to.order' => \App\Http\Middleware\RedirectToSingleOrder::class,
     ];
 }

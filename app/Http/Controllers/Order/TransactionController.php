@@ -11,6 +11,11 @@ use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function create(Order $order)
     {
         $this->authorize('owner', $order);

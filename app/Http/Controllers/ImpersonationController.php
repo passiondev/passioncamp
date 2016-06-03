@@ -16,8 +16,6 @@ class ImpersonationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-
         $this->middleware('super')->except('stopImpersonating');
     }
 
@@ -43,7 +41,7 @@ class ImpersonationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('account.dashboard');
+        return redirect()->route($user->isChurchAdmin() ? 'account.dashboard' : 'account');
     }
 
     /**

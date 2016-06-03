@@ -4,29 +4,11 @@
     <div class="ui container">
         <header class="ui dividing header page-header">
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
-            @if (Auth::user()->isSuperAdmin())
-                <h2>{{ $order->organization->church->name }}</h2>
-            @endif
         </header>
-
-        @unless ($order->hasContactInfo())
-            <div class="callout warning" style="margin-bottom:2rem">
-                <p>Please add a point of contact for this registration.</p>
-                <p><a href="{{ route('order.contact.create', $order) }}" class="button outline small">Add Contact</a></p>
-            </div>
-        @endif
 
         <section>
             <header class="ui dividing header section__header">
                 <h3>Attendees</h3>
-                <div class="sub header section-header__actions">
-                    @can ('add-attendees', $order)
-                        <a class="button small" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
-                    @endcan
-                    @can ('record-transactions', $order->organization)
-                        <a href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a>
-                    @endcan
-                </div>
             </header>
             @if ($order->tickets->count() > 0)
                 <table class="ui very basic striped table">
@@ -34,7 +16,7 @@
                         <tr>
                             <th>Name</th>
                             <th></th>
-                            @if ($order->organization->can_record_transactions)
+                            @can ('record-transactions', $order->organization)
                                 <th>Ticket Price</th>
                             @endcan
                             <th>Camp Waiver</th>
@@ -48,33 +30,15 @@
                                 <td>
                                     @include('ticket/partials/label')
                                 </td>
-                                @if ($order->organization->can_record_transactions)
+                                @can ('record-transactions', $order->organization)
                                     <td>{{ money_format('$%.2n', $ticket->price) }}</td>
                                 @endcan
                                 <td>
-                                    @unless ($ticket->is_canceled)
-                                        @if ($ticket->waiver && auth()->user()->isOrderOwner())
-                                            {{ $ticket->waiver->status }}
-                                        @elseif ($ticket->waiver)
-                                            {{ $ticket->waiver->status }}
-                                            @unless ($ticket->waiver->status == 'signed')
-                                                <Waiver inline-template>
-                                                    <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
-                                                </Waiver>
-                                                @if (Auth::user()->isSuperAdmin())
-                                                    <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
-                                                @endif
-                                            @endif
-                                        @else
-                                            <Waiver inline-template>
-                                                <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
-                                            </Waiver>
-                                        @endif
-                                    @endunless
+                                    {{ $ticket->waiver->status }}
                                 </td>
                                 <td>
                                     @can ('edit', $ticket)
-                                        <a class="ui mini basic blue button" style="text-decoration:none!important" href="{{ route('ticket.edit', $ticket) }}">edit</a>
+                                        <a style="text-decoration:none!important" href="{{ route('ticket.edit', $ticket) }}">edit</a>
                                     @endcan
                                 </td>
                             </tr>
@@ -99,18 +63,16 @@
                         <dd>{{ $order->user->person->phone }}</dd>
                         <dd>{{ $order->user->person->email }}</dd>
                     </dl>
-                    <p><a href="{{ route('order.contact.edit', $order) }}" class="ui mini basic blue button">edit</a></p>
+                    <a href="{{ route('order.contact.edit', $order) }}" class="ui mini basic blue button">edit</a>
                 @else
-                    @can('edit-contact', $order)
-                        <p><a href="{{ route('order.contact.create', $order) }}" class="ui mini basic blue button">add contact</a></p>
-                    @endcan
+                    <a href="{{ route('order.contact.create', $order) }}" class="ui mini basic blue button">add contact</a>
                 @endif
             </div>
-            @if ($order->organization->can_record_transactions)
+            @can ('record-transactions', $order->organization)
                 <div class="ten wide column">
                     @include('order/partials/registration_summary')
                 </div>
-            @endif
+            @endcan
         </div>
         @if (auth()->user()->isSuperAdmin())
             <section class="ui segment panel panel-default" id="notes">

@@ -8,7 +8,7 @@ class OrderRepository
 {
     public function forUser($user)
     {
-        if ($user->is_super_admin) {
+        if ($user->isSuperAdmin()) {
             return (new Order);
         }
 

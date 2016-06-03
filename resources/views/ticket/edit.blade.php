@@ -17,12 +17,12 @@
 
         
         <footer style="display:flex;justify-content: flex-end">
-            @unless ($ticket->is_canceled)
+            @unless ($ticket->is_canceled || Auth::user()->isOrderOwner())
                 {{ Form::open(['route' => ['ticket.cancel', $ticket], 'method' => 'PATCH']) }}
                     <button class="ui yellow button" style="margin-right: 1rem">Cancel Ticket</button>
                 {{ Form::close() }}
             @endif
-            @if (Auth::user()->is_super_admin)
+            @if (Auth::user()->isSuperAdmin())
                 {{ Form::open(['route' => ['ticket.delete', $ticket], 'method' => 'DELETE']) }}
                     <button class="ui red button">Delete Ticket</button>
                 {{ Form::close() }}

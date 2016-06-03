@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class VerifyUserIsChurchAdmin
+class VerifyUserIsOrderAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,12 +15,8 @@ class VerifyUserIsChurchAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->isChurchAdmin()) {
+        if ($request->user() && $request->user()->isOrderOwner()) {
             return $next($request);
-        }
-
-        if ($request->user() && $request->user()->isSuperAdmin()) {
-            return redirect()->route('admin.organization.index');
         }
 
         return abort(401, 'Unauthorized.');

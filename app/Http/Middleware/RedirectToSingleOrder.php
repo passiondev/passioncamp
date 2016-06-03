@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class VerifyUserIsSuperAdmin
+class RedirectToSingleOrder
 {
     /**
      * Handle an incoming request.
@@ -15,10 +16,8 @@ class VerifyUserIsSuperAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->isSuperAdmin()) {
-            return $next($request);
+        if (Auth::user()->isOrderOwner() && Auth::user()->has('orders')) {
+            return redirect()->route('order.show', Auth::user()->orders->first());
         }
-
-        return abort(401, 'Unauthorized.');
     }
 }

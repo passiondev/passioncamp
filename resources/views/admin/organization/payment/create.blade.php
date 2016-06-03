@@ -9,11 +9,11 @@
         <div class="ui stackable grid">
             <div class="seven wide column">
                 <Transaction inline-template can-make-stripe-payments="1">
-                    {{ Form::open(['route' => (auth()->user()->is_super_admin ? ['admin.organization.payment.store', $organization] : ['payment.store']), 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }}
+                    {{ Form::open(['route' => (auth()->user()->isSuperAdmin() ? ['admin.organization.payment.store', $organization] : ['payment.store']), 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }}
 
                         <p class="payment-errors text-danger"></p>
 
-                        @if (auth()->user()->is_super_admin)
+                        @if (auth()->user()->isSuperAdmin())
                             <div class="field">
                                 {{ Form::label('type', 'Payment Method') }}
                                 {{ Form::select('type', ['credit' => 'Credit', 'check' => 'Check'], null, ['id' => 'type', 'v-model' => 'payment_method', 'class' => 'ui dropdown']) }}

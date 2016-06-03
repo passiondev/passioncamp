@@ -9,6 +9,11 @@ use App\Http\Controllers\Controller;
 
 class SettingsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('church');
+    }
+
     public function index()
     {
         $organization = auth()->user()->organization;

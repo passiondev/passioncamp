@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class VerifyUserIsSuperAdmin
+class VerifyUserIsAdmin
 {
     /**
      * Handle an incoming request.
@@ -15,10 +16,8 @@ class VerifyUserIsSuperAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->isSuperAdmin()) {
-            return $next($request);
-        }
+        abort_unless(Auth::user() && (Auth::user()->isAdmin()), 401, 'Unauthorized.');
 
-        return abort(401, 'Unauthorized.');
+        return $next($request);
     }
 }

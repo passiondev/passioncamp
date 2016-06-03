@@ -15,12 +15,12 @@ class ProfileController extends Controller
         $this->user = auth()->user();
     }
 
-    public function show()
+    public function show(Request $request)
     {
         $form_data = [
-            'first_name' => $this->user->person->first_name ?? '', 
-            'last_name' => $this->user->person->last_name ?? '', 
-            'email' => $this->user->email ?? ''
+            'first_name' => $this->user->person->first_name ?: '', 
+            'last_name' => $this->user->person->last_name ?: '', 
+            'email' => $this->user->email ?: ''
         ];
 
         return view('profile.show', compact('form_data'))->withUser($this->user);
@@ -53,6 +53,6 @@ class ProfileController extends Controller
             'email',
         ]));
 
-        return redirect()->route('profile');
+        return redirect()->intended('profile');
     }
 }

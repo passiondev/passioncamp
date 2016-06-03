@@ -11,6 +11,11 @@ use App\Interactions\Echosign\Agreement;
 
 class WaiverController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function create(Request $request, Ticket $ticket)
     {
         $this->authorize('owner', $ticket->order);
@@ -66,7 +71,7 @@ class WaiverController extends Controller
     {
         $this->authorize('owner', $ticket->order);
 
-        abort_unless(\Auth::user()->is_super_admin, 403);
+        abort_unless(\Auth::user()->isSuperAdmin(), 403);
 
         $ticket->waivers->each(function ($waiver) use ($agreement) {
             $agreement->cancel($waiver->documentKey);

@@ -37,11 +37,15 @@ class Ticket extends OrderItem
     {
         $user = $user ?? Auth::user();
 
-        if ($user->is_super_admin) {
+        if ($user->isSuperAdmin()) {
             return $query;
         }
 
-        return $query->where('organization_id', $user->organization_id);
+        if ($user->isChurchAdmin()) {
+            return $query->where('organization_id', $user->organization_id);
+        }
+
+        return $query->where('user_id', $user->id);
     }
 
     public function scopeUnassigned($query)

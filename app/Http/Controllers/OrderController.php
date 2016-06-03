@@ -21,6 +21,8 @@ class OrderController extends Controller
     {
         $this->orders = $orders;
         $this->organizations = $organizations;
+
+        $this->middleware('admin')->except('show');
     }
 
     public function index(Request $request)
@@ -56,7 +58,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $organization = null;
-        if (Auth::user()->is_super_admin) {
+        if (Auth::user()->isSuperAdmin()) {
             $organization = Organization::findOrFail($request->organization);
         }
 

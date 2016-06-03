@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+    
     public function create(Organization $organization = null)
     {
         if (is_null($organization->id)) {

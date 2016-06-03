@@ -7,9 +7,16 @@ use App\Order;
 use App\Person;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class ContactController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin')->except('edit');
+    }
+
     public function create(Order $order)
     {
         $this->authorize('owner', $order);
@@ -33,9 +40,15 @@ class ContactController extends Controller
         return redirect()->route('order.show', $order);
     }
 
-    public function edit(Order $order)
+    public function edit(Request $request, Order $order)
     {
         $this->authorize('owner', $order);
+
+        if (Auth::user()->isOrderOwner()) {
+            $request->session()->put('url.intended', route('order.show', $order));
+
+            return redirect()->route('profile');
+        }
 
         $contact = $order->user->person;
         return view('order.contact.edit', compact('contact'))->withOrder($order);

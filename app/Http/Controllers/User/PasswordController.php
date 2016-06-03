@@ -15,6 +15,11 @@ class PasswordController extends Controller
 
     protected $redirectTo = '/account/settings';
 
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function reset(Request $request, User $user)
     {
         $response = Password::broker(null)->sendResetLink(

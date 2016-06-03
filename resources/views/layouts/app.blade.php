@@ -17,7 +17,7 @@
         <div class="top-bar-left">
             <ul class="menu vertical medium-horizontal">
                 <li class="menu-text">Passion Camp</li>
-                @if (auth()->user() && auth()->user()->is_super_admin)
+                @if (auth()->user() && auth()->user()->isSuperAdmin())
                     <li><a href="{{ route('admin.organization.index') }}">Churches</a></li>
                     <li><a href="{{ route('hotel.index') }}">Hotels</a></li>
                     <li><a href="{{ route('user.index') }}">Users</a></li>
@@ -26,7 +26,7 @@
                 @endif
                 <li><a href="{{ route('order.index') }}">Registrations</a></li>
                 <li><a href="{{ route('ticket.index') }}">Attendees</a></li>
-                @unless (auth()->user() && auth()->user()->is_super_admin)
+                @unless (auth()->user() && auth()->user()->isSuperAdmin())
                     <li><a href="{{ route('account.settings') }}">Account</a></li>
                 @endif
             </ul>

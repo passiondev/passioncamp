@@ -24,7 +24,7 @@
                         {{ Form::email('email', null, ['id' => 'email']) }}
                     </div>
                     <div class="field">
-                        {{ Form::label('password', 'Password') }}
+                        {{ Form::label('password', 'Update Password') }}
                         {{ Form::password('password', null, ['id' => 'password']) }}
                     </div>
                     <div class="field">

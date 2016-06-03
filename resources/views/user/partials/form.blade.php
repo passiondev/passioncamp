@@ -1,6 +1,6 @@
 @include ('errors.validation')
 
-@if (auth()->user()->is_super_admin)
+@if (auth()->user()->isSuperAdmin())
     <div class="field">
         {{ Form::label('organization', 'Organization') }}
         {{ Form::select('organization', ['ADMIN' => 'PASSION CAMP ADMIN'] + $organizationOptions, null, ['id' => 'organization', 'class' => 'ui dropdown']) }}

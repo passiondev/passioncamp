@@ -15,6 +15,8 @@ class ExportController extends Controller
     public function __construct(TicketRepository $tickets)
     {
         $this->tickets = $tickets;
+
+        $this->middleware('admin');
     }
 
     public function index()
@@ -35,7 +37,7 @@ class ExportController extends Controller
                 'created at' => (string) $ticket->created_at,
             ];
 
-            if (Auth::user()->is_super_admin) {
+            if (Auth::user()->isSuperAdmin()) {
                 $data += [
                     'church' => $ticket->organization->church->name
                 ];
@@ -50,7 +52,7 @@ class ExportController extends Controller
                 'special considerations' => $ticket->person->allergies,
             ];
 
-            if (Auth::user()->is_super_admin || Auth::user()->organization->slug == 'pcc') {
+            if (Auth::user()->isSuperAdmin() || Auth::user()->organization->slug == 'pcc') {
                 $data += [
                     'email'      => $ticket->person->email,
                     'phone'      => $ticket->person->phone,

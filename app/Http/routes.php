@@ -11,6 +11,8 @@ Route::any('/', function() {
 // Route::any('signature', 'EchosignController@signature');
 
 Route::group(['middleware' => 'web'], function () {
+    Route::get('account', 'AccountController@index')->name('account');
+
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
         Route::get('registration', 'RegisterController@create')->name('register.create');
         Route::post('registration', 'RegisterController@store')->name('register.store');
@@ -33,7 +35,15 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', function () {
-            return redirect()->route(Auth::user()->is_super_admin ? 'admin.organization.index' : 'account.dashboard');
+            if (Auth::user()->isOrderOwner()) {
+                return redirect()->route('account');
+            }
+
+            if (Auth::user()->isChurchAdmin()) {
+                return redirect()->route('account.dashboard');
+            }
+
+            return redirect()->route('admin.organization.index');
         });
 
         Route::group(['middleware' => 'super'], function () {
@@ -87,9 +97,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('tickets', 'TicketController@index')->name('ticket.index');
         Route::get('tickets/export', 'Ticket\ExportController@index')->name('ticket.export.index');
-        Route::get('ticket/{ticket}', function (\App\Ticket $ticket) {
-            return redirect()->route('order.show', $ticket->order);
-        })->name('ticket.show');
+        Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show');
         Route::get('ticket/{ticket}/edit', 'TicketController@edit')->name('ticket.edit');
         Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update');
         Route::delete('ticket/{ticket}', 'TicketController@delete')->name('ticket.delete');
