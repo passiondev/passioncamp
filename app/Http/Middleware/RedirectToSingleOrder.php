@@ -16,8 +16,10 @@ class RedirectToSingleOrder
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()->isOrderOwner() && Auth::user()->has('orders')) {
+        if (Auth::user()->isOrderOwner() && Auth::user()->has('orders') && Auth::user()->orders->count() == 1) {
             return redirect()->route('order.show', Auth::user()->orders->first());
         }
+
+        return $next($request);
     }
 }
