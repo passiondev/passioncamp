@@ -20,7 +20,7 @@
                     <a class="ui primary button" href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a>
                 </div>
             @endcan
-            @if (Auth::user()->isOrderOwner())
+            @if (Auth::user()->isOrderOwner() && $order->balance > 0)
                 <div class="item">
                     <a class="ui primary button" href="{{ route('order.payment.create', $order) }}" class="button small">Make Payment</a>
                 </div>
@@ -75,10 +75,12 @@
                                                     <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
                                                 @endif
                                             @endif
-                                        @else
+                                        @elseif (Auth::user()->isAdmin())
                                             <Waiver inline-template>
                                                 <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
                                             </Waiver>
+                                        @else
+                                            <i>pending</i>
                                         @endif
                                     @endunless
                                 </td>
@@ -92,9 +94,11 @@
                     </tbody>
                 </table>
             @else
-                <div class="callout secondary" style="margin-top: 1rem;text-align:center">
-                    <a class="button" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
-                </div>
+                @can ('add-attendees', $order)
+                    <div class="callout secondary" style="margin-top: 1rem;text-align:center">
+                        <a class="button" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a>
+                    </div>
+                @endcan
             @endif
         </section>
 
