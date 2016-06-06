@@ -2,7 +2,6 @@
 
 Route::any('/', function() {
     return redirect('/home');
-    return redirect('http://passioncitychurch.com/students');
 });
 
 
@@ -14,6 +13,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('account', 'AccountController@index')->name('account');
 
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
+        Route::any('/', function() {
+            return redirect('http://passioncitychurch.com/students');
+        });
         Route::get('registration', 'RegisterController@create')->name('register.create');
         Route::post('registration', 'RegisterController@store')->name('register.store');
         Route::get('registration/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
