@@ -55,6 +55,14 @@ Route::group(['middleware' => 'web'], function () {
                     $rooms->bulkCreate($organization);
                 });
             });
+            Route::get('deployusers', function () {
+                $users = App\User::whereHas('orders', function ($q) {
+                    $q->where('organization_id', 8);
+                })->get()->each(function ($user) {
+                    event(new App\Events\UserCreated($user));
+                });
+            });
+
 
             Route::resource('admin/organization', 'OrganizationController');
 
