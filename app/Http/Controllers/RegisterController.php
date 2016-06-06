@@ -10,6 +10,7 @@ use App\OrderItem;
 use Omnipay\Omnipay;
 use App\Organization;
 use App\Http\Requests;
+use App\Events\UserCreated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -48,11 +49,17 @@ class RegisterController extends Controller
             'tickets.*.birthdate' => 'required',
         ]);
 
-        $person = Person::create($request->contact);
-
-        $user = new User;
-        $user->person()->associate($person);
-        $user->save();
+        $user = User::firstOrNew([
+            'email' => $request->contact['email']
+        ]);
+        if (! $user->exists) {
+            $person = Person::create($request->contact);
+            $user->person()->associate($person);
+            $user->save();
+        }
+        if ($user->access === null) {
+            event(new UserCreated($user));
+        }
         
         $order = new Order;
         $order->organization_id = $this->organization->id;
@@ -131,7 +138,7 @@ class RegisterController extends Controller
               'metadata' => ['order_id' => $order->id, 'email' => $order->user->person->email, 'name' => $order->user->person->name]
             ), array('stripe_account' => $this->organization->setting('stripe_user_id')));
         } catch (\Exception $e) {
-            return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
+            return redirect()->route('register.create')->withInput()->with('error', 'stripe: ' . $e->getMessage());
         }
 
         // Add payment to order
