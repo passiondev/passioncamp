@@ -29,6 +29,10 @@ class SendRegistrationEmail
     {
         $user = $event->user;
 
+        if ($user->password) {
+            return;
+        }
+
         Mail::queue('auth.emails.pcc', compact('user'), function ($m) use ($user) {
             $m->from('students@passioncitychurch.com', 'PCC Students');
             $m->subject('Create Your Account');
