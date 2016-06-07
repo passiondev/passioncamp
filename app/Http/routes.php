@@ -56,7 +56,7 @@ Route::group(['middleware' => 'web'], function () {
                 });
             });
             Route::get('deployusers', function () {
-                $users = App\User::whereHas('orders', function ($q) {
+                $users = App\User::whereNull('email')->whereHas('orders', function ($q) {
                     $q->where('organization_id', 8);
                 })->whereHas('tickets', function ($q) {
                     $q->where('agegroup', 'student');
