@@ -58,9 +58,23 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('deployusers', function () {
                 $users = App\User::whereHas('orders', function ($q) {
                     $q->where('organization_id', 8);
-                })->get()->each(function ($user) {
+                })->whereHas('tickets', function ($q) {
+                    $q->where('agegroup', 'student');
+                })->with('person', 'orders')->get()
+                // ->map(function ($user) {
+                //     return [
+                //         $user->id,
+                //         'email' => $user->person->email,
+                //         $user->orders->pluck('id'),
+                //     ];
+                // })->sortBy('email')
+                ->each(function ($user) {
+                    if (App\User::where('email', $user->person->email)->count()) {
+                        return;
+                    }
                     event(new App\Events\UserCreated($user));
-                });
+                })
+                ; dd($users);
             });
 
 

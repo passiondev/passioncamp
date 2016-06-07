@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function tickets()
+    {
+        return $this->hasManyThrough(Ticket::class, Order::class);
+    }
+
     public function getIsSuperAdminAttribute()
     {
         return $this->isSuperAdmin();

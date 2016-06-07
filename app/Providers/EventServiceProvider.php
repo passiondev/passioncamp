@@ -22,6 +22,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\Waivers\EmailBounced\SendNotification',
         ],
         'App\Events\UserCreated' => [
+            'App\Listeners\User\SometimesUpdateEmail',
             'App\Listeners\User\SometimesUpdateAccess',
             'App\Listeners\User\SendRegistrationEmail',
         ]
