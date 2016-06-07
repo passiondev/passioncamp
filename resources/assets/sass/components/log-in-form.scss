@@ -1,0 +1,13 @@
+// Setting the form border color
+$form-border-color: $medium-gray;
+// Setting the form padding
+$form-padding: $global-padding;
+// Setting the form border radius
+$form-radius: $global-radius;
+
+.log-in-form {
+    margin-top: 1rem;
+  border: 1px solid $form-border-color;
+  padding: $form-padding !important;
+  border-radius: $form-radius;
+}

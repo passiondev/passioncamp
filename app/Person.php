@@ -2,10 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'person';
 
     protected $fillable = [
@@ -28,6 +30,11 @@ class Person extends Model
     public function user()
     {
         return $this->hasOne(User::class);
+    }
+
+    public function getNameAttribute()
+    {
+        return ucwords(sprintf("%s %s", $this->first_name, $this->last_name));
     }
 
     public function setBirthdateAttribute($birthdate)

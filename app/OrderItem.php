@@ -2,11 +2,17 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\Collections\OrderItemCollection;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderItem extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'order_item';
+
+    protected $fillable = ['quantity', 'cost', 'org_type'];
     
     protected static function boot()
     {
@@ -15,6 +21,16 @@ class OrderItem extends Model
         static::creating(function ($item) {
             $item->attributes['type'] = $item->type;
         });
+    }
+
+    public function newCollection(array $models = [])
+    {
+        return new OrderItemCollection($models);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereNull('canceled_at');
     }
 
     public function organization()
@@ -35,5 +51,43 @@ class OrderItem extends Model
     public function canceledBy()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function person()
+    {
+        return $this->belongsTo(Person::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
+    public function getNameAttribute()
+    {
+        if ($this->item) {
+            return $this->item->name;
+        }
+
+        return ucwords($this->type);
+    }
+
+    public function isOrganizationItem()
+    {
+        return ! is_null($this->org_type);
+    }
+
+    public function getIsCanceledAttribute()
+    {
+        return (bool) $this->canceled_at;
+    }
+
+    public function cancel()
+    {
+        $this->canceled_at = \Carbon\Carbon::now();
+        $this->canceled_by_id = Auth::id();
+        $this->save();
+
+        return $this;
     }
 }

@@ -13,9 +13,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'App\Events\OrderItems\OrgItemUpdated' => [
+            'App\Listeners\CreateRooms',
         ],
+        'App\Events\Waivers\EmailBounced' => [
+            'App\Listeners\Waivers\EmailBounced\CancelSignatureRequest',
+            'App\Listeners\Waivers\EmailBounced\CancelWaiverRecord',
+            'App\Listeners\Waivers\EmailBounced\SendNotification',
+        ],
+        'App\Events\UserCreated' => [
+            'App\Listeners\User\SometimesUpdateEmail',
+            'App\Listeners\User\SometimesUpdateAccess',
+            'App\Listeners\User\SendRegistrationEmail',
+        ]
     ];
 
     /**

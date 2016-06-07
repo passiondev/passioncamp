@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => 'http://portal.passioncamp.268generation.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -155,11 +155,14 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
         Sebpro\ArtisanExt\ArtisanExtServiceProvider::class,
         Sofa\Eloquence\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Jenssegers\Rollbar\RollbarServiceProvider::class,
+        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
     ],
 
     /*

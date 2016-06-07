@@ -42,4 +42,13 @@ return [
         ]
     ],
 
+    'echosign' => [
+        'callback' => env('ECHOSIGN_CALLBACK', 'echosign.callback'),
+    ],
+
+    'rollbar' => [
+        'access_token' => env('ROLLBAR_TOKEN'),
+        'level' => env('ROLLBAR_LEVEL'),
+    ],
+
 ];

@@ -1,0 +1,30 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.label {
+    &--student {
+        @include label-variant(#2c019c);
+    }
+}
+
+.table > tbody > tr > th,
+.table > tbody > tr > td {
+    border-top-width: 0px;
+}
+.table > thead + tbody > tr > th,
+.table > thead + tbody > tr > td {
+    border-top-width: 1px;
+}
+
+.panel--registration {
+    display: block;
+    text-decoration: none !important;
+    .row {
+        @media (min-width: $screen-sm-min) {
+            display: flex;
+        }
+    }
+}
+.panel-body .panel-footer {
+    margin-left: -15px;
+    margin-right: -15px;
+}

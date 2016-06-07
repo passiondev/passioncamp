@@ -1,0 +1,130 @@
+.info-box {
+  background-color: #fff;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #dcdcdc;
+
+}
+
+.info-box__title {
+  border-top: 3px solid #333;
+  padding: 1rem .75rem .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+
+  > h1, > h2, > h3, > h4, > h5, > h6 {
+    margin: 0;
+  }
+  > .button-group {
+    float: right;
+  }
+}
+
+.info-box__content {
+  padding: .75rem;
+
+  .info-box__title + & {
+    border-top: 1px solid #dcdcdc;
+  }
+
+  & + .info-box__title {
+    border-top: 0;
+    padding-top: 1.25rem;
+  }
+
+  > h1, > h2, > h3, > h4, > h5, > h6 {
+    margin: 0;
+  }
+}
+
+.block-list {
+  list-style: none;
+  margin: 0;
+
+  li {
+    @include clearfix;
+    padding: .75rem 1.5rem;
+
+    &.callout {
+      border: 0;
+      padding-left: .75rem;
+      padding-right: .75rem;
+    }
+  }
+
+  .info-box__content > & {
+    margin-left: -.75rem;
+    margin-right: -.75rem;
+    margin-bottom: -.75rem;
+  }
+}
+
+.price-list {
+  li {
+    background-color: #fff;
+  }
+  .transaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // @include clearfix;
+    position: relative;
+    &:after {
+      display: block;
+      position: absolute;
+      left: 1.5rem;
+      right: 1.5rem;
+      overflow: hidden;
+      content: ".........................................................................................................................................................................................";
+      color: #ccc;
+      font-size: 1rem;
+      letter-spacing: .225rem;
+    }
+  }
+  .item {
+    z-index: 2;
+    background-color: #fff;
+
+    &.right {
+      padding-left: .4rem;
+      padding-right: .3rem;
+    }
+  }
+  .item--success {
+    border-radius: 2px;
+    background-color: #e6efc2;
+  }
+  .item--warning {
+    border-radius: 2px;
+    background-color: #fbe3e4;
+  }
+  .caption {
+    clear: both;
+    margin: -.2rem auto 0 auto;
+    display: block;
+    color: #aaa;
+  }
+  .deposit_due {
+    .item {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      font-style: italic;
+      color: #ccc;
+      font-weight: bold;
+    }
+  }
+
+  .callout {
+    &.total {
+      margin-top: .75rem;
+      &, & .item { background-color: tint(#2185D0, 95%); }
+    }
+    &.deposit_due {
+      &, & .item { background-color: tint(#F2C037, 85%); }
+    }
+    &.balance {
+      &, & .item { background-color: tint(#2185D0, 82%); }
+    }
+  }
+}
