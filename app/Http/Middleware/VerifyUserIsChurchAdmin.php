@@ -15,14 +15,14 @@ class VerifyUserIsChurchAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->organization_id) {
+        if ($request->user() && $request->user()->isChurchAdmin()) {
             return $next($request);
         }
 
-        if ($request->user() && $request->user()->is_super_admin) {
+        if ($request->user() && $request->user()->isSuperAdmin()) {
             return redirect()->route('admin.organization.index');
         }
 
-        return response('Unauthorized.', 401);
+        return abort(401, 'Unauthorized.');
     }
 }

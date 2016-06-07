@@ -14,6 +14,8 @@ class TransactionController extends Controller
     public function __construct(TransactionRepository $transactions)
     {
         $this->transactions = $transactions;
+
+        $this->middleware('admin');
     }
 
     public function refund(TransactionSplit $transaction)

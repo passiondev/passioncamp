@@ -12469,7 +12469,8 @@ var Vue, data, methods;
 Vue = require('vue');
 
 data = {
-  payment_method: null
+  payment_method: null,
+  errors: []
 };
 
 methods = {
@@ -12479,20 +12480,21 @@ methods = {
       return e.target.submit();
     }
     this.form = $(e.target);
+    this.errors = [];
     cardNumber = $('.js-form-input-card-number').val();
     cardType = $.payment.cardType(cardNumber);
     cardExpiry = $('.js-form-input-card-expiry').payment('cardExpiryVal');
     cardCVC = $('.js-form-input-card-cvc').val();
     if (!$.payment.validateCardNumber(cardNumber)) {
-      this.form.find('.payment-errors').text('Your card number is not valid.');
-      return false;
+      this.errors.push('Your card number is not valid.');
     }
     if (!$.payment.validateCardExpiry(cardExpiry)) {
-      this.form.find('.payment-errors').text('Your card expiration date is not valid.');
-      return false;
+      this.errors.push('Your card expiration date is not valid.');
     }
     if (!$.payment.validateCardCVC(cardCVC, cardType)) {
-      this.form.find('.payment-errors').text('Your card security code date is not valid.');
+      this.errors.push('Your card security code date is not valid.');
+    }
+    if (this.errors.length) {
       return false;
     }
     this.buttons = $('button', this.form).prop('disabled', true);

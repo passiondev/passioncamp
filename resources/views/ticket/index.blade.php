@@ -25,7 +25,7 @@
             @foreach ($tickets as $ticket)
                 <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                     <td><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></td>
-                    @if (Auth::user()->is_super_admin)
+                    @if (Auth::user()->isSuperAdmin())
                         <td>{{ $ticket->organization->church->name }}</td>
                         <td>{{ $ticket->organization->church->location }}</td>
                     @endif

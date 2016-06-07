@@ -17,6 +17,8 @@ class RoomingListController extends Controller
     public function __construct(RoomRepository $rooms)
     {
         $this->rooms = $rooms;
+
+        $this->middleware('admin');
     }
 
     public function index()

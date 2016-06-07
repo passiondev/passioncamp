@@ -34,15 +34,44 @@ class User extends Authenticatable
         return $this->belongsTo(Organization::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function getIsSuperAdminAttribute()
+    {
+        return $this->isSuperAdmin();
+    }
+
+    public function isAdmin()
+    {
+        return $this->isSuperAdmin() || $this->isChurchAdmin();
+    }
+
+    public function isSuperAdmin()
     {
         return $this->access == 100;
     }
 
+    public function isChurchAdmin()
+    {
+        return $this->access == 1 && $this->organization_id !== null;
+    }
+
+    public function isOrderOwner()
+    {
+        return $this->access == 1 && $this->organization_id === null;
+    }
+
     public function getAuthOrganizationAttribute()
     {
-        if ($this->is_super_admin) {
+        if ($this->isSuperAdmin()) {
             return 'PASSION CAMP ADMIN';
+        }
+
+        if ($this->isOrderOwner()) {
+            return 'Order Owner';
         }
 
         return $this->organization->church->name . ' - ' . $this->organization->church->location;

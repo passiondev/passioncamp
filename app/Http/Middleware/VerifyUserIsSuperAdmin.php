@@ -15,10 +15,10 @@ class VerifyUserIsSuperAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user() && $request->user()->is_super_admin) {
+        if ($request->user() && $request->user()->isSuperAdmin()) {
             return $next($request);
         }
 
-        return response('Unauthorized.', 401);
+        return abort(401, 'Unauthorized.');
     }
 }

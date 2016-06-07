@@ -69,6 +69,6 @@
         </ul>
     </div>
     <div class="info-box__content">
-        <a href="{{ auth()->user()->is_super_admin ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="ui primary tiny button">Make Payment</a>
+        <a href="{{ auth()->user()->isSuperAdmin() ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="ui primary tiny button">Make Payment</a>
     </div>
 </div>

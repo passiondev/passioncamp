@@ -16,10 +16,8 @@ class TicketController extends Controller
 
     public function __construct(TicketRepository $tickets)
     {
-        if (request()->ticket) {
-            $this->authorize('owner', request()->ticket->order);
-        }
-        
+        $this->middleware('admin')->except('edit', 'update');
+
         $this->tickets = $tickets;
     }
 
@@ -37,8 +35,15 @@ class TicketController extends Controller
         return view('ticket.index', compact('tickets'));
     }
 
+    public function show(Ticket $ticket)
+    {
+        return redirect()->route('order.show', $ticket->order);
+    }
+
     public function edit(Ticket $ticket)
     {
+        $this->authorize('owner', $ticket);
+
         $formData = array_merge(
             $ticket->getAttributes(),
             $ticket->person->getAttributes(),
@@ -54,6 +59,8 @@ class TicketController extends Controller
 
     public function update(Request $request, Ticket $ticket)
     {
+        $this->authorize('owner', $ticket);
+
         $this->validate($request, [
             'agegroup' => 'required',
             'first_name' => 'required',
@@ -69,6 +76,8 @@ class TicketController extends Controller
 
     public function cancel(Ticket $ticket)
     {
+        $this->authorize('owner', $ticket);
+
         $ticket->cancel();
 
         return redirect()->route('order.show', $ticket->order);
@@ -76,6 +85,8 @@ class TicketController extends Controller
 
     public function delete(Ticket $ticket)
     {
+        $this->authorize('owner', $ticket);
+
         $order = $ticket->order;
 
         $ticket->delete();

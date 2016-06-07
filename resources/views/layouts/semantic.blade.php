@@ -44,9 +44,11 @@
                     @include ('menu.right')
                 </div>
 
-                <a class="item" title="Sign Out" href="{{ route('logout') }}">
-                    <i class="sign out icon"></i>
-                </a>
+                @if (Auth::check())
+                    <a class="item" title="Sign Out" href="{{ route('logout') }}">
+                        <i class="sign out icon"></i>
+                    </a>
+                @endif
             </div>
         </header>
 

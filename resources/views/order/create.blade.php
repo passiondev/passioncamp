@@ -10,7 +10,7 @@
             <div class="seven wide column">
                 {{ Form::open(['route' => 'order.store', 'class' => 'ui form']) }}
 
-                    @if (Auth::user()->is_super_admin)
+                    @if (Auth::user()->isSuperAdmin())
                         <div class="field">
                             {{ Form::label('organization', 'Church') }}
                             {{ Form::select('organization', $organizationOptions, null, ['id' => 'organization', 'class' => 'ui dropdown']) }}

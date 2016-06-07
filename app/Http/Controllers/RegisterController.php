@@ -7,31 +7,40 @@ use App\Order;
 use App\Person;
 use App\Ticket;
 use App\OrderItem;
+use Carbon\Carbon;
 use Omnipay\Omnipay;
 use App\Organization;
 use App\Http\Requests;
+use App\Events\UserCreated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class RegisterController extends Controller
 {
     protected $organization;
+    protected $ticket_price = 370;
 
     public function __construct()
     {
+        if (Carbon::now()->gte(Carbon::create(2016, 5, 2, 4))) {
+            $this->ticket_price = 390;
+        }
+        if (Carbon::now()->gte(Carbon::create(2016, 6, 13, 4))) {
+            $this->ticket_price = 410;
+        }
+
         $this->organization = Organization::findOrFail(8);
     }
 
     public function create()
     {
-        return view('register.create');
+        return view('register.create')->withTicketPrice($this->ticket_price);
     }
 
     public function store(Request $request)
     {
-        $ticket_price = 370;
         if ($request->num_tickets >= 2) {
-            $ticket_price -= 20;
+            $this->ticket_price -= 20;
         }
 
         $this->validate($request, [
@@ -48,11 +57,17 @@ class RegisterController extends Controller
             'tickets.*.birthdate' => 'required',
         ]);
 
-        $person = Person::create($request->contact);
-
-        $user = new User;
-        $user->person()->associate($person);
-        $user->save();
+        $user = User::firstOrNew([
+            'email' => $request->contact['email']
+        ]);
+        if (! $user->exists) {
+            $person = Person::create($request->contact);
+            $user->person()->associate($person);
+            $user->save();
+        }
+        if ($user->access === null) {
+            event(new UserCreated($user));
+        }
         
         $order = new Order;
         $order->organization_id = $this->organization->id;
@@ -71,7 +86,7 @@ class RegisterController extends Controller
         }
 
         // record tickets
-        collect($request->tickets)->each(function ($data) use ($order, $ticket_price) {
+        collect($request->tickets)->each(function ($data) use ($order) {
             $person = Person::create(array_only($data, [
                 'first_name',
                 'last_name',
@@ -96,7 +111,7 @@ class RegisterController extends Controller
             $ticket->order()->associate($order);
             $ticket->person()->associate($person);
             $ticket->ticket_data = $ticket_data;
-            $ticket->price = $ticket_price;
+            $ticket->price = $this->ticket_price;
             $ticket->save();
         });
 

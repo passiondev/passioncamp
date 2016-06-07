@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class HotelController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('super');
-    }
-
     public function index()
     {
         $hotels = Hotel::all();

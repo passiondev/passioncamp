@@ -12,7 +12,14 @@
                 <Transaction inline-template can-make-stripe-payments="{{ $order->organization->can_make_stripe_payments }}">
                     {{ Form::open(['route' => ['order.transaction.store', $order], 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }}
 
-                        <p class="payment-errors text-danger"></p>
+                        <div class="ui visible error message payment-errors" v-show="errors.length > 0">
+                            <div class="header">
+                                There was an error with your submission.
+                            </div>
+                            <ul class="list">
+                                <li v-for="error in errors">@{{ error }}</li>
+                            </ul>
+                        </div>
 
                         <div class="field">
                             {{ Form::label('type', 'Payment Method') }}

@@ -18,7 +18,7 @@ class OrderItemPolicy
     public function edit(User $user, $item)
     {
         if ($item->isOrganizationItem()) {
-            return $user->is_super_admin;
+            return $user->isSuperAdmin();
         }
 
         return true;

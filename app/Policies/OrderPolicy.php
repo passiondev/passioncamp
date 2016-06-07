@@ -12,14 +12,19 @@ class OrderPolicy
 
     public function before($user, $ability)
     {
-        if ($user->is_super_admin) {
+        if ($user->isSuperAdmin()) {
             return true;
         }
     }
 
     public function owner(User $user, Order $order)
     {
-        return $user->organization_id === $order->organization_id;
+        return $user->organization_id === $order->organization_id || $order->user_id == $user->id;
+    }
+
+    public function adminOwner(User $user, Order $order)
+    {
+        return $user->isSuperAdmin() || ($user->isChurchAdmin() && $user->organization_id == $order->organization_id);
     }
 
     public function recordTransaction(User $user, Order $order)
@@ -28,14 +33,33 @@ class OrderPolicy
             return false;
         }
 
+        if ($user->id == $order->user_id) {
+            return true;
+        }
+
         if ($user->organization_id == $order->organization_id) {
             return true;
         }
 
-        if ($user->is_super_admin) {
+        if ($user->isSuperAdmin()) {
             return true;
         }
 
         return false;
+    }
+
+    public function addAttendees(User $user, Order $order)
+    {
+        return $this->isAdminOwner($user, $order);
+    }
+
+    public function editContact(User $user, Order $order)
+    {
+        return $this->isAdminOwner($user, $order);
+    }
+
+    private function isAdminOwner($user, $order)
+    {
+        return $user->isSuperAdmin() || ($user->isChurchAdmin() && $user->organization_id == $order->organization_id);
     }
 }

@@ -2,6 +2,7 @@ Vue = require('vue')
 
 data =
   payment_method: null
+  errors: []
 
 methods =
   submitHandler: (e) ->
@@ -9,6 +10,7 @@ methods =
       return e.target.submit()
 
     @form = $(e.target)
+    @errors = []
 
     cardNumber = $('.js-form-input-card-number').val()
     cardType = $.payment.cardType cardNumber
@@ -16,15 +18,15 @@ methods =
     cardCVC = $('.js-form-input-card-cvc').val()
 
     if ! $.payment.validateCardNumber cardNumber
-      @form.find('.payment-errors').text 'Your card number is not valid.'
-      return false
+      @errors.push 'Your card number is not valid.'
 
     if ! $.payment.validateCardExpiry cardExpiry
-      @form.find('.payment-errors').text 'Your card expiration date is not valid.'
-      return false
+      @errors.push 'Your card expiration date is not valid.'
 
     if ! $.payment.validateCardCVC(cardCVC, cardType)
-      @form.find('.payment-errors').text 'Your card security code date is not valid.'
+      @errors.push 'Your card security code date is not valid.'
+
+    if @errors.length
       return false
 
     @buttons = $('button', @form).prop('disabled', true)

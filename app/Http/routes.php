@@ -2,7 +2,6 @@
 
 Route::any('/', function() {
     return redirect('/home');
-    return redirect('http://passioncitychurch.com/students');
 });
 
 
@@ -11,7 +10,12 @@ Route::any('/', function() {
 // Route::any('signature', 'EchosignController@signature');
 
 Route::group(['middleware' => 'web'], function () {
+    Route::get('account', 'AccountController@index')->name('account');
+
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
+        Route::any('/', function() {
+            return redirect('http://passioncitychurch.com/students');
+        });
         Route::get('registration', 'RegisterController@create')->name('register.create');
         Route::post('registration', 'RegisterController@store')->name('register.store');
         Route::get('registration/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
@@ -33,7 +37,15 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/home', function () {
-            return redirect()->route(Auth::user()->is_super_admin ? 'admin.organization.index' : 'account.dashboard');
+            if (Auth::user()->isOrderOwner()) {
+                return redirect()->route('account');
+            }
+
+            if (Auth::user()->isChurchAdmin()) {
+                return redirect()->route('account.dashboard');
+            }
+
+            return redirect()->route('admin.organization.index');
         });
 
         Route::group(['middleware' => 'super'], function () {
@@ -43,6 +55,14 @@ Route::group(['middleware' => 'web'], function () {
                     $rooms->bulkCreate($organization);
                 });
             });
+            Route::get('deployusers', function () {
+                $users = App\User::whereHas('orders', function ($q) {
+                    $q->where('organization_id', 8);
+                })->get()->each(function ($user) {
+                    event(new App\Events\UserCreated($user));
+                });
+            });
+
 
             Route::resource('admin/organization', 'OrganizationController');
 
@@ -85,11 +105,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('registration/{order}/transaction/create', 'Order\TransactionController@create')->name('order.transaction.create');
         Route::post('registration/{order}/transaction', 'Order\TransactionController@store')->name('order.transaction.store');
 
+        Route::get('registration/{order}/payment/create', 'Order\PaymentController@create')->name('order.payment.create');
+        Route::post('registration/{order}/payment', 'Order\PaymentController@store')->name('order.payment.store');
+
         Route::get('tickets', 'TicketController@index')->name('ticket.index');
         Route::get('tickets/export', 'Ticket\ExportController@index')->name('ticket.export.index');
-        Route::get('ticket/{ticket}', function (\App\Ticket $ticket) {
-            return redirect()->route('order.show', $ticket->order);
-        })->name('ticket.show');
+        Route::get('ticket/{ticket}', 'TicketController@show')->name('ticket.show');
         Route::get('ticket/{ticket}/edit', 'TicketController@edit')->name('ticket.edit');
         Route::patch('ticket/{ticket}', 'TicketController@update')->name('ticket.update');
         Route::delete('ticket/{ticket}', 'TicketController@delete')->name('ticket.delete');

@@ -17,7 +17,11 @@ class OrganizationPolicy
 
     public function recordTransactions(User $user, Organization $organization = null)
     {
-        if ($user->is_super_admin) {
+        if ($user->isOrderOwner()) {
+            return false;
+        }
+
+        if ($user->isSuperAdmin()) {
             return true;
         }
 

@@ -3,7 +3,7 @@
 @section('head')
     <script>
         window.tickets_data = {!! json_encode(array_values(old('tickets') ?: [])) !!};
-        window.ticket_price = 370
+        window.ticket_price = {{ $ticket_price }};
     </script>
 @endsection
 @section('content')
@@ -115,8 +115,8 @@
                         <textarea class="form-control" id="tickets_@{{ ticket.number }}__allergies" name="tickets[@{{ ticket.number }}][allergies]" v-model="ticket.allergies" rows="2"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="tickets_@{{ ticket.number }}__roomate_requested">Roomate Requested</label>
-                        <input class="form-control" type="text" name="tickets[@{{ ticket.number }}][roomate_requested]" v-model="ticket.roomate_requested" id="tickets_@{{ ticket.number }}__roomate_requested">
+                    <label class="control-label" for="tickets_@{{ ticket.number }}__roommate_requested">Roommate Requested</label>
+                    <input class="form-control" type="text" name="tickets[@{{ ticket.number }}][roommate_requested]" v-model="ticket.roommate_requested" id="tickets_@{{ ticket.number }}__roommate_requested">
                     </div>
                 </div>
                     </section>

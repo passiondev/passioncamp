@@ -46,7 +46,7 @@
                         <div style="display:flex;justify-content:space-between;align-items:center">
                             <div class="ui mini primary button">more info</div>
                             <div>
-                                @if (Auth::user()->is_super_admin)
+                                @if (Auth::user()->isSuperAdmin())
                                     <span class="">{{ $order->organization->church->name }}</span> •
                                 @endif
                                 <span class="">Registration #{{ $order->id }}</span> •

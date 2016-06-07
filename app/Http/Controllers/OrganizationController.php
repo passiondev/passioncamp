@@ -12,11 +12,6 @@ use App\Http\Controllers\Controller;
 
 class OrganizationController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('super');
-    }
-
     public function index()
     {
         $organizations = Organization::active()->with('contact', 'church', 'tickets')->get();

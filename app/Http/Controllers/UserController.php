@@ -20,12 +20,13 @@ class UserController extends Controller
     {
         $this->users = $users;
         $this->middleware('super')->only('index');
+        $this->middleware('admin')->except('index');
     }
 
     public function index()
     {
         $users = $this->users->getAdminUsers();
-        $users->load('person', 'organization.orders');
+        $users->load('person', 'organization.orders', 'organization.church');
 
         return view('user.index', compact('users'));
     }
@@ -45,13 +46,13 @@ class UserController extends Controller
 
         $user = $this->users->create(
             $request->all(),
-            Auth::user()->is_super_admin && $request->organization == 'ADMIN' ? 100 : 1
+            Auth::user()->isSuperAdmin() && $request->organization == 'ADMIN' ? 100 : 1
         );
 
-        if (! $user->is_super_admin) {
+        if (! $user->isSuperAdmin()) {
             $organization = null;
 
-            if (! auth()->user()->is_super_admin) {
+            if (! auth()->user()->isSuperAdmin()) {
                 $organization = auth()->user()->organization;
             }
 
@@ -64,11 +65,11 @@ class UserController extends Controller
 
         $this->sendAccountCreationEmail($user);
 
-        if ($user->is_super_admin) {
+        if ($user->isSuperAdmin()) {
             return redirect()->route('user.index');
         }
 
-        if (auth()->user()->is_super_admin) {
+        if (auth()->user()->isSuperAdmin()) {
             return redirect()->route('organization.settings.index', $organization);
         }
 
@@ -80,7 +81,7 @@ class UserController extends Controller
         $this->authorize($user);
 
         $user_data = [
-            'organization' => $user->is_super_admin ? 'ADMIN' : $user->organization_id,
+            'organization' => $user->isSuperAdmin() ? 'ADMIN' : $user->organization_id,
             'first_name' => $user->person->first_name,
             'last_name' => $user->person->last_name,
             'email' => $user->person->email,
@@ -99,9 +100,9 @@ class UserController extends Controller
             'email' => 'required|unique:user,email,'.$user->id,
         ]);
 
-        $this->users->update($user, $request->all(), Auth::user()->is_super_admin && $request->organization == 'ADMIN' ? 100 : 1);
+        $this->users->update($user, $request->all(), Auth::user()->isSuperAdmin() && $request->organization == 'ADMIN' ? 100 : 1);
 
-        return redirect()->route(Auth::user()->is_super_admin ? 'user.index' : 'account.settings');
+        return redirect()->route(Auth::user()->isSuperAdmin() ? 'user.index' : 'account.settings');
     }
 
     public function sendAccountCreationEmail(User $user)

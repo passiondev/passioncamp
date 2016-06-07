@@ -25,7 +25,7 @@ class Room extends Model
     {
         $user = $user ?: Auth::user();
 
-        if ($user->is_super_admin) {
+        if ($user->isSuperAdmin()) {
             return $query;
         }
 

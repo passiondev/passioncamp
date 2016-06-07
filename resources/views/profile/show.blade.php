@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="ui container">
-        <header class="page-header">
+        <header class="ui dividing header">
             <h1>Update Profile</h1>
         </header>
 
@@ -24,7 +24,7 @@
                         {{ Form::email('email', null, ['id' => 'email']) }}
                     </div>
                     <div class="field">
-                        {{ Form::label('password', 'Password') }}
+                        {{ Form::label('password', 'Update Password') }}
                         {{ Form::password('password', null, ['id' => 'password']) }}
                     </div>
                     <div class="field">
