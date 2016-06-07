@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class ContactController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('admin')->except('edit');
-    }
-
     public function create(Order $order)
     {
         $this->authorize('owner', $order);
