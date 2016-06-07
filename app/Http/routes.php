@@ -10,7 +10,6 @@ Route::any('/', function() {
 // Route::any('signature', 'EchosignController@signature');
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('account', 'AccountController@index')->name('account');
 
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
         Route::any('/', function() {
@@ -36,6 +35,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('password/reset', 'Auth\PasswordController@reset');
 
     Route::group(['middleware' => 'auth'], function () {
+        Route::get('account', 'AccountController@index')->name('account');
+        
         Route::get('/home', function () {
             if (Auth::user()->isOrderOwner()) {
                 return redirect()->route('account');
