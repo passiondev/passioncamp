@@ -126,7 +126,7 @@
                 </div>
             @endif
         </div>
-        @if (auth()->user()->isSuperAdmin())
+        @can ('record-notes', $order)
             <section class="ui segment panel panel-default" id="notes">
                 <header class="ui dividing header panel-heading">
                     <h4>Notes</h4>

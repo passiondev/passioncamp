@@ -62,4 +62,17 @@ class OrderPolicy
     {
         return $user->isSuperAdmin() || ($user->isChurchAdmin() && $user->organization_id == $order->organization_id);
     }
+
+    public function recordNotes($user, $order)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->isChurchAdmin() && $order->organization_id == 8) {
+            return true;
+        }
+
+        return false;
+    }
 }

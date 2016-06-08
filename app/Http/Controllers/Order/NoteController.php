@@ -8,13 +8,10 @@ use App\Http\Controllers\Controller;
 
 class NoteController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('super');
-    }
-
     public function store(Request $request, Order $order)
     {
+        $this->authorize('record-notes', $order);
+
         $this->validate($request, [
             'body' => 'required'
         ]);
