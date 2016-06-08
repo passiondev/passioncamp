@@ -8,10 +8,23 @@ use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Sofa\Revisionable\Revisionable;
+use Sofa\Revisionable\Laravel\RevisionableTrait;
 
-class Ticket extends OrderItem
+class Ticket extends OrderItem implements Revisionable
 {
-    use Eloquence, FormAccessible, SoftDeletes;
+    use Eloquence, FormAccessible, SoftDeletes, RevisionableTrait;
+
+    protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
+
+    public function isRevisioned()
+    {
+        return false;
+    }
+
+    protected $appends = ['name'];
+
+    protected $revisionable = ['name', 'room_id'];
 
     protected $table = 'order_item';
     
@@ -76,6 +89,11 @@ class Ticket extends OrderItem
                : "Ticket #{$this->id}";
     }
 
+    public function getFullNameAttribute()
+    {
+        return 'full name!';
+    }
+
     /*-------------- setters -----------------*/
     public function setTicketDataAttribute($ticket_data)
     {
@@ -115,5 +133,21 @@ class Ticket extends OrderItem
         $data = json_decode($this->ticket_data, true);
 
         return is_null($key) ? $data : array_get($data, $key);
+    }
+
+    public function revision()
+    {
+        $this->load('latestRevision');
+
+        $logger = static::getRevisionableLogger();
+        $table = $this->getTable();
+        $id    = $this->getKey();
+        $user  = Auth::user();
+        $latest = $this->latestRevision ? $this->latestRevision->new : [];
+        $current = $this->getNewAttributes() + ['name' => $this->person->name];
+
+        $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
+
+        $this->load('latestRevision');
     }
 }

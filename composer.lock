@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c4cbb5bb21aa64dc6becb3e47fb1a3bf",
+    "hash": "2a41c6b36570c5a293c5b2ec629cc9e2",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -2706,6 +2706,64 @@
                 "laravel"
             ],
             "time": "2016-01-14 21:06:40"
+        },
+        {
+            "name": "sofa/revisionable",
+            "version": "V5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jarektkaczyk/revisionable.git",
+                "reference": "03686f8a507d1419e6332b87c15808da05c08c8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jarektkaczyk/revisionable/zipball/03686f8a507d1419e6332b87c15808da05c08c8d",
+                "reference": "03686f8a507d1419e6332b87c15808da05c08c8d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "cartalyst/sentry": "~2.0",
+                "illuminate/auth": "5.2.*",
+                "illuminate/database": "5.2.*",
+                "mockery/mockery": "*",
+                "phpspec/phpspec": "~2.0@dev",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0",
+                "tymon/jwt-auth": "^0.5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-4": {
+                    "Sofa\\Revisionable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jarek Tkaczyk",
+                    "email": "jarek@softonsofa.com",
+                    "homepage": "http://softonsofa.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Nice and easy way to handle revisions of your db.",
+            "keywords": [
+                "eloquent",
+                "history",
+                "laravel",
+                "revision",
+                "revisionable"
+            ],
+            "time": "2016-04-14 13:12:08"
         },
         {
             "name": "stripe/stripe-php",
