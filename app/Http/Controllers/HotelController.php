@@ -11,13 +11,14 @@ class HotelController extends Controller
 {
     public function index()
     {
-        $hotels = Hotel::all();
+        $hotels = Hotel::with('items')->get();
         
         return view('admin.hotel.index')->withHotels($hotels);
     }
 
     public function show(Hotel $hotel)
     {
+        $hotel->load('organizations.church');
         return view('admin.hotel.show')->withHotel($hotel);
     }
 }

@@ -25,7 +25,7 @@ class TicketController extends Controller
     {
         $tickets = Ticket::forUser()
                    ->search($request->search)
-                   ->with('person', 'order', 'organization')
+                   ->with('person', 'order', 'organization.church', 'waiver')
                    ->paginate(15);
 
         if ($tickets->count() > 0 && ! $request->search && ! $request->page) {

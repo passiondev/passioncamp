@@ -31,7 +31,7 @@ class OrderController extends Controller
                   ->forUser(Auth::user())
                   ->search($request->search)
                   ->has('tickets')
-                  ->with('tickets.person')
+                  ->with('tickets.person', 'organization.church')
                   ->paginate(5);
 
         if ($orders->count() > 0 && ! $request->search && ! $request->page) {
@@ -44,6 +44,7 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $this->authorize('owner', $order);
+        $order->load('tickets.person', 'tickets.waiver', 'notes', 'organization.church', 'user.person');
 
         return view('order.show', compact('order'));
     }

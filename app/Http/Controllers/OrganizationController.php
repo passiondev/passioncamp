@@ -21,7 +21,7 @@ class OrganizationController extends Controller
 
     public function show(Organization $organization)
     {
-        $organization->load('church', 'studentPastor', 'contact', 'items', 'transactions', 'authUsers');
+        $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes');
 
         if (is_null($organization->contact)) {
             $organization->contact = new Person;
