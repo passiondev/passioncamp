@@ -28,7 +28,7 @@
         </div>
 
         @unless ($order->hasContactInfo())
-            <div class="callout warning" style="margin-bottom:2rem">
+            <div class="ui warning message" style="margin-bottom:2rem">
                 <p>Please add a point of contact for this registration.</p>
                 <p><a href="{{ route('order.contact.create', $order) }}" class="button outline small">Add Contact</a></p>
             </div>
