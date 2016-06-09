@@ -1,7 +1,12 @@
 <div class="column">
     <div class="room ui segment js-droppable {{ $room->is_at_capacity ? 'full' : '' }}" data-id="{{ $room->id }}">
         <header class="ui dividing header" style="display:flex;justify-content:space-between;align-items:baseline">
-            <h4>{{ $room->name }}</h4>
+            <div>
+                @if (Auth::user()->isSuperAdmin())
+                <h4>{{ $room->organization->church->name }}</h4>
+                @endif
+                <h4 style="margin-top:0">{{ $room->name }}</h4>
+            </div>
             <div class="ui sub header" style="text-transform:none">
                 <a href="{{ route('roominglist.edit', $room) }}">edit</a>
             </div>

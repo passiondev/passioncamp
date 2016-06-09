@@ -24,7 +24,7 @@ class RoomingListController extends Controller
     public function index()
     {
         $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->unassigendSort();
-        $rooms = Room::forUser()->with('tickets.person')->get();
+        $rooms = Room::forUser()->with('tickets.person', 'organization.church')->get();
 
         return view('roominglist.index', compact('unassigned', 'rooms'));
     }
