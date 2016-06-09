@@ -30,7 +30,7 @@ class RoomRepository
         // does the organization need rooms?
         // how many rooms does the org need?
         $needed = $organization->rooms_needed;
-        $current = $organization->rooms()->count();
+        $current = $organization->rooms->count();
 
         if (! $needed) {
             return;

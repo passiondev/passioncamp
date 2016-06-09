@@ -34,7 +34,7 @@ class Room extends Model
 
     public function getAssignedAttribute()
     {
-        return $this->tickets()->count();
+        return $this->tickets->count();
     }
 
     public function getCapacityAttribute($capacity)

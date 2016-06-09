@@ -101,7 +101,7 @@ class Organization extends Model
 
     public function getRoomsNeededAttribute()
     {
-        return $this->hotel_items_count - $this->rooms()->count();
+        return $this->hotel_items_count - $this->rooms->count();
     }
 
     public function setting($key, $value = null)
