@@ -163,6 +163,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Jenssegers\Rollbar\RollbarServiceProvider::class,
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
+        Sofa\Revisionable\Laravel\ServiceProvider::class,
     ],
 
     /*
