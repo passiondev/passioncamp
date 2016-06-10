@@ -89,6 +89,16 @@ class Ticket extends OrderItem implements Revisionable
                : "Ticket #{$this->id}";
     }
 
+    public function getFirstNameAttribute()
+    {
+        return $this->person ? $this->person->first_name : '';
+    }
+
+    public function getLastNameAttribute()
+    {
+        return $this->person ? $this->person->last_name : '';
+    }
+
     public function getFullNameAttribute()
     {
         return 'full name!';
@@ -137,17 +147,35 @@ class Ticket extends OrderItem implements Revisionable
 
     public function revision()
     {
-        $this->load('latestRevision');
+        // get fresh revision info if it hasnt been loaded
+        if ( ! $this->relationLoaded('latestRevision')) {
+            $this->load('latestRevision');
+        }
 
         $logger = static::getRevisionableLogger();
         $table = $this->getTable();
         $id    = $this->getKey();
         $user  = Auth::user();
         $latest = $this->latestRevision ? $this->latestRevision->new : [];
-        $current = $this->getNewAttributes() + ['name' => $this->person->name];
+        $current = $this->getNewAttributes() + ['fname' => $this->first_name, 'lname' => $this->last_name];
 
         $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
 
-        $this->load('latestRevision');
+        // unset relation so that fresh revision info will be pulled 
+        unset($this->relations['latestRevision']);
     }
+
+    public function getHasChangedSinceLastRevisionAttribute()
+    {
+        if ( ! $this->latestRevision) {
+            return true;
+        }
+
+        if (! empty($this->latestRevision->getDiff())) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

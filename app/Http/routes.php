@@ -36,6 +36,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('account', 'AccountController@index')->name('account');
+
+        Route::get('roominglist/export', 'RoomingList\ExportController@index')->name('roominglist.export');
+        Route::post('roominglist/export/version', 'RoomingList\ExportController@version')->name('roominglist.export.version');
+        Route::post('roominglist/export/generate', 'RoomingList\ExportController@generate')->name('roominglist.export.generate');
         
         Route::get('/home', function () {
             if (Auth::user()->isOrderOwner()) {
