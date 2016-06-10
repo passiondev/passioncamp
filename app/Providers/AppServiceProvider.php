@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +14,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Collection::macro('sometimes', function ($conditional, $action, $callback) {
+            if (! $conditional) {
+                return $this;
+            }
+
+            return (new static($this->items))->$action($callback);
+        });
+
         view()->composer('ticket.partials.form', function ($view) {
             $gradeOptions = [];
             
