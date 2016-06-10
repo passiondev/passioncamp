@@ -6,6 +6,5 @@ use Sofa\Revisionable\Laravel\Presenter;
 
 class Ticket extends Presenter {
     protected $passThrough = [
-        'room_id'        => 'room',
     ];
 }
