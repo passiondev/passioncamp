@@ -132,9 +132,9 @@ class RegisterController extends Controller
         
         // deposit or full amount
         $payment_amount = $order->grand_total;
-        if ($request->payment_amount_type == 'deposit') {
-            $payment_amount = 60 * $order->tickets->count();
-        }
+        // if ($request->payment_amount_type == 'deposit') {
+        //     $payment_amount = 60 * $order->tickets->count();
+        // }
 
         try {
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
