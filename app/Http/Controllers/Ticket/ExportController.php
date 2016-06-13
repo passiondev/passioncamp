@@ -23,7 +23,7 @@ class ExportController extends Controller
     {
         $tickets = $this->tickets->forUser(Auth::user())
                    ->active()
-                   ->with('person', 'order.user.person', 'waiver')
+                   ->with('person', 'order.user.person', 'waiver', 'organization.church')
                    ->get();
 
         if ($tickets->count() == 0) {
@@ -65,10 +65,10 @@ class ExportController extends Controller
 
             $data += [
                 'waiver status' => $ticket->waiver ? $ticket->waiver->status : '',
-                'contact first name' => $ticket->order->user->person->first_name,
-                'contact last name' => $ticket->order->user->person->last_name,
-                'contact email' => $ticket->order->user->person->email,
-                'contact phone' => $ticket->order->user->person->phone,
+                'contact first name' => @$ticket->order->user->person->first_name,
+                'contact last name' => @$ticket->order->user->person->last_name,
+                'contact email' => @$ticket->order->user->person->email,
+                'contact phone' => @$ticket->order->user->person->phone,
             ];
 
             return $data;
