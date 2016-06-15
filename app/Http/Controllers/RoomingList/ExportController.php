@@ -31,6 +31,7 @@ class ExportController extends Controller
 
     public function version(Request $request)
     {
+        $version = false;
         \DB::beginTransaction();
 
         $rooms = Room::with('latestRevision', 'tickets.person', 'tickets.latestRevision', 'organization.church', 'hotel')->get();
@@ -48,12 +49,14 @@ class ExportController extends Controller
             return $ticket->has_changed_since_last_revision;
         });
 
-        $version = new RoomingListVersion;
-        $version->forceFill([
-            'user_id' => Auth::user()->id,
-            'revised_tickets' => $changed_tickets->count(),
-            'revised_rooms' => $changed_rooms->count(),
-        ])->save();
+        if ($request->save_changeset) {
+            $version = new RoomingListVersion;
+            $version->forceFill([
+                'user_id' => Auth::user()->id,
+                'revised_tickets' => $changed_tickets->count(),
+                'revised_rooms' => $changed_rooms->count(),
+            ])->save();
+        }
 
         $all_rooms = $rooms->map(function ($room) {
             return [
@@ -113,7 +116,11 @@ class ExportController extends Controller
 
         \DB::commit();
 
-        $document = Excel::create('Rooming List Export - Version #'. $version->id, function($excel) use ($all_rooms, $changed_rooms, $changed_tickets) {
+        $title = 'Rooming List Export';
+        if ($version) {
+            $title = $title . ' - Version #' . $version->id;
+        }
+        $document = Excel::create($title, function($excel) use ($all_rooms, $changed_rooms, $changed_tickets) {
             $excel->sheet('All Rooms', function($sheet) use ($all_rooms) {
                 $sheet->loadView('roominglist.export.all_rooms', compact('all_rooms'))
                       ->freezeFirstRow()
@@ -132,9 +139,11 @@ class ExportController extends Controller
             $excel->setActiveSheetIndex(0);
         })->store('xlsx', false, true);
 
-        // store the file path on the version so that its downloadable later
-        $version->file_path = $document['full'];
-        $version->save();
+        if ($version) {
+            // store the file path on the version so that its downloadable later
+            $version->file_path = $document['full'];
+            $version->save();
+        }
 
         return response()->download($document['full']);
     }

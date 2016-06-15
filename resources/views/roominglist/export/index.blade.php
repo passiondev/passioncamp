@@ -10,8 +10,16 @@
                         <div class="content">
                             <h1 class="header">Export Versions</h1>
                         </div>
+                        <div class="content">
+                            <div class="field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="save_changeset" id="save_changeset">
+                                    <label for="save_changeset">Save current rooming info</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="extra content">
-                            <button type="submit" class="ui primary button">Generate & Save New Version</button>
+                            <button type="submit" class="ui primary button">Generate Export</button>
                         </div>
                         <div class="content">
                             <div class="ui feed">
