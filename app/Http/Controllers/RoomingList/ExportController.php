@@ -89,10 +89,10 @@ class ExportController extends Controller
                     'notes' => $room->latestRevision ? $room->latestRevision->new('notes') : $room->notes,
                 ],
                 'previous' => [
-                    'hotel' => $room->latestRevision->old('hotel'),
-                    'name' => $room->latestRevision->old('name'),
-                    'desc' => $room->latestRevision->old('description'),
-                    'notes' => $room->latestRevision->old('notes'),
+                    'hotel' => $room->latestRevision ? $room->latestRevision->old('hotel') : '',
+                    'name' => $room->latestRevision ? $room->latestRevision->old('name') : '',
+                    'desc' => $room->latestRevision ? $room->latestRevision->old('description') : '',
+                    'notes' => $room->latestRevision ? $room->latestRevision->old('notes') : '',
                 ],
             ];
         });
@@ -107,9 +107,9 @@ class ExportController extends Controller
                     'lname' => $ticket->latestRevision ? $ticket->latestRevision->new('lname') : $ticket->last_name,
                 ],
                 'previous' => [
-                    'room_id' => $ticket->latestRevision->old('room_id'),
-                    'fname' => $ticket->latestRevision->old('fname'),
-                    'lname' => $ticket->latestRevision->old('lname'),
+                    'room_id' => $ticket->latestRevision ? $ticket->latestRevision->old('room_id') : '',
+                    'fname' => $ticket->latestRevision ? $ticket->latestRevision->old('fname') : '',
+                    'lname' => $ticket->latestRevision ? $ticket->latestRevision->old('lname') : '',
                 ],
             ];
         });
