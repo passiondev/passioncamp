@@ -19,6 +19,7 @@
                     <th>Church</th>
                     <th>Location</th>
                     <th>Contact</th>
+                    <th>Balance</th>
                     <th>Tickets</th>
                 </tr>
             </thead>
@@ -37,6 +38,7 @@
                                 {{ $organization->contact->name }} <br> <small>{{ $organization->contact->email }}</small>
                             @endif
                         </td>
+                        <td>{{ money_format('$%.2n', $organization->balance) }}</td>
                         <td>
                             {{ $organization->num_tickets }}
                         </td>
