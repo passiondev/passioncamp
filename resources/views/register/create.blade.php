@@ -196,20 +196,8 @@
                 <section class="col-md-6">
                     <header style="margin-bottom: 15px">
                         <h4>Payment Information</h4>
+                        <h4>Amount Due: @{{ full_amount | currency }}</h4>
                     </header>
-                    <div class="form-group">
-                        <div class="radio">
-                            <label>
-                                {{ Form::radio('payment_amount_type', 'full', true, ['v-model' => 'payment_amount_type']) }} Full Amount @{{ full_amount | currency }}
-                            </label>
-                        </div>
-                        <div class="radio">
-                            <label>
-                                {{ Form::radio('payment_amount_type', 'deposit', null, ['v-model' => 'payment_amount_type']) }} Deposit @{{ deposit_amount | currency }}
-                            </label>
-                        </div>
-                        <p>Summer Camp Registration must be paid by June 13th to ensure that your student keeps their spot. Deposits are non-refundable.</p>
-                    </div>
                     <div class="payment_method payment_method--credit">
                         <p class="payment-errors text-danger"></p>
                         <div class="form-group">
@@ -233,6 +221,7 @@
 
 
             <section class="form-actions">
+                <p><i>Upon clicking submit, your credit card will be charged @{{ full_amount | currency }} for your Passion Camp registration.</i></p>
                 <button class="btn btn-primary btn-lg">Submit Registration</button>
             </section>
         {{ Form::close() }}
