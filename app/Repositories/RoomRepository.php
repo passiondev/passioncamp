@@ -7,10 +7,11 @@ use App\Ticket;
 
 class RoomRepository
 {
-    public function create($organization, $name)
+    public function create($organization, $name, $hotel_id = null)
     {
         $room = new Room;
         $room->name = $name;
+        $room->hotel_id = $hotel_id;
         $room->capacity = $organization->room_capacity ?? 4;
         $room->organization()->associate($organization);
         $room->save();
