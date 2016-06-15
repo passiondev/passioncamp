@@ -38,8 +38,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('account', 'AccountController@index')->name('account');
 
         Route::get('roominglist/export', 'RoomingList\ExportController@index')->name('roominglist.export');
-        Route::post('roominglist/export/version', 'RoomingList\ExportController@version')->name('roominglist.export.version');
-        Route::post('roominglist/export/generate', 'RoomingList\ExportController@generate')->name('roominglist.export.generate');
+        Route::post('roominglist/export', 'RoomingList\ExportController@version')->name('roominglist.export.version');
+        Route::get('roominglist/export/{version}/download', 'RoomingList\ExportController@download')->name('roominglist.export.download');
+        Route::get('roominglist/export/generate', 'RoomingList\ExportController@generate')->name('roominglist.export.generate');
         
         Route::get('/home', function () {
             if (Auth::user()->isOrderOwner()) {

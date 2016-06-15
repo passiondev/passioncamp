@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\RoomingList;
 
 use App\Room;
+use App\Hotel;
+use App\Church;
 use App\Ticket;
 use App\Http\Requests;
 use App\RoomingListVersion;
@@ -21,13 +23,17 @@ class ExportController extends Controller
     public function index()
     {
         $versions = RoomingListVersion::all();
+        $churchOptions = Church::has('rooms')->get()->sortBy('name')->keyBy('id')->map(function ($church) { return $church->name . ' - ' . $church->location; });
+        $hotelOptions = Hotel::all()->sortBy('name')->keyBy('id')->map(function ($hotel) { return $hotel->name; });
 
-        return view('roominglist.export.index', compact('versions'));
+        return view('roominglist.export.index', compact('versions', 'churchOptions', 'hotelOptions'));
     }
 
     public function version(Request $request)
     {
-        $rooms = Room::with('latestRevision', 'tickets.person', 'tickets.latestRevision', 'organization.church')->get();
+        \DB::beginTransaction();
+
+        $rooms = Room::with('latestRevision', 'tickets.person', 'tickets.latestRevision', 'organization.church', 'hotel')->get();
         $tickets = Ticket::with('person', 'organization.church', 'latestRevision')->get();
 
         $changed_rooms = $rooms->sometimes($request->save_changeset, 'each', function ($room) {
@@ -49,19 +55,11 @@ class ExportController extends Controller
             'revised_rooms' => $changed_rooms->count(),
         ])->save();
 
-        return redirect()->route('roominglist.export');
-    }
-
-    public function generate(Request $request)
-    {
-        $rooms = Room::with('latestRevision', 'tickets.person', 'tickets.latestRevision', 'organization.church')->get();
-        $tickets = Ticket::with('person', 'organization.church', 'latestRevision')->get();
-        $versions = RoomingListVersion::all();
-
         $all_rooms = $rooms->map(function ($room) {
             return [
                 'id'        => $room->id,
                 'church'    => $room->organization->church->name,
+                'hotel'     => $room->hotel_name,
                 'name'      => $room->name,
                 'desc'      => $room->description,
                 'notes'     => $room->notes,
@@ -77,18 +75,18 @@ class ExportController extends Controller
             ];
         });
 
-        $changed_rooms = $rooms->filter(function ($room) {
-            return $room->has_changed_since_last_revision;
-        })->map(function ($room) {
+        $changed_rooms = $rooms->map(function ($room) {
             return [
                 'id' => $room->id,
                 'church' => $room->organization->church->name,
                 'current' => [
+                    'hotel' => $room->latestRevision ? $room->latestRevision->new('hotel') : $room->hotel_name,
                     'name' => $room->latestRevision ? $room->latestRevision->new('name') : $room->name,
                     'desc' => $room->latestRevision ? $room->latestRevision->new('description') : $room->description,
                     'notes' => $room->latestRevision ? $room->latestRevision->new('notes') : $room->notes,
                 ],
                 'previous' => [
+                    'hotel' => $room->latestRevision->old('hotel'),
                     'name' => $room->latestRevision->old('name'),
                     'desc' => $room->latestRevision->old('description'),
                     'notes' => $room->latestRevision->old('notes'),
@@ -96,9 +94,7 @@ class ExportController extends Controller
             ];
         });
 
-        $changed_tickets = $tickets->filter(function ($ticket) {
-            return $ticket->has_changed_since_last_revision;
-        })->map(function ($ticket) {
+        $changed_tickets = $tickets->map(function ($ticket) {
             return [
                 'id' => $ticket->id,
                 'church' => $ticket->organization->church->name,
@@ -115,16 +111,18 @@ class ExportController extends Controller
             ];
         });
 
-        Excel::create('Rooming List Export - Version #'. $versions->last()->id, function($excel) use ($all_rooms, $changed_rooms, $changed_tickets) {
+        \DB::commit();
+
+        $document = Excel::create('Rooming List Export - Version #'. $version->id, function($excel) use ($all_rooms, $changed_rooms, $changed_tickets) {
             $excel->sheet('All Rooms', function($sheet) use ($all_rooms) {
                 $sheet->loadView('roominglist.export.all_rooms', compact('all_rooms'))
                       ->freezeFirstRow()
-                      ->setAutoFilter('A1:P1');
+                      ->setAutoFilter('A1:Q1');
             });
             $excel->sheet('Changed Rooms', function($sheet) use ($changed_rooms) {
                 $sheet->loadView('roominglist.export.changed_rooms', compact('changed_rooms'))
                       ->freezeFirstRow()
-                      ->setAutoFilter('A1:H1');
+                      ->setAutoFilter('A1:J1');
             });
             $excel->sheet('Changed Tickets', function($sheet) use ($changed_tickets) {
                 $sheet->loadView('roominglist.export.changed_tickets', compact('changed_tickets'))
@@ -132,6 +130,17 @@ class ExportController extends Controller
                       ->setAutoFilter('A1:H1');
             });
             $excel->setActiveSheetIndex(0);
-        })->download('xlsx');
+        })->store('xlsx', false, true);
+
+        // store the file path on the version so that its downloadable later
+        $version->file_path = $document['full'];
+        $version->save();
+
+        return response()->download($document['full']);
+    }
+
+    public function download(RoomingListVersion $version)
+    {
+        return response()->download($version->file_path);
     }
 }

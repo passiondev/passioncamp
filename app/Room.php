@@ -3,8 +3,8 @@
 namespace App;
 
 use Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Sofa\Revisionable\Revisionable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Sofa\Revisionable\Laravel\RevisionableTrait;
 
 class Room extends Model implements Revisionable
@@ -13,7 +13,7 @@ class Room extends Model implements Revisionable
 
     protected $table = 'room';
 
-    protected $revisionable = ['name', 'description', 'notes'];
+    protected $revisionable = ['name', 'description', 'notes', 'hotel_id'];
 
     public function isRevisioned()
     {
@@ -23,6 +23,11 @@ class Room extends Model implements Revisionable
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    public function hotel()
+    {
+        return $this->belongsTo(Item::class, 'hotel_id');
     }
 
     public function tickets()
@@ -61,6 +66,11 @@ class Room extends Model implements Revisionable
         return $this->capacity - $this->assigned;
     }
 
+    public function getHotelNameAttribute()
+    {
+        return $this->hotel ? $this->hotel->name : '';
+    }
+
     public function revision()
     {
         // get fresh revision info if it hasnt been loaded
@@ -73,7 +83,7 @@ class Room extends Model implements Revisionable
         $id    = $this->getKey();
         $user  = Auth::user();
         $latest = $this->latestRevision ? $this->latestRevision->new : [];
-        $current = $this->getNewAttributes();
+        $current = $this->getNewAttributes() + ['hotel' => $this->hotel_name];
 
         $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
 
