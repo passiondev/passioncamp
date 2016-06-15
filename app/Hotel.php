@@ -20,6 +20,11 @@ class Hotel extends Item
         return $this->hasMany(OrderItem::class, 'item_id');
     }
 
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
     public function organizations()
     {
         return $this->belongsToMany(Organization::class, 'order_item', 'item_id', 'organization_id')->wherePivot('quantity', '>', '0');

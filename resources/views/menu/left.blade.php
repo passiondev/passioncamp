@@ -18,6 +18,10 @@
         <a class="item {{ request()->route()->getName() == 'roominglist.index' ? 'active' :'' }}" href="{{ route('roominglist.index') }}">Rooming List</a>
     @endif
 
+    @if (auth()->user()->isSuperAdmin())
+        <a class="item {{ request()->route()->getName() == 'roominglist.export' ? 'active' :'' }}" href="{{ route('roominglist.export') }}">RL Export</a>
+    @endif
+
     @if (auth()->user()->isChurchAdmin())
         <a class="item {{ request()->route()->getName() == 'account.settings' ? 'active' :'' }}" href="{{ route('account.settings') }}">Account</a>
     @endif

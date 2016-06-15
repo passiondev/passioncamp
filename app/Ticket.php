@@ -8,10 +8,23 @@ use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Sofa\Revisionable\Revisionable;
+use Sofa\Revisionable\Laravel\RevisionableTrait;
 
-class Ticket extends OrderItem
+class Ticket extends OrderItem implements Revisionable
 {
-    use Eloquence, FormAccessible, SoftDeletes;
+    use Eloquence, FormAccessible, SoftDeletes, RevisionableTrait;
+
+    protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
+
+    public function isRevisioned()
+    {
+        return false;
+    }
+
+    protected $appends = ['name'];
+
+    protected $revisionable = ['name', 'room_id'];
 
     protected $table = 'order_item';
     
@@ -76,6 +89,21 @@ class Ticket extends OrderItem
                : "Ticket #{$this->id}";
     }
 
+    public function getFirstNameAttribute()
+    {
+        return $this->person ? $this->person->first_name : '';
+    }
+
+    public function getLastNameAttribute()
+    {
+        return $this->person ? $this->person->last_name : '';
+    }
+
+    public function getFullNameAttribute()
+    {
+        return 'full name!';
+    }
+
     /*-------------- setters -----------------*/
     public function setTicketDataAttribute($ticket_data)
     {
@@ -116,4 +144,38 @@ class Ticket extends OrderItem
 
         return is_null($key) ? $data : array_get($data, $key);
     }
+
+    public function revision()
+    {
+        // get fresh revision info if it hasnt been loaded
+        if ( ! $this->relationLoaded('latestRevision')) {
+            $this->load('latestRevision');
+        }
+
+        $logger = static::getRevisionableLogger();
+        $table = $this->getTable();
+        $id    = $this->getKey();
+        $user  = Auth::user();
+        $latest = $this->latestRevision ? $this->latestRevision->new : [];
+        $current = $this->getNewAttributes() + ['fname' => $this->first_name, 'lname' => $this->last_name];
+
+        $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
+
+        // unset relation so that fresh revision info will be pulled 
+        unset($this->relations['latestRevision']);
+    }
+
+    public function getHasChangedSinceLastRevisionAttribute()
+    {
+        if ( ! $this->latestRevision) {
+            return true;
+        }
+
+        if (! empty($this->latestRevision->getDiff())) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

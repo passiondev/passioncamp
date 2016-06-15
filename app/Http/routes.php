@@ -36,6 +36,11 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('account', 'AccountController@index')->name('account');
+
+        Route::get('roominglist/export', 'RoomingList\ExportController@index')->name('roominglist.export');
+        Route::post('roominglist/export', 'RoomingList\ExportController@version')->name('roominglist.export.version');
+        Route::get('roominglist/export/{version}/download', 'RoomingList\ExportController@download')->name('roominglist.export.download');
+        Route::get('roominglist/export/generate', 'RoomingList\ExportController@generate')->name('roominglist.export.generate');
         
         Route::get('/home', function () {
             if (Auth::user()->isOrderOwner()) {
@@ -51,10 +56,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::group(['middleware' => 'super'], function () {
             Route::get('deployrooms', function () {
-                $rooms = new App\Repositories\RoomRepository;
-                App\Organization::all()->each(function ($organization) use ($rooms) {
-                    $rooms->bulkCreate($organization);
-                });
+                app()->call([new App\Jobs\DeployRoomsAndAssignToHotels, 'handle']);
             });
             Route::get('deployusers', function () {
                 $users = App\User::whereNull('email')->whereHas('orders', function ($q) {

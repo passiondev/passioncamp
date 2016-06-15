@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Room;
+use App\Organization;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Church extends Model
@@ -21,4 +23,8 @@ class Church extends Model
         return '';
     }
 
+    public function rooms()
+    {
+        return $this->hasManyThrough(Room::class, Organization::class);
+    }
 }
