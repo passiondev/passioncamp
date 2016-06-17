@@ -58,7 +58,7 @@ class ExportController extends Controller
             ])->save();
         }
 
-        $all_rooms = $rooms->map(function ($room) {
+        $all_rooms = $rooms->load('tickets.latestRevision')->map(function ($room) {
             return [
                 'id'        => $room->id,
                 'church'    => $room->organization->church->name,
@@ -78,7 +78,7 @@ class ExportController extends Controller
             ];
         });
 
-        $changed_rooms = $rooms->map(function ($room) {
+        $changed_rooms = $changed_rooms->map(function ($room) {
             return [
                 'id' => $room->id,
                 'church' => $room->organization->church->name,
@@ -97,7 +97,7 @@ class ExportController extends Controller
             ];
         });
 
-        $changed_tickets = $tickets->map(function ($ticket) {
+        $changed_tickets = $changed_tickets->map(function ($ticket) {
             return [
                 'id' => $ticket->id,
                 'church' => $ticket->organization->church->name,
