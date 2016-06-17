@@ -37,6 +37,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::get('account', 'AccountController@index')->name('account');
 
+        Route::get('roominglist/overview', 'RoomingListController@overview')->name('roominglist.overview');
+        Route::delete('roominglist/{room}', 'RoomingListController@destroy')->name('roominglist.destroy');
         Route::get('roominglist/export', 'RoomingList\ExportController@index')->name('roominglist.export');
         Route::post('roominglist/export', 'RoomingList\ExportController@version')->name('roominglist.export.version');
         Route::get('roominglist/export/{version}/download', 'RoomingList\ExportController@download')->name('roominglist.export.download');
@@ -55,6 +57,7 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         Route::group(['middleware' => 'super'], function () {
+            Route::get('roominglist/issues', 'RoomingListController@issues');
             Route::get('deployrooms', function () {
                 app()->call([new App\Jobs\DeployRoomsAndAssignToHotels, 'handle']);
             });

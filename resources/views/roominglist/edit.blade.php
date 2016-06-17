@@ -9,6 +9,12 @@
         </header>
 
         {{ Form::model($room, ['route' => ['roominglist.update', $room], 'method' => 'PATCH', 'class' => 'ui form']) }}
+            @if (Auth::user()->isSuperAdmin())
+                <div class="field">
+                    <label for="hotel">Hotel</label>
+                    {{ Form::select('hotel_id', $hotelOptions, null, ['id' => 'hotel', 'class' => 'ui dropdown']) }}
+                </div>
+            @endif
             <div class="field">
                 {{ Form::label('capacity', 'Capacity') }}
                 {{ Form::select('capacity', array(4 => 4,5), null, ['id' => 'capacity', 'class' => 'ui dropdown']) }}
@@ -23,5 +29,14 @@
             </div>
             <button class="ui primary button">Update</button>
         {{ Form::close() }}
+
+        @if (Auth::user()->isSuperAdmin())
+        <br><br><br>
+            <hr>
+            <br><br><br>
+            {{ Form::open(['route' => ['roominglist.destroy', $room], 'method' => 'DELETE', 'class' => 'ui form', 'onsubmit' => 'return confirm("Are you sure?")']) }}
+                <button type="submit" class="ui tiny red button">Remove Room & Ticket Assignments</button>
+            {{ Form::close() }}
+        @endif
     </div>
 @stop

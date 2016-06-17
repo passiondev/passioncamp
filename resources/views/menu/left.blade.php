@@ -19,6 +19,7 @@
     @endif
 
     @if (auth()->user()->isSuperAdmin())
+        <a class="item {{ request()->route()->getName() == 'roominglist.overview' ? 'active' :'' }}" href="{{ route('roominglist.overview') }}">RL Overview</a>
         <a class="item {{ request()->route()->getName() == 'roominglist.export' ? 'active' :'' }}" href="{{ route('roominglist.export') }}">RL Export</a>
     @endif
 

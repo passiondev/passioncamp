@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
             return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
         });
 
+        Collection::macro('dd', function () {
+            dd($this);
+        });
+
         view()->composer('ticket.partials.form', function ($view) {
             $gradeOptions = [];
             

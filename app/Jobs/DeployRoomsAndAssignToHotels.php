@@ -83,8 +83,9 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
             $hotels->filter(function ($hotel) {
                 return $hotel['qty'] > 0;
             })->each(function ($hotel) use ($organization) {
+                $total_rooms = $organization->rooms()->withTrashed()->count();
                 for ($i = 1; $i <= $hotel['qty']; $i++) {
-                    $this->rooms->create($organization, 'Room #' . ($organization->rooms()->withTrashed()->count()+$i), $hotel['hotel_id']);
+                    $this->rooms->create($organization, 'Room #' . ($total_rooms+$i), $hotel['hotel_id']);
                 }
             });
         });
