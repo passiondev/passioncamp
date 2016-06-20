@@ -32,7 +32,8 @@ class ExportController extends Controller
 
     public function version(Request $request)
     {
-        dispatch(new GenerateRoomingListVersion);
+        $job = (new GenerateRoomingListVersion)->onQueue('roominglist');
+        dispatch($job);
 
         return redirect()->back()->withSuccess('Once the export has been generated, it will download automatically. Or come back to this page in a few minutes and download it from the list below.');
     }
