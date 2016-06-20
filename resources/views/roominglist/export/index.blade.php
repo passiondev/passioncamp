@@ -3,9 +3,12 @@
 @section('content')
     <div class="ui container">
         <h1 class="ui dividing header">Rooming List Export</h1>
-        @if (session('success'))
-            <div class="ui visible success message">
-                <p>{{ session('success') }}</p>
+        @if (session('loading'))
+            <div class="ui icon success message">
+                <i class="notched circle loading icon"></i>
+                <div class="content">
+                    <p>{{ session('loading') }}</p>
+                </div>
             </div>
         @endif
         <div class="ui equal width stackable grid">
@@ -16,7 +19,7 @@
                             <h1 class="header">Export Versions</h1>
                         </div>
                         <div class="extra content">
-                            <button type="submit" class="ui primary button">Generate Export</button>
+                            <button type="submit" class="ui primary button">Save Current Version and Generate Export</button>
                         </div>
                         <div class="content">
                             <div class="ui feed">

@@ -35,7 +35,7 @@ class ExportController extends Controller
         $job = (new GenerateRoomingListVersion)->onQueue('roominglist');
         dispatch($job);
 
-        return redirect()->back()->withSuccess('Once the export has been generated, it will download automatically. Or come back to this page in a few minutes and download it from the list below.');
+        return redirect()->back()->withLoading('A new export is being generated. Stay on this page and once the export is complete, it will download automatically. Or, come back to this page in a few minutes and download it from the list below.');
     }
 
     public function download(RoomingListVersion $version)
