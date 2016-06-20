@@ -3,20 +3,17 @@
 @section('content')
     <div class="ui container">
         <h1 class="ui dividing header">Rooming List Export</h1>
+        @if (session('success'))
+            <div class="ui visible success message">
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
         <div class="ui equal width stackable grid">
             <div class="column">
                 {{ Form::open(['route' => 'roominglist.export.version', 'class' => 'ui form']) }}
                     <div class="ui card" style="margin-top:0">
                         <div class="content">
                             <h1 class="header">Export Versions</h1>
-                        </div>
-                        <div class="content">
-                            <div class="field">
-                                <div class="ui checkbox">
-                                    <input type="checkbox" name="save_changeset" id="save_changeset">
-                                    <label for="save_changeset">Save current rooming info</label>
-                                </div>
-                            </div>
                         </div>
                         <div class="extra content">
                             <button type="submit" class="ui primary button">Generate Export</button>
@@ -50,3 +47,19 @@
         </div>
     </div>
 @stop
+
+@push ('scripts')
+    <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
+    <script>
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('{{ config('pusher.connections.main.auth_key') }}', {
+            encrypted: true
+        });
+
+        var channel = pusher.subscribe('roominglist.export');
+        channel.bind('generated', function(data) {
+            window.location = '{{ url('/roominglist/export') }}/' + data.version + '/download';
+        });
+    </script>
+@endpush

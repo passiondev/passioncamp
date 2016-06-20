@@ -26,9 +26,7 @@ $ ->
   $('.js-filter').each ->
     $target = $($(@).data 'filter')
     $items = $($(@).data('filter-item'), $target)
-    console.log $target
-    console.log $items
-
+    
     $(@).on 'keyup', =>
       search = $(@).val()
       $items.each ->

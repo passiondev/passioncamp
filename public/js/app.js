@@ -12143,8 +12143,6 @@ $(function() {
     var $items, $target;
     $target = $($(this).data('filter'));
     $items = $($(this).data('filter-item'), $target);
-    console.log($target);
-    console.log($items);
     return $(this).on('keyup', (function(_this) {
       return function() {
         var search;

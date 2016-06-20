@@ -32,7 +32,8 @@
         "graham-campbell/flysystem": "~3.4",
         "league/flysystem-dropbox": "~1.0",
         "sofa/revisionable": "~5.2",
-        "maatwebsite/excel": "~2.1"
+        "maatwebsite/excel": "~2.1",
+        "vinkla/pusher": "~2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

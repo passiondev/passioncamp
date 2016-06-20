@@ -165,6 +165,7 @@ return [
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
         Sofa\Revisionable\Laravel\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Vinkla\Pusher\PusherServiceProvider::class,
     ],
 
     /*

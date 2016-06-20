@@ -61,6 +61,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script src={{ asset('semantic/dist/semantic.min.js') }}></script>
     <script src={{ asset('js/app.js') }}></script>
+    @stack ('scripts')
     @yield('foot')
 </body>
 </html>
