@@ -57,6 +57,8 @@ class RegisterController extends Controller
             'tickets.*.birthdate' => 'required',
         ]);
 
+        \DB::beginTransaction();
+
         $user = User::firstOrNew([
             'email' => $request->contact['email']
         ]);
@@ -157,6 +159,8 @@ class RegisterController extends Controller
             'card_type' => $charge->source->brand,
             'card_num' => $charge->source->last4,
         ]);
+
+        \DB::commit();
 
 
         // dispatch confirmation email job
