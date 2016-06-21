@@ -48,7 +48,7 @@ class TicketController extends Controller
             $ticket->getAttributes(),
             $ticket->person->getAttributes(),
             ['birthdate' => $ticket->person->birthdate ? $ticket->person->birthdate->format('m/d/Y') : ''],
-            $ticket->ticket_data(),
+            is_array($ticket->ticket_data()) ? $ticket->ticket_data() : [],
             ['shirtsize' => $ticket->shirt_size]
         );
 
