@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cdff1b9b457ced543f266dde85f82d28",
+    "hash": "025b8d69a0c203eed87098a4d3abde06",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
