@@ -34,8 +34,10 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $rooms = Room::with('latestRevision', 'tickets.person', 'tickets.latestRevision', 'organization.church', 'hotel')->get();
+        $rooms = Room::with('latestRevision', 'organization.church', 'hotel')->get();
         $tickets = Ticket::with('person', 'organization.church', 'latestRevision')->get();
+
+        \DB::beginTransaction();
 
         $changed_rooms = $rooms->each(function ($room) {
             $room->revision();
@@ -55,7 +57,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
             'revised_rooms' => $changed_rooms->count(),
         ])->save();
 
-        $all_rooms = $rooms->load('tickets.latestRevision')->map(function ($room) {
+        $all_rooms = $rooms->load('tickets.latestRevision', 'tickets.person')->map(function ($room) {
             return [
                 'id'        => $room->id,
                 'confirmation_number'        => $room->confirmation_number,
@@ -135,6 +137,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
                       ->setAutoFilter('A1:H1');
             });
             $excel->setActiveSheetIndex(0);
+        // })->download('xlsx');
         })->store('xlsx', false, true);
 
         $version->file_path = $document['full'];

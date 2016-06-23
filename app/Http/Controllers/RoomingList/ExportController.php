@@ -24,8 +24,6 @@ class ExportController extends Controller
     public function index()
     {
         $versions = RoomingListVersion::all();
-        $churchOptions = Church::has('rooms')->get()->sortBy('name')->keyBy('id')->map(function ($church) { return $church->name . ' - ' . $church->location; });
-        $hotelOptions = Hotel::all()->sortBy('name')->keyBy('id')->map(function ($hotel) { return $hotel->name; });
 
         return view('roominglist.export.index', compact('versions', 'churchOptions', 'hotelOptions'));
     }
