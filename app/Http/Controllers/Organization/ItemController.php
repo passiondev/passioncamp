@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\OrderItems\OrgItemUpdated;
+use App\Jobs\DeployRoomsAndAssignToHotels;
 
 class ItemController extends Controller
 {
@@ -30,7 +31,7 @@ class ItemController extends Controller
         $orderItem->org_type = $item->type;
         $orderItem->save();
 
-        app()->call([new App\Jobs\DeployRoomsAndAssignToHotels, 'handle']);
+        app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
 
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item added.');
     }
@@ -47,7 +48,7 @@ class ItemController extends Controller
         $item->fill($request->only('item_id', 'cost', 'quantity'));
         $item->save();
 
-        app()->call([new App\Jobs\DeployRoomsAndAssignToHotels, 'handle']);
+        app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
         
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item updated.');
     }
