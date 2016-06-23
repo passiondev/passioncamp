@@ -30,7 +30,7 @@ class ItemController extends Controller
         $orderItem->org_type = $item->type;
         $orderItem->save();
 
-        event(new OrgItemUpdated($orderItem));
+        app()->call([new App\Jobs\DeployRoomsAndAssignToHotels, 'handle']);
 
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item added.');
     }
@@ -44,11 +44,11 @@ class ItemController extends Controller
 
     public function update(Request $request, Organization $organization, OrderItem $item)
     {
-        $item->fill($request->only('cost', 'quantity'));
+        $item->fill($request->only('item_id', 'cost', 'quantity'));
         $item->save();
 
-        event(new OrgItemUpdated($item));
-
+        app()->call([new App\Jobs\DeployRoomsAndAssignToHotels, 'handle']);
+        
         return redirect()->route('admin.organization.show', $organization)->with('success', 'Item updated.');
     }
 

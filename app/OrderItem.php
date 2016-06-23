@@ -12,7 +12,7 @@ class OrderItem extends Model
     
     protected $table = 'order_item';
 
-    protected $fillable = ['quantity', 'cost', 'org_type'];
+    protected $fillable = ['item_id', 'quantity', 'cost', 'org_type'];
     
     protected static function boot()
     {
