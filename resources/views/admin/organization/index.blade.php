@@ -21,6 +21,7 @@
                     <th>Contact</th>
                     <th>Balance</th>
                     <th>Tickets</th>
+                    <th>Registered</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +43,7 @@
                         <td>
                             {{ $organization->num_tickets }}
                         </td>
+                        <td>{{ $organization->attendees->active()->count() }}</td>
                     </tr>
                 @endforeach
             </tbody>
