@@ -5,14 +5,23 @@
         <header class="page-header">
             <div class="page-header__title">
                 <h1>Edit {{ $room->name }}</h1>
+                <h3>{{ $room->organization->church->name }}</h3>
             </div>
         </header>
 
         {{ Form::model($room, ['route' => ['roominglist.update', $room], 'method' => 'PATCH', 'class' => 'ui form']) }}
             @if (Auth::user()->isSuperAdmin())
                 <div class="field">
+                    <label for="name">Name</label>
+                    {{ Form::text('name', null, ['id' => 'name']) }}
+                </div>
+                <div class="field">
                     <label for="hotel">Hotel</label>
                     {{ Form::select('hotel_id', $hotelOptions, null, ['id' => 'hotel', 'class' => 'ui dropdown']) }}
+                </div>
+                <div class="field">
+                    <label for="confirmation_number">Confirmation #</label>
+                    {{ Form::text('confirmation_number', null, ['id' => 'confirmation_number']) }}
                 </div>
             @endif
             <div class="field">

@@ -11,6 +11,7 @@ use App\Organization;
 use Illuminate\Http\Request;
 use App\Repositories\RoomRepository;
 use App\Repositories\TicketRepository;
+use App\Http\Requests\UpdateRoomRequest;
 
 class RoomingListController extends Controller
 {
@@ -81,17 +82,11 @@ class RoomingListController extends Controller
         return view('roominglist.edit', compact('room', 'hotelOptions'));
     }
 
-    public function update(Request $request, Room $room)
+    public function update(UpdateRoomRequest $request, Room $room)
     {
         $this->authorize('owner', $room);
 
-        $this->validate($request, [
-            'capacity' => 'required|numeric|min:1|max:5',
-            'description' => 'max:255',
-            'notes' => 'max:255',
-        ]);
-
-        $this->rooms->update($room, $request->all());
+        $room->fill($request->all())->save();
 
         return redirect()->intended(route('roominglist.index'));
     }

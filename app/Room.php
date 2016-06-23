@@ -15,6 +15,15 @@ class Room extends Model implements Revisionable
 
     protected $revisionable = ['name', 'description', 'notes', 'hotel_id'];
 
+    protected $fillable = [
+        'name',
+        'description',
+        'notes',
+        'capacity',
+        'roomnumber',
+        'confirmation_number',
+    ];
+
     public function isRevisioned()
     {
         return false;

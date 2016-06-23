@@ -58,6 +58,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
         $all_rooms = $rooms->load('tickets.latestRevision')->map(function ($room) {
             return [
                 'id'        => $room->id,
+                'confirmation_number'        => $room->confirmation_number,
                 'church'    => $room->organization->church->name,
                 'hotel'     => $room->hotel_name,
                 'name'      => $room->name,

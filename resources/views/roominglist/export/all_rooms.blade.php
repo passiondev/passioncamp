@@ -7,6 +7,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Confirmation #</th>
                     <th>Church</th>
                     <th>Hotel</th>
                     <th>Name</th>
@@ -29,6 +30,7 @@
                 @foreach ($all_rooms as $room)
                     <tr>
                         <td>{{ $room['id'] }}</td>
+                        <td>{{ $room['confirmation_number'] }}</td>
                         <td>{{ $room['church'] }}</td>
                         <td @if($room['changed']) style="background-color: #FFFF00;" @endif>{{ $room['hotel'] }}</td>
                         <td @if($room['changed']) style="background-color: #FFFF00;" @endif>{{ $room['name'] }}</td>
