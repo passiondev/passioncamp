@@ -42,12 +42,20 @@
                                     <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
                                 </Waiver>
                             @else
-                                {{ $ticket->waiver->status }}<br>
-                                @unless ($ticket->waiver->status == 'signed')
-                                    <Waiver inline-template>
-                                        <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
-                                    </Waiver>
-                                @endif
+                                <h4 class="ui header">
+                                    {{ $ticket->waiver->status }}<br>
+                                    @unless ($ticket->waiver->status == 'signed')
+                                        <div class="sub header">
+                                            <Waiver inline-template>
+                                                <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
+                                            </Waiver>
+                                            @if (Auth::user()->isSuperAdmin())
+                                                <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
+                                                <a href="{{ route('ticket.waiver.complete', $ticket) }}">complete</a>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </h4>
                             @endif
                         @endcan
                     </td>

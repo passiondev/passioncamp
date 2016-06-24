@@ -64,17 +64,22 @@
                                 <td>
                                     @unless ($ticket->is_canceled)
                                         @if ($ticket->waiver && auth()->user()->isOrderOwner())
-                                            {{ $ticket->waiver->status }}
+                                            <h4 class="ui header">{{ $ticket->waiver->status }}</h4>
                                         @elseif ($ticket->waiver)
-                                            {{ $ticket->waiver->status }}
-                                            @unless ($ticket->waiver->status == 'signed')
-                                                <Waiver inline-template>
-                                                    <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
-                                                </Waiver>
-                                                @if (Auth::user()->isSuperAdmin())
-                                                    <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
+                                            <h4 class="ui header">
+                                                {{ $ticket->waiver->status }}
+                                                @unless ($ticket->waiver->status == 'signed')
+                                                    <div class="sub header">
+                                                        <Waiver inline-template>
+                                                            <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
+                                                        </Waiver>
+                                                        @if (Auth::user()->isSuperAdmin())
+                                                            <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
+                                                            <a href="{{ route('ticket.waiver.complete', $ticket) }}">complete</a>
+                                                        @endif
+                                                    </div>
                                                 @endif
-                                            @endif
+                                            </h4>
                                         @elseif (Auth::user()->isAdmin())
                                             <Waiver inline-template>
                                                 <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>

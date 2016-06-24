@@ -44,4 +44,11 @@ class Waiver extends Model
 
         return $this;
     }
+
+    public function complete()
+    {
+        $this->status = 'SIGNED';
+        $this->eventType = 'MANUAL_ENTRY';
+        $this->save();
+    }
 }

@@ -80,4 +80,15 @@ class WaiverController extends Controller
 
         return redirect()->back();
     }
+
+    public function complete(Request $request, Ticket $ticket)
+    {
+        $this->authorize('owner', $ticket->order);
+
+        abort_unless(\Auth::user()->isSuperAdmin(), 403);
+
+        $ticket->waiver->complete();
+
+        return redirect()->back();
+    }
 }
