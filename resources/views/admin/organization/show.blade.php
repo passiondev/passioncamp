@@ -34,7 +34,29 @@
                 </dl>
             </div>
             <div class="ten wide column">
-                @include('organization/partials/billing_summary')
+                <div class="ui vertical segment">
+                    <div class="ui statistics">
+                        <div class="statistic">
+                            <div class="value">{{ $organization->attendees->active()->count() }}</div>
+                            <div class="label">Registered</div>
+                        </div>
+                        <div class="statistic">
+                            <div class="value">{{ $organization->signed_waivers_count }}</div>
+                            <div class="label">Signed Waivers</div>
+                        </div>
+                        <div class="statistic">
+                            <div class="value">{{ $organization->rooms->count() }}</div>
+                            <div class="label">Rooms</div>
+                        </div>
+                        <div class="statistic">
+                            <div class="value">{{ $organization->assigned_to_room_count }}</div>
+                            <div class="label">Assigned To Room</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui vertical segment">
+                    @include('organization/partials/billing_summary')
+                </div>
             </div>
         </section>
 

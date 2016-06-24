@@ -14,14 +14,14 @@ class OrganizationController extends Controller
 {
     public function index()
     {
-        $organizations = Organization::active()->with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees')->get();
+        $organizations = Organization::active()->with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees.waiver')->get();
 
         return view('admin.organization.index', compact('organizations'));
     }
 
     public function show(Organization $organization)
     {
-        $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes');
+        $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes', 'attendees.waiver');
 
         if (is_null($organization->contact)) {
             $organization->contact = new Person;

@@ -81,7 +81,7 @@ class Organization extends Model
 
     public function attendees()
     {
-        return $this->hasManyThrough(OrderItem::class, Order::class)->where('type', 'ticket');
+        return $this->hasManyThrough(Ticket::class, Order::class);
     }
 
     public function orders()
@@ -258,5 +258,19 @@ class Organization extends Model
         $items = $this->hotelItems()->where('item_id', $hotel->id);
 
         return number_format($items->sum('quantity'));
+    }
+
+    public function getSignedWaiversCountAttribute()
+    {
+        return $this->attendees->active()->filter(function ($attendee) {
+            return $attendee->waiver && $attendee->waiver->status == 'signed';
+        })->count();
+    }
+
+    public function getAssignedToRoomCountAttribute()
+    {
+        return $this->attendees->active()->filter(function ($attendee) {
+            return $attendee->room_id;
+        })->count();
     }
 }

@@ -17,22 +17,25 @@
             <thead>
                 <tr>
                     <th>Church</th>
-                    <th>Location</th>
                     <th>Contact</th>
                     <th>Balance</th>
-                    <th>Tickets</th>
-                    <th>Registered</th>
+                    <th style="text-align:center">Tickets</th>
+                    <th style="text-align:center">Registered</th>
+                    <th style="text-align:center">Signed<br>Waivers</th>
+                    <th style="text-align:center">Assigned<br>To Room</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)
                     <tr>
                         <td>
-                            {{ link_to_route('admin.organization.show', $organization->church->name, $organization) }}
-                            <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>
-                        </td>
-                        <td>
-                            {{ $organization->church->location }}
+                            <h4 class="ui header">
+                                {{ link_to_route('admin.organization.show', $organization->church->name, $organization) }}
+                                <div class="sub header">
+                                    {{ $organization->church->location }}
+                                    <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>
+                                </div>
+                            </h4>
                         </td>
                         <td>
                             @if ($organization->contact)
@@ -40,10 +43,12 @@
                             @endif
                         </td>
                         <td>{{ money_format('$%.2n', $organization->balance) }}</td>
-                        <td>
+                        <td style="text-align:center">
                             {{ $organization->num_tickets }}
                         </td>
-                        <td>{{ $organization->attendees->active()->count() }}</td>
+                        <td style="text-align:center">{{ $organization->attendees->active()->count() }}</td>
+                        <td style="text-align:center">{{ $organization->signed_waivers_count }}</td>
+                        <td style="text-align:center">{{ $organization->assigned_to_room_count }}</td>
                     </tr>
                 @endforeach
             </tbody>
