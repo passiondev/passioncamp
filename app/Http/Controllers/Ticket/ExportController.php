@@ -23,7 +23,7 @@ class ExportController extends Controller
     {
         $tickets = $this->tickets->forUser(Auth::user())
                    ->active()
-                   ->with('person', 'order.user.person', 'waiver', 'organization.church')
+                   ->with('person', 'order.user.person', 'waiver', 'organization.church', 'room')
                    ->get();
 
         if ($tickets->count() == 0) {
