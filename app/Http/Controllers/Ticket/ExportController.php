@@ -23,7 +23,7 @@ class ExportController extends Controller
     {
         $tickets = $this->tickets->forUser(Auth::user())
                    ->active()
-                   ->with('person', 'order.user.person', 'waiver', 'organization.church', 'room')
+                   ->with('person', 'order.user.person', 'waiver', 'organization.church', 'room', 'order.transactions', 'order.items')
                    ->get();
 
         if ($tickets->count() == 0) {
@@ -71,6 +71,12 @@ class ExportController extends Controller
                 'contact phone' => @$ticket->order->user->person->phone,
                 'room' => @$ticket->room->name,
             ];
+
+            if (Auth::user()->isSuperAdmin() || Auth::user()->organization->slug == 'pcc') {
+                $data += [
+                    'balance' => $ticket->order->balance,
+                ];
+            }
 
             return $data;
         });
