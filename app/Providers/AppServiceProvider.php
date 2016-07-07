@@ -41,6 +41,13 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('organizationOptions', collect($organizationOptions)->sort()->toArray());
         });
+
+        $this->app->singleton(\PrintNode\Request::class, function ($app) {
+            $credentials = new \PrintNode\Credentials();
+            $credentials->setApiKey(config('services.printnode.key'));
+
+            return new \PrintNode\Request($credentials);
+        });
     }
 
     /**

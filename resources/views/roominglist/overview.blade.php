@@ -13,6 +13,7 @@
                     <th class="" style="text-align:center">Capacity</th>
                     <th class="" style="text-align:center">Assigned</th>
                     <th class=""></th>
+                    <th class=""></th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,7 @@
                         <td style="text-align:center">{{ $room->capacity }}</td>
                         <td style="text-align:center">{{ $room->tickets->count() }}</td>
                         <td><a href="{{ route('roominglist.edit', $room) }}">edit</a></td>
+                        <td><a href="{{ route('roominglist.label', $room) }}">print</a></td>
                     </tr>
                 @endforeach
             </tbody>

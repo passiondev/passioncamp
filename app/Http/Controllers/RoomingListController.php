@@ -8,6 +8,8 @@ use App\Hotel;
 use Exception;
 use App\Ticket;
 use App\Organization;
+use PrintNode\Request as PrintNode;
+use PrintNode\PrintJob;
 use Illuminate\Http\Request;
 use App\Repositories\RoomRepository;
 use App\Repositories\TicketRepository;
@@ -145,5 +147,22 @@ class RoomingListController extends Controller
         });
         $room->delete();
         return redirect()->intended(route('roominglist.overview'));
+    }
+
+    public function label(Request $request, PrintNode $printnode, Room $room)
+    {
+        $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
+        $pdf->writeHTML(view('roominglist/partials/label', compact('room')));
+
+        // $printJob = new PrintJob();
+        // $printJob->printer = $request->session()->get('printer');
+        // $printJob->contentType = 'pdf_base64';
+        // $printJob->content = base64_encode($pdf->Output('label.pdf', 'S'));
+        // $printJob->source = 'passioncamp';
+        // $printJob->title = "Room {$room->id}";
+
+        // $response = $printnode->post($printJob);
+        // dd($response->getStatusMessage());
+        $pdf->Output('label.pdf');
     }
 }

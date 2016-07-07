@@ -39,6 +39,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('roominglist/overview', 'RoomingListController@overview')->name('roominglist.overview');
         Route::delete('roominglist/{room}', 'RoomingListController@destroy')->name('roominglist.destroy');
+        Route::get('roominglist/{room}/label', 'RoomingListController@label')->name('roominglist.label');
         Route::get('roominglist/export', 'RoomingList\ExportController@index')->name('roominglist.export');
         Route::post('roominglist/export', 'RoomingList\ExportController@version')->name('roominglist.export.version');
         Route::get('roominglist/export/{version}/download', 'RoomingList\ExportController@download')->name('roominglist.export.download');
@@ -105,6 +106,9 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
             Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
+
+            Route::get('printers', 'PrinterController@index');
+            Route::post('printer/{printer}/select', 'PrinterController@select')->name('printer.select');
         });
 
         Route::get('registrations', 'OrderController@index')->name('order.index');
