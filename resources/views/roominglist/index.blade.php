@@ -30,6 +30,7 @@
 
                 <div id="unassigned" class="ui segments js-droppable" data-id="0">
                     @each ('roominglist.partials.ticket', $unassigned, 'ticket')
+                    <div class="empty">No Tickets</div>
                 </div>
             </div>
         </div>

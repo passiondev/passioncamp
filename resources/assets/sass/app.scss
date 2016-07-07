@@ -33,13 +33,14 @@
                     width: 8px;
                 }
 
-                  &::-webkit-scrollbar-track {
-    background-color: rgba(57,57,57, .1);
-    border-radius: 6px
+                &::-webkit-scrollbar-track {
+                    background-color: rgba(57,57,57, .1);
+                    border-radius: 6px
                 }
+                
                 &::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: rgba(156, 156, 156, .6);
+                    border-radius: 6px;
+                    background-color: rgba(156, 156, 156, .6);
                 }
             }
         }
@@ -53,6 +54,15 @@
             align-items: center;
             margin-left: 1rem;
         }
+    }
+    .js-droppable > .empty {
+        display: none;
+    }
+    .js-droppable > .empty:only-child {
+        display: block;
+        padding: 1em;
+        font-style: italic;
+        color: #dcdcdc;
     }
     .ui-draggable-handle {
         cursor: move;
