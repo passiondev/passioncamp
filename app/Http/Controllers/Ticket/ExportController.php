@@ -60,6 +60,7 @@ class ExportController extends Controller
                     'shirt size' => $ticket->shirtsize,
                     'school' => $ticket->school,
                     'roommate requested' => $ticket->roommate_requested,
+                    'squad' => $ticket->squad,
                 ];
             }
 

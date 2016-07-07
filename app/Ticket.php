@@ -34,7 +34,8 @@ class Ticket extends OrderItem implements Revisionable
 
     protected $fillable = [
         'agegroup',
-        'price'
+        'price',
+        'squad',
     ];
 
     protected static function boot()

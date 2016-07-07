@@ -59,6 +59,10 @@
             {{ Form::label('roommate_requested', 'Roommate Requested') }}
             {{ Form::text('roommate_requested', null, ['id' => 'roommate_requested']) }}
         </div>
+        <div class="field">
+            {{ Form::label('squad', 'Squad') }}
+            {{ Form::text('squad', null, ['id' => 'squad']) }}
+        </div>
     @endif
     @can ('record-transactions', $order->organization)
         <div class="field">
