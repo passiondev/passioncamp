@@ -43,12 +43,10 @@
                             @endif
                         </td>
                         <td>{{ money_format('$%.2n', $organization->balance) }}</td>
-                        <td style="text-align:center">
-                            {{ $organization->num_tickets }}
-                        </td>
-                        <td style="text-align:center">{{ $organization->attendees->active()->count() }}</td>
-                        <td style="text-align:center">{{ $organization->signed_waivers_count }}</td>
-                        <td style="text-align:center">{{ $organization->assigned_to_room_count }}</td>
+                        <td style="text-align:center">{{ $organization->num_tickets }}</td>
+                        <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->num_tickets ? 'positive' : '' }} {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'negative' : '' }}">{{ $organization->attendees->active()->count() }}</td>
+                        <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->signed_waivers_count ? 'positive' : 'negative' }}">{{ $organization->signed_waivers_count }}</td>
+                        <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->assigned_to_room_count ? 'positive' : 'negative' }}">{{ $organization->assigned_to_room_count }}</td>
                     </tr>
                 @endforeach
             </tbody>
