@@ -6,6 +6,10 @@
     display: flex;
     flex-direction: column;
 
+    > .grid {
+        height: 90%;
+    }
+
     .grid {
         flex-grow: 1;
         display: flex;
@@ -13,9 +17,11 @@
         .column {
             display: flex;
             flex-direction: column;
+
             &.eleven {
                 width: 70%;
             }
+            
             &.five {
                 width: 30%;
             }
