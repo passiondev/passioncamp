@@ -2,25 +2,18 @@
 
 @section('content')
     <div class="ui container">
-        <table class="ui striped table">
-            @foreach ($printers as $printer)
-                <tr class="{{ session('printer') == $printer->id ? 'positive' : '' }}">
-                    <td>
-                        <h5 class="ui header">
-                            {{ $printer->name }}
-                            <div class="sub header">{{ $printer->computer->name }}</div>
-                        </h5>
-                    </td>
-                    <td>
-                        @unless (session('printer') == $printer->id)
-                            <form action="{{ route('printer.select', $printer->id) }}" method="POST">
-                                {{ csrf_field() }}
-                                <button type="submit" class="ui primary button">Select</button>
-                            </form>
-                        @endunless
-                    </td>
-                </tr>
-            @endforeach
-        </table>
+        <a href="{{ route('printer.reset') }}">reset</a>
+        @if (count($jobs) > 0)
+            <table class="ui fixed striped table">
+                @foreach ($jobs as $job)
+                    <tr>
+                        <td>{{ $job->title }}</td>
+                        <td>{{ $job->state }}</td>
+                        <td>{{ $job->createTimestamp->format('c') }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endif
+        @include('printer.partials.chooser-table')
     </div>
 @stop

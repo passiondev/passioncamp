@@ -35,15 +35,15 @@
             <div class="left menu">
                 @include ('menu.left')
             </div>
-            <div class="right menu">
+            <div class="right menu mobile hidden">
                 @if (Session::has('spark:impersonator'))
                     <a class="item" href="{{ route('user.stop-impersonating') }}">End Impersonation</a>
                 @endif
 
-                <div class="mobile hidden">
-                    @include ('menu.right')
-                </div>
+                @include ('menu.right')
+            </div>
 
+            <div class="right menu" style="margin-left:0!important">
                 @if (Auth::check())
                     <a class="item" title="Sign Out" href="{{ route('logout') }}">
                         <i class="sign out icon"></i>

@@ -3,28 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use PrintNode\Request as PrintNode;
 use Illuminate\Http\Request;
+use PrintNode\Request as PrintNode;
+use Illuminate\Contracts\Routing\UrlGenerator;
 
 class PrinterController extends Controller
 {
-    private $printnode;
-
-    public function __construct(PrintNode $printnode)
-    {
-        $this->printnode = $printnode;
-    }
-
     public function index()
     {
-        $printers = collect($this->printnode->getPrinters());
-
-        return view('printer.index', compact('printers'));
+        return view('printer.index');
     }
 
-    public function select(Request $request, $printer)
+    public function select(Request $request, UrlGenerator $generator, $printer)
     {
         $request->session()->put('printer', $printer);
+
+        return redirect()->intended($generator->previous())->withSuccess('Printer selected.');
+    }
+
+    public function reset(Request $request)
+    {
+        $request->session()->forget('printer');
 
         return redirect()->back();
     }

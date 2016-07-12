@@ -8,9 +8,9 @@ use App\Hotel;
 use Exception;
 use App\Ticket;
 use App\Organization;
-use PrintNode\Request as PrintNode;
 use PrintNode\PrintJob;
 use Illuminate\Http\Request;
+use PrintNode\Request as PrintNode;
 use App\Repositories\RoomRepository;
 use App\Repositories\TicketRepository;
 use App\Http\Requests\UpdateRoomRequest;
@@ -154,15 +154,23 @@ class RoomingListController extends Controller
         $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
         $pdf->writeHTML(view('roominglist/partials/label', compact('room')));
 
-        // $printJob = new PrintJob();
-        // $printJob->printer = $request->session()->get('printer');
-        // $printJob->contentType = 'pdf_base64';
-        // $printJob->content = base64_encode($pdf->Output('label.pdf', 'S'));
-        // $printJob->source = 'passioncamp';
-        // $printJob->title = "Room {$room->id}";
+        switch ($request->session()->get('printer')) {
+            case 'PDF':
+                $pdf->Output('label.pdf');
+                break;
+            
+            default:
+                $printJob = new PrintJob();
+                $printJob->printer = $request->session()->get('printer');
+                $printJob->contentType = 'pdf_base64';
+                $printJob->content = base64_encode($pdf->Output('label.pdf', 'S'));
+                $printJob->source = 'passioncamp';
+                $printJob->title = $room->name;
 
-        // $response = $printnode->post($printJob);
-        // dd($response->getStatusMessage());
-        $pdf->Output('label.pdf');
+                $printnode->post($printJob);
+                break;
+        }
+
+        return redirect()->back()->withSuccess('Printing job queued.');
     }
 }
