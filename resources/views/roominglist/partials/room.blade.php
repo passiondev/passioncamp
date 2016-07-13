@@ -9,6 +9,9 @@
             </div>
             <div class="ui sub header" style="text-transform:none">
                 <a href="{{ route('roominglist.edit', $room) }}">edit</a>
+                @if (Auth::user()->isSuperAdmin())
+                    <span><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></span>
+                @endif
             </div>
         </header>
         @if (strlen($room->description) || strlen($room->notes))

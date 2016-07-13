@@ -8,6 +8,7 @@ use App\Hotel;
 use Exception;
 use App\Ticket;
 use App\Organization;
+use App\PrintJobHandler;
 use Illuminate\Http\Request;
 use App\Repositories\RoomRepository;
 use App\Repositories\TicketRepository;
@@ -93,10 +94,12 @@ class RoomingListController extends Controller
 
     public function overview()
     {
-        $rooms = Room::forUser()->with('tickets.person', 'organization.church', 'hotel')->orderBy('organization_id')->orderBy('id')->get();
         \Session::put('url.intended', route('roominglist.overview'));
+        
+        $rooms = Room::forUser()->with('tickets.person', 'organization.church', 'hotel')->orderBy('organization_id')->orderBy('id')->get();
+        $organizations = Organization::has('rooms')->with('church')->join('church', 'organization.church_id', '=', 'church.id')->orderBy('church.name')->get();
 
-        return view('roominglist.overview', compact('rooms'));
+        return view('roominglist.overview', compact('rooms', 'organizations'));
     }
 
     public function issues()
@@ -145,5 +148,44 @@ class RoomingListController extends Controller
         });
         $room->delete();
         return redirect()->intended(route('roominglist.overview'));
+    }
+
+    public function label(Request $request, Room $room)
+    {
+        $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
+        $pdf->writeHTML(view('roominglist/partials/label', compact('room'))->render());
+
+        $print_handler = (new PrintJobHandler)
+            ->withPrinter($request->session()->get('printer'))
+            ->setTitle($room->name)
+            ->output($pdf);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i>', 201);
+        } else {
+            return redirect()->back()->withSuccess('Printing job queued.');
+        }
+    }
+
+    public function checkin(Request $request, Room $room)
+    {
+        $room->checkin();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i> checked in', 200);
+        } else {
+            return redirect()->back()->withSuccess('Room checked in.');
+        }
+    }
+
+    public function keyReceived(Request $request, Room $room)
+    {
+        $room->keyReceived();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i> key', 200);
+        } else {
+            return redirect()->back()->withSuccess('Room key received.');
+        }
     }
 }

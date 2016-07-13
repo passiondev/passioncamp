@@ -12121,8 +12121,63 @@ require('jquery.payment');
 
 Vue = require('vue');
 
+Vue.component('roominglist-overview', {
+  props: ['organization'],
+  methods: {
+    ajax: function(e) {
+      return this.$dispatch('ajax', e);
+    },
+    filterOrganization: function(organization) {
+      if (organization === '') {
+        $('table tbody tr').show();
+        return;
+      }
+      return $('#rooms tbody tr').each((function(_this) {
+        return function(i, el) {
+          var mismatch;
+          mismatch = $(el).data('organization') * 1 !== organization * 1;
+          if (mismatch) {
+            return $(el).hide();
+          } else {
+            return $(el).show();
+          }
+        };
+      })(this));
+    }
+  },
+  watch: {
+    'organization': function(organization) {
+      return this.filterOrganization(organization);
+    }
+  }
+});
+
 new Vue({
-  el: 'body'
+  el: 'body',
+  events: {
+    'ajax': function(e) {
+      return this.ajax(e);
+    }
+  },
+  methods: {
+    ajax: function(e) {
+      var $link, $parent, $progress;
+      $link = $(e.target).hide();
+      $progress = $('<i class="spinner loading icon"></i>');
+      $parent = $link.after($progress);
+      return this.$http.get({
+        url: $link.attr('href')
+      }).then(function(response) {
+        $progress.after(response.data);
+        $progress.remove();
+        return $link.remove();
+      }, function(response) {
+        $progress.after("<i>" + response.data.status + "</i>");
+        $progress.remove();
+        return $link.show();
+      });
+    }
+  }
 });
 
 $(function() {

@@ -51,4 +51,8 @@ return [
         'level' => env('ROLLBAR_LEVEL'),
     ],
 
+    'printnode' => [
+        'key' => env('PRINTNODE_API_KEY'),
+    ],
+
 ];
