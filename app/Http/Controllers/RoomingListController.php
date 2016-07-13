@@ -166,4 +166,26 @@ class RoomingListController extends Controller
             return redirect()->back()->withSuccess('Printing job queued.');
         }
     }
+
+    public function checkin(Request $request, Room $room)
+    {
+        $room->checkin();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i> checked in', 200);
+        } else {
+            return redirect()->back()->withSuccess('Room checked in.');
+        }
+    }
+
+    public function keyReceived(Request $request, Room $room)
+    {
+        $room->keyReceived();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i> key', 200);
+        } else {
+            return redirect()->back()->withSuccess('Room key received.');
+        }
+    }
 }

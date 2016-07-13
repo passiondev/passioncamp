@@ -10,14 +10,16 @@
         @endif
 
 
+        <roominglist-overview inline-template :organization="{{ request('organization') }}">
         <div class="ui top attached segment">
-            <select class="ui dropdown" data-context="table tbody tr" v-on:change="filterChurch">
+            <select class="ui dropdown" data-context="table tbody tr" v-model="organization">
                 <option value=""></option>
                 @foreach ($organizations as $organization)
                     <option value="{{ $organization->id }}">{{ $organization->church->name }} - {{ $organization->church->location }}</option>
                 @endforeach
             </select>
-            <a v-show="organization && organization > 0" href="/admin/organization/@{{ organization }}/rooms/print">print all</a>
+            <a class="ui small button" v-show="organization && organization > 0" href="/admin/organization/@{{ organization }}/rooms/checkin">check in rooms</a>
+            <a class="ui small button" v-show="organization && organization > 0" href="/admin/organization/@{{ organization }}/rooms/print">print all</a>
         </div>
         <table class="ui attached striped table" id="rooms">
             <thead>
@@ -28,7 +30,6 @@
                     <th class="three wide">People</th>
                     <th class="" style="text-align:center">Capacity</th>
                     <th class="" style="text-align:center">Assigned</th>
-                    <th class=""></th>
                     <th class=""></th>
                 </tr>
             </thead>
@@ -57,11 +58,33 @@
                         </td>
                         <td style="text-align:center">{{ $room->capacity }}</td>
                         <td style="text-align:center">{{ $room->tickets->count() }}</td>
-                        <td><a href="{{ route('roominglist.edit', $room) }}">edit</a></td>
-                        <td><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></td>
+                        <td>
+                            @if ($room->is_key_received)
+                                <i class="checkmark green icon"></i> key
+                            @else
+                                <a v-on:click.prevent="ajax" href="{{ route('roominglist.keyReceived', $room) }}">key received</a>
+                            @endif
+
+                            <br>
+
+                            @if ($room->is_checked_in)
+                                <i class="checkmark green icon"></i> checked in
+                            @else
+                                <a v-on:click.prevent="ajax" href="{{ route('roominglist.checkin', $room) }}">check in</a>
+                            @endif
+                            
+                            <br>
+
+                            <a href="{{ route('roominglist.edit', $room) }}">edit</a>
+                            
+                            <br>
+
+                            <a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        </roominglist-overview>
     </div>
 @stop

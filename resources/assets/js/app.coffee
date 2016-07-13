@@ -6,36 +6,45 @@ module.exports = require('./components/TicketForm')
 require('jquery.payment')
 
 Vue = require('vue')
-new Vue
-  el: 'body'
-  data:
-    organization: null
+
+Vue.component 'roominglist-overview',
+  props: ['organization']
   methods:
     ajax: (e) ->
-      $link = $(e.target).hide()
-      $progress = $('<i class="spinner loading icon"></i>')
-      $parent = $link.parent().append $progress
-      @$http.get
-        url: $link.attr 'href'
-      .then((response) ->
-          $progress.remove()
-          $link.remove()
-          $parent.append response.data
-      , (response) ->
-          $progress.remove()
-          $link.show()
-          $parent.empty().append "<i>#{response.data.status}</i>"
-      )
-    filterChurch: (e) ->
-      @organization = $(e.target).val()
-
-      if (@organization == '')
+      @$dispatch('ajax', e)
+    filterOrganization: (organization) ->
+      if (organization == '')
         $('table tbody tr').show()
         return
 
       $('#rooms tbody tr').each (i, el) =>
-        mismatch = $(el).data('organization') *1 != @organization *1
+        mismatch = $(el).data('organization') *1 != organization *1
         if mismatch then $(el).hide() else $(el).show()
+  watch:
+    'organization': (organization) ->
+      @filterOrganization(organization)
+
+new Vue
+  el: 'body'
+  events:
+    'ajax': (e) ->
+      @ajax(e)
+  methods:
+    ajax: (e) ->
+      $link = $(e.target).hide()
+      $progress = $('<i class="spinner loading icon"></i>')
+      $parent = $link.after $progress
+      @$http.get
+        url: $link.attr 'href'
+      .then((response) ->
+          $progress.after response.data
+          $progress.remove()
+          $link.remove()
+      , (response) ->
+          $progress.after "<i>#{response.data.status}</i>"
+          $progress.remove()
+          $link.show()
+      )
 
 $ ->
   $.ajaxSetup
@@ -132,3 +141,4 @@ class App.Assignment
         $(".room[data-id='#{room_id}").parent().empty().append($(data.view).contents())
       new App.Assignments()
     )
+

@@ -31,4 +31,19 @@ class RoomController extends Controller
             return redirect()->back()->withSuccess('Printing job queued.');
         }
     }
+
+    public function checkInAll(Request $request, Organization $organization)
+    {
+        $organization->rooms->filter(function ($room) {
+            return $room->is_key_received && ! $room->is_checked_in;
+        })->each(function ($room) {
+            $room->checkin();
+        });
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i>', 200);
+        } else {
+            return redirect()->back()->withSuccess('Rooms checked in.');
+        }
+    }
 }
