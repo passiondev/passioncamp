@@ -112,9 +112,6 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
             Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
 
-            Route::get('printers', 'PrinterController@index')->name('printer.index');
-            Route::post('printer/{printer}/select', 'PrinterController@select')->name('printer.select');
-            Route::get('printer/reset', 'PrinterController@reset')->name('printer.reset');
         });
 
         Route::get('registrations', 'OrderController@index')->name('order.index');
@@ -185,5 +182,14 @@ Route::group(['middleware' => 'web'], function () {
         Route::patch('roominglist/{room}', 'RoomingListController@update')->name('roominglist.update');
         Route::put('roominglist/{ticket}/assign/{room}', 'RoomingListController@assign')->name('roominglist.assign');
         Route::put('roominglist/{ticket}/unassign', 'RoomingListController@unassign')->name('roominglist.unassign');
+
+        Route::get('checkin', 'CheckinController@index')->name('checkin.index');
+        Route::any('checkin/{ticket}', 'CheckinController@doCheckin')->name('checkin.doCheckin')->middleware('printer');
+        Route::any('checkin/{ticket}/undo', 'CheckinController@undoCheckin')->name('checkin.undoCheckin');
+
+        Route::get('printers', 'PrinterController@index')->name('printer.index');
+        Route::post('printer/{printer}/select', 'PrinterController@select')->name('printer.select');
+        Route::get('printer/reset', 'PrinterController@reset')->name('printer.reset');
+
     });
 });

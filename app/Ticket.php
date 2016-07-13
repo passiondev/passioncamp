@@ -179,4 +179,19 @@ class Ticket extends OrderItem implements Revisionable
         return false;
     }
 
+    public function getIsCheckedInAttribute()
+    {
+        return (bool) $this->checked_in_at;
+    }
+
+    public function setIsCheckedInAttribute($is_checked_in)
+    {
+        $this->checked_in_at = $is_checked_in ? \Carbon\Carbon::now() : null;
+    }
+
+    public function checkIn()
+    {
+        $this->checked_in_at = \Carbon\Carbon::now();
+        $this->save();
+    }
 }
