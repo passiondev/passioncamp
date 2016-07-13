@@ -24,9 +24,8 @@
                 <tr>
                     <th class="four wide">Church</th>
                     <th class="two wide">Hotel</th>
-                    <th class="two wide">Room</th>
-                    <th class="three wide">Description</th>
-                    <th class="three wide">Notes</th>
+                    <th class="two wide">Name</th>
+                    <th class="three wide">People</th>
                     <th class="" style="text-align:center">Capacity</th>
                     <th class="" style="text-align:center">Assigned</th>
                     <th class=""></th>
@@ -44,10 +43,18 @@
                                 </div>
                             </h5>
                         </td>
-                        <td>{{ $room->hotel->name }}</td>
+                        <td>
+                            {{ $room->hotel->name }}
+                            @if ($room->roomnumber)
+                                #{{ $room->roomnumber }}
+                            @endif
+                        </td>
                         <td>{{ $room->name }}</td>
-                        <td>{{ $room->description }}</td>
-                        <td><small>{{ $room->notes }}</small></td>
+                        <td style="font-size:85%">
+                            @foreach ($room->tickets->assigendSort() as $ticket)
+                                {{ $ticket->person->name }}<br>
+                            @endforeach
+                        </td>
                         <td style="text-align:center">{{ $room->capacity }}</td>
                         <td style="text-align:center">{{ $room->tickets->count() }}</td>
                         <td><a href="{{ route('roominglist.edit', $room) }}">edit</a></td>

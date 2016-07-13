@@ -20,6 +20,10 @@
                     {{ Form::select('hotel_id', $hotelOptions, null, ['id' => 'hotel', 'class' => 'ui dropdown']) }}
                 </div>
                 <div class="field">
+                    <label for="roomnumber">Room #</label>
+                    {{ Form::text('roomnumber', null, ['id' => 'roomnumber']) }}
+                </div>
+                <div class="field">
                     <label for="confirmation_number">Confirmation #</label>
                     {{ Form::text('confirmation_number', null, ['id' => 'confirmation_number']) }}
                 </div>
