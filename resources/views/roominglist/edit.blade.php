@@ -40,6 +40,22 @@
                 {{ Form::label('notes', 'Notes') }}
                 {{ Form::text('notes', null, ['id' => 'notes', 'placeholder' => 'ie King Bed OK']) }}
             </div>
+            @if (Auth::user()->isSuperAdmin())
+                <div class="inline field">
+                    {{ Form::hidden('is_checked_in', 0) }}
+                    <div class="ui toggle checkbox">
+                        {{ Form::checkbox('is_checked_in', 1, null, ['id' => 'is_checked_in']) }}
+                        <label for="is_checked_in">Checked In?</label>
+                    </div>
+                </div>
+                <div class="inline field">
+                    {{ Form::hidden('is_key_received', 0) }}
+                    <div class="ui toggle checkbox">
+                        {{ Form::checkbox('is_key_received', 1, null, ['id' => 'is_key_received']) }}
+                        <label for="is_key_received">Key Received?</label>
+                    </div>
+                </div>
+            @endif
             <button class="ui primary button">Update</button>
         {{ Form::close() }}
 

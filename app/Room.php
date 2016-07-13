@@ -22,6 +22,8 @@ class Room extends Model implements Revisionable
         'capacity',
         'roomnumber',
         'confirmation_number',
+        'is_checked_in',
+        'is_key_received',
     ];
 
     protected $dates = [
@@ -118,6 +120,16 @@ class Room extends Model implements Revisionable
     public function getIsCheckedInAttribute()
     {
         return (bool) $this->checked_in_at;
+    }
+
+    public function setIsCheckedInAttribute($is_checked_in)
+    {
+        $this->checked_in_at = $is_checked_in ? \Carbon\Carbon::now() : null;
+    }
+
+    public function setIsKeyReceivedAttribute($is_key_received)
+    {
+        $this->key_received_at = $is_key_received ? \Carbon\Carbon::now() : null;
     }
 
     public function checkIn()
