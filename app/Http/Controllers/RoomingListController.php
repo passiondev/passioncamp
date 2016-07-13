@@ -8,9 +8,8 @@ use App\Hotel;
 use Exception;
 use App\Ticket;
 use App\Organization;
-use PrintNode\PrintJob;
+use App\PrintJobHandler;
 use Illuminate\Http\Request;
-use PrintNode\Request as PrintNode;
 use App\Repositories\RoomRepository;
 use App\Repositories\TicketRepository;
 use App\Http\Requests\UpdateRoomRequest;
@@ -149,28 +148,20 @@ class RoomingListController extends Controller
         return redirect()->intended(route('roominglist.overview'));
     }
 
-    public function label(Request $request, PrintNode $printnode, Room $room)
+    public function label(Request $request, Room $room)
     {
         $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
         $pdf->writeHTML(view('roominglist/partials/label', compact('room')));
 
-        switch ($request->session()->get('printer')) {
-            case 'PDF':
-                $pdf->Output('label.pdf');
-                break;
-            
-            default:
-                $printJob = new PrintJob();
-                $printJob->printer = $request->session()->get('printer');
-                $printJob->contentType = 'pdf_base64';
-                $printJob->content = base64_encode($pdf->Output('label.pdf', 'S'));
-                $printJob->source = 'passioncamp';
-                $printJob->title = $room->name;
+        $print_handler = (new PrintJobHandler)
+            ->withPrinter($request->session()->get('printer'))
+            ->setTitle($room->name)
+            ->output($pdf);
 
-                $printnode->post($printJob);
-                break;
+        if ($request->ajax() || $request->wantsJson()) {
+            return response('<i class="checkmark green icon"></i>', 201);
+        } else {
+            return redirect()->back()->withSuccess('Printing job queued.');
         }
-
-        return redirect()->back()->withSuccess('Printing job queued.');
     }
 }

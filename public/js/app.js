@@ -12122,7 +12122,26 @@ require('jquery.payment');
 Vue = require('vue');
 
 new Vue({
-  el: 'body'
+  el: 'body',
+  methods: {
+    ajax: function(e) {
+      var $link, $parent, $progress;
+      $link = $(e.target).hide();
+      $progress = $('<i class="spinner loading icon"></i>');
+      $parent = $link.parent().append($progress);
+      return this.$http.get({
+        url: $link.attr('href')
+      }).then(function(response) {
+        $progress.remove();
+        $link.remove();
+        return $parent.append(response.data);
+      }, function(response) {
+        $progress.remove();
+        $link.show();
+        return $parent.empty().append("<i>" + response.data.status + "</i>");
+      });
+    }
+  }
 });
 
 $(function() {

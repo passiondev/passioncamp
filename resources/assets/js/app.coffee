@@ -7,7 +7,23 @@ require('jquery.payment')
 
 Vue = require('vue')
 new Vue
-    el: 'body'
+  el: 'body'
+  methods:
+    ajax: (e) ->
+      $link = $(e.target).hide()
+      $progress = $('<i class="spinner loading icon"></i>')
+      $parent = $link.parent().append $progress
+      @$http.get
+        url: $link.attr 'href'
+      .then((response) ->
+          $progress.remove()
+          $link.remove()
+          $parent.append response.data
+      , (response) ->
+          $progress.remove()
+          $link.show()
+          $parent.empty().append "<i>#{response.data.status}</i>"
+      )
 
 $ ->
   $.ajaxSetup

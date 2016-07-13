@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="ui container">
+
+        @if (session('success'))
+            <div class="ui success message">
+                {{ session('success') }}
+            </div>
+        @endif
         <table class="ui striped table">
             <thead>
                 <tr>
@@ -34,7 +40,7 @@
                         <td style="text-align:center">{{ $room->capacity }}</td>
                         <td style="text-align:center">{{ $room->tickets->count() }}</td>
                         <td><a href="{{ route('roominglist.edit', $room) }}">edit</a></td>
-                        <td><a href="{{ route('roominglist.label', $room) }}">print</a></td>
+                        <td><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></td>
                     </tr>
                 @endforeach
             </tbody>
