@@ -94,10 +94,12 @@ class RoomingListController extends Controller
 
     public function overview()
     {
-        $rooms = Room::forUser()->with('tickets.person', 'organization.church', 'hotel')->orderBy('organization_id')->orderBy('id')->get();
         \Session::put('url.intended', route('roominglist.overview'));
+        
+        $rooms = Room::forUser()->with('tickets.person', 'organization.church', 'hotel')->orderBy('organization_id')->orderBy('id')->get();
+        $organizations = Organization::has('rooms')->with('church')->join('church', 'organization.church_id', '=', 'church.id')->orderBy('church.name')->get();
 
-        return view('roominglist.overview', compact('rooms'));
+        return view('roominglist.overview', compact('rooms', 'organizations'));
     }
 
     public function issues()
@@ -151,7 +153,7 @@ class RoomingListController extends Controller
     public function label(Request $request, Room $room)
     {
         $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
-        $pdf->writeHTML(view('roominglist/partials/label', compact('room')));
+        $pdf->writeHTML(view('roominglist/partials/label', compact('room'))->render());
 
         $print_handler = (new PrintJobHandler)
             ->withPrinter($request->session()->get('printer'))

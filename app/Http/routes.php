@@ -104,6 +104,8 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('admin/organization/{organization}/registrations', 'Organization\OrderController@index')->name('admin.organization.order.index');
 
+            Route::get('admin/organization/{organization}/rooms/print', 'Organization\RoomController@printAll');
+
             Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
             Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
 

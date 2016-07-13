@@ -12123,6 +12123,9 @@ Vue = require('vue');
 
 new Vue({
   el: 'body',
+  data: {
+    organization: null
+  },
   methods: {
     ajax: function(e) {
       var $link, $parent, $progress;
@@ -12140,6 +12143,24 @@ new Vue({
         $link.show();
         return $parent.empty().append("<i>" + response.data.status + "</i>");
       });
+    },
+    filterChurch: function(e) {
+      this.organization = $(e.target).val();
+      if (this.organization === '') {
+        $('table tbody tr').show();
+        return;
+      }
+      return $('#rooms tbody tr').each((function(_this) {
+        return function(i, el) {
+          var mismatch;
+          mismatch = $(el).data('organization') * 1 !== _this.organization * 1;
+          if (mismatch) {
+            return $(el).hide();
+          } else {
+            return $(el).show();
+          }
+        };
+      })(this));
     }
   }
 });

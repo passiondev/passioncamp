@@ -8,6 +8,8 @@ require('jquery.payment')
 Vue = require('vue')
 new Vue
   el: 'body'
+  data:
+    organization: null
   methods:
     ajax: (e) ->
       $link = $(e.target).hide()
@@ -24,6 +26,16 @@ new Vue
           $link.show()
           $parent.empty().append "<i>#{response.data.status}</i>"
       )
+    filterChurch: (e) ->
+      @organization = $(e.target).val()
+
+      if (@organization == '')
+        $('table tbody tr').show()
+        return
+
+      $('#rooms tbody tr').each (i, el) =>
+        mismatch = $(el).data('organization') *1 != @organization *1
+        if mismatch then $(el).hide() else $(el).show()
 
 $ ->
   $.ajaxSetup
