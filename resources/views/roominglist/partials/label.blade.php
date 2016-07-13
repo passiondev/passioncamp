@@ -14,17 +14,16 @@
     <page_footer style="font-size:8pt; text-align:center">
         {{ $room->name }}
     </page_footer>
-    <div style="text-align:center">
-        <span style="font-size:12pt">{{ $room->organization->church->name }}</span>
-        <br><br>
+    <div style="text-align:center;font-size:12pt">{{ $room->organization->church->name }}</div>
+    
+    <div style="text-align:center;margin-top:6px">
         @if ($room->roomnumber)
             <span style="font-size: 18pt">{{ $room->roomnumber }}</span>
         @else
             <br><span style="border-bottom:1px solid #000000;width:40%;">____________</span>
         @endif
     </div>
-    <br>
-    <div style="font-size:9pt; text-align:center">
+    <div style="margin-top:6px;font-size:9pt; text-align:center">
         @foreach ($room->tickets->assigendSort() as $ticket)
             {{ $ticket->person->name }}
             @if ($ticket->squad)
