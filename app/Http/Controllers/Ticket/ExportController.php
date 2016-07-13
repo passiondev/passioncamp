@@ -71,6 +71,7 @@ class ExportController extends Controller
                 'contact email' => @$ticket->order->user->person->email,
                 'contact phone' => @$ticket->order->user->person->phone,
                 'room' => @$ticket->room->name,
+                'room description' => @$ticket->room->description,
             ];
 
             if (Auth::user()->isSuperAdmin() || Auth::user()->organization->slug == 'pcc') {
