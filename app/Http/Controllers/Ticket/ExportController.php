@@ -71,6 +71,7 @@ class ExportController extends Controller
                 'contact email' => @$ticket->order->user->person->email,
                 'contact phone' => @$ticket->order->user->person->phone,
                 'room' => @$ticket->room->name,
+                'hotel' => @$ticket->room->hotel->name,
                 'room description' => @$ticket->room->description,
             ];
 
