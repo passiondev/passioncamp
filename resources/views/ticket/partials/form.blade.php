@@ -63,6 +63,14 @@
             {{ Form::label('squad', 'Squad') }}
             {{ Form::text('squad', null, ['id' => 'squad']) }}
         </div>
+        <div class="field">
+            {{ Form::label('leader', 'Leader') }}
+            {{ Form::text('leader', null, ['id' => 'leader']) }}
+        </div>
+        <div class="field">
+            {{ Form::label('bus', 'Bus') }}
+            {{ Form::text('bus', null, ['id' => 'bus']) }}
+        </div>
     @endif
     @can ('record-transactions', $order->organization)
         <div class="field">

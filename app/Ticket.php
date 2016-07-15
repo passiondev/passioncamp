@@ -139,6 +139,16 @@ class Ticket extends OrderItem implements Revisionable
         return $this->ticket_data('roommate_requested');
     }
 
+    public function getLeaderAttribute()
+    {
+        return $this->ticket_data('leader');
+    }
+
+    public function getBusAttribute()
+    {
+        return $this->ticket_data('bus');
+    }
+
     public function ticket_data($key = null)
     {
         $data = json_decode($this->ticket_data, true);
