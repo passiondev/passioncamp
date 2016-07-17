@@ -87,6 +87,15 @@
             </div>
         </div>
     @endif
+    @if ($order->organization->slug == 'pcc')
+        <div class="inline field">
+            {{ Form::hidden('pcc_waiver', 0) }}
+            <div class="ui toggle checkbox">
+                {{ Form::checkbox('pcc_waiver', 'X', $ticket->pcc_waiver, ['id' => 'pcc_waiver']) }}
+                <label for="pcc_waiver">PCC Waiver?</label>
+            </div>
+        </div>
+    @endif
 
 
     <button class="ui primary button">{{ $submitButtonText }}</button>

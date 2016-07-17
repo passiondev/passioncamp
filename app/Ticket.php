@@ -214,6 +214,7 @@ class Ticket extends OrderItem implements Revisionable
     {
         return $this->ticket_data('pcc_waiver');
     }
+
     public function getHasPccWaiverAttribute()
     {
         return $this->pcc_waiver == 'X';
