@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('organizationOptions', collect($organizationOptions)->sort()->toArray());
         });
 
-        view()->composer('checkin.printer.index', 'App\Http\ViewComposers\CheckinPrinterIndexComposer');
+        view()->composer('checkin.printer.index', 'App\Http\ViewComposers\CheckInPrinterIndexComposer');
         view()->composer('roominglist.printer.index', 'App\Http\ViewComposers\RoominglistPrinterIndexComposer');
 
         $this->app->when(\App\Http\ViewComposers\RoominglistPrinterIndexComposer::class)
@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
 
                     return new \PrintNode\Client($credentials);
                   });
-        $this->app->when(\App\Http\ViewComposers\CheckinPrinterIndexComposer::class)
+        $this->app->when(\App\Http\ViewComposers\CheckInPrinterIndexComposer::class)
                   ->needs(\PrintNode\Client::class)
                   ->give(function () {
                     $credentials = new \PrintNode\Credentials\ApiKey(env('CHECKIN_PRINTNODE_API_KEY'));
