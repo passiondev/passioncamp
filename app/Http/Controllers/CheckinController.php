@@ -16,6 +16,7 @@ class CheckinController extends Controller
         
         $tickets = $request->search ? Ticket::forUser()
                    ->search($request->search)
+                   ->active()
                    ->with('person', 'order.transactions', 'order.items', 'waiver')
                    ->get() : [];
 
