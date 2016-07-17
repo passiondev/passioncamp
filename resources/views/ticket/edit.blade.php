@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="ui container">
-        <header class="page-header">
-            <div class="page-header__title">
-                <h1>Edit Ticket</h1>
-                <h2>Registration #{{ $ticket->order->id }}</h2>
+        <header class="ui header">
+            <h1>Edit Ticket</h1>
+            <div class="sub header">
+                <a href="{{ route('order.show', $ticket->order) }}">Registration #{{ $ticket->order->id }}</a>
             </div>
         </header>
 
