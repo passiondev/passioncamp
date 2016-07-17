@@ -29,6 +29,7 @@ class CheckinController extends Controller
         // generate pdf and send to printer
         $pdf = new \HTML2PDF('L', [254, 25.4], 'en', true, 'UTF-8', [2*25.4,2*2.5,2.5,2.5]);
         $pdf->writeHTML(view('ticket.wristband', compact('ticket'))->render());
+        $pdf->writeHTML(view('ticket.wristband', compact('ticket'))->render());
 
         $print_handler = (new PrintJobHandler)
             ->withPrinter($request->session()->get('printer'))
