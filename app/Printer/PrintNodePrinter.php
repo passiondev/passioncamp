@@ -36,4 +36,16 @@ class PrintNodePrinter extends BasePrinter implements PrinterContract
 
         $this->printNode->createPrintJob($printJob);
     }
+
+    public function test()
+    {
+        $printJob = new PrintJob($this->printNode);
+        $printJob->printer = $this->printer_id;
+        $printJob->contentType = 'pdf_uri';
+        $printJob->content = 'https://app.printnode.com/testpdfs/label_3in_x_1in_barcode.pdf';
+        $printJob->source = 'passioncamp';
+        $printJob->title = 'TEST';
+
+        $this->printNode->createPrintJob($printJob);
+    }
 }

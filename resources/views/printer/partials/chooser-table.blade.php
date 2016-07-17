@@ -5,6 +5,7 @@
                 Print to PDF
             </h4>
         </td>
+        <td></td>
         <td>
             @unless (session('printer') == 'PDF')
                 <form action="{{ route("{$prefix}.printer.select", 'PDF') }}" method="POST">
@@ -21,6 +22,9 @@
                     {{ $printer->name }}
                     <div class="sub header">{{ $printer->computer->name }}</div>
                 </h5>
+            </td>
+            <td>
+                <a href="{{ route("{$prefix}.printer.test", $printer->id) }}">test</a>
             </td>
             <td>
                 @unless (session('printer') == $printer->id)

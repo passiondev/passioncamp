@@ -49,6 +49,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('roominglist/printers', 'RoominglistPrinterController@index')->name('roominglist.printer.index');
         Route::post('roominglist/printer/{printer}/select', 'RoominglistPrinterController@select')->name('roominglist.printer.select');
         Route::get('roominglist/printer/reset', 'RoominglistPrinterController@reset')->name('roominglist.printer.reset');
+        Route::get('roominglist/printer/{printer}/test', 'RoominglistPrinterController@test')->name('roominglist.printer.test');
 
         Route::get('/home', function () {
             if (Auth::user()->isOrderOwner()) {
@@ -188,6 +189,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('checkin/printers', 'CheckinPrinterController@index')->name('checkin.printer.index');
         Route::post('checkin/printer/{printer}/select', 'CheckinPrinterController@select')->name('checkin.printer.select');
+        Route::get('checkin/printer/{printer}/test', 'CheckinPrinterController@test')->name('checkin.printer.test');
         Route::get('checkin/printer/reset', 'CheckinPrinterController@reset')->name('checkin.printer.reset');
 
         Route::get('checkin', 'CheckinController@index')->name('checkin.index');

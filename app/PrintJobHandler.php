@@ -46,4 +46,9 @@ class PrintJobHandler
             ->output($pdf);
     }
 
+    public function test()
+    {
+        return $this->printer->test();
+    }
+
 }
