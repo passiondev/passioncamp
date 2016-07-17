@@ -34,6 +34,7 @@ class RegisterController extends Controller
 
     public function create()
     {
+        return redirect('http://passioncitychurch.com/students/smmrcmp/');
         return view('register.create')->withTicketPrice($this->ticket_price);
     }
 
