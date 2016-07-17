@@ -39,14 +39,17 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('roominglist/overview', 'RoomingListController@overview')->name('roominglist.overview');
         Route::delete('roominglist/{room}', 'RoomingListController@destroy')->name('roominglist.destroy');
-        Route::get('roominglist/{room}/label', 'RoomingListController@label')->middleware('printer')->name('roominglist.label');
+        Route::get('roominglist/{room}/label', 'RoomingListController@label')->middleware('printer:roominglist')->name('roominglist.label');
         Route::get('roominglist/{room}/checkin', 'RoomingListController@checkin')->name('roominglist.checkin');
         Route::get('roominglist/{room}/key_received', 'RoomingListController@keyReceived')->name('roominglist.keyReceived');
         Route::get('roominglist/export', 'RoomingList\ExportController@index')->name('roominglist.export');
         Route::post('roominglist/export', 'RoomingList\ExportController@version')->name('roominglist.export.version');
         Route::get('roominglist/export/{version}/download', 'RoomingList\ExportController@download')->name('roominglist.export.download');
         Route::get('roominglist/export/generate', 'RoomingList\ExportController@generate')->name('roominglist.export.generate');
-        
+        Route::get('roominglist/printers', 'RoominglistPrinterController@index')->name('roominglist.printer.index');
+        Route::post('roominglist/printer/{printer}/select', 'RoominglistPrinterController@select')->name('roominglist.printer.select');
+        Route::get('roominglist/printer/reset', 'RoominglistPrinterController@reset')->name('roominglist.printer.reset');
+
         Route::get('/home', function () {
             if (Auth::user()->isOrderOwner()) {
                 return redirect()->route('account');
@@ -112,9 +115,6 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
             Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
 
-            Route::get('printers', 'PrinterController@index')->name('printer.index');
-            Route::post('printer/{printer}/select', 'PrinterController@select')->name('printer.select');
-            Route::get('printer/reset', 'PrinterController@reset')->name('printer.reset');
         });
 
         Route::get('registrations', 'OrderController@index')->name('order.index');
@@ -185,5 +185,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::patch('roominglist/{room}', 'RoomingListController@update')->name('roominglist.update');
         Route::put('roominglist/{ticket}/assign/{room}', 'RoomingListController@assign')->name('roominglist.assign');
         Route::put('roominglist/{ticket}/unassign', 'RoomingListController@unassign')->name('roominglist.unassign');
+
+        Route::get('checkin/printers', 'CheckinPrinterController@index')->name('checkin.printer.index');
+        Route::post('checkin/printer/{printer}/select', 'CheckinPrinterController@select')->name('checkin.printer.select');
+        Route::get('checkin/printer/reset', 'CheckinPrinterController@reset')->name('checkin.printer.reset');
+
+        Route::get('checkin', 'CheckinController@index')->name('checkin.index');
+        Route::any('checkin/{ticket}', 'CheckinController@doCheckin')->name('checkin.doCheckin')->middleware('printer:checkin');
+        Route::any('checkin/{ticket}/undo', 'CheckinController@undoCheckin')->name('checkin.undoCheckin');
     });
 });

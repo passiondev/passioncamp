@@ -19,7 +19,10 @@ class TicketRepository
         $ticket_data = array_only($data, [
             'school',
             'shirtsize',
-            'roommate_requested'
+            'roommate_requested',
+            'leader',
+            'bus',
+            'pcc_waiver',
         ]);
 
         $ticket->fill($data)->setAttribute('ticket_data', $ticket_data);

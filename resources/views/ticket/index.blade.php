@@ -22,6 +22,16 @@
             <p><i>No results</i></p>
         @endif
         <table class="ui basic striped table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Grade</th>
+                @can ('record-transactions', $tickets->first()->organization)
+                    <th>Price</th>
+                @endcan
+                <th>Waiver</th>
+            </tr>
+        </thead>
             @foreach ($tickets as $ticket)
                 <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                     <td><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></td>
@@ -43,7 +53,9 @@
                                 </Waiver>
                             @else
                                 <h4 class="ui header">
-                                    {{ $ticket->waiver->status }}<br>
+                                    @unless ($ticket->is_canceled)
+                                        {!! $ticket->waiver->is_complete ? '<span style="font-weight:normal"><i class="green checkmark icon"></i>'.$ticket->waiver->status.'</span>' : $ticket->waiver->status !!}<br>
+                                    @endunless
                                     @unless ($ticket->waiver->status == 'signed')
                                         <div class="sub header">
                                             <Waiver inline-template>
@@ -63,6 +75,6 @@
             @endforeach
         </table>
 
-        {{ $tickets->appends(Request::only('search'))->links(new \App\Pagination\Semantic($tickets)) }}
+        {{-- {{ $tickets->appends(Request::only('search'))->links(new \App\Pagination\Semantic($tickets)) }} --}}
     </div>
 @stop

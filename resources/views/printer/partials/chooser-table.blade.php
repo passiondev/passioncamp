@@ -7,7 +7,7 @@
         </td>
         <td>
             @unless (session('printer') == 'PDF')
-                <form action="{{ route('printer.select', 'PDF') }}" method="POST">
+                <form action="{{ route("{$prefix}.printer.select", 'PDF') }}" method="POST">
                     {{ csrf_field() }}
                     <button type="submit" class="ui primary button">Select</button>
                 </form>
@@ -24,7 +24,7 @@
             </td>
             <td>
                 @unless (session('printer') == $printer->id)
-                    <form action="{{ route('printer.select', $printer->id) }}" method="POST">
+                    <form action="{{ route("{$prefix}.printer.select", $printer->id) }}" method="POST">
                         {{ csrf_field() }}
                         <button type="submit" class="ui primary button">Select</button>
                     </form>

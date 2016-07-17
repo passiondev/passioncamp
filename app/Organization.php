@@ -118,7 +118,7 @@ class Organization extends Model
             return $this;
         }
 
-        $setting = $this->settings()->where('key', $key)->first();
+        $setting = $this->settings->where('key', $key)->first();
 
         return $setting ? $setting->value : false;
     }

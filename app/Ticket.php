@@ -36,6 +36,11 @@ class Ticket extends OrderItem implements Revisionable
         'agegroup',
         'price',
         'squad',
+        'is_checked_in',
+    ];
+
+    protected $dates = [
+        'checked_in_at',
     ];
 
     protected static function boot()
@@ -139,6 +144,16 @@ class Ticket extends OrderItem implements Revisionable
         return $this->ticket_data('roommate_requested');
     }
 
+    public function getLeaderAttribute()
+    {
+        return $this->ticket_data('leader');
+    }
+
+    public function getBusAttribute()
+    {
+        return $this->ticket_data('bus');
+    }
+
     public function ticket_data($key = null)
     {
         $data = json_decode($this->ticket_data, true);
@@ -179,4 +194,19 @@ class Ticket extends OrderItem implements Revisionable
         return false;
     }
 
+    public function getIsCheckedInAttribute()
+    {
+        return (bool) $this->checked_in_at;
+    }
+
+    public function setIsCheckedInAttribute($is_checked_in)
+    {
+        $this->checked_in_at = $is_checked_in ? \Carbon\Carbon::now() : null;
+    }
+
+    public function checkIn()
+    {
+        $this->checked_in_at = \Carbon\Carbon::now();
+        $this->save();
+    }
 }

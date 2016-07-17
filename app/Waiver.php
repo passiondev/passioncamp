@@ -36,6 +36,11 @@ class Waiver extends Model
         }
     }
 
+    public function getIsCompleteAttribute()
+    {
+        return $this->status == 'signed';
+    }
+
     public function cancel()
     {
         $this->canceled_at = \Carbon\Carbon::now();

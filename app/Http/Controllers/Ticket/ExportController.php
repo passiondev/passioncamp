@@ -61,6 +61,9 @@ class ExportController extends Controller
                     'school' => $ticket->school,
                     'roommate requested' => $ticket->roommate_requested,
                     'squad' => $ticket->squad,
+                    'leader' => $ticket->leader,
+                    'bus' => $ticket->bus,
+                    'checked in' => (string) $ticket->checked_in_at,
                 ];
             }
 

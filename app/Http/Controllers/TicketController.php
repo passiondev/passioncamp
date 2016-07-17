@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TicketRequest;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\TicketRepository;
 
@@ -25,12 +26,12 @@ class TicketController extends Controller
     {
         $tickets = Ticket::forUser()
                    ->search($request->search)
-                   ->with('person', 'order', 'organization.church', 'waiver')
-                   ->paginate(15);
+                   ->with('person', 'order', 'organization.church', 'organization.settings', 'waiver')
+                   ->get();
 
-        if ($tickets->count() > 0 && ! $request->search && ! $request->page) {
-            return redirect()->route('ticket.index', ['page' => $tickets->lastPage()]);
-        }
+        // if ($tickets->count() > 0 && ! $request->search && ! $request->page) {
+        //     return redirect()->route('ticket.index', ['page' => $tickets->lastPage()]);
+        // }
 
         return view('ticket.index', compact('tickets'));
     }
@@ -40,7 +41,7 @@ class TicketController extends Controller
         return redirect()->route('order.show', $ticket->order);
     }
 
-    public function edit(Ticket $ticket)
+    public function edit(UrlGenerator $generator, Ticket $ticket)
     {
         $this->authorize('owner', $ticket);
 
@@ -57,7 +58,7 @@ class TicketController extends Controller
         return view('ticket.edit', compact('formData', 'ticket_price'))->withTicket($ticket);
     }
 
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request, UrlGenerator $generator, Ticket $ticket)
     {
         $this->authorize('owner', $ticket);
 
@@ -71,7 +72,7 @@ class TicketController extends Controller
 
         $this->tickets->update($ticket, $request->all());
 
-        return redirect()->route('order.show', $ticket->order);
+        return redirect()->intended($generator->previous());
     }
 
     public function cancel(Ticket $ticket)

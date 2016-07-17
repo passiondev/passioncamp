@@ -23,7 +23,7 @@ class PrintNodePrinter extends BasePrinter implements PrinterContract
 
     public function output($pdf)
     {
-        $this->dispatch(
+        $this->dispatchNow(
             new PrintNodeJob($this->printer_id, $this->getTitle(), $this->getContent($pdf))
         );
     }
