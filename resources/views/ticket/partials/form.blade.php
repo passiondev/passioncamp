@@ -78,7 +78,7 @@
             {{ Form::text('price', $ticket_price ?? 0, ['id' => 'price']) }}
         </div>
     @endif
-    @if ($order->organization->slug == 'pcc')
+    @if ($order->organization->slug == 'pcc' && isset($ticket))
         <div class="inline field">
             {{ Form::hidden('is_checked_in', 0) }}
             <div class="ui toggle checkbox">
