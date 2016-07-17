@@ -68,15 +68,16 @@ class ImportPccInfo extends Command
 
         $data = collect($all)->map(function ($row) {
             return [
+                'id' => $row[0],
                 'pcc_waiver' => $row[1],
                 'description' => $row[2],
                 'leader' => $row[3],
                 'squad' => $row[4],
                 'bus' => $row[5],
             ];
-        });
+        })->keyBy('id');
 
-        $tickets = Ticket::whereIn('id', $ids)->with('room')->get();
+        $tickets = Ticket::whereIn('id', $ids)->with('room')->get()->keyBy('id');
 
         $tickets->each(function ($ticket, $i) use ($data) {
             $room = $ticket->room;

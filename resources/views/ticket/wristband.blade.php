@@ -8,8 +8,8 @@
 -->
 </style>
 <page>
-    {{ $ticket->person->name }} <br>
-    {{ $ticket->person->grade }} <br>
+    <strong>{{ $ticket->person->name }}</strong> <br>
+    {{ number_ordinal($ticket->person->grade) }} Grade <br>
     {{ $ticket->leader }} <br>
     {{ $ticket->squad }} <br>
     {{ $ticket->bus }}

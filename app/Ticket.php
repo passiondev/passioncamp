@@ -209,4 +209,13 @@ class Ticket extends OrderItem implements Revisionable
         $this->checked_in_at = \Carbon\Carbon::now();
         $this->save();
     }
+
+    public function getPccWaiverAttribute()
+    {
+        return $this->ticket_data('pcc_waiver');
+    }
+    public function getHasPccWaiverAttribute()
+    {
+        return $this->pcc_waiver == 'X';
+    }
 }
