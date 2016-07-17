@@ -45,7 +45,7 @@
                     <td class="ui list">
                         {!! $ticket->waiver && $ticket->waiver->is_complete ? '' : '<div class="item"><i class="red warning sign icon"></i>Camp Waiver</div>' !!}
                         {!! $ticket->has_pcc_waiver ? '' : '<div class="item"><i class="red warning sign icon"></i>PCC Waiver</div>' !!}
-                        {!! $ticket->order->balance > 0 ? '' : '<div class="item"><i class="red warning sign icon"></i>Balance Due</div>' !!}
+                        {!! $ticket->order->balance == 0 ? '' : '<div class="item"><i class="red warning sign icon"></i>Balance Due</div>' !!}
                     </td>
                     <td class="right aligned">
                         @unless ($ticket->is_checked_in)
