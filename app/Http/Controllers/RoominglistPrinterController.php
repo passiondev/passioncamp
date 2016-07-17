@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use PrintNode\Request as PrintNode;
 use Illuminate\Contracts\Routing\UrlGenerator;
 
-class PrinterController extends Controller
+class RoominglistPrinterController extends Controller
 {
     public function index()
     {
-        return view('printer.index');
+        return view('roominglist.printer.index')->withPrefix('checkin');
     }
 
     public function select(Request $request, UrlGenerator $generator, $printer)

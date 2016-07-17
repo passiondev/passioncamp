@@ -27,16 +27,16 @@
         "nsbucky/echosignv3": "dev-master",
         "adam-paterson/oauth2-stripe": "~1.1",
         "wildbit/postmark-php": "~2.2",
-        "league/csv": "~8.0",
+        "league/csv": "~8.1",
         "jenssegers/rollbar": "~1.5",
         "graham-campbell/flysystem": "~3.4",
         "league/flysystem-dropbox": "~1.0",
         "sofa/revisionable": "~5.2",
         "maatwebsite/excel": "~2.1",
         "vinkla/pusher": "~2.3",
-        "PrintNode/printnode-php": "dev-master",
         "spipu/html2pdf": "~4.6",
-        "codedge/laravel-fpdf": "~1.0"
+        "codedge/laravel-fpdf": "~1.0",
+        "printnode/printnode-php": "2.0.0-rc1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

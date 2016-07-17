@@ -78,8 +78,21 @@
             {{ Form::text('price', $ticket_price ?? 0, ['id' => 'price']) }}
         </div>
     @endif
+    @if ($order->organization->slug == 'pcc')
+        <div class="inline field">
+            {{ Form::hidden('is_checked_in', 0) }}
+            <div class="ui toggle checkbox">
+                {{ Form::checkbox('is_checked_in', 1, $ticket->is_checked_in, ['id' => 'is_checked_in']) }}
+                <label for="is_checked_in">Checked In?</label>
+            </div>
+        </div>
+    @endif
+
 
     <button class="ui primary button">{{ $submitButtonText }}</button>
-    <a href="{{ route('order.show', $order) }}" style="margin-left:1rem">Go Back</a>
+    
+    @unless (app('url')->previous() == app('url')->full())
+        <a href="{{ app('url')->previous() }}" style="margin-left:1rem">Go Back</a>
+    @endunless
 </ticket-form>
 

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "59e9adf0ffb965d48685d0f42c1a6cc7",
+    "hash": "08937aa14d4ad66ada23d17b5be7a23f",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -1520,16 +1520,16 @@
         },
         {
             "name": "league/csv",
-            "version": "8.0.0",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "0a1b535df48507f58ed3c7ab44e72272b11163ac"
+                "reference": "63f2fc3598a4dbbc906c9db9d6f04bc7f72b0645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/0a1b535df48507f58ed3c7ab44e72272b11163ac",
-                "reference": "0a1b535df48507f58ed3c7ab44e72272b11163ac",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/63f2fc3598a4dbbc906c9db9d6f04bc7f72b0645",
+                "reference": "63f2fc3598a4dbbc906c9db9d6f04bc7f72b0645",
                 "shasum": ""
             },
             "require": {
@@ -1573,7 +1573,7 @@
                 "read",
                 "write"
             ],
-            "time": "2015-12-11 09:28:14"
+            "time": "2016-05-30 09:35:50"
         },
         {
             "name": "league/flysystem",
@@ -2482,16 +2482,16 @@
         },
         {
             "name": "printnode/printnode-php",
-            "version": "dev-master",
+            "version": "2.0.0-rc1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PrintNode/PrintNode-PHP.git",
-                "reference": "7957c1abb7698b6b516577e3f5ba58638705888a"
+                "reference": "db904ff59438ec630be9bd51a545552d749483b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PrintNode/PrintNode-PHP/zipball/7957c1abb7698b6b516577e3f5ba58638705888a",
-                "reference": "7957c1abb7698b6b516577e3f5ba58638705888a",
+                "url": "https://api.github.com/repos/PrintNode/PrintNode-PHP/zipball/db904ff59438ec630be9bd51a545552d749483b3",
+                "reference": "db904ff59438ec630be9bd51a545552d749483b3",
                 "shasum": ""
             },
             "require": {
@@ -2520,7 +2520,7 @@
                 "php",
                 "printing"
             ],
-            "time": "2015-07-29 13:38:45"
+            "time": "2015-10-26 17:05:04"
         },
         {
             "name": "psr/http-message",
@@ -5566,7 +5566,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "nsbucky/echosignv3": 20,
-        "printnode/printnode-php": 20
+        "printnode/printnode-php": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,

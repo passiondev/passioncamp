@@ -28,15 +28,34 @@
             </form>
         </div>
 
-        <table class="ui attached striped table">
+        <table class="ui attached striped fixed table">
             @foreach ($tickets as $ticket)
                 <tr>
-                    <td>{{ $ticket->person->name }}</td>
                     <td>
-                        <form action="/checkin/{{ $ticket->id }}" method="POST">
-                            {{ csrf_field() }}
-                            <button type="submit" class="ui primary button">Check In</button>
-                        </form>
+                        <h4 class="ui header">
+                            <a href="{{ route('ticket.edit', $ticket) }}">{{ $ticket->person->name }}</a>
+                        </h4>
+                    </td>
+                    <td>
+                        @include('ticket/partials/label')
+                    </td>
+                    <td>
+                        {{ $ticket->squad }}
+                    </td>
+                    <td class="ui list">
+                        {!! $ticket->waiver && $ticket->waiver->is_complete ? '' : '<div class="item"><i class="red warning sign icon"></i>Camp Waiver</div>' !!}
+                        {!! $ticket->pcc_waiver > 0 ? '' : '<div class="item"><i class="red warning sign icon"></i>PCC Waiver</div>' !!}
+                        {!! $ticket->order->balance > 0 ? '' : '<div class="item"><i class="red warning sign icon"></i>Balance Due</div>' !!}
+                    </td>
+                    <td class="right aligned">
+                        @unless ($ticket->is_checked_in)
+                            <form action="/checkin/{{ $ticket->id }}" method="POST">
+                                {{ csrf_field() }}
+                                <button type="submit" class="ui primary button">Check In</button>
+                            </form>
+                        @else
+                            <i class="large green check icon"></i> {{ $ticket->checked_in_at->diffForHumans() }}
+                        @endif
                     </td>
                 </tr>
             @endforeach

@@ -6,8 +6,8 @@ use App\Jobs\Job;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use PrintNode\PrintJob;
-use PrintNode\Request as PrintNode;
+use PrintNode\Entity\PrintJob;
+use PrintNode\Client as PrintNode;
 
 class PrintNodeJob extends Job implements ShouldQueue
 {
@@ -36,13 +36,14 @@ class PrintNodeJob extends Job implements ShouldQueue
      */
     public function handle(PrintNode $printnode)
     {
-        $printJob = new PrintJob;
+        $printJob = new PrintJob($printnode);
         $printJob->printer = $this->printer_id;
         $printJob->contentType = 'pdf_base64';
         $printJob->content = $this->content;
         $printJob->source = 'passioncamp';
         $printJob->title = $this->title;
+        $printJob->options = ['dpi' => '300'];
 
-        $printnode->post($printJob);
+        $printnode->createPrintJob($printJob);
     }
 }

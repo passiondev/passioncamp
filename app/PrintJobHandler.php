@@ -33,7 +33,7 @@ class PrintJobHandler
 
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = (string) $title;
 
         return $this;
     }

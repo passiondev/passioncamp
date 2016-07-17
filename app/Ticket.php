@@ -36,6 +36,11 @@ class Ticket extends OrderItem implements Revisionable
         'agegroup',
         'price',
         'squad',
+        'is_checked_in',
+    ];
+
+    protected $dates = [
+        'checked_in_at',
     ];
 
     protected static function boot()

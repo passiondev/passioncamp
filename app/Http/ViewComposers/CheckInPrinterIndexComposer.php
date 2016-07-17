@@ -7,7 +7,7 @@ use PrintNode\Entity\PrintJob;
 use PrintNode\Client as PrintNode;
 use Illuminate\Support\Facades\Session;
 
-class PrinterComposer
+class CheckInPrinterIndexComposer
 {
     private $printnode;
 

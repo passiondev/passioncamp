@@ -26,6 +26,11 @@
     @if (auth()->user()->isChurchAdmin())
         <a class="item {{ request()->route()->getName() == 'account.settings' ? 'active' :'' }}" href="{{ route('account.settings') }}">Account</a>
     @endif
+    
+    @if (auth()->user()->isChurchAdmin() && auth()->user()->organization->slug == 'pcc')
+        <a class="item {{ request()->route()->getName() == 'checkin.index' ? 'active' :'' }}" href="{{ route('checkin.index') }}">Check In</a>
+    @endif
+
     @if (auth()->user()->isOrderOwner())
         <a class="item {{ request()->route()->getName() == 'account' ? 'active' :'' }}" href="{{ route('account') }}">Account</a>
     @endif
