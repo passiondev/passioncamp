@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\PrintJobHandler;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use App\PrintNode\CheckinPrintNodeClient;
 
 class CheckinController extends Controller
 {
@@ -32,10 +33,8 @@ class CheckinController extends Controller
         $pdf->writeHTML(view('ticket.wristband', compact('ticket'))->render());
         $pdf->writeHTML(view('ticket.wristband', compact('ticket'))->render());
 
-        $print_handler = (new PrintJobHandler)
-            ->withPrinter($request->session()->get('printer'))
-            ->setTitle($ticket->id)
-            ->output($pdf);
+        $handler = new PrintJobHandler(CheckinPrintNodeClient::init());
+        $handler->withPrinter($request->session()->get('printer'))->setTitle($ticket->id)->output($pdf);
 
         return redirect()->route('checkin.index')->withTicketId($ticket->id)->withTicketName($ticket->person->name);
     }

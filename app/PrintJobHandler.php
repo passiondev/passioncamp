@@ -4,17 +4,18 @@ namespace App;
 
 use App\Printer\PdfPrinter;
 use App\Printer\PrintNodePrinter;
+use PrintNode\Client as PrintNode;
 
 class PrintJobHandler
 {
     private $printer;
     private $title;
+    private $printNode;
 
-    // public function __construct($printer, $title = 'file', $filename = null)
-    // {
-    //     $this->printer = $printer;
-    //     $this->title = $title;
-    // }
+    public function __construct(PrintNode $printNode)
+    {
+        $this->printNode = $printNode;
+    }
 
     public function withPrinter($printer_id)
     {
@@ -24,7 +25,7 @@ class PrintJobHandler
                 break;
             
             default:
-                $this->printer = new PrintNodePrinter($printer_id);
+                $this->printer = new PrintNodePrinter($this->printNode, $printer_id);
                 break;
         }
 

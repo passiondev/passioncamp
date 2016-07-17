@@ -44,21 +44,6 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('checkin.printer.index', 'App\Http\ViewComposers\CheckInPrinterIndexComposer');
         view()->composer('roominglist.printer.index', 'App\Http\ViewComposers\RoominglistPrinterIndexComposer');
-
-        $this->app->when(\App\Http\ViewComposers\RoominglistPrinterIndexComposer::class)
-                  ->needs(\PrintNode\Client::class)
-                  ->give(function () {
-                    $credentials = new \PrintNode\Credentials\ApiKey(env('ROOMINGLIST_PRINTNODE_API_KEY'));
-
-                    return new \PrintNode\Client($credentials);
-                  });
-        $this->app->when(\App\Http\ViewComposers\CheckInPrinterIndexComposer::class)
-                  ->needs(\PrintNode\Client::class)
-                  ->give(function () {
-                    $credentials = new \PrintNode\Credentials\ApiKey(env('CHECKIN_PRINTNODE_API_KEY'));
-
-                    return new \PrintNode\Client($credentials);
-                  });
     }
 
     /**

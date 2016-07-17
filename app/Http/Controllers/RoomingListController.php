@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Repositories\RoomRepository;
 use App\Repositories\TicketRepository;
 use App\Http\Requests\UpdateRoomRequest;
+use App\PrintNode\RoominglistPrintNodeClient;
 
 class RoomingListController extends Controller
 {
@@ -155,10 +156,8 @@ class RoomingListController extends Controller
         $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
         $pdf->writeHTML(view('roominglist/partials/label', compact('room'))->render());
 
-        $print_handler = (new PrintJobHandler)
-            ->withPrinter($request->session()->get('printer'))
-            ->setTitle($room->name)
-            ->output($pdf);
+        $handler = new PrintJobHandler(RoominglistPrintNodeClient::init());
+        $handler->withPrinter($request->session()->get('printer'))->setTitle($room->name)->output($pdf);
 
         if ($request->ajax() || $request->wantsJson()) {
             return response('<i class="checkmark green icon"></i>', 201);
