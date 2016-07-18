@@ -20,17 +20,17 @@
         .
         <div class="ui top attached header" style="display:flex;justify-content:space-between;align-items:center">
             <h2 style="flex:1">Check In</h2>
-            <div style="flex:1;margin-left:1em;margin-right:1em" class="ui purple progress" data-value="{{ auth()->user()->organization->attendees->ofAgegroup('student')->checkedIn()->count() }}" data-total="{{ auth()->user()->organization->attendees->ofAgegroup('student')->count() }}">
+            <div style="flex:1;margin-left:1em;margin-right:1em" class="ui purple progress" data-value="{{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->checkedIn()->count() }}" data-total="{{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->count() }}">
                 <div class="bar">
                     <div class="progress"></div>
                 </div>
-                <div class="label">{{ auth()->user()->organization->attendees->ofAgegroup('student')->checkedIn()->count() }} of {{ auth()->user()->organization->attendees->ofAgegroup('student')->count() }} Students</div>
+                <div class="label">{{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->checkedIn()->count() }} of {{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->count() }} Students</div>
             </div>
-            <div style="flex:1;margin-left:1em;margin-right:1em" class="ui teal progress" data-value="{{ auth()->user()->organization->attendees->ofAgegroup('leader')->checkedIn()->count() }}" data-total="{{ auth()->user()->organization->attendees->ofAgegroup('leader')->count() }}">
+            <div style="flex:1;margin-left:1em;margin-right:1em" class="ui teal progress" data-value="{{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->checkedIn()->count() }}" data-total="{{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->count() }}">
                 <div class="bar">
                     <div class="progress"></div>
                 </div>
-                <div class="label">{{ auth()->user()->organization->attendees->ofAgegroup('leader')->checkedIn()->count() }} of {{ auth()->user()->organization->attendees->ofAgegroup('leader')->count() }} Leaders</div>
+                <div class="label">{{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->checkedIn()->count() }} of {{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->count() }} Leaders</div>
             </div>
         </div>
 
