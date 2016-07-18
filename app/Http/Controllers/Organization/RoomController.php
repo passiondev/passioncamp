@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\PrintJobHandler;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\PrintNode\RoominglistPrintNodeClient;
 
 class RoomController extends Controller
 {
