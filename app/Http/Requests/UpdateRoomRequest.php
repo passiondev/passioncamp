@@ -25,7 +25,7 @@ class UpdateRoomRequest extends Request
     public function rules()
     {
         $rules = [
-            'capacity' => 'required|numeric|min:1|max:5',
+            'capacity' => 'required|numeric|min:1|max:6',
             'description' => 'max:255',
             'notes' => 'max:255',
         ];
