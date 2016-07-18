@@ -48,4 +48,11 @@ class OrderItemCollection extends Collection
             );
         });
     }
+
+    public function checkedIn()
+    {
+        return $this->filter(function ($ticket) {
+            return $ticket->is_checked_in;
+        });
+    }
 }
