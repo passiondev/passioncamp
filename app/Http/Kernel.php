@@ -54,5 +54,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\VerifyUserIsAdmin::class,
         'redirect.to.order' => \App\Http\Middleware\RedirectToSingleOrder::class,
         'printer' => \App\Http\Middleware\VerifyUserHasSelectedPrinter::class,
+        'closed' => \App\Http\Middleware\Closed::class,
     ];
 }

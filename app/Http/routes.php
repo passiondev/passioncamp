@@ -4,6 +4,10 @@ Route::any('/', function() {
     return redirect('/home');
 });
 
+Route::get('/closed', function () {
+    return view('closed');
+});
+
 
 // Route::any('test', 'EchosignController@test');
 // Route::any('refresh', 'EchosignController@refresh');
@@ -34,7 +38,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\PasswordController@reset');
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth', 'closed']], function () {
         Route::get('account', 'AccountController@index')->name('account');
 
         Route::get('roominglist/overview', 'RoomingListController@overview')->name('roominglist.overview');
