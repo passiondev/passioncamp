@@ -20,8 +20,8 @@ class RoomController extends Controller
 
         $pdf->writeHTML($content->implode(''));
 
-        $print_handler = (new PrintJobHandler)
-            ->withPrinter($request->session()->get('printer'))
+        $handler = new PrintJobHandler(RoominglistPrintNodeClient::init());
+        $handler->withPrinter($request->session()->get('printer'))
             ->setTitle($organization->church->name)
             ->output($pdf);
 
