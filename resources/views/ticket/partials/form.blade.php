@@ -86,8 +86,6 @@
                 <label for="is_checked_in">Checked In?</label>
             </div>
         </div>
-    @endif
-    @if ($order->organization->slug == 'pcc')
         <div class="inline field">
             {{ Form::hidden('pcc_waiver', 0) }}
             <div class="ui toggle checkbox">
