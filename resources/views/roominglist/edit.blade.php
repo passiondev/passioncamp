@@ -30,7 +30,7 @@
             @endif
             <div class="field">
                 {{ Form::label('capacity', 'Capacity') }}
-                {{ Form::select('capacity', array(4 => 4,5), null, ['id' => 'capacity', 'class' => 'ui dropdown']) }}
+                {{ Form::select('capacity', array(4 => 4,5,6), null, ['id' => 'capacity', 'class' => 'ui dropdown']) }}
             </div>
             <div class="field">
                 {{ Form::label('description', 'Description') }}
