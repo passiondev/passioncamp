@@ -15,6 +15,10 @@ class Closed
      */
     public function handle($request, Closure $next)
     {
+        if ($request->user()->organization && $request->user()->organization->slug == 'pcc') {
+            return $next($request);            
+        }
+
         if ($request->session()->has('spark:impersonator')) {
             return $next($request);
         }
