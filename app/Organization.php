@@ -273,4 +273,31 @@ class Organization extends Model
             return $attendee->room_id;
         })->count();
     }
+
+    public static function totalPaid($source = null)
+    {
+        if ($source == null) {
+            return static::with('transactions')->get()->sum('total_paid');
+        }
+
+        $transactions = static::with('transactions.transaction')->get()->pluck('transactions')->collapse();
+
+        if ($source == 'other') {
+            $transactions = $transactions->filter(function ($transaction) {
+                return is_null($transaction->transaction->source);
+            });
+        }
+        elseif (! is_null($source)) {
+            $transactions = $transactions->filter(function ($transaction) use ($source) {
+                return $transaction->transaction->source == $source;
+            });
+        }
+
+        return $transactions->sum('transaction.amount');
+    }
+
+    public static function totalCost()
+    {
+        return static::with('items')->get()->sum('total_cost');
+    }
 }

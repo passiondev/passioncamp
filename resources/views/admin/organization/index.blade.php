@@ -2,6 +2,25 @@
 
 @section('content')
     <div class="ui container">
+        <div class="ui statistic">
+            <div class="value">{{ money_format("$%.2n", App\Organization::totalPaid()) }}</div>
+            <div class="label">Total Paid</div>
+        </div>
+        <div class="ui mini statistic">
+            <div class="value">{{ money_format("$%.2n", App\Organization::totalPaid('stripe')) }}</div>
+            <div class="label">Stripe</div>
+        </div>
+        <div class="ui mini statistic">
+            <div class="value">{{ money_format("$%.2n", App\Organization::totalPaid('payscape')) }}</div>
+            <div class="label">Payscape</div>
+        </div>
+        <div class="ui mini statistic">
+            <div class="value">{{ money_format("$%.2n", App\Organization::totalPaid('other')) }}</div>
+            <div class="label">Check / Other</div>
+        </div>
+
+        <hr class="ui divider">
+
         <header class="page-header">
             <h1 class="page-header__title">
                 Churches
@@ -18,6 +37,8 @@
                 <tr>
                     <th>Church</th>
                     <th>Contact</th>
+                    <th>Cost</th>
+                    <th>Paid</th>
                     <th>Balance</th>
                     <th style="text-align:center">Tickets</th>
                     <th style="text-align:center">Registered</th>
@@ -42,6 +63,8 @@
                                 {{ $organization->contact->name }} <br> <small>{{ $organization->contact->email }}</small>
                             @endif
                         </td>
+                        <td>{{ money_format('$%.2n', $organization->total_cost) }}</td>
+                        <td>{{ money_format('$%.2n', $organization->total_paid) }}</td>
                         <td>{{ money_format('$%.2n', $organization->balance) }}</td>
                         <td style="text-align:center">{{ $organization->num_tickets }}</td>
                         <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->num_tickets ? 'positive' : '' }} {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'negative' : '' }}">{{ $organization->attendees->active()->count() }}</td>
