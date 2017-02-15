@@ -49,7 +49,7 @@ class Agreement extends BaseEchosignInteraction
     public function getStatus($agreementId)
     {
         $transport   = new GuzzleTransport();
-        $agreement    = new Agreements( $this->token, $transport );
+        $agreement    = new Agreements($this->token, $transport);
         $agreementInfo = $agreement->status($agreementId);
 
         return $agreementInfo->getStatus();
@@ -58,8 +58,7 @@ class Agreement extends BaseEchosignInteraction
     public function cancel($agreementId)
     {
         $transport   = new GuzzleTransport();
-        $agreement    = new Agreements( $this->token, $transport );
+        $agreement    = new Agreements($this->token, $transport);
         $agreementInfo = $agreement->cancel($agreementId, new AgreementStatusUpdateInfo);
     }
-
 }

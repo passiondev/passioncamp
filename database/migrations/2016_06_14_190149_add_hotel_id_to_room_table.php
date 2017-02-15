@@ -12,7 +12,7 @@ class AddHotelIdToRoomTable extends Migration
      */
     public function up()
     {
-        Schema::table('room', function($table) {
+        Schema::table('room', function ($table) {
             $table->integer('hotel_id')->nullable();
         });
     }

@@ -3,13 +3,12 @@
 namespace App;
 
 use Auth;
-use Sofa\Revisionable\Revisionable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Revisionable\Laravel\RevisionableTrait;
+use Sofa\Revisionable\Laravel\Revisionable;
 
-class Room extends Model implements Revisionable
+class Room extends Model
 {
-    use SoftDeletes, RevisionableTrait;
+    use SoftDeletes, Revisionable;
 
     protected $table = 'room';
 
@@ -90,7 +89,7 @@ class Room extends Model implements Revisionable
     public function revision()
     {
         // get fresh revision info if it hasnt been loaded
-        if ( ! $this->relationLoaded('latestRevision')) {
+        if (! $this->relationLoaded('latestRevision')) {
             $this->load('latestRevision');
         }
 
@@ -103,7 +102,7 @@ class Room extends Model implements Revisionable
 
         $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
 
-        // unset relation so that fresh revision info will be pulled 
+        // unset relation so that fresh revision info will be pulled
         unset($this->relations['latestRevision']);
     }
 

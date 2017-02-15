@@ -23,7 +23,8 @@ class PasswordController extends Controller
     public function reset(Request $request, User $user)
     {
         $response = Password::broker(null)->sendResetLink(
-            ['email' => $user->email], $this->resetEmailBuilder()
+            ['email' => $user->email],
+            $this->resetEmailBuilder()
         );
 
         return redirect()->back()->with('status', trans($response));

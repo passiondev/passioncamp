@@ -28,7 +28,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     protected function disableExceptionHandling()
     {
         app()->instance(Handler::class, new class extends Handler {
-            public function __construct() {}
+            public function __construct()
+            {
+            }
             public function report(Exception $e)
             {
                 // no-op

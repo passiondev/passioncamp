@@ -50,44 +50,46 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                     return $hotel['qty'] == 0;
                 });
 
-            $organization->rooms->filter(function ($room) {
-                return $room->hotel_id;
-            })->each(function ($room) use ($hotels) {
-                $hotel = $hotels->first(function ($key) use ($room) {
-                    return $key == $room->hotel_id;
-                }, ['hotel_id' => null, 'qty' => 0]);
+                $organization->rooms->filter(function ($room) {
+                    return $room->hotel_id;
+                })->each(function ($room) use ($hotels) {
+                    $hotel = $hotels->first(function ($value, $key) use ($room) {
+                        return $key == $room->hotel_id;
+                    }, ['hotel_id' => null, 'qty' => 0]);
 
-                $hotels->forget($hotel['hotel_id']);
-                $hotel['qty']--;
-                $hotels->offsetSet($hotel['hotel_id'], $hotel);             
-            });
+                    $hotels->forget($hotel['hotel_id']);
+                    $hotel['qty']--;
+                    $hotels->offsetSet($hotel['hotel_id'], $hotel);
+                });
 
-            $organization->rooms->reject(function ($room) {
-                return $room->hotel_id;
-            })->each(function ($room) use ($hotels) {
-                $hotel = $hotels->first(function ($key, $hotel) {
-                    return $hotel['qty'] > 0;
-                }, ['hotel_id' => null, 'qty' => 0]);
+                $organization->rooms->reject(function ($room) {
+                    return $room->hotel_id;
+                })->each(function ($room) use ($hotels) {
+                    $hotel = $hotels->first(function ($hotel, $key) {
+                        return $hotel['qty'] > 0;
+                    }, ['hotel_id' => null, 'qty' => 0]);
                 
-                if ($hotel['qty'] <= 0) return false;
+                    if ($hotel['qty'] <= 0) {
+                        return false;
+                    }
 
-                $hotels->forget($hotel['hotel_id']);
+                    $hotels->forget($hotel['hotel_id']);
 
-                $room->hotel_id = $hotel['hotel_id'];
-                $room->save();
+                    $room->hotel_id = $hotel['hotel_id'];
+                    $room->save();
 
-                $hotel['qty']--;
-                $hotels->offsetSet($hotel['hotel_id'], $hotel);
-            });
+                    $hotel['qty']--;
+                    $hotels->offsetSet($hotel['hotel_id'], $hotel);
+                });
 
-            $hotels->filter(function ($hotel) {
-                return $hotel['qty'] > 0;
-            })->each(function ($hotel) use ($organization) {
-                $total_rooms = $organization->rooms()->withTrashed()->count();
-                for ($i = 1; $i <= $hotel['qty']; $i++) {
-                    $this->rooms->create($organization, 'Room #' . ($total_rooms+$i), $hotel['hotel_id']);
-                }
-            });
+                $hotels->filter(function ($hotel) {
+                    return $hotel['qty'] > 0;
+                })->each(function ($hotel) use ($organization) {
+                    $total_rooms = $organization->rooms()->withTrashed()->count();
+                    for ($i = 1; $i <= $hotel['qty']; $i++) {
+                        $this->rooms->create($organization, 'Room #' . ($total_rooms+$i), $hotel['hotel_id']);
+                    }
+                });
         });
 
         \DB::commit();

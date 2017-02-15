@@ -20,7 +20,6 @@ class StripeController extends Controller
 
 
         if (!isset($_GET['code'])) {
-
             // If we don't have an authorization code then get one
             $authUrl = $provider->getAuthorizationUrl(['scope' => 'read_write']);
             $_SESSION['oauth2state'] = $provider->getState();
@@ -29,12 +28,9 @@ class StripeController extends Controller
 
         // Check given state against previously stored one to mitigate CSRF attack
         } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
-
             unset($_SESSION['oauth2state']);
             exit('Invalid state');
-
         } else {
-
             // Try to get an access token (using the authorization code grant)
             $token = $provider->getAccessToken('authorization_code', [
                 'code' => $_GET['code']

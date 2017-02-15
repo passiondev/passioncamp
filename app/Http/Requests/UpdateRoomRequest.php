@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UpdateRoomRequest extends Request
+class UpdateRoomRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -58,7 +59,7 @@ class UpdateRoomRequest extends Request
 
     public function removeParameters()
     {
-        if ( ! $this->user()->isSuperAdmin()) {
+        if (! $this->user()->isSuperAdmin()) {
             $this->offsetUnset('name');
             $this->offsetUnset('hotel_id');
             $this->offsetUnset('confirmation_number');

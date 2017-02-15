@@ -55,7 +55,7 @@ class RoomingListController extends Controller
         } catch (Exception $e) {
             return $request->ajax() || $request->wantsJson()
                 ? response()->json([
-                    'message' => $e->getMessage(), 
+                    'message' => $e->getMessage(),
                     'view' => view('roominglist.partials.room')->withRoom($room->fresh('tickets'))->render()
                 ], 400)
                 : abort(400, $e->getMessage());
@@ -79,7 +79,9 @@ class RoomingListController extends Controller
     public function edit(Room $room)
     {
         $this->authorize('owner', $room);
-        $hotelOptions = Hotel::all()->sortBy('name')->keyBy('id')->map(function ($hotel) { return $hotel->name; });
+        $hotelOptions = Hotel::all()->sortBy('name')->keyBy('id')->map(function ($hotel) {
+            return $hotel->name;
+        });
 
         return view('roominglist.edit', compact('room', 'hotelOptions'));
     }
@@ -132,12 +134,12 @@ class RoomingListController extends Controller
 
             //     $hotels->forget($hotel['hotel_id']);
             //     $hotel['qty']--;
-            //     $hotels->offsetSet($hotel['hotel_id'], $hotel);             
+            //     $hotels->offsetSet($hotel['hotel_id'], $hotel);
             // });
-            return [
+                return [
                 $hotels->flatten(),
                 // $rooms
-            ];
+                ];
         })->dd();
     }
 

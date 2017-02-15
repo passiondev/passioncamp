@@ -43,7 +43,6 @@ class EchosignController extends Controller
         }
         
         if (!isset($_GET['code'])) {
-
             // Fetch the authorization URL from the provider; this returns the
             // urlAuthorize option and generates and applies any necessary parameters
             // (e.g. state).
@@ -61,16 +60,14 @@ class EchosignController extends Controller
             $accessToken = $provider->getAccessToken('authorization_code', [
                 'code' => $_GET['code'],
             ]);
-dd(json_encode($accessToken));
+            dd(json_encode($accessToken));
         // We have an access token, which we may use in authenticated
         // requests against the service provider's API.
         // echo $accessToken->getToken() . "\n";
-        echo $accessToken->getRefreshToken() . "\n";
+            echo $accessToken->getRefreshToken() . "\n";
         // echo $accessToken->getExpires() . "\n";
         // echo ($accessToken->hasExpired() ? 'expired' : 'not expired') . "\n";
         }
-
-
     }
 
     public function refresh()
@@ -92,7 +89,7 @@ dd(json_encode($accessToken));
                 'refresh_token' => $accessToken->getRefreshToken(),
             ]);
         }
-dd($accessToken->getToken());
+        dd($accessToken->getToken());
         $client = new \GuzzleHttp\Client([
             'base_uri' => 'https://api.na1.echosign.com/api/rest/v5/'
         ]);
@@ -109,7 +106,6 @@ dd($accessToken->getToken());
         
 
         dd(json_decode($res->getBody(), true));
-
     }
 
     public function signature()
@@ -155,6 +151,5 @@ dd($accessToken->getToken());
         
 
         dd(json_decode($res->getBody(), true));
-
     }
 }

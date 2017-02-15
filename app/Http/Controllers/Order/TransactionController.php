@@ -38,11 +38,11 @@ class TransactionController extends Controller
         if ($order->organization->can_make_stripe_payments && $request->type == 'credit') {
             try {
                 \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-                $charge = \Stripe\Charge::create(array(
+                $charge = \Stripe\Charge::create([
                   'amount' => $request->amount * 100,
                   'currency' => 'usd',
                   'source' => $request->stripeToken
-                ), array('stripe_account' => $order->organization->setting('stripe_user_id')));
+                ], ['stripe_account' => $order->organization->setting('stripe_user_id')]);
             } catch (\Exception $e) {
                 return redirect()->back()->withError($e->getMessage());
             }

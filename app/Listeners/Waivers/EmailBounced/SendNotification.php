@@ -28,7 +28,7 @@ class SendNotification
     {
         $content = "Waiver email bounced for ticket #{$event->waiver->ticket->id}.\r\n\r\n".route('ticket.show', $event->waiver->ticket);
         \Mail::raw($content, function ($m) {
-            $m->to('passioncamp@268generation.com');        
+            $m->to('passioncamp@268generation.com');
             $m->subject('Waiver Email Bounced');
         });
     }

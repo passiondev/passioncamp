@@ -51,12 +51,11 @@ class StripeTest extends TestCase
 
         dd($charge);
 
-        $charge = \Stripe\Charge::create(array(
+        $charge = \Stripe\Charge::create([
           'amount' => 1000,
           'currency' => 'usd',
           'source' => $this->token
-        ), array('stripe_account' => $this->organization->setting('stripe_user_id')));
+        ], ['stripe_account' => $this->organization->setting('stripe_user_id')]);
         dd($charge);
     }
-
 }

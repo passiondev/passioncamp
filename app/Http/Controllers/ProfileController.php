@@ -18,8 +18,8 @@ class ProfileController extends Controller
     public function show(Request $request)
     {
         $form_data = [
-            'first_name' => $this->user->person->first_name ?: '', 
-            'last_name' => $this->user->person->last_name ?: '', 
+            'first_name' => $this->user->person->first_name ?: '',
+            'last_name' => $this->user->person->last_name ?: '',
             'email' => $this->user->email ?: ''
         ];
 

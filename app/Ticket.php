@@ -8,12 +8,11 @@ use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Revisionable\Revisionable;
-use Sofa\Revisionable\Laravel\RevisionableTrait;
+use Sofa\Revisionable\Laravel\Revisionable;
 
-class Ticket extends OrderItem implements Revisionable
+class Ticket extends OrderItem
 {
-    use Eloquence, FormAccessible, SoftDeletes, RevisionableTrait;
+    use Eloquence, FormAccessible, SoftDeletes, Revisionable;
 
     protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
 
@@ -164,7 +163,7 @@ class Ticket extends OrderItem implements Revisionable
     public function revision()
     {
         // get fresh revision info if it hasnt been loaded
-        if ( ! $this->relationLoaded('latestRevision')) {
+        if (! $this->relationLoaded('latestRevision')) {
             $this->load('latestRevision');
         }
 
@@ -177,13 +176,13 @@ class Ticket extends OrderItem implements Revisionable
 
         $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
 
-        // unset relation so that fresh revision info will be pulled 
+        // unset relation so that fresh revision info will be pulled
         unset($this->relations['latestRevision']);
     }
 
     public function getHasChangedSinceLastRevisionAttribute()
     {
-        if ( ! $this->latestRevision) {
+        if (! $this->latestRevision) {
             return true;
         }
 

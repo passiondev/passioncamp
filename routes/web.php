@@ -1,6 +1,6 @@
 <?php
 
-Route::any('/', function() {
+Route::any('/', function () {
     return redirect('/home');
 });
 
@@ -16,7 +16,7 @@ Route::get('/closed', function () {
 Route::group(['middleware' => 'web'], function () {
 
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
-        Route::any('/', function() {
+        Route::any('/', function () {
             return redirect('http://passioncitychurch.com/students');
         });
         Route::get('register', 'RegisterController@create')->name('register.create');
@@ -24,19 +24,20 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('register/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
     });
 
-    Route::any('echosign/callback', 'EchosignController@callback')->name('echosign.callback');
+    // Route::any('echosign/callback', 'EchosignController@callback')->name('echosign.callback');
 
-    Route::get('login', 'Auth\AuthController@showLoginForm');
-    Route::post('login', 'Auth\AuthController@login');
-    Route::get('logout', 'Auth\AuthController@logout')->name('logout');
+    Route::get('login', 'Auth\LoginController@showLoginForm');
+    Route::post('login', 'Auth\LoginController@login');
+    Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::get('register/{user}/{hash}', 'Auth\AuthController@showRegistrationForm')->name('complete.registration');
-    Route::post('register/{user}/{hash}', 'Auth\AuthController@register');
+    Route::get('register/{user}/{hash}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
+    Route::post('register/{user}/{hash}', 'Auth\RegisterController@register');
 
     // Password Reset Routes...
-    Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-    Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-    Route::post('password/reset', 'Auth\PasswordController@reset');
+    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
     Route::group(['middleware' => ['auth', 'closed']], function () {
         Route::get('account', 'AccountController@index')->name('account');
@@ -91,11 +92,12 @@ Route::group(['middleware' => 'web'], function () {
                     }
                     event(new App\Events\UserCreated($user));
                 })
-                ; dd($users);
+                ;
+                dd($users);
             });
 
 
-            Route::resource('admin/organization', 'OrganizationController');
+            Route::resource('admin/organization', 'OrganizationController', ['as' => 'admin']);
 
             Route::post('admin/organization/{organization}/note', 'Organization\NoteController@store')->name('admin.organization.note.store');
 
@@ -119,7 +121,6 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
             Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
-
         });
 
         Route::get('registrations', 'OrderController@index')->name('order.index');

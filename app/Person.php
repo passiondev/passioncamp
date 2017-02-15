@@ -44,7 +44,7 @@ class Person extends Model
         try {
             $this->attributes['birthdate'] = new \Carbon\Carbon($birthdate);
         } catch (\Exception $e) {
-            \Log::error("Couldn't set birthdate " . $birthdate);    
+            \Log::error("Couldn't set birthdate " . $birthdate);
         }
     }
 }
