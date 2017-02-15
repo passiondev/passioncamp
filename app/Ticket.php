@@ -14,7 +14,7 @@ class Ticket extends OrderItem
 {
     use Eloquence, FormAccessible, SoftDeletes, Revisionable;
 
-    protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
+    protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
 
     public function isRevisioned()
     {
