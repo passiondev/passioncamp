@@ -47,12 +47,14 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
-        'super' => \App\Http\Middleware\VerifyUserIsSuperAdmin::class,
-        'church' => \App\Http\Middleware\VerifyUserIsChurchAdmin::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+
+        'super' => \App\Http\Middleware\VerifyUserIsSuperAdmin::class,
+        'church' => \App\Http\Middleware\VerifyUserIsChurchAdmin::class,
         'verify.auth.order' => \App\Http\Middleware\VerifyUserIsOrderAdmin::class,
         'admin' => \App\Http\Middleware\VerifyUserIsAdmin::class,
         'redirect.to.order' => \App\Http\Middleware\RedirectToSingleOrder::class,
