@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        $gate->define('makeStripePayments', function (App\User $user, App\Organization $organization) {
+        Gate::define('makeStripePayments', function (App\User $user, App\Organization $organization) {
             return (bool) $organization->setting('stripe_access_token');
         });
     }
