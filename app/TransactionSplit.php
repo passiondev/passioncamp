@@ -45,4 +45,3 @@ class TransactionSplit extends Model
         return trim(sprintf('%s %s', $type, $method));
     }
 }
-

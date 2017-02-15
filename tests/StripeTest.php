@@ -58,5 +58,4 @@ class StripeTest extends TestCase
         ), array('stripe_account' => $this->organization->setting('stripe_user_id')));
         dd($charge);
     }
-
 }

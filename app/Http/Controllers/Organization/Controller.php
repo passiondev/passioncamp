@@ -11,7 +11,9 @@ abstract class Controller extends BaseController
 {
     protected $organization;
 
-    protected function index() {}
+    protected function index()
+    {
+    }
 
     public function adminIndex(Organization $organization)
     {

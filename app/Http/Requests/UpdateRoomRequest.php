@@ -58,7 +58,7 @@ class UpdateRoomRequest extends Request
 
     public function removeParameters()
     {
-        if ( ! $this->user()->isSuperAdmin()) {
+        if (! $this->user()->isSuperAdmin()) {
             $this->offsetUnset('name');
             $this->offsetUnset('hotel_id');
             $this->offsetUnset('confirmation_number');

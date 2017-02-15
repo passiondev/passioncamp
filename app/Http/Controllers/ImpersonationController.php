@@ -36,7 +36,8 @@ class ImpersonationController extends Controller
         // actually are when we need to stop impersonating the other user, which will
         // allow us to pull the original user back out of the database when needed.
         $request->session()->put(
-            'spark:impersonator', Auth::user()->id
+            'spark:impersonator',
+            Auth::user()->id
         );
 
         Auth::login($user);

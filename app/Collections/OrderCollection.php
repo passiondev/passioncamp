@@ -50,6 +50,4 @@ class OrderCollection extends BaseCollection
             return $order->$key;
         });
     }
-
-
 }

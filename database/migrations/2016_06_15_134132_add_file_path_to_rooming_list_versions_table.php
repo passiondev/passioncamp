@@ -12,7 +12,7 @@ class AddFilePathToRoomingListVersionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('rooming_list_versions', function($table) {
+        Schema::table('rooming_list_versions', function ($table) {
             $table->string('file_path')->nullable();
         });
     }

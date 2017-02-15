@@ -40,4 +40,5 @@ abstract class BaseEchosignInteraction
         }
         
         $this->token = $accessToken->getToken();
-    }}
+    }
+}

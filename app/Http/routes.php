@@ -1,6 +1,6 @@
 <?php
 
-Route::any('/', function() {
+Route::any('/', function () {
     return redirect('/home');
 });
 
@@ -16,7 +16,7 @@ Route::get('/closed', function () {
 Route::group(['middleware' => 'web'], function () {
 
     Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
-        Route::any('/', function() {
+        Route::any('/', function () {
             return redirect('http://passioncitychurch.com/students');
         });
         Route::get('register', 'RegisterController@create')->name('register.create');
@@ -91,7 +91,8 @@ Route::group(['middleware' => 'web'], function () {
                     }
                     event(new App\Events\UserCreated($user));
                 })
-                ; dd($users);
+                ;
+                dd($users);
             });
 
 
@@ -119,7 +120,6 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('admin/hotels', 'HotelController@index')->name('hotel.index');
             Route::get('admin/hotel/{hotel}', 'HotelController@show')->name('hotel.show');
-
         });
 
         Route::get('registrations', 'OrderController@index')->name('order.index');

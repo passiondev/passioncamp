@@ -60,7 +60,7 @@ class ImportPccInfo extends Command
         // $winners = collect($all)->filter(function ($person) {
         //     // Manually added an 'x' next to anyone whose story/reason was compelling;
         //     // turns out I "x'ed" 84 people, which is more than 50, so we're just gonna
-        //     // use only them 
+        //     // use only them
         //     return $person[0] == 'x';
         // })->random(50);
 

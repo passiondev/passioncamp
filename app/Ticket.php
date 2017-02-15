@@ -164,7 +164,7 @@ class Ticket extends OrderItem implements Revisionable
     public function revision()
     {
         // get fresh revision info if it hasnt been loaded
-        if ( ! $this->relationLoaded('latestRevision')) {
+        if (! $this->relationLoaded('latestRevision')) {
             $this->load('latestRevision');
         }
 
@@ -177,13 +177,13 @@ class Ticket extends OrderItem implements Revisionable
 
         $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
 
-        // unset relation so that fresh revision info will be pulled 
+        // unset relation so that fresh revision info will be pulled
         unset($this->relations['latestRevision']);
     }
 
     public function getHasChangedSinceLastRevisionAttribute()
     {
-        if ( ! $this->latestRevision) {
+        if (! $this->latestRevision) {
             return true;
         }
 
