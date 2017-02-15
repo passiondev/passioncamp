@@ -28,7 +28,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('login', 'Auth\AuthController@showLoginForm');
     Route::post('login', 'Auth\AuthController@login');
-    Route::get('logout', 'Auth\AuthController@logout')->name('logout');
+    Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::get('register/{user}/{hash}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
     Route::post('register/{user}/{hash}', 'Auth\RegisterController@register');
