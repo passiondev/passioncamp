@@ -63,7 +63,7 @@ class EchosignController extends Controller
             dd(json_encode($accessToken));
         // We have an access token, which we may use in authenticated
         // requests against the service provider's API.
-        // echo $accessToken->getToken() . "\n";
+        // echo $accessToken->token() . "\n";
             echo $accessToken->getRefreshToken() . "\n";
         // echo $accessToken->getExpires() . "\n";
         // echo ($accessToken->hasExpired() ? 'expired' : 'not expired') . "\n";
@@ -89,18 +89,18 @@ class EchosignController extends Controller
                 'refresh_token' => $accessToken->getRefreshToken(),
             ]);
         }
-        dd($accessToken->getToken());
+        dd($accessToken->token());
         $client = new \GuzzleHttp\Client([
             'base_uri' => 'https://api.na1.echosign.com/api/rest/v5/'
         ]);
         // $res = $client->request('GET', 'base_uris', [
         //     'headers' => [
-        //         'Access-Token' => $accessToken->getToken()
+        //         'Access-Token' => $accessToken->token()
         //     ]
         // ]);
         $res = $client->request('GET', 'libraryDocuments', [
             'headers' => [
-                'Access-Token' => $accessToken->getToken()
+                'Access-Token' => $accessToken->token()
             ]
         ]);
         
@@ -142,7 +142,7 @@ class EchosignController extends Controller
 
         $res = $client->request('POST', 'agreements', [
             'headers' => [
-                'Access-Token' => $accessToken->getToken(),
+                'Access-Token' => $accessToken->token(),
             ],
             'json' => [
                 "documentCreationInfo" => $info

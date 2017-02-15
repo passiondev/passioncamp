@@ -4,7 +4,6 @@ namespace App;
 
 use Auth;
 use App\Waiver;
-use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,9 +11,9 @@ use Sofa\Revisionable\Laravel\Revisionable;
 
 class Ticket extends OrderItem
 {
-    use Eloquence, FormAccessible, SoftDeletes, Revisionable;
+    use FormAccessible, SoftDeletes, Revisionable;
 
-    protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
+    protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
 
     public function isRevisioned()
     {

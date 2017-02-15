@@ -164,12 +164,14 @@ class RegisterController extends Controller
         \DB::commit();
 
 
-        // dispatch confirmation email job
-        \Mail::send('emails.order.confirmation', compact('order'), function ($m) use ($order) {
-            $m->from('students@passioncitychurch.com', 'PCC Students');
-            $m->to($order->user->person->email, $order->user->person->name);
-            $m->subject('SMMR CMP Confirmation');
-        });
+        /**
+         * TODO
+         */
+        // \Mail::send('emails.order.confirmation', compact('order'), function ($m) use ($order) {
+        //     $m->from('students@passioncitychurch.com', 'PCC Students');
+        //     $m->to($order->user->person->email, $order->user->person->name);
+        //     $m->subject('SMMR CMP Confirmation');
+        // });
 
         return redirect()->route('register.confirmation')->with('order_id', $order->id);
     }

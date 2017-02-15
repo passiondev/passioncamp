@@ -42,8 +42,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('organizationOptions', collect($organizationOptions)->sort()->toArray());
         });
 
-        view()->composer('checkin.printer.index', 'App\Http\ViewComposers\CheckInPrinterIndexComposer');
-        view()->composer('roominglist.printer.index', 'App\Http\ViewComposers\RoominglistPrinterIndexComposer');
+        view()->composer('checkin.printer.index', \App\Http\ViewComposers\CheckInPrinterIndexComposer::class);
+        view()->composer('roominglist.printer.index', \App\Http\ViewComposers\RoominglistPrinterIndexComposer::class);
     }
 
     /**

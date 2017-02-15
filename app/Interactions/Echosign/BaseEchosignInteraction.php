@@ -39,6 +39,6 @@ abstract class BaseEchosignInteraction
             ]);
         }
         
-        $this->token = $accessToken->getToken();
+        $this->token = $accessToken->token();
     }
 }
