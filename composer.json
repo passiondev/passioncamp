@@ -1,10 +1,7 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
     "repositories": [
@@ -23,10 +20,7 @@
         "itbz/fpdf": "~1.7",
         "guzzlehttp/guzzle": "~6.0",
         "mandrill/mandrill": "~1.0",
-        "sofa/eloquence": "~5.1",
         "barryvdh/laravel-debugbar": "~2.1",
-        "omnipay/stripe": "~2.0",
-        "sebpro/artisanext": "0.2.*",
         "nsbucky/echosignv3": "dev-master",
         "adam-paterson/oauth2-stripe": "~1.1",
         "wildbit/postmark-php": "~2.2",

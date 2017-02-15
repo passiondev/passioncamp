@@ -2,14 +2,13 @@
 
 namespace App;
 
-use Sofa\Eloquence\Eloquence;
 use App\Collections\OrderCollection;
 use App\Repositories\TicketRepository;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use Eloquence, SoftDeletes, Notated;
+    use SoftDeletes, Notated;
 
     protected $ticket_repo;
 
