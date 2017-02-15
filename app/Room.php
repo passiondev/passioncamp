@@ -3,13 +3,12 @@
 namespace App;
 
 use Auth;
-use Sofa\Revisionable\Revisionable;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Revisionable\Laravel\RevisionableTrait;
+use Sofa\Revisionable\Laravel\Revisionable;
 
-class Room extends Model implements Revisionable
+class Room extends Model
 {
-    use SoftDeletes, RevisionableTrait;
+    use SoftDeletes, Revisionable;
 
     protected $table = 'room';
 

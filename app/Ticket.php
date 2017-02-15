@@ -8,12 +8,11 @@ use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Revisionable\Revisionable;
-use Sofa\Revisionable\Laravel\RevisionableTrait;
+use Sofa\Revisionable\Laravel\Revisionable;
 
-class Ticket extends OrderItem implements Revisionable
+class Ticket extends OrderItem
 {
-    use Eloquence, FormAccessible, SoftDeletes, RevisionableTrait;
+    use Eloquence, FormAccessible, SoftDeletes, Revisionable;
 
     protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
 
