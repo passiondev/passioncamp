@@ -141,13 +141,13 @@ class RegisterController extends Controller
 
         try {
             \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-            $charge = \Stripe\Charge::create(array(
+            $charge = \Stripe\Charge::create([
               'amount' => $payment_amount * 100,
               'currency' => 'usd',
               'source' => $request->stripeToken,
               'description' => 'Passion Camp',
               'metadata' => ['order_id' => $order->id, 'email' => $order->user->person->email, 'name' => $order->user->person->name]
-            ), array('stripe_account' => $this->organization->setting('stripe_user_id')));
+            ], ['stripe_account' => $this->organization->setting('stripe_user_id')]);
         } catch (\Exception $e) {
             return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
         }

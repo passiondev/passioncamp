@@ -107,7 +107,7 @@ class Organization extends Model
     public function setting($key, $value = null)
     {
         if (! is_null($value)) {
-            $key = array($key => $value);
+            $key = [$key => $value];
         }
 
         if (is_array($key)) {
