@@ -53,7 +53,7 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                 $organization->rooms->filter(function ($room) {
                     return $room->hotel_id;
                 })->each(function ($room) use ($hotels) {
-                    $hotel = $hotels->first(function ($key) use ($room) {
+                    $hotel = $hotels->first(function ($value, $key) use ($room) {
                         return $key == $room->hotel_id;
                     }, ['hotel_id' => null, 'qty' => 0]);
 
@@ -65,7 +65,7 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                 $organization->rooms->reject(function ($room) {
                     return $room->hotel_id;
                 })->each(function ($room) use ($hotels) {
-                    $hotel = $hotels->first(function ($key, $hotel) {
+                    $hotel = $hotels->first(function ($hotel, $key) {
                         return $hotel['qty'] > 0;
                     }, ['hotel_id' => null, 'qty' => 0]);
                 
