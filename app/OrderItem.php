@@ -9,11 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class OrderItem extends Model
 {
     use SoftDeletes;
-    
-    protected $table = 'order_item';
 
-    protected $fillable = ['item_id', 'quantity', 'cost', 'org_type'];
-    
+    protected $guarded = [];
+
     protected static function boot()
     {
         parent::boot();

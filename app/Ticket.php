@@ -11,7 +11,8 @@ use Sofa\Revisionable\Laravel\Revisionable;
 
 class Ticket extends OrderItem
 {
-    use FormAccessible, SoftDeletes, Revisionable;
+    use FormAccessible, SoftDeletes;
+    // use Revisionable;
 
     protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
 
@@ -24,22 +25,15 @@ class Ticket extends OrderItem
 
     protected $revisionable = ['name', 'room_id'];
 
-    protected $table = 'order_item';
-    
+    protected $table = 'order_items';
+
     protected $type = 'ticket';
 
     protected $searchableColumns = ['id', 'person.first_name', 'person.last_name'];
 
-    protected $fillable = [
-        'agegroup',
-        'price',
-        'squad',
-        'is_checked_in',
-    ];
+    protected $guarded = [];
 
-    protected $dates = [
-        'checked_in_at',
-    ];
+    protected $dates = ['checked_in_at'];
 
     protected static function boot()
     {

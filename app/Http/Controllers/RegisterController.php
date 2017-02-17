@@ -8,7 +8,6 @@ use App\Person;
 use App\Ticket;
 use App\OrderItem;
 use Carbon\Carbon;
-use Omnipay\Omnipay;
 use App\Organization;
 use App\Http\Requests;
 use App\Events\UserCreated;
@@ -29,26 +28,29 @@ class RegisterController extends Controller
             $this->ticket_price = 410;
         }
 
-        $this->organization = Organization::findOrFail(8);
+        $this->organization = Organization::whereSlug('pcc')->firstOrFail();
     }
 
     public function create()
     {
-        return redirect('http://passioncitychurch.com/students/smmrcmp/');
         return view('register.create')->withTicketPrice($this->ticket_price);
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        if ($request->num_tickets >= 2) {
+        if (request('num_tickets') >= 2) {
             $this->ticket_price -= 20;
         }
 
-        $this->validate($request, [
+        $this->validate(request(), [
             'contact.first_name' => 'required',
             'contact.last_name' => 'required',
             'contact.email' => 'required|email',
             'contact.phone' => 'required',
+            'billing.street' => 'required',
+            'billing.city' => 'required',
+            'billing.state' => 'required',
+            'billing.zip' => 'required',
             'num_tickets' => 'required|numeric|min:1',
             'tickets.*.first_name' => 'required',
             'tickets.*.last_name' => 'required',
@@ -60,109 +62,94 @@ class RegisterController extends Controller
 
         \DB::beginTransaction();
 
-        $user = User::firstOrNew([
-            'email' => $request->contact['email']
+        $user = User::firstOrCreate(['email' => request('contact.email')], [
+            'person_id' => Person::create(array_collapse(request()->only([
+                'contact.first_name',
+                'contact.last_name',
+                'contact.email',
+                'contact.phone',
+                'billing.street',
+                'billing.city',
+                'billing.state',
+                'billing.zip',
+            ])))->id
         ]);
-        if (! $user->exists) {
-            $person = Person::create($request->contact);
-            $user->person()->associate($person);
-            $user->save();
-        }
-        if ($user->access === null) {
-            event(new UserCreated($user));
-        }
-        
-        $order = new Order;
-        $order->organization_id = $this->organization->id;
-        $order->user()->associate($user);
-        $order->save();
+
+        // if ($user->wasRecentlyCreated) {
+        //     event(new UserCreated($user));
+        // }
+
+        $order = $user->orders()->create([
+            'organization_id' => $this->organization->id,
+        ]);
 
         // record donation
-        $donation_total = $request->fund_amount == 'other' ? $request->fund_amount_other : $request->fund_amount;
+        $donation_total = request('fund_amount') == 'other' ? request('fund_amount_other') : request('fund_amount');
         if ($donation_total > 0) {
-            $item = new OrderItem;
-            $item->order()->associate($order);
-            $item->organization_id = $this->organization->id;
-            $item->type = 'donation';
-            $item->price = $donation_total;
-            $item->save();
+            $order->items()->create([
+                'type' => 'donation',
+                'organization_id' => $this->organization->id,
+                'price' => $donation_total * 100,
+            ]);
         }
 
         // record tickets
-        collect($request->tickets)->each(function ($data) use ($order) {
-            $person = Person::create(array_only($data, [
-                'first_name',
-                'last_name',
-                'email',
-                'phone',
-                'birthdate',
-                'gender',
-                'grade',
-                'allergies',
-            ]));
-
-            $ticket_data = array_only($data, [
-                'school',
-                'shirtsize',
-                'roommate_requested',
-                'location'
+        collect(request('tickets'))->each(function ($data) use ($order) {
+            $order->tickets()->create([
+                'agegroup' => 'student',
+                'ticket_data' => array_only($data, ['shirtsize', 'roommate_requested', 'location', 'school']),
+                'price' => $this->ticket_price * 100,
+                'organization_id' => $this->organization->id,
+                'person_id' => Person::create(array_only($data, [
+                    'first_name', 'last_name', 'email', 'phone',
+                    'birthdate', 'gender', 'grade', 'allergies',
+                ]))->id,
             ]);
-
-            $ticket = new Ticket;
-            $ticket->agegroup = 'student';
-            $ticket->organization_id = $this->organization->id;
-            $ticket->order()->associate($order);
-            $ticket->person()->associate($person);
-            $ticket->ticket_data = $ticket_data;
-            $ticket->price = $this->ticket_price;
-            $ticket->save();
         });
 
-        // generate any remaining tickets
-        $remaining_ticket_count = $request->num_tickets - $order->tickets->count();
-        if ($remaining_ticket_count) {
-            foreach (range(1, $remaining_ticket_count) as $i) {
-                $ticket = new Ticket;
-                $ticket->type = 'ticket';
-                $ticket->organization_id = $this->organization->id;
-                $ticket->order()->associate($order);
-                $ticket->person()->associate(Person::create());
-                $ticket->price = $ticket_price;
-                $ticket->save();
-            }
-            $order->load('tickets');
+        while ($order->tickets()->count() < request('num_tickets')) {
+            $order->tickets()->create([
+                'agegroup' => 'student',
+                'price' => $this->ticket_price * 100,
+                'organization_id' => $this->organization->id,
+                'person_id' => Person::create()->id,
+            ]);
         }
-        
-        // deposit or full amount
-        $payment_amount = $order->grand_total;
-        // if ($request->payment_amount_type == 'deposit') {
-        //     $payment_amount = 60 * $order->tickets->count();
-        // }
 
         try {
-            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-            $charge = \Stripe\Charge::create([
-              'amount' => $payment_amount * 100,
-              'currency' => 'usd',
-              'source' => $request->stripeToken,
-              'description' => 'Passion Camp',
-              'metadata' => ['order_id' => $order->id, 'email' => $order->user->person->email, 'name' => $order->user->person->name]
-            ], ['stripe_account' => $this->organization->setting('stripe_user_id')]);
+            $charge = \Stripe\Charge::create(
+                [
+                    'amount' => request('payment_amount_type') == 'deposit' ? 6000 * $order->tickets->count() : $order->grand_total,
+                    'currency' => 'usd',
+                    'source' => request('stripeToken'),
+                    'description' => 'Passion Camp',
+                    'statement_descriptor' => 'Passion Camp',
+                    'metadata' => [
+                        'order_id' => $order->id,
+                        'email' => $order->user->person->email,
+                        'name' => $order->user->person->name
+                    ]
+                ],
+                [
+                    'api_key' => config('services.stripe.secret'),
+                    'stripe_account' => $this->organization->setting('stripe_user_id'),
+                ]
+            );
         } catch (\Exception $e) {
+            \DB::rollback();
             return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
         }
 
         // Add payment to order
         $order->addTransaction([
             'source' => 'stripe',
-            'processor_transactionid' => $charge->id,
-            'amount' => $charge->amount / 100,
-            'card_type' => $charge->source->brand,
-            'card_num' => $charge->source->last4,
+            'identifier' => $charge->id,
+            'amount' => $charge->amount,
+            'cc_brand' => $charge->source->brand,
+            'cc_last4' => $charge->source->last4,
         ]);
 
         \DB::commit();
-
 
         /**
          * TODO
@@ -176,13 +163,13 @@ class RegisterController extends Controller
         return redirect()->route('register.confirmation')->with('order_id', $order->id);
     }
 
-    public function confirmation(Request $request)
+    public function confirmation()
     {
-        if (! $request->session()->has('order_id')) {
+        if (! session()->has('order_id')) {
             return redirect()->route('register.create');
         }
 
-        $order = Order::findOrFail($request->session()->get('order_id'));
+        $order = Order::findOrFail(session('order_id'));
 
         return view('register.confirmation')->withOrder($order);
     }

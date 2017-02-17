@@ -15,14 +15,14 @@ Route::get('/closed', function () {
 
 Route::group(['middleware' => 'web'], function () {
 
-    Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
+    // Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
         Route::any('/', function () {
             return redirect('http://passioncitychurch.com/students');
         });
         Route::get('register', 'RegisterController@create')->name('register.create');
         Route::post('register', 'RegisterController@store')->name('register.store');
         Route::get('register/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
-    });
+    // });
 
     // Route::any('echosign/callback', 'EchosignController@callback')->name('echosign.callback');
 

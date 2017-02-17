@@ -4,22 +4,16 @@ namespace App;
 
 use App\Collections\OrderCollection;
 use App\Repositories\TicketRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
     use SoftDeletes, Notated;
 
-    protected $ticket_repo;
-
-    protected $table = 'orders';
+    protected $guarded = [];
 
     protected $searchableColumns = ['id', 'tickets.person.first_name', 'tickets.person.last_name'];
-
-    public function __construct()
-    {
-        $this->ticket_repo = new TicketRepository;
-    }
 
     public function newCollection(array $models = [])
     {
@@ -128,24 +122,19 @@ class Order extends Model
 
     public function addTransaction($data = [])
     {
-        $transaction = Transaction::create($data + ['type' => 'Sale']);
+        $transaction = Transaction::create($data);
 
-        $split = new TransactionSplit;
-        $split->transaction_id = $transaction->id;
-        $split->amount = $transaction->amount;
-
-        $this->transactions()->save($split);
+        $this->transactions()->create([
+            'transaction_id' => $transaction->id,
+            'amount' => $transaction->amount,
+        ]);
     }
 
     public function addContact($data)
     {
-        $person = Person::create($data);
-
-        $user = new User;
-        $user->person()->associate($person);
-        $user->save();
-
-        $this->user()->associate($user);
+        $this->user()->create([
+            'person_id' => Person::create($data)->id
+        ]);
 
         return $this;
     }
@@ -163,11 +152,12 @@ class Order extends Model
             'allergies',
         ]));
 
-        $this->ticket_repo->make($data)
-            ->order()->associate($this)
-            ->organization()->associate($this->organization)
-            ->person()->associate($person)
-            ->save();
+        dd('todo');
+        // $this->ticket_repo->make($data)
+        //     ->order()->associate($this)
+        //     ->organization()->associate($this->organization)
+        //     ->person()->associate($person)
+        //     ->save();
     }
 
     public function hasContactInfo()

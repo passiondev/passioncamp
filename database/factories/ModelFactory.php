@@ -1,11 +1,5 @@
 <?php
 
-use App\User;
-use App\Order;
-use App\Person;
-use App\Ticket;
-use App\OrderItem;
-
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -17,11 +11,11 @@ use App\OrderItem;
 |
 */
 
-$factory->define(User::class, function (Faker\Generator $faker) {
+$factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
     ];
 });
-$factory->define(Person::class, function (Faker\Generator $faker) {
+$factory->define(App\Person::class, function (Faker\Generator $faker) {
     return [
         'first_name' => $faker->first_name,
         'last_name' => $faker->last_name,
@@ -30,17 +24,32 @@ $factory->define(Person::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(Order::class, function (Faker\Generator $faker) {
+$factory->define(App\Order::class, function (Faker\Generator $faker) {
     return [
     ];
 });
 
-$factory->define(Ticket::class, function (Faker\Generator $faker) {
+$factory->define(App\Ticket::class, function (Faker\Generator $faker) {
     return [
     ];
 });
 
-$factory->define(OrderItem::class, function (Faker\Generator $faker) {
+$factory->define(App\OrderItem::class, function (Faker\Generator $faker) {
     return [
+    ];
+});
+
+$factory->define(App\Church::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company,
+    ];
+});
+
+$factory->define(App\Organization::class, function (Faker\Generator $faker) {
+    return [
+        'slug' => $faker->unique()->slug,
+        'church_id' => function () {
+            return factory(App\Church::class)->create()->id;
+        },
     ];
 });

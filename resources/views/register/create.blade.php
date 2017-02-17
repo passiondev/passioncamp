@@ -2,13 +2,20 @@
 
 @section('head')
     <script>
-        window.tickets_data = {!! json_encode(array_values(old('tickets') ?: [])) !!};
+        {{-- window.tickets_data = {!! json_encode(array_values(old('tickets') ?: [])) !!}; --}}
         window.ticket_price = {{ $ticket_price }};
+        window.vuex = {!!json_encode([
+            'num_tickets' => old('num_tickets', 1),
+            'ticketData' => old('tickets', []),
+            'fund_amount' => null,
+            'fund_amount_other' => null,
+        ]) !!}
     </script>
 @endsection
 @section('content')
     <register-form inline-template>
-        {{ Form::open(['route' => 'register.store', 'novalidate', 'v-on:submit.prevent' => 'submitHandler']) }}
+        <form method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
+            {{ csrf_field() }}
             @include('errors.validation')
 
             <div class="row">
@@ -18,30 +25,30 @@
                     </header>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            {{ Form::label('contact[first_name]', 'First Name', ['class' => 'control-label']) }}
+                            <label for="contact__first_name" class="control-label">First Name</label>
                             <div class="form-controls">
-                                {{ Form::text('contact[first_name]', null, ['id' => 'contact__first_name', 'class' => 'form-control']) }}
+                                <input type="text" name="contact[first_name]" id="contact__first_name" class="form-control" value="{{ old('contact.first_name') }}">
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            {{ Form::label('contact[last_name]', 'Last Name', ['class' => 'control-label']) }}
+                            <label for="contact__last_name" class="control-label">Last Name</label>
                             <div class="form-controls">
-                                {{ Form::text('contact[last_name]', null, ['id' => 'contact__last_name', 'class' => 'form-control']) }}
+                                <input type="text" name="contact[last_name]" id="contact__last_name" class="form-control" value="{{ old('contact.last_name') }}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-7">
-                            {{ Form::label('contact[email]', 'Email Address', ['class' => 'control-label']) }}
+                            <label for="contact__email" class="control-label">Email Address</label>
                             <div class="form-controls">
-                                {{ Form::email('contact[email]', null, ['id' => 'contact__email', 'class' => 'form-control']) }}
+                                <input type="text" name="contact[email]" id="contact__email" class="form-control" value="{{ old('contact.email') }}">
                             </div>
                             <p class="help-block" style="font-size:.85em;margin-bottom: 0;">Please provide a parent's email address to ensure your registration confirmation is received</p>
                         </div>
                         <div class="form-group col-md-5">
-                            {{ Form::label('contact[phone]', 'Phone Number', ['class' => 'control-label']) }}
+                            <label for="contact__phone" class="control-label">Phone Number</label>
                             <div class="form-controls">
-                                {{ Form::text('contact[phone]', null, ['id' => 'contact__phone', 'class' => 'form-control']) }}
+                                <input type="text" name="contact[phone]" id="contact__phone" class="form-control" value="{{ old('contact.phone') }}">
                             </div>
                         </div>
                     </div>
@@ -50,76 +57,14 @@
 
             <div class="row" style="margin-bottom:20px">
                 <div class="form-group col-md-4">
-                    {{ Form::label('num_tickets', 'Number of Students', ['class' => 'control-label']) }}
-                    {{ Form::number('num_tickets', 1, ['id' => 'num_tickets', 'class' => 'form-control input-lg', 'v-model' => 'num_tickets', 'number', 'min' => 1, 'max' => 200]) }}
+                    <label for="num_tickets" class="control-label">Number of Students</label>
+                    <input type="number" name="num_tickets" id="num_tickets" class="form-control input-lg" v-model="num_tickets" min="1" max="200">
                 </div>
             </div>
 
-            <section class="row tickets" v-for="row in ticket_rows">
-                <div v-for="ticket in row" class="col-md-5 ticket" v-bind:class="{'col-md-offset-1': (ticket.number % 2 == 0)}">
-                    <h4>Student #@{{ ticket.number }}</h4>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__first_name">First Name</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__first_name" name="tickets[@{{ ticket.number }}][first_name]" v-model="ticket.first_name">
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__last_name">Last Name</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__last_name" name="tickets[@{{ ticket.number }}][last_name]" v-model="ticket.last_name">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-7">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__email">Email Address</label>
-                            <input class="form-control" type="email" id="tickets_@{{ ticket.number }}__email" name="tickets[@{{ ticket.number }}][email]" v-model="ticket.email">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__phone">Phone Number</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__phone" name="tickets[@{{ ticket.number }}][phone]" v-model="ticket.phone">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__birthdate">Birthdate</label>
-                            <input class="form-control js-form-input-date" placeholder="mm/dd/yyyy" type="text" id="tickets_@{{ ticket.number }}__birthdate" name="tickets[@{{ ticket.number }}][birthdate]" v-model="ticket.birthdate">
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__gender">Gender</label>
-                            <div class="form-controls form-controls--radio">
-                                <label class="radio-inline">
-                                    <input type="radio" value="M" name="tickets[@{{ ticket.number }}][gender]" v-model="ticket.gender" id="tickets_@{{ ticket.number }}__gender"> Male
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" value="F" name="tickets[@{{ ticket.number }}][gender]" v-model="ticket.gender" id="tickets_@{{ ticket.number }}__gender"> Female
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__shirtsize">Shirt Size</label>
-                            <select class="form-control" id="tickets_@{{ ticket.number }}__shirtsize" name="tickets[@{{ ticket.number }}][shirtsize]" v-model="ticket.shirtsize"><option value="0"></option><option value="1">XS</option><option value="2">S</option><option value="3">M</option><option value="4">L</option><option value="5">XL</option></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__grade">Grade</label>
-                            <select class="form-control" id="tickets_@{{ ticket.number }}__grade" name="tickets[@{{ ticket.number }}][grade]" v-model="ticket.grade"><option value="0"></option><option value="6">6th</option><option value="7">7th</option><option value="8">8th</option><option value="9">9th</option><option value="10">10th</option><option value="11">11th</option><option value="12">12th</option></select>
-                            <p class="help-block text-muted" style="font-size:.85em;margin-bottom: 0;">Grade completed as of Spring 2016</p>
-                        </div>
-                        <div class="form-group col-sm-8">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__school">School</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__school" name="tickets[@{{ ticket.number }}][school]" v-model="ticket.school">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="tickets_@{{ ticket.number }}__allergies">Allergies</label>
-                        <textarea class="form-control" id="tickets_@{{ ticket.number }}__allergies" name="tickets[@{{ ticket.number }}][allergies]" v-model="ticket.allergies" rows="2"></textarea>
-                    </div>
-                    <div class="form-group">
-                    <label class="control-label" for="tickets_@{{ ticket.number }}__roommate_requested">Roommate Requested</label>
-                    <input class="form-control" type="text" name="tickets[@{{ ticket.number }}][roommate_requested]" v-model="ticket.roommate_requested" id="tickets_@{{ ticket.number }}__roommate_requested">
-                    </div>
-                </div>
-                    </section>
+            <section class="row tickets">
+                <ticket v-for="ticket in tickets" :ticket="ticket"></ticket>
+            </section>
 
             <section>
                 <header>
@@ -137,32 +82,32 @@
                     <label class="control-label">Donation Amount</label>
                     <div class="radio">
                         <label>
-                            {!! Form::radio('fund_amount', 10, null, ['v-model'=>'fund_amount', 'number']) !!}
+                            <input type="radio" name="fund_amount" value="10" v-model.number="fund_amount">
                             $10
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            {!! Form::radio('fund_amount', 25, null, ['v-model'=>'fund_amount', 'number']) !!}
+                            <input type="radio" name="fund_amount" value="25" v-model.number="fund_amount">
                             $25
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            {!! Form::radio('fund_amount', 50, null, ['v-model'=>'fund_amount', 'number']) !!}
+                            <input type="radio" name="fund_amount" value="50" v-model.number="fund_amount">
                             $50
                         </label>
                     </div>
                     <div class="radio">
                         <label>
-                            {!! Form::radio('fund_amount', 'other', null, ['v-model'=>'fund_amount']) !!}
+                            <input type="radio" name="fund_amount" value="other" v-model="fund_amount">
                             Other
                         </label>
-                        - ${!! Form::number('fund_amount_other', null, ['class' => 'form-control', 'v-model' => 'fund_amount_other', 'number', 'min' => 0, 'max' => 99999, 'style' => 'width: 6em; text-align: right; display: inline-block']) !!}.00
+                        - $<input type="number" name="fund_amount_other" min="0" max="99999" class="form-control" style="width: 6em; text-align: right; display: inline-block" v-model.number="fund_amount_other">
                     </div>
                     <div class="radio">
                         <label>
-                            {!! Form::radio('fund_amount', 0, null, ['v-model'=>'fund_amount', 'number']) !!}
+                            <input type="radio" name="fund_amount" value="0" v-model.number="fund_amount">
                             No thanks
                         </label>
                     </div>
@@ -173,21 +118,21 @@
                 <section class="col-md-4">
                     <h4>Billing Address</h4>
                     <div class="form-group">
-                        {!! Form::label('billing__street', 'Street', ['class'=>'control-label']) !!}
-                        {!! Form::text('billing[street]', null, ['class'=>'form-control']) !!}
+                        <label for="billing__street">Street</label>
+                        <input type="text" name="billing[street]" id="billing__street" class="form-control" value="{{ old('billing.street') }}">
                     </div>
                     <div class="form-group">
-                        {!! Form::label('billing__city', 'City', ['class'=>'control-label']) !!}
-                        {!! Form::text('billing[city]', null, ['class'=>'form-control']) !!}
+                        <label for="billing__city">City</label>
+                        <input type="text" name="billing[city]" id="billing__city" class="form-control" value="{{ old('billing.city') }}">
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            {!! Form::label('billing__state', 'State', ['class'=>'control-label']) !!}
-                            {!! Form::text('billing[state]', null, ['class'=>'form-control']) !!}
+                            <label for="billing__state">State</label>
+                            <input type="text" name="billing[state]" id="billing__state" class="form-control" value="{{ old('billing.state') }}">
                         </div>
                         <div class="form-group col-sm-6">
-                            {!! Form::label('billing__zip', 'Zip Code', ['class'=>'control-label']) !!}
-                            {!! Form::text('billing[zip]', null, ['class'=>'form-control']) !!}
+                            <label for="billing__zip">Zip Code</label>
+                            <input type="text" name="billing[zip]" id="billing__zip" class="form-control" value="{{ old('billing.zip') }}">
                         </div>
                     </div>
                 </section>
@@ -224,7 +169,7 @@
                 <p><i>Upon clicking submit, your credit card will be charged @{{ full_amount | currency }} for your Passion Camp registration.</i></p>
                 <button class="btn btn-primary btn-lg">Submit Registration</button>
             </section>
-        {{ Form::close() }}
+        </form>
     </register-form>
 @endsection
 

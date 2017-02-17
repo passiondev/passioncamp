@@ -27,7 +27,7 @@ class Hotel extends Item
 
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'order_item', 'item_id', 'organization_id')->wherePivot('quantity', '>', '0');
+        return $this->belongsToMany(Organization::class, 'order_items', 'item_id', 'organization_id')->wherePivot('quantity', '>', '0');
     }
 
     public function getRegisteredCountAttribute()

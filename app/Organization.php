@@ -15,8 +15,6 @@ class Organization extends Model
 {
     use SoftDeletes, Notated;
 
-    protected $table = 'organization';
-    
     public function newCollection(array $models = [])
     {
         return new OrganizationCollection($models);
@@ -61,7 +59,7 @@ class Organization extends Model
 
     public function hotels()
     {
-        return $this->belongsToMany(Hotel::class, 'order_item', 'organization_id', 'item_id');
+        return $this->belongsToMany(Hotel::class, 'order_items', 'organization_id', 'item_id');
     }
 
     public function tickets()

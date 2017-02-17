@@ -8,9 +8,7 @@ class Transaction extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'transaction';
-
-    protected static $unguarded = true;
+    protected $guarded = [];
 
     public function getCardNumAttribute()
     {

@@ -8,7 +8,7 @@ class TransactionSplit extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'transaction_split';
+    protected $guarded = [];
 
     public function organization()
     {
