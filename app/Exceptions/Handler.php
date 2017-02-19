@@ -32,6 +32,14 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        if ($this->shouldReport($exception)) {
+            if ($user = app()->auth->user()) {
+                app('sentry')->user_context(array_only($user->toArray(), ['id', 'email']));
+            }
+
+            app('sentry')->captureException($exception);
+        }
+
         parent::report($e);
     }
 

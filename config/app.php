@@ -170,6 +170,7 @@ return [
         Vinkla\Pusher\PusherServiceProvider::class,
         Codedge\Fpdf\FpdfServiceProvider::class,
         Zondicons\ZondiconsServiceProvider::class,
+        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -234,6 +235,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\BugsnagFacade::class,
+        'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];

@@ -35,7 +35,8 @@
         "codedge/laravel-fpdf": "~1.0",
         "printnode/printnode-php": "2.0.0-rc1",
         "laravel/tinker": "~1.0",
-        "zondicons/blade-bridge": "^0.1.1"
+        "zondicons/blade-bridge": "^0.1.1",
+        "sentry/sentry-laravel": "^0.6.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
