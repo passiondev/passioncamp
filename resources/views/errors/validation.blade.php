@@ -1,11 +1,11 @@
 @if (session('error'))
-    <div class="ui error message">
+    <div class="alert alert-danger">
         {{ session('error') }}
     </div>
 @endif
 @if($errors->count())
-    <div class="ui error message">
-        <ul>
+    <div class="alert alert-danger">
+        <ul class="mb-0">
             @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+        Schema::defaultStringLength(191);
+
         Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
             return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
         });

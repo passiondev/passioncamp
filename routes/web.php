@@ -15,14 +15,14 @@ Route::get('/closed', function () {
 
 Route::group(['middleware' => 'web'], function () {
 
-    // Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
+    Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
         Route::any('/', function () {
             return redirect('http://passioncitychurch.com/students');
         });
         Route::get('register', 'RegisterController@create')->name('register.create');
         Route::post('register', 'RegisterController@store')->name('register.store');
         Route::get('register/confirmation', 'RegisterController@confirmation')->name('register.confirmation');
-    // });
+    });
 
     // Route::any('echosign/callback', 'EchosignController@callback')->name('echosign.callback');
 
@@ -127,7 +127,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('registration/create', 'OrderController@create')->name('order.create');
         Route::post('registration/store', 'OrderController@store')->name('order.store');
         Route::get('registration/{order}', 'OrderController@show')->name('order.show');
-        
+
         Route::post('registration/{order}/note', 'Order\NoteController@store')->name('order.note.store');
 
         Route::get('registration/{order}/contact/create', 'Order\ContactController@create')->name('order.contact.create');
@@ -172,7 +172,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('dashboard', 'Account\DashboardController@index')->name('dashboard');
             Route::get('settings', 'Account\SettingsController@index')->name('settings');
         });
-        
+
         Route::get('payment/create', 'Organization\PaymentController@create')->name('payment.create');
         Route::post('payment', 'Organization\PaymentController@store')->name('payment.store');
 

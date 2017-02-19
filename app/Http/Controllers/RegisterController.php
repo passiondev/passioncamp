@@ -21,13 +21,6 @@ class RegisterController extends Controller
 
     public function __construct()
     {
-        if (Carbon::now()->gte(Carbon::create(2016, 5, 2, 4))) {
-            $this->ticket_price = 390;
-        }
-        if (Carbon::now()->gte(Carbon::create(2016, 6, 13, 4))) {
-            $this->ticket_price = 410;
-        }
-
         $this->organization = Organization::whereSlug('pcc')->firstOrFail();
     }
 
@@ -97,7 +90,7 @@ class RegisterController extends Controller
         collect(request('tickets'))->each(function ($data) use ($order) {
             $order->tickets()->create([
                 'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['shirtsize', 'roommate_requested', 'location', 'school']),
+                'ticket_data' => array_only($data, ['shirtsize', 'school', 'roommate_requested', 'travel_plans']),
                 'price' => $this->ticket_price * 100,
                 'organization_id' => $this->organization->id,
                 'person_id' => Person::create(array_only($data, [
@@ -123,7 +116,7 @@ class RegisterController extends Controller
                     'currency' => 'usd',
                     'source' => request('stripeToken'),
                     'description' => 'Passion Camp',
-                    'statement_descriptor' => 'Passion Camp',
+                    'statement_descriptor' => 'PCC SMMR CMP',
                     'metadata' => [
                         'order_id' => $order->id,
                         'email' => $order->user->person->email,
@@ -165,11 +158,11 @@ class RegisterController extends Controller
 
     public function confirmation()
     {
-        if (! session()->has('order_id')) {
-            return redirect()->route('register.create');
-        }
+        // if (! session()->has('order_id')) {
+        //     return redirect()->route('register.create');
+        // }
 
-        $order = Order::findOrFail(session('order_id'));
+        $order = Order::findOrFail(2);
 
         return view('register.confirmation')->withOrder($order);
     }

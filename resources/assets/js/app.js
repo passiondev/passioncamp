@@ -8,11 +8,11 @@
 require('./bootstrap');
 import { currency } from './currency';
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+$(function() {
+    $('.js-form-input-card-number').payment('formatCardNumber');
+    $('.js-form-input-card-cvc').payment('formatCardCVC');
+    $('.js-form-input-card-expiry').payment('formatCardExpiry');
+});
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));

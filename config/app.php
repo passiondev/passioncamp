@@ -162,6 +162,17 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        Collective\Html\HtmlServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Jenssegers\Rollbar\RollbarServiceProvider::class,
+        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
+        Sofa\Revisionable\Laravel\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Vinkla\Pusher\PusherServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
+        Codedge\Fpdf\FpdfServiceProvider::class,
+        Zondicons\ZondiconsServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -172,16 +183,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
         App\Providers\PrintNodeServiceProvider::class,
-
-        Collective\Html\HtmlServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        Jenssegers\Rollbar\RollbarServiceProvider::class,
-        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
-        Sofa\Revisionable\Laravel\ServiceProvider::class,
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-        Vinkla\Pusher\PusherServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
-        Codedge\Fpdf\FpdfServiceProvider::class,
     ],
 
     /*

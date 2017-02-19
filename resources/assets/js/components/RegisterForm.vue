@@ -1,16 +1,17 @@
 <template>
-    
+
 </template>
 
 <script>
+    import payment from '../Mixins/Payment.js';
+
     export default {
+        mixins: [payment],
         components: {
             'ticket': require('./RegisterFormTicket.vue')
         },
         data() {
-            let local = {
-
-            };
+            let local = {};
 
             return Object.assign(vuex, local);
         },
@@ -52,8 +53,8 @@
             }
         },
         methods: {
-            submitHandler() {
-
+            submitHandler(e) {
+                return this.stripeSubmitHandler(e);
             }
         }
     }

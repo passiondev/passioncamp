@@ -34,7 +34,8 @@
         "spipu/html2pdf": "~4.6",
         "codedge/laravel-fpdf": "~1.0",
         "printnode/printnode-php": "2.0.0-rc1",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "zondicons/blade-bridge": "^0.1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

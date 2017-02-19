@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-6 ticket">
+    <div class="card-block ticket">
         <h4>Ticket @{{ num }}</h4>
         <div class="form-group">
             <label class="control-label" for="tickets[@{{ num }}][first_name]">First Name</label>
