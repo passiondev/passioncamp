@@ -10,8 +10,6 @@ class Room extends Model
 {
     use SoftDeletes, Revisionable;
 
-    protected $table = 'room';
-
     protected $revisionable = ['name', 'description', 'notes', 'hotel_id'];
 
     protected $fillable = [
