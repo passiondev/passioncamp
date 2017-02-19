@@ -39,7 +39,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-    Route::group(['middleware' => ['auth', 'closed']], function () {
+    Route::group(['middleware' => ['auth']], function () {
         Route::get('account', 'AccountController@index')->name('account');
 
         Route::get('roominglist/overview', 'RoomingListController@overview')->name('roominglist.overview');
