@@ -52,6 +52,7 @@ return [
     */
 
     'url' => 'http://portal.passioncamp.268generation.com',
+    'domain' => env('APP_DOMAIN', 'passioncamp.268generation.com'),
 
     /*
     |--------------------------------------------------------------------------

@@ -15,7 +15,7 @@ Route::get('/closed', function () {
 
 Route::group(['middleware' => 'web'], function () {
 
-    Route::group(['domain' => 'pccstudents.passioncamp.268generation.com'], function () {
+    Route::group(['domain' => 'pccstudents.' . Config::get('app.domain')], function () {
         Route::any('/', function () {
             return redirect('http://passioncitychurch.com/students');
         });
