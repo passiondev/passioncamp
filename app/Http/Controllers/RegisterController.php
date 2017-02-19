@@ -158,11 +158,11 @@ class RegisterController extends Controller
 
     public function confirmation()
     {
-        // if (! session()->has('order_id')) {
-        //     return redirect()->route('register.create');
-        // }
+        if (! session()->has('order_id')) {
+            return redirect()->route('register.create');
+        }
 
-        $order = Order::findOrFail(2);
+        $order = Order::findOrFail(session('order_id'));
 
         return view('register.confirmation')->withOrder($order);
     }
