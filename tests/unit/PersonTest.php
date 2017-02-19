@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class PersonTest extends TestCase
+class PersonTest extends BrowserKitTestCase
 {
     public function test_a_birthdate_can_be_set()
     {

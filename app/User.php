@@ -2,16 +2,15 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use SoftDeletes;
+    use Notifiable, SoftDeletes;
 
-    protected $table = 'user';
-
-    protected $fillable = ['username', 'email'];
+    protected $guarded = [];
 
     public static function make(array $attributes = [])
     {
@@ -23,7 +22,7 @@ class User extends Authenticatable
 
         return $model;
     }
-    
+
     public function person()
     {
         return $this->belongsTo(Person::class);

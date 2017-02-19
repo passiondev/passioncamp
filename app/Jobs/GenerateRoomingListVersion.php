@@ -74,7 +74,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
                                     'lname' => $ticket->person->last_name,
                                     'changed' => $ticket->has_changed_since_last_revision,
                                 ];
-                            })->toArray(),
+                })->toArray(),
             ];
         });
 
@@ -120,18 +120,18 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
         if ($version) {
             $title = $title . ' - Version #' . $version->id;
         }
-        $document = Excel::create($title, function($excel) use ($all_rooms, $changed_rooms, $changed_tickets) {
-            $excel->sheet('All Rooms', function($sheet) use ($all_rooms) {
+        $document = Excel::create($title, function ($excel) use ($all_rooms, $changed_rooms, $changed_tickets) {
+            $excel->sheet('All Rooms', function ($sheet) use ($all_rooms) {
                 $sheet->loadView('roominglist.export.all_rooms', compact('all_rooms'))
                       ->freezeFirstRow()
                       ->setAutoFilter('A1:Q1');
             });
-            $excel->sheet('Changed Rooms', function($sheet) use ($changed_rooms) {
+            $excel->sheet('Changed Rooms', function ($sheet) use ($changed_rooms) {
                 $sheet->loadView('roominglist.export.changed_rooms', compact('changed_rooms'))
                       ->freezeFirstRow()
                       ->setAutoFilter('A1:J1');
             });
-            $excel->sheet('Changed Tickets', function($sheet) use ($changed_tickets) {
+            $excel->sheet('Changed Tickets', function ($sheet) use ($changed_tickets) {
                 $sheet->loadView('roominglist.export.changed_tickets', compact('changed_tickets'))
                       ->freezeFirstRow()
                       ->setAutoFilter('A1:H1');

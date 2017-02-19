@@ -21,5 +21,4 @@ class AccessToken extends BaseAccessToken
     {
         return $this->apiBaseUri;
     }
-
 }

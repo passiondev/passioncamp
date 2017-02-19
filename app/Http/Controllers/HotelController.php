@@ -6,7 +6,6 @@ use App\Hotel;
 use App\Organization;
 use Illuminate\Http\Request;
 
-
 class HotelController extends Controller
 {
     public function index()

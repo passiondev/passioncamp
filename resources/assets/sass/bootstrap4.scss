@@ -1,0 +1,137 @@
+
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+@include bg-variant('.bg-white', #fff);
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    vertical-align: text-top;
+    display: inline-block;
+
+    a & {
+        fill: $link-color;
+    }
+    a:hover & {
+        fill: $link-hover-color;
+    }
+}
+
+html, body {
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+}
+#page-header {
+    height: calc(100% - 80px);
+    background-image: url(../img/header-bg.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+
+    img {
+        max-height: 100%;
+    }
+}
+#page-header-banner {
+    background: #f5f5f5;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card--registration {
+    background: none;
+    border: 0;
+
+    > .card-header,
+    > .card-block {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    > .card-header {
+        background: none;
+        border: 0;
+        p.lead {
+            font-size: 1rem;
+            margin-bottom: .5rem;
+        }
+    }
+    > .card-block {
+        padding-top: 0;
+    }
+}
+
+.tickets {
+    .card:last-child {
+        margin-bottom: 2.5rem;
+    }
+}
+
+.register-form {
+    padding-bottom: 4rem;
+
+    section + section {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid $laravel-border-color;
+    }
+}
+
+.order-summary {
+    &__item {
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+    }
+    &__total {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid $laravel-border-color;
+    }
+}
+
+input[type=number].nospin::-webkit-inner-spin-button,
+input[type=number].nospin::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form-check-pill {
+    display: inline-block;
+
+    input {
+        display: none;
+    }
+
+    label {
+        @extend .btn;
+        @extend .btn-lg;
+        @include button-variant($btn-secondary-color, $body-bg, $btn-secondary-border);
+        cursor: pointer;
+        margin-right: .5rem;
+
+        > .icon {
+            display: none;
+            position: relative;
+            top: 4px;
+            fill: #fff;
+            margin-left: -.5rem;
+            margin-right: .5rem;
+        }
+    }
+
+    input:checked + label {
+        background: $btn-success-bg;
+        color: $btn-success-color;
+        border-color: $btn-success-border;
+
+        > .icon {
+            display: inline-block;
+        }
+    }
+}

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -13,30 +13,29 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\OrderItems\OrgItemUpdated' => [
-            'App\Listeners\CreateRooms',
+        \App\Events\OrderItems\OrgItemUpdated::class => [
+            \App\Listeners\CreateRooms::class,
         ],
-        'App\Events\Waivers\EmailBounced' => [
-            'App\Listeners\Waivers\EmailBounced\CancelSignatureRequest',
-            'App\Listeners\Waivers\EmailBounced\CancelWaiverRecord',
-            'App\Listeners\Waivers\EmailBounced\SendNotification',
+        \App\Events\Waivers\EmailBounced::class => [
+            \App\Listeners\Waivers\EmailBounced\CancelSignatureRequest::class,
+            \App\Listeners\Waivers\EmailBounced\CancelWaiverRecord::class,
+            \App\Listeners\Waivers\EmailBounced\SendNotification::class,
         ],
-        'App\Events\UserCreated' => [
-            'App\Listeners\User\SometimesUpdateEmail',
-            'App\Listeners\User\SometimesUpdateAccess',
-            'App\Listeners\User\SendRegistrationEmail',
+        \App\Events\UserCreated::class => [
+            \App\Listeners\User\SometimesUpdateEmail::class,
+            \App\Listeners\User\SometimesUpdateAccess::class,
+            \App\Listeners\User\SendRegistrationEmail::class,
         ]
     ];
 
     /**
-     * Register any other events for your application.
+     * Register any events for your application.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
      * @return void
      */
-    public function boot(DispatcherContract $events)
+    public function boot()
     {
-        parent::boot($events);
+        parent::boot();
 
         //
     }

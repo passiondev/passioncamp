@@ -16,7 +16,7 @@ class Closed
     public function handle($request, Closure $next)
     {
         if ($request->user()->organization && $request->user()->organization->slug == 'pcc') {
-            return $next($request);            
+            return $next($request);
         }
 
         if ($request->session()->has('spark:impersonator')) {
@@ -24,7 +24,7 @@ class Closed
         }
 
         if ($request->user()->isSuperAdmin()) {
-            return $next($request);            
+            return $next($request);
         }
 
         return redirect('/closed');

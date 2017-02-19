@@ -4,18 +4,17 @@ namespace App;
 
 use Auth;
 use App\Waiver;
-use Sofa\Eloquence\Eloquence;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Revisionable\Revisionable;
-use Sofa\Revisionable\Laravel\RevisionableTrait;
+use Sofa\Revisionable\Laravel\Revisionable;
 
-class Ticket extends OrderItem implements Revisionable
+class Ticket extends OrderItem
 {
-    use Eloquence, FormAccessible, SoftDeletes, RevisionableTrait;
+    use FormAccessible, SoftDeletes;
+    // use Revisionable;
 
-    protected $revisionPresenter = 'App\Presenters\Revisions\Ticket';
+    protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
 
     public function isRevisioned()
     {
@@ -26,22 +25,15 @@ class Ticket extends OrderItem implements Revisionable
 
     protected $revisionable = ['name', 'room_id'];
 
-    protected $table = 'order_item';
-    
+    protected $table = 'order_items';
+
     protected $type = 'ticket';
 
     protected $searchableColumns = ['id', 'person.first_name', 'person.last_name'];
 
-    protected $fillable = [
-        'agegroup',
-        'price',
-        'squad',
-        'is_checked_in',
-    ];
+    protected $guarded = [];
 
-    protected $dates = [
-        'checked_in_at',
-    ];
+    protected $dates = ['checked_in_at'];
 
     protected static function boot()
     {
@@ -164,7 +156,7 @@ class Ticket extends OrderItem implements Revisionable
     public function revision()
     {
         // get fresh revision info if it hasnt been loaded
-        if ( ! $this->relationLoaded('latestRevision')) {
+        if (! $this->relationLoaded('latestRevision')) {
             $this->load('latestRevision');
         }
 
@@ -177,13 +169,13 @@ class Ticket extends OrderItem implements Revisionable
 
         $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
 
-        // unset relation so that fresh revision info will be pulled 
+        // unset relation so that fresh revision info will be pulled
         unset($this->relations['latestRevision']);
     }
 
     public function getHasChangedSinceLastRevisionAttribute()
     {
-        if ( ! $this->latestRevision) {
+        if (! $this->latestRevision) {
             return true;
         }
 

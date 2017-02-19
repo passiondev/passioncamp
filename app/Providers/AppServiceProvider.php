@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+        Schema::defaultStringLength(191);
+
         Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
             return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
         });
@@ -24,8 +29,8 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('ticket.partials.form', function ($view) {
             $gradeOptions = [];
-            
-            foreach (range(6,12) as $grade) {
+
+            foreach (range(6, 12) as $grade) {
                 $gradeOptions[$grade] = number_ordinal($grade);
             }
 
@@ -42,8 +47,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('organizationOptions', collect($organizationOptions)->sort()->toArray());
         });
 
-        view()->composer('checkin.printer.index', 'App\Http\ViewComposers\CheckInPrinterIndexComposer');
-        view()->composer('roominglist.printer.index', 'App\Http\ViewComposers\RoominglistPrinterIndexComposer');
+        view()->composer('checkin.printer.index', \App\Http\ViewComposers\CheckInPrinterIndexComposer::class);
+        view()->composer('roominglist.printer.index', \App\Http\ViewComposers\RoominglistPrinterIndexComposer::class);
     }
 
     /**
@@ -53,6 +58,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 }

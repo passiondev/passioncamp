@@ -15,8 +15,6 @@ class Organization extends Model
 {
     use SoftDeletes, Notated;
 
-    protected $table = 'organization';
-    
     public function newCollection(array $models = [])
     {
         return new OrganizationCollection($models);
@@ -61,7 +59,7 @@ class Organization extends Model
 
     public function hotels()
     {
-        return $this->belongsToMany(Hotel::class, 'order_item', 'organization_id', 'item_id');
+        return $this->belongsToMany(Hotel::class, 'order_items', 'organization_id', 'item_id');
     }
 
     public function tickets()
@@ -107,7 +105,7 @@ class Organization extends Model
     public function setting($key, $value = null)
     {
         if (! is_null($value)) {
-            $key = array($key => $value);
+            $key = [$key => $value];
         }
 
         if (is_array($key)) {
@@ -286,8 +284,7 @@ class Organization extends Model
             $transactions = $transactions->filter(function ($transaction) {
                 return is_null($transaction->transaction->source);
             });
-        }
-        elseif (! is_null($source)) {
+        } elseif (! is_null($source)) {
             $transactions = $transactions->filter(function ($transaction) use ($source) {
                 return $transaction->transaction->source == $source;
             });

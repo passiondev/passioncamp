@@ -107,9 +107,12 @@ class UserController extends Controller
 
     public function sendAccountCreationEmail(User $user)
     {
-        Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {
-            $m->subject('Create Your Account');
-            $m->to($user->email);
-        });
+        /**
+         * TODO
+         */
+        // Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {
+        //     $m->subject('Create Your Account');
+        //     $m->to($user->email);
+        // });
     }
 }

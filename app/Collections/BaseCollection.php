@@ -23,5 +23,4 @@ abstract class BaseCollection extends Collection
     {
         return $this->{'get'.Str::studly($key).'Attribute'}();
     }
-
 }

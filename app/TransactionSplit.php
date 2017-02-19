@@ -8,7 +8,7 @@ class TransactionSplit extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'transaction_split';
+    protected $guarded = [];
 
     public function organization()
     {
@@ -38,11 +38,10 @@ class TransactionSplit extends Model
             $method = $this->transaction->card_type . ' ' . $this->transaction->card_num;
         }
 
-        if (in_array($method, array('Check', 'Credit'))) {
+        if (in_array($method, ['Check', 'Credit'])) {
             $method = $method . ' ' . $this->transaction->processor_transactionid;
         }
 
         return trim(sprintf('%s %s', $type, $method));
     }
 }
-

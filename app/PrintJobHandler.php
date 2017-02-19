@@ -50,5 +50,4 @@ class PrintJobHandler
     {
         return $this->printer->test();
     }
-
 }

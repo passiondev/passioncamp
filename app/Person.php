@@ -8,7 +8,7 @@ class Person extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'person';
+    protected $guarded = [];
 
     protected $fillable = [
         'first_name',
@@ -40,11 +40,11 @@ class Person extends Model
     public function setBirthdateAttribute($birthdate)
     {
         $birthdate = str_replace(['.', '-'], '/', $birthdate);
-        
+
         try {
             $this->attributes['birthdate'] = new \Carbon\Carbon($birthdate);
         } catch (\Exception $e) {
-            \Log::error("Couldn't set birthdate " . $birthdate);    
+            \Log::error("Couldn't set birthdate " . $birthdate);
         }
     }
 }

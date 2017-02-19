@@ -11,7 +11,7 @@ class TransactionRepository
     {
         \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
         $charge = \Stripe\Charge::retrieve(
-            $transaction->transaction->processor_transactionid, 
+            $transaction->transaction->processor_transactionid,
             ['stripe_account' => $transaction->order->organization->setting('stripe_user_id')]
         );
 

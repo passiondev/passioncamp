@@ -1,231 +1,323 @@
-@extends('layouts.front')
+@extends('layouts.bootstrap4')
 
 @section('head')
     <script>
-        window.tickets_data = {!! json_encode(array_values(old('tickets') ?: [])) !!};
         window.ticket_price = {{ $ticket_price }};
+        window.vuex = {!!json_encode([
+            'num_tickets' => old('num_tickets', 1),
+            'ticketData' => old('tickets', []),
+            'fund_amount' => null,
+            'fund_amount_other' => null,
+            'payment_amount_type' => 'full'
+        ]) !!}
     </script>
 @endsection
 @section('content')
+<div class="container">
     <register-form inline-template>
-        {{ Form::open(['route' => 'register.store', 'novalidate', 'v-on:submit.prevent' => 'submitHandler']) }}
-            @include('errors.validation')
-
+        <form class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
+            {{ csrf_field() }}
             <div class="row">
-                <section class="col-md-6">
-                    <header>
-                        <h4>Parent Information</h4>
-                    </header>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            {{ Form::label('contact[first_name]', 'First Name', ['class' => 'control-label']) }}
-                            <div class="form-controls">
-                                {{ Form::text('contact[first_name]', null, ['id' => 'contact__first_name', 'class' => 'form-control']) }}
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6">
-                            {{ Form::label('contact[last_name]', 'Last Name', ['class' => 'control-label']) }}
-                            <div class="form-controls">
-                                {{ Form::text('contact[last_name]', null, ['id' => 'contact__last_name', 'class' => 'form-control']) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-7">
-                            {{ Form::label('contact[email]', 'Email Address', ['class' => 'control-label']) }}
-                            <div class="form-controls">
-                                {{ Form::email('contact[email]', null, ['id' => 'contact__email', 'class' => 'form-control']) }}
-                            </div>
-                            <p class="help-block" style="font-size:.85em;margin-bottom: 0;">Please provide a parent's email address to ensure your registration confirmation is received</p>
-                        </div>
-                        <div class="form-group col-md-5">
-                            {{ Form::label('contact[phone]', 'Phone Number', ['class' => 'control-label']) }}
-                            <div class="form-controls">
-                                {{ Form::text('contact[phone]', null, ['id' => 'contact__phone', 'class' => 'form-control']) }}
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
+                <div class="col-md-7">
 
-            <div class="row" style="margin-bottom:20px">
-                <div class="form-group col-md-4">
-                    {{ Form::label('num_tickets', 'Number of Students', ['class' => 'control-label']) }}
-                    {{ Form::number('num_tickets', 1, ['id' => 'num_tickets', 'class' => 'form-control input-lg', 'v-model' => 'num_tickets', 'number', 'min' => 1, 'max' => 200]) }}
-                </div>
-            </div>
+                    @include('errors.validation')
 
-            <section class="row tickets" v-for="row in ticket_rows">
-                <div v-for="ticket in row" class="col-md-5 ticket" v-bind:class="{'col-md-offset-1': (ticket.number % 2 == 0)}">
-                    <h4>Student #@{{ ticket.number }}</h4>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__first_name">First Name</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__first_name" name="tickets[@{{ ticket.number }}][first_name]" v-model="ticket.first_name">
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__last_name">Last Name</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__last_name" name="tickets[@{{ ticket.number }}][last_name]" v-model="ticket.last_name">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-7">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__email">Email Address</label>
-                            <input class="form-control" type="email" id="tickets_@{{ ticket.number }}__email" name="tickets[@{{ ticket.number }}][email]" v-model="ticket.email">
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__phone">Phone Number</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__phone" name="tickets[@{{ ticket.number }}][phone]" v-model="ticket.phone">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__birthdate">Birthdate</label>
-                            <input class="form-control js-form-input-date" placeholder="mm/dd/yyyy" type="text" id="tickets_@{{ ticket.number }}__birthdate" name="tickets[@{{ ticket.number }}][birthdate]" v-model="ticket.birthdate">
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__gender">Gender</label>
-                            <div class="form-controls form-controls--radio">
-                                <label class="radio-inline">
-                                    <input type="radio" value="M" name="tickets[@{{ ticket.number }}][gender]" v-model="ticket.gender" id="tickets_@{{ ticket.number }}__gender"> Male
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" value="F" name="tickets[@{{ ticket.number }}][gender]" v-model="ticket.gender" id="tickets_@{{ ticket.number }}__gender"> Female
-                                </label>
+                    <section>
+                        <div class="card card--registration">
+                            <header class="card-header">
+                                <h2>Parent Information</h2>
+                            </header>
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="contact__first_name">First Name</label>
+                                        <div class="form-controls">
+                                            <input type="text" name="contact[first_name]" id="contact__first_name" class="form-control" value="{{ old('contact.first_name') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="contact__last_name">Last Name</label>
+                                        <div class="form-controls">
+                                            <input type="text" name="contact[last_name]" id="contact__last_name" class="form-control" value="{{ old('contact.last_name') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="contact__email">Email Address</label>
+                                        <div class="form-controls">
+                                            <input type="text" name="contact[email]" id="contact__email" class="form-control" value="{{ old('contact.email') }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="contact__phone">Phone Number</label>
+                                        <div class="form-controls">
+                                            <input type="text" name="contact[phone]" id="contact__phone" class="form-control" value="{{ old('contact.phone') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="form-text text-muted" style="margin-top:-.25rem; font-size:80%; font-style: italic;">Please provide a parent's email address to ensure your registration confirmation is received.</p>
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__shirtsize">Shirt Size</label>
-                            <select class="form-control" id="tickets_@{{ ticket.number }}__shirtsize" name="tickets[@{{ ticket.number }}][shirtsize]" v-model="ticket.shirtsize"><option value="0"></option><option value="1">XS</option><option value="2">S</option><option value="3">M</option><option value="4">L</option><option value="5">XL</option></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__grade">Grade</label>
-                            <select class="form-control" id="tickets_@{{ ticket.number }}__grade" name="tickets[@{{ ticket.number }}][grade]" v-model="ticket.grade"><option value="0"></option><option value="6">6th</option><option value="7">7th</option><option value="8">8th</option><option value="9">9th</option><option value="10">10th</option><option value="11">11th</option><option value="12">12th</option></select>
-                            <p class="help-block text-muted" style="font-size:.85em;margin-bottom: 0;">Grade completed as of Spring 2016</p>
-                        </div>
-                        <div class="form-group col-sm-8">
-                            <label class="control-label" for="tickets_@{{ ticket.number }}__school">School</label>
-                            <input class="form-control" type="text" id="tickets_@{{ ticket.number }}__school" name="tickets[@{{ ticket.number }}][school]" v-model="ticket.school">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label" for="tickets_@{{ ticket.number }}__allergies">Allergies</label>
-                        <textarea class="form-control" id="tickets_@{{ ticket.number }}__allergies" name="tickets[@{{ ticket.number }}][allergies]" v-model="ticket.allergies" rows="2"></textarea>
-                    </div>
-                    <div class="form-group">
-                    <label class="control-label" for="tickets_@{{ ticket.number }}__roommate_requested">Roommate Requested</label>
-                    <input class="form-control" type="text" name="tickets[@{{ ticket.number }}][roommate_requested]" v-model="ticket.roommate_requested" id="tickets_@{{ ticket.number }}__roommate_requested">
-                    </div>
-                </div>
                     </section>
 
-            <section>
-                <header>
-                    <h4>Help Make Camp Possible!</h4>
-                    <p>Taking hundreds of students to camp is not a cheap endeavor, but we strongly believe it is going to be a life-changing week for our students and our church. We have aimed to keep the cost as low as possible so more students can afford to go, but there is still  a sizeable gap between what students are paying and our costs as a church. If you are able or if you know of anyone who wants to invest in this week for our students, you can add a gift to your payment, and we would be massively grateful!</p>
+                    <section>
+                        <div class="card card--registration">
+                            <header class="card-header">
+                                <h2>Student Infromation</h2>
+                            </header>
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="form-group col-8 col-lg-6">
+                                        <label for="num_tickets">Number of Students</label>
+                                        <input type="number" name="num_tickets" id="num_tickets" class="form-control form-control-lg" v-model="num_tickets" min="1" max="200">
+                                    </div>
+                                    <div class="form-group col">
+                                        <label>Total</label>
+                                        <p class="form-control-static" style="font-size:1.5rem">@{{ ticket_total | currency }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tickets">
+                            <ticket v-for="ticket in tickets" :ticket="ticket"></ticket>
+                        </div>
+                    </section>
 
-                    <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
-                    <ul>
-                        <li>A small group leader's spot (We are taking 100-120 leaders!)</li>
-                        <li>The charter buses (Each bus costs $5,000 and we are taking 12-14 buses!)</li>
-                        <li>To help a student who can’t afford camp (We don’t want anyone to miss out!)</li>
-                    </ul>
-                </header>
-                <div class="form-group">
-                    <label class="control-label">Donation Amount</label>
-                    <div class="radio">
-                        <label>
-                            {!! Form::radio('fund_amount', 10, null, ['v-model'=>'fund_amount', 'number']) !!}
-                            $10
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            {!! Form::radio('fund_amount', 25, null, ['v-model'=>'fund_amount', 'number']) !!}
-                            $25
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            {!! Form::radio('fund_amount', 50, null, ['v-model'=>'fund_amount', 'number']) !!}
-                            $50
-                        </label>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            {!! Form::radio('fund_amount', 'other', null, ['v-model'=>'fund_amount']) !!}
-                            Other
-                        </label>
-                        - ${!! Form::number('fund_amount_other', null, ['class' => 'form-control', 'v-model' => 'fund_amount_other', 'number', 'min' => 0, 'max' => 99999, 'style' => 'width: 6em; text-align: right; display: inline-block']) !!}.00
-                    </div>
-                    <div class="radio">
-                        <label>
-                            {!! Form::radio('fund_amount', 0, null, ['v-model'=>'fund_amount', 'number']) !!}
-                            No thanks
-                        </label>
+                    <section>
+                    <div class="card card--registration">
+                        <div class="card-block">
+                            <h4>Help Make Camp Possible!</h4>
+                            <p>Taking hundreds of students to camp is not a cheap endeavor, but we strongly believe it is going to be a life-changing week for our students and our church. We have aimed to keep the cost as low as possible so more students can afford to go, but there is still  a sizeable gap between what students are paying and our costs as a church. If you are able or if you know of anyone who wants to invest in this week for our students, you can add a gift to your payment, and we would be massively grateful!</p>
+
+                            <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
+                            <ul>
+                                <li>A small group leader's spot (We are taking 100-120 leaders!)</li>
+                                <li>The charter buses (Each bus costs $5,000 and we are taking 12-14 buses!)</li>
+                                <li>To help a student who can’t afford camp (We don’t want anyone to miss out!)</li>
+                            </ul>
+                            <fieldset>
+                                <legend>Donation Amount</legend>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="10" v-model.number="fund_amount">
+                                        $10
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="25" v-model.number="fund_amount">
+                                        $25
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="50" v-model.number="fund_amount">
+                                        $50
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="other" onchange="document.querySelector('#fund_amount_other').focus()" v-model="fund_amount">
+                                        Other
+                                    </label>
+                                    - $<input type="number" name="fund_amount_other" id="fund_amount_other" min="0" max="99999" class="form-control form-control-sm nospin" style="width: 6em; text-align: right; display: inline-block" v-model.number="fund_amount_other">
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="0" v-model.number="fund_amount">
+                                        No thanks
+                                    </label>
+                                </div>
+                            </fie>
+                        </div>
+                    </section>
+
+                    <section>
+                        <div class="card card--registration">
+                            <header class="card-header">
+                                <h2>Payment Information</h2>
+                            </header>
+                            <div class="card-block">
+                                <h4>Billing Address</h4>
+                                <div class="row">
+                                    <div class="col-lg-10 col-xl-8">
+                                        <div class="form-group">
+                                            <label for="billing__street">Street</label>
+                                            <input type="text" name="billing[street]" id="billing__street" class="form-control" value="{{ old('billing.street') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="billing__city">City</label>
+                                            <input type="text" name="billing[city]" id="billing__city" class="form-control" value="{{ old('billing.city') }}">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label for="billing__state">State</label>
+                                                <input type="text" name="billing[state]" id="billing__state" class="form-control" value="{{ old('billing.state') }}">
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="billing__zip">Zip Code</label>
+                                                <input type="text" name="billing[zip]" id="billing__zip" class="form-control" value="{{ old('billing.zip') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-block mb-3 hidden-lg-up">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <h3 class="mt-1">Order Summary</h3>
+                                    </header>
+                                    <div class="card-block">
+                                        <ul class="order-summary list-unstyled mb-0">
+                                            <li class="row order-summary__item py-1">
+                                                <div class="col">
+                                                    <p class="mb-0">SMMR CMP Ticket x@{{ num_tickets }}</p>
+                                                    <span class="text-muted">@{{ ticket_price | currency }}</span>
+                                                </div>
+                                                <div class="col text-right">
+                                                    <strong>@{{ ticket_total | currency }}</strong>
+                                                </div>
+                                            </li>
+                                            <li class="row order-summary__item" v-show="donation_total > 0">
+                                                <div class="col">
+                                                    <p class="mb-0">Donation</p>
+                                                </div>
+                                                <div class="col text-right">
+                                                    <strong>@{{ donation_total | currency }}</strong>
+                                                </div>
+                                            </li>
+                                            <li class="row order-summary__item order-summary__total">
+                                                <div class="col">
+                                                    <p class="mb-0"><strong>Total</strong></p>
+                                                </div>
+                                                <div class="col text-right">
+                                                    <strong>@{{ full_amount | currency }}</strong>
+                                                </div>
+                                            </li>
+                                            <li class="row order-summary__item">
+                                                <div class="col">
+                                                    Deposit Amount
+                                                </div>
+                                                <div class="col text-right">
+                                                    @{{ deposit_amount | currency }}
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-block">
+                                <h4>Payment Options</h4>
+                                <div class="form-check-pill">
+                                    <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_amount_type">
+                                    <label for="payment_type--full">
+                                        @icon('checkmark') Pay Full Amount
+                                    </label>
+                                </div>
+                                <div class="form-check-pill">
+                                    <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_amount_type">
+                                    <label for="payment_type--deposit">
+                                        @icon('checkmark') Pay Deposit
+                                    </label>
+                                </div>
+                                <p class="form-text"><em>**Deposits are non-refundable.</em></p>
+                            </div>
+
+                            <div class="card-block">
+                                <h4>Credit Card</h4>
+                                <div class="row">
+                                    <div class="col-lg-10 col-xl-8">
+                                        <div class="form-group">
+                                            <label for="cc_number">Card Number</label>
+                                            <input type="text" id="cc_number" class="form-control js-form-input-card-number" required v-model="Payment.card_number">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <label for="cc_exp_month">Expiration</label>
+                                                <input type="text" id="cc_expiry" class="form-control js-form-input-card-expiry" placeholder="mm / yy" required v-model="Payment.card_exp">
+                                            </div>
+                                            <div class="form-group col">
+                                                <label for="cc_cvc">CVC</label>
+                                                <input id="cc_cvc" type="text" size="8" class="form-control js-form-input-card-cvc" v-model="Payment.card_cvc">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section>
+                        <p class="lead">Full payment is due by May 1st. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
+
+                        <p><i>Upon clicking submit, your credit card will be charged <strong>@{{ payment_amount | currency }}</strong> for your Passion Camp registration.</i></p>
+
+                        <div class="alert alert-danger" v-if="Payment.errors.length">
+                            <ul class="mb-0">
+                                <li v-for="error in Payment.errors">
+                                    @{{ error }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button :disabled="Payment.occupied" class="btn btn-primary btn-lg">Submit Registration</button>
+                    </section>
+
+                </div>
+                <div class="col-lg-5 hidden-md-down">
+                    <div class="sticky-top" style="padding-top:2rem;margin-top:-2rem">
+                        <div class="card">
+                            <header class="card-header">
+                                <h3 class="mt-1">Order Summary</h3>
+                            </header>
+                            <div class="card-block">
+                                <ul class="order-summary list-unstyled mb-0">
+                                    <li class="row order-summary__item py-1">
+                                        <div class="col">
+                                            <p class="mb-0">SMMR CMP Ticket x@{{ num_tickets }}</p>
+                                            <span class="text-muted">@{{ ticket_price | currency }}</span>
+                                        </div>
+                                        <div class="col text-right">
+                                            <strong>@{{ ticket_total | currency }}</strong>
+                                        </div>
+                                    </li>
+                                    <li class="row order-summary__item" v-show="donation_total > 0">
+                                        <div class="col">
+                                            <p class="mb-0">Donation</p>
+                                        </div>
+                                        <div class="col text-right">
+                                            <strong>@{{ donation_total | currency }}</strong>
+                                        </div>
+                                    </li>
+                                    <li class="row order-summary__item order-summary__total">
+                                        <div class="col">
+                                            <p class="mb-0"><strong>Total</strong></p>
+                                        </div>
+                                        <div class="col text-right">
+                                            <strong>@{{ full_amount | currency }}</strong>
+                                        </div>
+                                    </li>
+                                    <li class="row order-summary__item px-4">
+                                        <div class="col">
+                                            Deposit Amount
+                                        </div>
+                                        <div class="col text-right">
+                                            @{{ deposit_amount | currency }}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-            <div class="row">
-                <section class="col-md-4">
-                    <h4>Billing Address</h4>
-                    <div class="form-group">
-                        {!! Form::label('billing__street', 'Street', ['class'=>'control-label']) !!}
-                        {!! Form::text('billing[street]', null, ['class'=>'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('billing__city', 'City', ['class'=>'control-label']) !!}
-                        {!! Form::text('billing[city]', null, ['class'=>'form-control']) !!}
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            {!! Form::label('billing__state', 'State', ['class'=>'control-label']) !!}
-                            {!! Form::text('billing[state]', null, ['class'=>'form-control']) !!}
-                        </div>
-                        <div class="form-group col-sm-6">
-                            {!! Form::label('billing__zip', 'Zip Code', ['class'=>'control-label']) !!}
-                            {!! Form::text('billing[zip]', null, ['class'=>'form-control']) !!}
-                        </div>
-                    </div>
-                </section>
             </div>
-            <div class="row">
-                <section class="col-md-6">
-                    <header style="margin-bottom: 15px">
-                        <h4>Payment Information</h4>
-                        <h4>Amount Due: @{{ full_amount | currency }}</h4>
-                    </header>
-                    <div class="payment_method payment_method--credit">
-                        <p class="payment-errors text-danger"></p>
-                        <div class="form-group">
-                            <label for="cc_number" class="control-label">Card Number</label>
-                            <input type="text" id="cc_number" class="form-control js-form-input-card-number" data-stripe="number" required style="width:auto;max-width:100%" size="40">
-                        </div>
-
-                        <div class="form-group-inline">
-                            <div class="form-group">
-                                <label for="cc_exp_month" class="control-label">Expiration</label>
-                                <input type="text" id="cc_expiry" class="form-control js-form-input-card-expiry" placeholder="mm / yy" data-stripe="exp" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cc_cvc" class="control-label">CVC</label>
-                                <input id="cc_cvc" type="text" size="8" data-stripe="cvc" class="form-control js-form-input-card-cvc">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-
-            <section class="form-actions">
-                <p><i>Upon clicking submit, your credit card will be charged @{{ full_amount | currency }} for your Passion Camp registration.</i></p>
-                <button class="btn btn-primary btn-lg">Submit Registration</button>
-            </section>
-        {{ Form::close() }}
+        </form>
     </register-form>
+</div>
 @endsection
 
 @section('foot')

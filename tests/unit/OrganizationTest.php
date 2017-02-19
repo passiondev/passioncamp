@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class OrganizationTest extends TestCase
+class OrganizationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

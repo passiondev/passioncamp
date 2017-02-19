@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddHotelIdToRoomTable extends Migration
+class AddFilePathToRoomingListVersionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddHotelIdToRoomTable extends Migration
      */
     public function up()
     {
-        Schema::table('room', function($table) {
-            $table->integer('hotel_id')->nullable();
+        Schema::table('rooming_list_versions', function ($table) {
+            $table->string('file_path')->nullable();
         });
     }
 

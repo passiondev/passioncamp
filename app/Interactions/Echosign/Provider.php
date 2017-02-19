@@ -69,7 +69,6 @@ class Provider extends AbstractProvider
 
     public function getResourceOwnerDetailsUrl(\League\OAuth2\Client\Token\AccessToken $token)
     {
-
     }
 
     protected function getDefaultScopes()
@@ -84,12 +83,10 @@ class Provider extends AbstractProvider
 
     protected function checkResponse(ResponseInterface $response, $data)
     {
-
     }
 
     protected function createResourceOwner(array $response, \League\OAuth2\Client\Token\AccessToken $token)
     {
-
     }
 
     protected function createAccessToken(array $response, AbstractGrant $grant)
