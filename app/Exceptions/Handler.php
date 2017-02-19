@@ -72,6 +72,6 @@ class Handler extends ExceptionHandler
 
     public function shouldReportToSentry($exception)
     {
-        return $this->shouldReport($exception) && config('app.debug');
+        return $this->shouldReport($exception) && ! config('app.debug');
     }
 }
