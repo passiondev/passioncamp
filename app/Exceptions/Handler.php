@@ -30,9 +30,9 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return void
      */
-    public function report(Exception $e)
+    public function report(Exception $exception)
     {
-        if ($this->shouldReport($exception)) {
+        if ($this->shouldReportToSentry($exception)) {
             if ($user = app()->auth->user()) {
                 app('sentry')->user_context(array_only($user->toArray(), ['id', 'email']));
             }
@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
             app('sentry')->captureException($exception);
         }
 
-        parent::report($e);
+        parent::report($exception);
     }
 
     /**
@@ -68,5 +68,10 @@ class Handler extends ExceptionHandler
         } else {
             return redirect()->guest('login');
         }
+    }
+
+    public function shouldReportToSentry($exception)
+    {
+        return $this->shouldReport($exception) && config('app.debug');
     }
 }
