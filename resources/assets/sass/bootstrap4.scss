@@ -24,7 +24,6 @@ html, body {
     min-height: 100%;
 }
 #page-header {
-    height: 50%;
     background-image: url(../img/header-bg.jpg);
     background-position: center center;
     background-repeat: no-repeat;
@@ -34,8 +33,16 @@ html, body {
     align-items: center;
     flex-direction: column;
 
-    @media (min-width: 768px) {
+    @media (min-aspect-ratio: 1/1) {
         height: calc(100% - 80px);
+    }
+
+    @media (min-aspect-ratio: 3/1) {
+        height: auto;
+    }
+
+    @media (min-height: 1080px) {
+        height: auto;
     }
 
     img {
