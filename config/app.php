@@ -164,12 +164,10 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Jenssegers\Rollbar\RollbarServiceProvider::class,
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
         Sofa\Revisionable\Laravel\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Vinkla\Pusher\PusherServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider::class,
         Codedge\Fpdf\FpdfServiceProvider::class,
         Zondicons\ZondiconsServiceProvider::class,
 
