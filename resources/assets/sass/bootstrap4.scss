@@ -24,7 +24,7 @@ html, body {
     min-height: 100%;
 }
 #page-header {
-    height: calc(100% - 80px);
+    height: 50%;
     background-image: url(../img/header-bg.jpg);
     background-position: center center;
     background-repeat: no-repeat;
@@ -33,6 +33,10 @@ html, body {
     justify-content: flex-end;
     align-items: center;
     flex-direction: column;
+
+    @media (min-width: 768px) {
+        height: calc(100% - 80px);
+    }
 
     img {
         max-height: 100%;
