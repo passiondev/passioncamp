@@ -42,13 +42,28 @@
                 </div>
                 <div class="form-group col-lg-4">
                     <label class="control-label" :for="`tickets_${ticket.number}__shirtsize`">Shirt Size</label>
-                    <select class="form-control" :id="`tickets_${ticket.number}__shirtsize`" :name="`tickets[${ticket.number}][shirtsize]`" v-model="ticket.shirtsize"><option value="0"></option><option value="1">XS</option><option value="2">S</option><option value="3">M</option><option value="4">L</option><option value="5">XL</option></select>
+                    <select class="form-control" :id="`tickets_${ticket.number}__shirtsize`" :name="`tickets[${ticket.number}][shirtsize]`" v-model="ticket.shirtsize">
+                        <option></option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-lg-4">
                     <label class="control-label" :for="`tickets_${ticket.number}__grade`">Grade</label>
-                    <select class="form-control" :id="`tickets_${ticket.number}__grade`" :name="`tickets[${ticket.number}][grade]`" v-model="ticket.grade"><option value="0"></option><option value="6">6th</option><option value="7">7th</option><option value="8">8th</option><option value="9">9th</option><option value="10">10th</option><option value="11">11th</option><option value="12">12th</option></select>
+                    <select class="form-control" :id="`tickets_${ticket.number}__grade`" :name="`tickets[${ticket.number}][grade]`" v-model="ticket.grade">
+                        <option></option>
+                        <option value="6">6th</option>
+                        <option value="7">7th</option>
+                        <option value="8">8th</option>
+                        <option value="9">9th</option>
+                        <option value="10">10th</option>
+                        <option value="11">11th</option>
+                        <option value="12">12th</option></select>
                     <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of Spring 2017.</small></p>
                 </div>
                 <div class="form-group col-lg-8">
