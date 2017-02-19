@@ -23,7 +23,7 @@
 </head>
 <body>
     <header id="page-header" class="text-center">
-        <img src="/img/header-content.png" alt="SMMR CMP">
+        <img src="/img/header-content.png" alt="SMMR CMP" class="img-fluid">
     </header>
     <div id="page-header-banner">
         <div class="container d-flex flex-column align-items-center justify-content-between flex-sm-row">
