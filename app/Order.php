@@ -4,7 +4,6 @@ namespace App;
 
 use App\Collections\OrderCollection;
 use App\Repositories\TicketRepository;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
