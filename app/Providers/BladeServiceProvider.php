@@ -18,7 +18,7 @@ class BladeServiceProvider extends ServiceProvider
             return "<?php if (Gate::check{$expression}): ?>";
         });
         Blade::directive('currency', function ($expression) {
-            return "<?php echo money_format('$%.2n', $expression); ?>";
+            return "<?php echo money_format('%.2n', $expression); ?>";
         });
         Blade::directive('daydatetime', function ($expression) {
             return "<?php echo with($expression)->toDayDateTimeString(); ?>";

@@ -28,7 +28,7 @@
                             <td><a href="{{ route('order.show', $order) }}">Registration #{{ $order->id }}</a></td>
                             <td>{{ $order->created_at->toDayDateTimeString() }}</td>
                             <td class="center aligned">{{ $order->activeTickets->count() }}</td>
-                            <td class="right aligned">{{ money_format('$%.2n', $order->balance) }}</td>
+                            <td class="right aligned">{{ money_format('%.2n', $order->balance) }}</td>
                         </tr>
                     @endforeach
                 </table>

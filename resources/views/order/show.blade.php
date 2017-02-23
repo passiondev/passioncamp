@@ -59,7 +59,7 @@
                                     @include('ticket/partials/label')
                                 </td>
                                 @if ($order->organization->can_record_transactions)
-                                    <td>{{ money_format('$%.2n', $ticket->price) }}</td>
+                                    <td>{{ money_format('%.2n', $ticket->price) }}</td>
                                 @endcan
                                 <td>
                                     @unless ($ticket->is_canceled)
