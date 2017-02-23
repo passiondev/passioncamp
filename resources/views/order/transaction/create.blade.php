@@ -1,5 +1,14 @@
 @extends('layouts.semantic')
 
+@section('head')
+<script>
+    window.Transaction = {!! json_encode([
+        'errors' => [],
+        'payment_method' => old('type', collect($payment_methods)->keys()->first()),
+    ]) !!};
+</script>
+@endsection
+
 @section('content')
     <div class="ui container">
         <header class="page-header">
@@ -12,12 +21,12 @@
                 <Transaction inline-template can-make-stripe-payments="{{ $order->organization->can_make_stripe_payments }}">
                     {{ Form::open(['route' => ['order.transaction.store', $order], 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }}
 
-                        <div class="ui visible error message payment-errors" v-show="errors.length > 0">
+                        <div class="ui visible error message payment-errors" v-if="Payment.errors.length">
                             <div class="header">
                                 There was an error with your submission.
                             </div>
                             <ul class="list">
-                                <li v-for="error in errors">@{{ error }}</li>
+                                <li v-for="error in Payment.errors">@{{ error }}</li>
                             </ul>
                         </div>
 
@@ -32,17 +41,17 @@
                         @if ($order->organization->can_make_stripe_payments)
                             <div class="field" v-show="payment_method == 'credit'">
                                 <label for="cc_number" class="control-label">Card Number</label>
-                                <input type="text" id="cc_number" class="js-form-input-card-number" data-stripe="number" required>
+                                <input type="text" id="cc_number" class="js-form-input-card-number" required v-model="Payment.card_number">
                             </div>
 
                             <div class="two fields" v-show="payment_method == 'credit'">
                                 <div class="field">
                                     <label for="cc_exp_month" class="control-label">Expiration</label>
-                                    <input type="text" id="cc_expiry" class="js-form-input-card-expiry" placeholder="mm / yy" data-stripe="exp" required>
+                                    <input type="text" id="cc_expiry" class="js-form-input-card-expiry" placeholder="mm / yy" required v-model="Payment.card_exp">
                                 </div>
                                 <div class="field">
                                     <label for="cc_cvc" class="control-label">CVC</label>
-                                    <input id="cc_cvc" type="text" size="8" data-stripe="cvc" class="js-form-input-card-cvc">
+                                    <input id="cc_cvc" type="text" size="8" class="js-form-input-card-cvc" v-model="Payment.card_cvc">
                                 </div>
                             </div>
                         @endif
@@ -55,7 +64,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="ui primary button">Submit</button>
+                        <button :disable="Payment.occupied" type="submit" class="ui primary button">Submit</button>
 
                     {{ Form::close() }}
                 </Transaction>

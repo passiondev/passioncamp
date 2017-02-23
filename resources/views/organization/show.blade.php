@@ -28,9 +28,9 @@
                             <div class="statistic" style="margin-top: 0;">
                                 <div class="value">{{ $organization->ticket_count }}</div>
                                 <div class="label">Purchased</div>
-                            </div>                    
+                            </div>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
             <div class="column">
@@ -49,10 +49,10 @@
                             <div class="teal statistic" style="margin-top: 0;">
                                 <div class="value">{{ $organization->orders->leader_count }}</div>
                                 <div class="label">Leaders</div>
-                            </div>                    
+                            </div>
                         </div>
-                    </div>                
-                </div>                
+                    </div>
+                </div>
             </div>
         </div>
         <div class="ui two column stackable grid">

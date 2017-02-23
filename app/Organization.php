@@ -243,7 +243,7 @@ class Organization extends Model
 
     public function getCanMakeStripePaymentsAttribute()
     {
-        return (bool) $this->setting('stripe_access_token');
+        return (bool) $this->setting('stripe_user_id');
     }
 
     public function getCanRecordTransactionsAttribute()

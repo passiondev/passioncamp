@@ -43,7 +43,7 @@
                             @include('ticket/partials/label')
                         </td>
                         @can ('record-transactions', $ticket->organization)
-                            <td>@currency($ticket->price)</td>
+                            <td>@currency($ticket->price / 100)</td>
                         @endcan
                         <td>
                             @can ('edit', $ticket)

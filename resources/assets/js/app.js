@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 import { currency } from './currency';
+import TransactionComponent from './components/Transaction'
 
 $(function() {
     $('.js-form-input-card-number').payment('formatCardNumber');
@@ -16,6 +17,7 @@ $(function() {
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
+Vue.component('Transaction', TransactionComponent);
 
 const app = new Vue({
     el: '#app'

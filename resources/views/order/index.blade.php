@@ -56,7 +56,7 @@
                     </footer>
                 </a>
             @endforeach
-            {{ $orders->appends(Request::only('search'))->links(new \App\Pagination\Semantic($orders)) }}
+            {{ $orders->appends(Request::only('search'))->links() }}
         </div>
     </div>
 @stop

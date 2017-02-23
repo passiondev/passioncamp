@@ -29,7 +29,6 @@ class OrderController extends Controller
     {
         $orders = $this->orders
                   ->forUser(Auth::user())
-                  ->search($request->search)
                   ->has('tickets')
                   ->with('tickets.person', 'organization.church')
                   ->paginate(5);

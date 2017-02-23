@@ -25,7 +25,6 @@ class TicketController extends Controller
     public function index(Request $request)
     {
         $tickets = Ticket::forUser()
-                   ->search($request->search)
                    ->with('person', 'order', 'organization.church', 'organization.settings', 'waiver')
                    ->get();
 

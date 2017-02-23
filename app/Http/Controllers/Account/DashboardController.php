@@ -6,8 +6,8 @@ class DashboardController extends BaseController
 {
     public function index()
     {
-        $this->organization->load('orders.items', 'orders.tickets', 'orders.donations', 'orders.transactions');
+        auth()->user()->organization->load('orders.items', 'orders.tickets', 'orders.donations', 'orders.transactions');
 
-        return view('organization.show')->withOrganization($this->organization);
+        return view('organization.show')->withOrganization(auth()->user()->organization);
     }
 }

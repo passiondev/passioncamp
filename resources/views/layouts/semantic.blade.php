@@ -21,10 +21,10 @@
         <div class="ui divider"></div>
         <div class="menu">
             @include ('menu.right')
-        </div>        
+        </div>
     </div>
 
-    <div class="pusher">
+    <div id="app" class="pusher">
         <header class="ui secondary pointing large menu page-nav">
             <a class="toc item">
                 <i class="sidebar icon"></i>

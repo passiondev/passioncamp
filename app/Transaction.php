@@ -12,14 +12,10 @@ class Transaction extends Model
 
     public function getCardNumAttribute()
     {
-        if ($this->type == 'Check') {
-            return "#".$this->attributes['card_num'];
+        if (strlen($this->attributes['cc_last4']) > 4) {
+            $this->attributes['cc_last4'] = substr($this->attributes['cc_last4'], -4);
         }
 
-        if (strlen($this->attributes['card_num']) > 4) {
-            $this->attributes['card_num'] = substr($this->attributes['card_num'], -4);
-        }
-
-        return $this->attributes['card_num'];
+        return $this->attributes['cc_last4'];
     }
 }

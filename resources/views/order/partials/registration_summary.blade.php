@@ -7,33 +7,33 @@
             <li>
                 <div class="transaction">
                     <div class="item left">Attendees <span class="ui basic circular green label">{{ $order->ticket_count }}</span></div>
-                    <div class="item right">{{ money_format('%.2n', $order->ticket_total) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->ticket_total / 100) }}</div>
                 </div>
             </li>
             @if ($order->donation_total > 0)
                 <li>
                     <div class="transaction">
                         <div class="item left">Donation</div>
-                        <div class="item right">{{ money_format('%.2n', $order->donation_total) }}</div>
+                        <div class="item right">{{ money_format('%(.2n', $order->donation_total / 100) }}</div>
                     </div>
                 </li>
             @endif
             <li class="callout total">
                 <div class="transaction">
                     <div class="item left">Total</div>
-                    <div class="item right">{{ money_format('%.2n', $order->grand_total) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->grand_total / 100) }}</div>
                 </div>
             </li>
             <li class="callout total">
                 <div class="transaction">
                     <div class="item left">Payments</div>
-                    <div class="item right">{{ money_format('%.2n', $order->transactions_total) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->transactions_total / 100) }}</div>
                 </div>
             </li>
             <li class="callout balance">
                 <div class="transaction">
                     <div class="item left">Balance</div>
-                    <div class="item right">{{ money_format('%.2n', $order->balance) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->balance / 100) }}</div>
                 </div>
             </li>
         </ul>
@@ -57,10 +57,10 @@
                                 @endif
                             @endunless
                         </div>
-                        <div class="item right item--{{ $split->amount>0?'success':'warning' }}">{{ money_format('%.2n', $split->amount) }}</div>
+                        <div class="item right item--{{ $split->amount>0?'success':'warning' }}">{{ money_format('%(.2n', $split->amount / 100) }}</div>
                     </div>
                     @if ($split->transaction->source == 'stripe')
-                        <small class="caption">{{ $split->transaction->processor_transactionid }}</small>
+                        <small class="caption">{{ $split->transaction->identifier }}</small>
                     @endif
                     <small class="caption">@daydatetime($split->created_at)</small>
                 </li>
