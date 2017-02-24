@@ -34,6 +34,10 @@ class Model extends BaseModel
 
     public function hasAlias($key)
     {
+        if (! property_exists($this, 'alias') || empty($this->alias)) {
+            return;
+        };
+
         return array_key_exists($key, $this->alias);
     }
 
