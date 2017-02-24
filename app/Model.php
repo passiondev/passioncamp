@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 
 class Model extends BaseModel
 {
+    protected function castAttribute($key, $value)
+    {
+        if (is_null($value)) {
+            return $value;
+        }
+
+        switch ($this->getCastType($key)) {
+            case 'dollar':
+            case 'dollars':
+                return $value / 100;
+            default:
+                return parent::castAttribute($key, $value);
+        }
+    }
+
     public function getAttribute($key)
     {
         if ($this->hasAlias($key)) {
