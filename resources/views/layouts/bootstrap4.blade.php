@@ -18,6 +18,7 @@
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+        window.store = {};
     </script>
     @yield('head')
 </head>

@@ -14,10 +14,9 @@
         {{ Form::model($formData, ['route' => ['ticket.update', $ticket], 'method' => 'PATCH', 'class' => 'ui form']) }}
 
             @include ('ticket/partials/form', ['order' => $ticket->order, 'submitButtonText' => 'Update Ticket'])
-            
+
         {{ Form::close() }}
 
-        
         <footer style="display:flex;justify-content: flex-end">
             @unless ($ticket->is_canceled || Auth::user()->isOrderOwner())
                 {{ Form::open(['route' => ['ticket.cancel', $ticket], 'method' => 'PATCH']) }}

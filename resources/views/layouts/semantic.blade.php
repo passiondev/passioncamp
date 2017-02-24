@@ -11,6 +11,13 @@
     <!-- Styles -->
     <link href="{{ asset('semantic/dist/semantic.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+        window.store = {};
+    </script>
     @yield('head')
 </head>
 <body id="app-layout" class="roominglist">

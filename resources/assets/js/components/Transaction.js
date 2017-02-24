@@ -5,7 +5,7 @@ export default {
     mixins: [payment],
     props: ['canMakeStripePayments'],
     data() {
-        return Transaction;
+        return store.Transaction;
     },
     methods: {
         submitHandler(e) {

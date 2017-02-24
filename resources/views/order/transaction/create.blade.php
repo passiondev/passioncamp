@@ -2,7 +2,7 @@
 
 @section('head')
 <script>
-    window.Transaction = {!! json_encode([
+    window.store.Transaction = {!! json_encode([
         'errors' => [],
         'payment_method' => old('type', collect($payment_methods)->keys()->first()),
     ]) !!};
