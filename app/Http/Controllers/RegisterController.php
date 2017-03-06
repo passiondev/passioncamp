@@ -13,6 +13,7 @@ use App\Http\Requests;
 use App\Events\UserCreated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\Order\SendConfirmationEmail;
 
 class RegisterController extends Controller
 {
@@ -144,14 +145,7 @@ class RegisterController extends Controller
 
         \DB::commit();
 
-        /**
-         * TODO
-         */
-        // \Mail::send('emails.order.confirmation', compact('order'), function ($m) use ($order) {
-        //     $m->from('students@passioncitychurch.com', 'PCC Students');
-        //     $m->to($order->user->person->email, $order->user->person->name);
-        //     $m->subject('SMMR CMP Confirmation');
-        // });
+        dispatch(new SendConfirmationEmail($order));
 
         return redirect()->route('register.confirmation')->with('order_id', $order->id);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Mandrill;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -58,6 +59,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        $this->app->singleton(Mandrill::class, function () {
+            return new Mandrill(config('services.mandrill.key'));
+        });
     }
 }
