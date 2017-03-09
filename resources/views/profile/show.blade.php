@@ -1,40 +1,43 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
+    <div class="container">
         <header class="ui dividing header">
             <h1>Update Profile</h1>
         </header>
 
         <div class="ui stackable grid">
             <div class="seven wide column">
-                {{ Form::model($form_data, ['route' => 'profile.update', 'method' => 'PATCH', 'novalidate', 'class' => 'ui form']) }}
+                <form action="{{ route('profile.update') }}" method="POST" novalidate>
+                    {{ csrf_field() }}
+                    {{ method_field('PATCH') }}
+
                     @include ('errors.validation')
 
-                    <div class="field">
-                        {{ Form::label('first_name', 'First Name') }}
-                        {{ Form::text('first_name', null, ['id' => 'first_name']) }}
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input class="form-control" type="text" name="first_name" id="first_name" value="{{ old('first_name', $user->person->first_name) }}">
                     </div>
-                    <div class="field">
-                        {{ Form::label('last_name', 'Last Name') }}
-                        {{ Form::text('last_name', null, ['id' => 'last_name']) }}
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input class="form-control" type="text" name="last_name" id="last_name" value="{{ old('last_name', $user->person->last_name) }}">
                     </div>
-                    <div class="field">
-                        {{ Form::label('email', 'Email Address') }}
-                        {{ Form::email('email', null, ['id' => 'email']) }}
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input class="form-control" type="email" name="email" id="email" value="{{ old('email', $user->email) }}">
                     </div>
-                    <div class="field">
-                        {{ Form::label('password', 'Update Password') }}
-                        {{ Form::password('password', null, ['id' => 'password']) }}
+                    <div class="form-group">
+                        <label for="password">Update Password</label>
+                        <input class="form-control" type="password" name="password" id="password">
                     </div>
-                    <div class="field">
-                        {{ Form::label('password_confirmation', 'Confirm Password') }}
-                        {{ Form::password('password_confirmation', null, ['id' => 'password_confirmation']) }}
+                    <div class="form-group">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <input class="form-control" type="password" name="password_confirmation" id="password_confirmation">
                     </div>
 
-                    <button class="ui primary button" type="submit">Update</button>
+                    <button class="btn btn-primary" type="submit">Update</button>
 
-                {{ Form::close() }}
+                </form>
             </div>
         </div>
     </div>

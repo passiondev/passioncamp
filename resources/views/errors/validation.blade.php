@@ -3,6 +3,11 @@
         {{ session('error') }}
     </div>
 @endif
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 @if($errors->count())
     <div class="alert alert-danger">
         <ul class="mb-0">
