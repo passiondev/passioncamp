@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Passion Camp Portal</title>
+    <title>PCC Students SMMR CMP</title>
 
     <!-- Styles -->
     <link href="/css/bootstrap4.css" rel="stylesheet">
@@ -23,9 +23,13 @@
     @yield('head')
 </head>
 <body>
+    <header id="page-header" class="text-center">
+        <img src="/img/header-content.png" alt="SMMR CMP" class="img-fluid">
+    </header>
     <div id="page-header-banner">
-        <div class="container">
-            <h1>PASSION CAMP</h1>
+        <div class="container d-flex flex-column align-items-center justify-content-between flex-sm-row">
+            <img src="/img/logo.png" alt="PCC Students" style="height: 40px;width:252px;">
+            <h1>SMMR CMP</h1>
         </div>
     </div>
     <div id="app">
@@ -38,7 +42,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        Passion Camp
+                        PCC Students SMMR CMP
                     </a>
 
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">

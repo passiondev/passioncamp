@@ -1,4 +1,4 @@
-@extends('layouts.bootstrap4')
+@extends('layouts.pccstudents')
 
 @section('content')
     <div class="container">
