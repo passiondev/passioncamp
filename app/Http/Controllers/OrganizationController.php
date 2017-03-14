@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Church;
 use App\Person;
 use App\Organization;
-use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +14,7 @@ class OrganizationController extends Controller
     {
         $organizations = Organization::with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees.waiver')->get();
 
-        return view('admin.organization.index', compact('organizations'));
+        return view('organization.index', compact('organizations'));
     }
 
     public function show(Organization $organization)
@@ -31,46 +29,41 @@ class OrganizationController extends Controller
             $organization->studentPastor = new Person;
         }
 
-        return view('admin.organization.show', compact('organization'));
+        return view('organization.show', compact('organization'));
     }
 
     public function create()
     {
-        return view('admin.organization.create');
+        $organization = (new Organization)
+            ->church()->associate(new Church)
+            ->contact()->associate(new Person)
+            ->studentPastor()->associate(new Person);
+
+        return view('organization.create', compact('organization'));
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        $organization = new Organization;
+        $organization = (new Organization)
+            ->church()->associate(Church::create(request('church')))
+            ->contact()->associate(Person::create(request('contact')))
+            ->studentPastor()->associate(Person::create(request('student_pastor')))
+        ->save();
 
-        // church
-        $church = Church::create($request->church);
-        $organization->church()->associate($church);
-        
-        // contact
-        $contact = Person::create($request->contact);
-        $organization->contact()->associate($contact);
-        
-        // student pastor
-        $studentPastor = Person::create($request->student_pastor);
-        $organization->studentPastor()->associate($studentPastor);
-        
-        $organization->save();
-
-        return redirect()->route('admin.organization.show', $organization)->with('success', 'Church created.');
+        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church created.');
     }
 
     public function edit(Organization $organization)
     {
-        return view('admin.organization.edit')->withOrganization($organization);
+        return view('organization.edit')->withOrganization($organization);
     }
 
     public function update(Request $request, Organization $organization)
     {
-        $organization->church->fill($request->church)->save();
-        $organization->contact->fill($request->contact)->save();
-        $organization->studentPastor->fill($request->student_pastor)->save();
+        $organization->church->fill(request('church'))->save();
+        $organization->contact->fill(request('contact'))->save();
+        $organization->studentPastor->fill(request('student_pastor'))->save();
 
-        return redirect()->route('admin.organization.show', $organization)->with('success', 'Church updated.');
+        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church updated.');
     }
 }

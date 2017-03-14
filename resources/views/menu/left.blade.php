@@ -1,39 +1,40 @@
 @if (auth()->user())
     @if (auth()->user()->isSuperAdmin())
-        <a class="item {{ request()->route()->getName() == 'admin.organization.index' ? 'active' :'' }}" href="{{ route('admin.organization.index') }}">Churches</a>
-        <a class="item {{ request()->route()->getName() == 'hotel.index' ? 'active' :'' }}" href="{{ route('hotel.index') }}">Hotels</a>
-        <a class="item {{ request()->route()->getName() == 'user.index' ? 'active' :'' }}" href="{{ route('user.index') }}">Users</a>
+        <a class="item {{ request()->route()->getAction() == 'OrganizationController@index' ? 'active' :'' }}" href="{{ action('OrganizationController@index') }}">Churches</a>
+        {{-- <a class="item {{ request()->route()->getAction() == 'hotel.index' ? 'active' :'' }}" href="{{ route('hotel.index') }}">Hotels</a> --}}
+        <a class="item {{ request()->route()->getAction() == 'UserController@index' ? 'active' :'' }}" href="{{ action('UserController@index') }}">Users</a>
     @endif
-
+{{--
     @if (auth()->user()->isChurchAdmin())
-        <a class="item {{ request()->route()->getName() == 'account.dashboard' ? 'active' :'' }}" href="{{ route('account.dashboard') }}">Dashboard</a>
+        <a class="item {{ request()->route()->getAction() == 'account.dashboard' ? 'active' :'' }}" href="{{ route('account.dashboard') }}">Dashboard</a>
     @endif
 
     @if (auth()->user()->isAdmin())
-        <a class="item {{ request()->route()->getName() == 'order.index' ? 'active' :'' }}" href="{{ route('order.index') }}">Registrations</a>
-        <a class="item {{ request()->route()->getName() == 'ticket.index' ? 'active' :'' }}" href="{{ route('ticket.index') }}">Attendees</a>
+        <a class="item {{ request()->route()->getAction() == 'order.index' ? 'active' :'' }}" href="{{ route('order.index') }}">Registrations</a>
+        <a class="item {{ request()->route()->getAction() == 'ticket.index' ? 'active' :'' }}" href="{{ route('ticket.index') }}">Attendees</a>
     @endif
 
     @if (auth()->user()->isSuperAdmin() || (auth()->user()->isChurchAdmin() && auth()->user()->organization->has('rooms')))
-        <a class="item {{ request()->route()->getName() == 'roominglist.index' ? 'active' :'' }}" href="{{ route('roominglist.index') }}">Rooming List</a>
+        <a class="item {{ request()->route()->getAction() == 'roominglist.index' ? 'active' :'' }}" href="{{ route('roominglist.index') }}">Rooming List</a>
     @endif
 
     @if (auth()->user()->isSuperAdmin())
-        <a class="item {{ request()->route()->getName() == 'roominglist.overview' ? 'active' :'' }}" href="{{ route('roominglist.overview') }}">RL Overview</a>
-        <a class="item {{ request()->route()->getName() == 'roominglist.export' ? 'active' :'' }}" href="{{ route('roominglist.export') }}">RL Export</a>
+        <a class="item {{ request()->route()->getAction() == 'roominglist.overview' ? 'active' :'' }}" href="{{ route('roominglist.overview') }}">RL Overview</a>
+        <a class="item {{ request()->route()->getAction() == 'roominglist.export' ? 'active' :'' }}" href="{{ route('roominglist.export') }}">RL Export</a>
     @endif
 
     @if (auth()->user()->isChurchAdmin())
-        <a class="item {{ request()->route()->getName() == 'account.settings' ? 'active' :'' }}" href="{{ route('account.settings') }}">Account</a>
+        <a class="item {{ request()->route()->getAction() == 'account.settings' ? 'active' :'' }}" href="{{ route('account.settings') }}">Account</a>
     @endif
-    
+
     @if (auth()->user()->isChurchAdmin() && auth()->user()->organization->slug == 'pcc')
-        <a class="item {{ request()->route()->getName() == 'checkin.index' ? 'active' :'' }}" href="{{ route('checkin.index') }}">Check In</a>
+        <a class="item {{ request()->route()->getAction() == 'checkin.index' ? 'active' :'' }}" href="{{ route('checkin.index') }}">Check In</a>
     @endif
 
     @if (auth()->user()->isOrderOwner())
-        <a class="item {{ request()->route()->getName() == 'account' ? 'active' :'' }}" href="{{ route('account') }}">Account</a>
+        <a class="item {{ request()->route()->getAction() == 'account' ? 'active' :'' }}" href="{{ route('account') }}">Account</a>
     @endif
+ --}}
 @endif
 
 

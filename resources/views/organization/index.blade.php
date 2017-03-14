@@ -28,7 +28,7 @@
                 <div class="ui label teal">{{ $organizations->sumTicketQuantity() }} <div class="detail">Tickets</div></div>
             </h1>
             <div class="page-header__actions">
-                <a href="{{ route('admin.organization.create') }}">Add Church</a>
+                <a href="{{ action('OrganizationController@create') }}">Add Church</a>
             </div>
         </header>
 
@@ -51,7 +51,7 @@
                     <tr>
                         <td>
                             <h4 class="ui header">
-                                {{ link_to_route('admin.organization.show', $organization->church->name, $organization) }}
+                                <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
                                 <div class="sub header">
                                     {{ $organization->church->location }}
                                     <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>

@@ -284,7 +284,7 @@ class Organization extends Model
             $transactions = $transactions->filter(function ($transaction) {
                 return is_null($transaction->transaction->source);
             });
-        } elseif (! is_null($source)) {
+        } else {
             $transactions = $transactions->filter(function ($transaction) use ($source) {
                 return $transaction->transaction->source == $source;
             });

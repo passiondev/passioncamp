@@ -1,16 +1,19 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
+    <div class="container">
         <header class="page-header">
             <h1>Add User</h1>
         </header>
 
-        {{ Form::open(['route' => 'user.store', 'class' => 'ui form']) }}
+        <form action="{{ action('UserController@store', $user) }}" method="POST">
+            {{ csrf_field() }}
 
-            @include('user.partials.form', ['action_text' => 'Create User'])
+            @include ('user.partials.form')
 
-        {{ Form::close() }}
+            <button class="btn btn-primary" type="submit">Add User</button>
+        </form>
+
     </div>
 @stop
 

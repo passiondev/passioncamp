@@ -37,7 +37,7 @@ class ProfileController extends Controller
             'password' => 'confirmed'
         ]);
 
-        $this->user->fill(request()->only('email'));
+        $this->user->fill(request(['email']));
 
         if (request('password')) {
             $this->user->password = bcrypt(request('password'));
@@ -53,6 +53,6 @@ class ProfileController extends Controller
 
         session()->flash('success', 'Your profile has been updated.');
 
-        return redirect()->intended('profile');
+        return redirect('/');
     }
 }

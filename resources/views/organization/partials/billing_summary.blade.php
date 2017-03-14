@@ -13,7 +13,7 @@
                         <div class="item left">
                             {{ $item->name }} <small>({{ number_format($item->quantity) }} @ @currency($item->cost))</small>
                             @can('edit', $item)
-                                <a href="{{ route('admin.organization.item.edit', [$organization, $item]) }}">edit</a>
+                                {{-- <a href="{{ route('admin.organization.item.edit', [$organization, $item]) }}">edit</a> --}}
                             @endcan
                         </div>
                         <div class="item right">@currency($item->quantity * $item->cost)</div>
@@ -69,6 +69,6 @@
         </ul>
     </div>
     <div class="info-box__content">
-        <a href="{{ auth()->user()->isSuperAdmin() ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="ui primary tiny button">Make Payment</a>
+        {{-- <a href="{{ auth()->user()->isSuperAdmin() ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="ui primary tiny button">Make Payment</a> --}}
     </div>
 </div>

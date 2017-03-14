@@ -17,7 +17,7 @@
                     <form role="form" method="POST" action="{{ url('/password/email') }}">
                         {!! csrf_field() !!}
 
-                        <div class="form-group row {{ $errors->has('email') ? 'has-error' : '' }}">
+                        <div class="form-group row {{ $errors->has('email') ? 'has-danger' : '' }}">
                             <label class="col-lg-4 col-form-label text-lg-right">E-Mail Address</label>
 
                             <div class="col-lg-6">

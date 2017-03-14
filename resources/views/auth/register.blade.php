@@ -10,7 +10,7 @@
                     <form class="ui form" role="form" method="POST" action="{{ url("/register/{$user->id}/{$user->hash}") }}">
                         {!! csrf_field() !!}
 
-                        <div class="field {{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="field {{ $errors->has('email') ? ' has-danger' : '' }}">
                             <label class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
@@ -24,7 +24,7 @@
                             </div>
                         </div>
 
-                        <div class="field {{ $errors->has('password') ? ' has-error' : '' }}">
+                        <div class="field {{ $errors->has('password') ? ' has-danger' : '' }}">
                             <label class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        <div class="field {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                        <div class="field {{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">
                             <label class="col-md-4 control-label">Confirm Password</label>
 
                             <div class="col-md-6">

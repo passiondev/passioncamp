@@ -1,4 +1,4 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
     <div class="ui container">
@@ -6,11 +6,14 @@
             <h1>Edit User</h1>
         </header>
 
-        {{ Form::model($user_data, ['route' => ['user.update', $user], 'method' => 'PUT', 'class' => 'ui form']) }}
+        <form action="{{ action('UserController@update', $user) }}" method="POST">
+            {{ method_field('PUT') }}
+            {{ csrf_field() }}
 
-            @include('user.partials.form', ['action_text' => 'Update User'])
+            @include ('user.partials.form')
 
-        {{ Form::close() }}
+            <button class="btn btn-primary" type="submit">Update User</button>
+        </form>
     </div>
 @stop
 

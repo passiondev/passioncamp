@@ -10,7 +10,7 @@
                     <form method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
 
-                        <div class="form-group row {{ $errors->has('email') ? 'has-error' : '' }}">
+                        <div class="form-group row {{ $errors->has('email') ? 'has-danger' : '' }}">
                             <label for="email" class="col-lg-4 col-form-label text-lg-right">Email Address</label>
 
                             <div class="col-lg-6">
@@ -24,10 +24,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group row {{ $errors->has('password') ? ' has-error' : '' }}">
+                        <div class="form-group row {{ $errors->has('password') ? ' has-danger' : '' }}">
                             <label for="password" class="col-lg-4 col-form-label text-lg-right">Password</label>
 
-                            <div class="col-md-6">
+                            <div class="col-lg-6">
                                 <input type="password" class="form-control" name="password" id="password">
 
                                 @if ($errors->has('password'))
