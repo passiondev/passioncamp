@@ -70,11 +70,15 @@
         {{ Form::label('bus', 'Bus') }}
         {{ Form::text('bus', null, ['id' => 'bus']) }}
     </div>
+    <div class="field">
+        {{ Form::label('travel_plans', 'Travel Plans') }}
+        {{ Form::text('travel_plans', null, ['id' => 'travel_plans']) }}
+    </div>
 @endif
 @can ('record-transactions', $order->organization)
     <div class="field">
         {{ Form::label('price', 'Price') }}
-        {{ Form::text('price', $ticket_price ?? 0, ['id' => 'price']) }}
+        {{ Form::text('price', $ticket_price / 100 ?? 0, ['id' => 'price']) }}
     </div>
 @endif
 @if ($order->organization->slug == 'pcc' && isset($ticket))

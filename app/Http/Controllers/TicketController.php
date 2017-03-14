@@ -57,11 +57,11 @@ class TicketController extends Controller
         return view('ticket.edit', compact('formData', 'ticket_price'))->withTicket($ticket);
     }
 
-    public function update(Request $request, UrlGenerator $generator, Ticket $ticket)
+    public function update(UrlGenerator $generator, Ticket $ticket)
     {
         $this->authorize('owner', $ticket);
 
-        $this->validate($request, [
+        $this->validate(request(), [
             'agegroup' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
@@ -69,7 +69,20 @@ class TicketController extends Controller
             'grade' => 'required_if:agegroup,student',
         ]);
 
-        $this->tickets->update($ticket, $request->all());
+        $ticket->person->update(request([
+            'first_name', 'last_name', 'email', 'phone',
+            'birthdate', 'gender', 'grade', 'allergies',
+        ]));
+
+        $ticket->fill(
+            request(['agegroup', 'squad', 'is_checked_in'])
+        )->fill([
+            'ticket_data' => request([
+                'shirtsize', 'school', 'roommate_requested',
+                'travel_plans', 'leader', 'bus', 'pcc_waiver'
+            ]),
+            'price' => request('price') * 100,
+        ])->save();
 
         return redirect()->intended($generator->previous());
     }
