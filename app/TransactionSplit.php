@@ -37,10 +37,14 @@ class TransactionSplit extends Model
             $method = $this->transaction->identifier;
         }
 
+        if (in_array($this->transaction->source, ['other'])) {
+            $type = $this->transaction->identifier;
+        }
+
         if ($this->amount < 0) {
             $type = 'Refunded';
         }
 
-        return trim(sprintf('%s %s', $type, $method));
+        return trim(sprintf('%s %s', $type ?? '', $method ?? ''));
     }
 }
