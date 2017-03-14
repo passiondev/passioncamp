@@ -22,7 +22,7 @@ class RegisterTest extends TestCase
 
     private function register($params = [])
     {
-        return $this->post('/register', array_merge([
+        return $this->json('POST', '/register', array_merge([
             'contact' => [
                 'first_name' => 'Matt',
                 'last_name' => 'Floyd',
@@ -35,9 +35,27 @@ class RegisterTest extends TestCase
                 'state' => 'ga',
                 'zip' => '30084',
             ],
-            'num_tickets' => 3,
+            'tickets' => [
+                1 => [
+                    'first_name' => 'One',
+                    'last_name' => 'Floyd',
+                    'shirtsize' => 'required',
+                    'gender' => 'required',
+                    'grade' => 'required',
+                    'birthdate' => '03/29/1986',
+                ],
+                2 => [
+                    'first_name' => 'Two',
+                    'last_name' => 'Floyd',
+                    'shirtsize' => 'required',
+                    'gender' => 'required',
+                    'grade' => 'required',
+                    'birthdate' => '03/29/1986',
+                ],
+            ],
+            'num_tickets' => 2,
             'stripeToken' => $this->generateToken(),
-            'payment_amount_type' => 'deposit',
+            'payment_type' => 'deposit',
             'fund_amount' => 50
         ], $params));
     }
@@ -47,7 +65,8 @@ class RegisterTest extends TestCase
     {
         $response = $this->register();
 
-        $response->assertRedirect(route('register.confirmation'));
+        dd($response->getContent());
+        // $response->assertRedirect(route('register.confirmation'));
         $this->assertEquals(1, Order::count());
         $this->assertEquals(3, Ticket::count());
     }

@@ -3,12 +3,12 @@
 @section('head')
     <script>
         window.ticket_price = {{ $ticket_price }};
-        window.vuex = {!!json_encode([
+        window.vuex = {!! json_encode([
             'num_tickets' => old('num_tickets', 1),
             'ticketData' => old('tickets', []),
-            'fund_amount' => null,
-            'fund_amount_other' => null,
-            'payment_amount_type' => 'full'
+            'fund_amount' => old('fund_amount'),
+            'fund_amount_other' => old('fund_amount_other'),
+            'payment_type' => old('payment_type', 'full')
         ]) !!}
     </script>
 @endsection
@@ -212,13 +212,13 @@
                             <div class="card-block">
                                 <h4>Payment Options</h4>
                                 <div class="form-check-pill">
-                                    <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_amount_type">
+                                    <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_type">
                                     <label for="payment_type--full">
                                         @icon('checkmark') Pay Full Amount
                                     </label>
                                 </div>
                                 <div class="form-check-pill">
-                                    <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_amount_type">
+                                    <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_type">
                                     <label for="payment_type--deposit">
                                         @icon('checkmark') Pay Deposit
                                     </label>

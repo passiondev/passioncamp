@@ -52,12 +52,27 @@ class RegisterController extends Controller
             'tickets.*.gender' => 'required',
             'tickets.*.grade' => 'required',
             'tickets.*.birthdate' => 'required',
+            'payment_type' => 'required',
         ]);
 
         \DB::beginTransaction();
 
-        $user = User::firstOrCreate(['email' => request('contact.email')], [
-            'person_id' => Person::create(array_collapse(request()->only([
+        $user = User::firstOrCreate(['email' => request('contact.email')]);
+        if (! count($user->person)) {
+            $user->person()->associate(
+                Person::create(array_collapse(request([
+                    'contact.first_name',
+                    'contact.last_name',
+                    'contact.email',
+                    'contact.phone',
+                    'billing.street',
+                    'billing.city',
+                    'billing.state',
+                    'billing.zip',
+                ])))
+            )->save();
+        } else {
+            $user->person->fill(array_collapse(request([
                 'contact.first_name',
                 'contact.last_name',
                 'contact.email',
@@ -66,8 +81,8 @@ class RegisterController extends Controller
                 'billing.city',
                 'billing.state',
                 'billing.zip',
-            ])))->id
-        ]);
+            ])))->save();
+        }
 
         // if ($user->wasRecentlyCreated) {
         //     event(new UserCreated($user));
@@ -113,15 +128,15 @@ class RegisterController extends Controller
         try {
             $charge = \Stripe\Charge::create(
                 [
-                    'amount' => request('payment_amount_type') == 'deposit' ? 6000 * $order->tickets->count() : $order->grand_total,
+                    'amount' => request('payment_type') == 'deposit' ? $order->deposit_total : $order->grand_total,
                     'currency' => 'usd',
                     'source' => request('stripeToken'),
                     'description' => 'Passion Camp',
                     'statement_descriptor' => 'PCC SMMR CMP',
                     'metadata' => [
                         'order_id' => $order->id,
-                        'email' => $order->user->person->email,
-                        'name' => $order->user->person->name
+                        'email' => $user->person->email,
+                        'name' => $user->person->name
                     ]
                 ],
                 [
@@ -147,7 +162,9 @@ class RegisterController extends Controller
 
         dispatch(new SendConfirmationEmail($order));
 
-        return redirect()->route('register.confirmation')->with('order_id', $order->id);
+        return request()->expectsJson()
+               ? $order->toArray()
+               : redirect()->route('register.confirmation')->with('order_id', $order->id);
     }
 
     public function confirmation()

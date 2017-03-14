@@ -99,6 +99,14 @@ class Order extends Model
         return $this->donations->active()->sum('price');
     }
 
+    public function getDepositTotalAttribute()
+    {
+        return array_sum([
+            $this->donation_total,
+            $this->ticket_count * 6000
+        ]);
+    }
+
     public function getGrandTotalAttribute()
     {
         return $this->items->active()->sum('price');

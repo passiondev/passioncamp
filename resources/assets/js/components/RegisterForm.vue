@@ -32,7 +32,7 @@
                 return this.ticket_total + this.donation_total;
             },
             payment_amount() {
-                return this.payment_amount_type == 'deposit' ? this.deposit_amount : this.full_amount;
+                return this.payment_type == 'deposit' ? this.deposit_amount : this.full_amount;
             },
             tickets() {
                 let tickets = this.ticketData;
