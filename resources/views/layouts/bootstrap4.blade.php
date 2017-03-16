@@ -23,66 +23,85 @@
     @yield('head')
 </head>
 <body>
-    <div id="page-header-banner">
-        <div class="container">
-            <h1>PASSION CAMP</h1>
-        </div>
-    </div>
-    <div id="app">
-        @unless (Auth::guest())
-            <nav class="navbar navbar-toggleable-md navbar-light bg-white mb-3">
-                <div class="container">
-                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+    <nav class="navbar navbar-toggleable-md navbar-light mb-3 fixed-top bg-faded">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#app-navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        Passion Camp
-                    </a>
+            <!-- Branding Image -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                Passion Camp
+            </a>
 
-                    <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                        <!-- Left Side Of Navbar -->
-                        <ul class="navbar-nav mr-auto">
-                            @unless(Auth::guest())
-                            @endif
-                        </ul>
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav mr-auto">
+                </ul>
 
-                        <!-- Right Side Of Navbar -->
-                        <ul class="navbar-nav">
-                            <!-- Authentication Links -->
-                            @if (Auth::guest())
-                                <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                        {{ Auth::user()->name }} <span class="caret"></span>
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav">
+                    @if (Session::has('spark:impersonator'))
+                        <li class="nav-item"><a class="nav-link" href="{{ action('ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
+                    @endif
+                    <!-- Authentication Links -->
+                    @if (Auth::guest())
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::user()->person->name }} <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li class="dropdown-item">
+                                    <a href="{{ action('ProfileController@show') }}">Profile</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Logout
                                     </a>
 
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li class="dropdown-item">
-                                            <a href="{{ url('/logout') }}"
-                                                onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                                Logout
-                                            </a>
-
-                                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                                {{ csrf_field() }}
-                                            </form>
-                                        </li>
-                                    </ul>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        @endunless
-
-        @yield('content')
+                            </ul>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
+                <ul class="nav nav-pills flex-sm-column">
+                    <li class="nav-item">
+                        <a href="{{ action('OrganizationController@index') }}" class="nav-link {{ ends_with(Request::route()->getActionName(), 'OrganizationController@index') ? 'active' :'' }}">
+                            Churches
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ action('TicketsController@index') }}" class="nav-link {{ ends_with(Request::route()->getActionName(), 'TicketsController@index') ? 'active' :'' }}">
+                            Attendees
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ action('HotelsController@index') }}" class="nav-link {{ ends_with(Request::route()->getActionName(), 'HotelsController@index') ? 'active' :'' }}">
+                            Hotels
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ action('UserController@index') }}" class="nav-link {{ ends_with(Request::route()->getActionName(), 'UserController@index') ? 'active' :'' }}">
+                            Users
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-3" id="app">
+                @yield('content')
+            </div>
+        </div>
     </div>
-
     <!-- Scripts -->
     @yield('foot')
     <script src="/js/app.js"></script>

@@ -4,13 +4,13 @@ Route::resource('organizations', 'OrganizationController');
 
 Route::post('organizations/{organization}/note', 'Organization\NoteController@store');
 
-Route::get('organizations/{organization}/item/create', 'Organization\ItemController@create');
-Route::post('organizations/{organization}/item/store', 'Organization\ItemController@store');
-Route::get('organizations/{organization}/item/{item}/edit', 'Organization\ItemController@edit');
-Route::put('organizations/{organization}/item/{item}/update', 'Organization\ItemController@update');
+Route::get('organizations/{organization}/item/create', 'OrganizationItemController@create');
+Route::post('organizations/{organization}/item/store', 'OrganizationItemController@store');
+Route::get('organizations/{organization}/item/{item}/edit', 'OrganizationItemController@edit');
+Route::put('organizations/{organization}/item/{item}/update', 'OrganizationItemController@update');
 
-Route::get('organizations/{organization}/payment/create', 'Organization\PaymentController@create');
-Route::post('organizations/{organization}/payment/store', 'Organization\PaymentController@store');
+Route::get('organizations/{organization}/payment/create', 'OrganizationPaymentController@create');
+Route::post('organizations/{organization}/payment/store', 'OrganizationPaymentController@store');
 
 Route::get('organizations/{organization}/user/create', 'Organization\UserController@create');
 Route::post('organizations/{organization}/user/store', 'Organization\UserController@store');
@@ -22,7 +22,7 @@ Route::get('organizations/{organization}/registrations', 'Organization\OrderCont
 Route::get('organizations/{organization}/rooms/checkin', 'Organization\RoomController@checkInAll');
 Route::middleware('printer')->get('organizations/{organization}/rooms/print', 'Organization\RoomController@printAll');
 
-Route::get('hotels', 'HotelController@index');
-Route::get('hotels/{hotel}', 'HotelController@show');
+Route::get('hotels', 'HotelsController@index');
+Route::get('hotels/{hotel}', 'HotelsController@show');
 
 Route::get('roominglist/issues', 'RoomingListController@issues');

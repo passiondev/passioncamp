@@ -1,78 +1,86 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
-        <div class="ui statistic">
-            <div class="value">{{ money_format("%.2n", App\Organization::totalPaid()) }}</div>
-            <div class="label">Total Paid</div>
-        </div>
-        <div class="ui mini statistic">
-            <div class="value">{{ money_format("%.2n", App\Organization::totalPaid('stripe')) }}</div>
-            <div class="label">Stripe</div>
-        </div>
-        <div class="ui mini statistic">
-            <div class="value">{{ money_format("%.2n", App\Organization::totalPaid('payscape')) }}</div>
-            <div class="label">Payscape</div>
-        </div>
-        <div class="ui mini statistic">
-            <div class="value">{{ money_format("%.2n", App\Organization::totalPaid('other')) }}</div>
-            <div class="label">Check / Other</div>
-        </div>
-
-        <hr class="ui divider">
-
-        <header class="page-header">
-            <h1 class="page-header__title">
-                Churches
-                <div class="ui label purple">{{ $organizations->count() }} <div class="detail">Churches</div></div>
-                <div class="ui label teal">{{ $organizations->sumTicketQuantity() }} <div class="detail">Tickets</div></div>
-            </h1>
-            <div class="page-header__actions">
-                <a href="{{ action('OrganizationController@create') }}">Add Church</a>
+    <div class="container">
+        <div class="card-deck mb-3">
+            <div class="card text-center">
+                <div class="card-block">
+                    <h1>{{ App\Organization::count() }}</h1>
+                </div>
+                <div class="card-footer text-muted">Churches</div>
             </div>
+            <div class="card text-center">
+                <div class="card-block">
+                    <h1>{{ App\Organization::with('tickets')->get()->sumTicketQuantity() }}</h1>
+                </div>
+                <div class="card-footer text-muted">Tickets</div>
+            </div>
+        </div>
+
+        <div class="card-deck mb-3">
+            <div class="card text-center">
+                <div class="card-block">
+                    <h2>{{ money_format("%.2n", App\Organization::totalPaid()) }}</h2>
+                </div>
+                <div class="card-footer text-muted">Total Paid</div>
+            </div>
+            <div class="card text-center">
+                <div class="card-block">
+                    <h3>{{ money_format("%.2n", App\Organization::totalPaid('stripe')) }}</h3>
+                </div>
+                <div class="card-footer text-muted">Stripe</div>
+            </div>
+            <div class="card text-center">
+                <div class="card-block">
+                    <h3>{{ money_format("%.2n", App\Organization::totalPaid('other')) }}</h3>
+                </div>
+                <div class="card-footer text-muted">Check / Other</div>
+            </div>
+        </div>
+
+        <hr>
+
+        <header class="d-flex justify-content-between">
+            <h1>Churches</h1>
+            <p>
+                <a class="btn btn-secondary" href="{{ action('OrganizationController@create') }}">Add Church</a>
+            </p>
         </header>
 
-        <table class="ui very basic striped table">
+
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Church</th>
                     <th>Contact</th>
-                    <th>Cost</th>
-                    <th>Paid</th>
                     <th>Balance</th>
-                    <th style="text-align:center">Tickets</th>
-                    <th style="text-align:center">Registered</th>
-                    <th style="text-align:center">Signed<br>Waivers</th>
-                    <th style="text-align:center">Assigned<br>To Room</th>
+                    <th class="text-center">Tickets</th>
+                    <th class="text-center">Registered</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)
                     <tr>
                         <td>
-                            <h4 class="ui header">
                                 <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
-                                <div class="sub header">
+                                <div>
                                     {{ $organization->church->location }}
                                     <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>
                                 </div>
-                            </h4>
                         </td>
                         <td>
                             @if ($organization->contact)
                                 {{ $organization->contact->name }} <br> <small>{{ $organization->contact->email }}</small>
                             @endif
                         </td>
-                        <td>{{ money_format('%.2n', $organization->total_cost) }}</td>
-                        <td>{{ money_format('%.2n', $organization->total_paid) }}</td>
                         <td>{{ money_format('%.2n', $organization->balance) }}</td>
-                        <td style="text-align:center">{{ $organization->num_tickets }}</td>
-                        <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->num_tickets ? 'positive' : '' }} {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'negative' : '' }}">{{ $organization->attendees->active()->count() }}</td>
-                        <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->signed_waivers_count ? 'positive' : 'negative' }}">{{ $organization->signed_waivers_count }}</td>
-                        <td style="text-align:center" class="{{ $organization->attendees->active()->count() == $organization->assigned_to_room_count ? 'positive' : 'negative' }}">{{ $organization->assigned_to_room_count }}</td>
+                        <td class="text-center">{{ $organization->num_tickets }}</td>
+                        <td class="text-center" class="{{ $organization->attendees->active()->count() == $organization->num_tickets ? 'positive' : '' }} {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'negative' : '' }}">{{ $organization->attendees->active()->count() }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        {{ $organizations->links() }}
     </div>
 @stop

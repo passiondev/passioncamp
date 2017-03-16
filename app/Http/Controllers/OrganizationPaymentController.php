@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Organization;
+namespace App\Http\Controllers;
 
 use App\Organization;
 use App\Http\Requests;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class PaymentController extends Controller
+class OrganizationPaymentController extends Controller
 {
     public function create(Organization $organization = null)
     {

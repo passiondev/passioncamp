@@ -68,7 +68,9 @@
         @endforeach
         </ul>
     </div>
-    <div class="info-box__content">
-        {{-- <a href="{{ auth()->user()->isSuperAdmin() ? route('admin.organization.payment.create', $organization) : route('payment.create') }}" class="ui primary tiny button">Make Payment</a> --}}
+    <hr>
+    <div class="info-box__content d-flex justify-content-between">
+        <a href="{{ action('OrganizationItemController@create', $organization) }}" class="btn btn-secondary">Add Item</a>
+        <a href="{{ action('OrganizationPaymentController@create', $organization) }}" class="btn btn-primary">Make Payment</a>
     </div>
 </div>

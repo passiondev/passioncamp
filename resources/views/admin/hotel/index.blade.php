@@ -1,4 +1,4 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
     <div class="ui container">
@@ -18,7 +18,7 @@
             <tbody>
                 @foreach ($hotels as $hotel)
                     <tr>
-                        <td><a href="{{ route('hotel.show', $hotel) }}">{{ $hotel->name }}</a></td>
+                        <td><a href="{{ action('HotelsController@show', $hotel) }}">{{ $hotel->name }}</a></td>
                         <td style="text-align:center">{{ $hotel->capacity }}</td>
                         <td style="text-align:center">{{ $hotel->registered_count }}</td>
                         <td style="text-align:center">{{ $hotel->remaining_count }}</td>

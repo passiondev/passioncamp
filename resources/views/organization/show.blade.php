@@ -1,117 +1,124 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
-        <header class="ui dividing header">
-            <h1 class="page-header__title">{{ $organization->church->name }}</h1>
-            <div class="sub header page-header__actions">
-                <a class="button small" href="{{ action('Organization\ItemController@create', $organization) }}">Add Item</a>
-                <a class="button small" href="{{ action('OrganizationController@edit', $organization) }}">Edit Church</a>
-            </div>
-        </header>
+    <div class="container">
+    <header class="d-flex justify-content-between mb-5">
+        <h1>{{ $organization->church->name }}</h1>
+        <p>
+            <a class="btn btn-secondary" href="{{ action('OrganizationController@edit', $organization) }}">Edit</a>
+        </p>
+    </header>
 
-        <section class="ui stackable grid">
-            <div class="six wide column">
-                <h4>Church</h4>
-                <dl class="m-b-2">
-                    <dt>{{ $organization->church->name }}</dt>
-                    <dd>{{ $organization->church->street }}<br>{{ $organization->church->city }}, {{ $organization->church->state }} {{ $organization->church->zip }}</dd>
-                    <dd>{{ $organization->church->website }}</dd>
-                    <dd>{{ $organization->church->pastor_name }}</dd>
-                </dl>
-                <h4>Contact</h4>
-                <dl class="m-b-2">
-                    <dt>{{ $organization->contact->name }}</dt>
-                    <dd>{{ $organization->contact->email }}</dd>
-                    <dd>{{ $organization->contact->phone }}</dd>
-                    <dd>{{ $organization->contact_desciption }}</dd>
-                </dl>
-                <h4>Student Pastor</h4>
-                <dl class="m-b-2">
-                    <dt>{{ $organization->studentPastor->name }}</dt>
-                    <dd>{{ $organization->studentPastor->email }}</dd>
-                    <dd>{{ $organization->studentPastor->phone }}</dd>
-                </dl>
+        {{--
+        <div class="card-deck">
+            <div class="card mb-3 text-center">
+                <div class="card-block"><h3>{{ $organization->attendees->active()->count() }}</h3></div>
+                <div class="card-footer text-muted">Registered</div>
             </div>
-            <div class="ten wide column">
-                <div class="ui vertical segment">
-                    <div class="ui statistics">
-                        <div class="statistic">
-                            <div class="value">{{ $organization->attendees->active()->count() }}</div>
-                            <div class="label">Registered</div>
-                        </div>
-                        <div class="statistic">
-                            <div class="value">{{ $organization->signed_waivers_count }}</div>
-                            <div class="label">Signed Waivers</div>
-                        </div>
-                        <div class="statistic">
-                            <div class="value">{{ $organization->rooms->count() }}</div>
-                            <div class="label">Rooms</div>
-                        </div>
-                        <div class="statistic">
-                            <div class="value">{{ $organization->assigned_to_room_count }}</div>
-                            <div class="label">Assigned To Room</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui vertical segment">
-                    @include('organization/partials/billing_summary')
+            <div class="card mb-3 text-center">
+                <div class="card-block"><h3>{{ $organization->signed_waivers_count }}</h3></div>
+                <div class="card-footer text-muted">Signed Waivers</div>
+            </div>
+            <div class="card mb-3 text-center">
+                <div class="card-block"><h3>{{ $organization->rooms->count() }}</h3></div>
+                <div class="card-footer text-muted">Rooms</div>
+            </div>
+            <div class="card mb-3 text-center">
+                <div class="card-block"><h3>{{ $organization->assigned_to_room_count }}</h3></div>
+                <div class="card-footer text-muted">Assigned</div>
+            </div>
+        </div>
+        --}}
+
+        <div class="row">
+            <div class="col-lg-8 mb-3">
+                @include('organization/partials/billing_summary')
+            </div>
+        </div>
+
+        <div class="card-deck">
+            <div class="card mb-3">
+                <h4 class="card-header">Church</h4>
+                <div class="card-block">
+                    <dl class="mb-0">
+                        <dt>{{ $organization->church->name ?? '' }}</dt>
+                        <dd>{{ $organization->church->street ?? '' }}<br>{{ $organization->church->city ?? '' }}, {{ $organization->church->state ?? '' }} {{ $organization->church->zip ?? '' }}</dd>
+                        <dd>{{ $organization->church->website ?? '' }}</dd>
+                        <dd>{{ $organization->church->pastor_name ?? '' }}</dd>
+                    </dl>
                 </div>
             </div>
-        </section>
-
-        <section class="ui segment">
-            <header class="ui dividing header">
+            <div class="card mb-3">
+                <h4 class="card-header">Contact</h4>
+                <div class="card-block">
+                    <dl class="mb-0">
+                        <dt>{{ $organization->contact->name ?? '' }}</dt>
+                        <dd>{{ $organization->contact->email ?? '' }}</dd>
+                        <dd>{{ $organization->contact->phone ?? '' }}</dd>
+                        <dd>{{ $organization->contact_desciption ?? '' }}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <h4 class="card-header">Student Pastor</h4>
+                <div class="card-block">
+                    <dl class="mb-0">
+                        <dt>{{ $organization->studentPastor->name ?? '' }}</dt>
+                        <dd>{{ $organization->studentPastor->email ?? '' }}</dd>
+                        <dd>{{ $organization->studentPastor->phone ?? '' }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <header class="card-header">
                 <h3>Auth Users</h3>
                 {{-- <div class="sub header"><a href="{{ route('admin.organization.user.create', $organization) }}">Add Auth User</a></div> --}}
             </header>
-            @if ($organization->authUsers->count() > 0)
-                <table class="ui very basic striped fixed table">
-                    @foreach ($organization->authUsers as $user)
-                        <tr>
-                            <td>{{ $user->person->name or '' }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                <div class="ui fluid input">
-                                    {{-- <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}"> --}}
-                                </div>
-                            </td>
-                            <td>
-                                @can ('impersonate', $user)
-                                    <a href="{{ action('ImpersonationController@impersonate', $user) }}">impersonate</a>
-                                @endcan
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-            @endif
-        </section>
-        <section class="ui segment" id="notes">
-            <header class="ui dividing header panel-heading">
+            <div class="card-block">
+                @if ($organization->authUsers->count() > 0)
+                    <table class="table table-striped">
+                        @foreach ($organization->authUsers as $user)
+                            <tr>
+                                <td>{{ $user->person->name or '' }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    <div class="ui fluid input">
+                                        {{-- <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}"> --}}
+                                    </div>
+                                </td>
+                                <td>
+                                    @can ('impersonate', $user)
+                                        <a href="{{ action('ImpersonationController@impersonate', $user) }}">impersonate</a>
+                                    @endcan
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @endif
+            </div>
+        </div>
+        <div class="card mb-3" id="notes">
+            <header class="card-header">
                 <h3>Notes</h3>
             </header>
-            <div class="ui comments">
+            <div class="card-block">
                 @foreach ($organization->notes as $note)
-                    <div class="comment">
-                        <div class="content">
-                            <span class="author">{{ $note->author ? $note->author->email :'' }}</span>
-                            <div class="metadata">
-                                <span class="date">{{ $note->created_at->diffForHumans() }}</span>
-                            </div>
-                            <div class="text">
-                                {!! nl2br($note->body) !!}
-                            </div>
-                        </div>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">
+                            {!! nl2br($note->body) !!}
+                            <footer class="blockquote-footer">{{ $note->author ? $note->author->email :'' }}, {{ $note->created_at->diffForHumans() }}</footer>
+                        </p>
                     </div>
                 @endforeach
+                <form action="#" method="POST">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <textarea name="body" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Add Note</button>
+                </form>
             </div>
-            <form action="#admin.organization.note.store" class="ui form">
-                {{ csrf_field() }}
-                <div class="field">
-                    {!! Form::textarea('body', null, ['rows' => '3']) !!}
-                </div>
-                <button class="ui primary button">Add Note</button>
-            </form>
-        </section>
+        </div>
     </div>
 @stop

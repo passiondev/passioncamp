@@ -26,8 +26,12 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = $this->users->getAdminUsers();
-        $users->load('person', 'organization.orders', 'organization.church');
+        $users = User::with('person', 'organization.orders', 'organization.church')
+            ->whereNotNull('email')
+            ->where(function ($q) {
+                $q->whereNotNull('organization_id')->orWhere('access', 100);
+            })
+            ->paginate();
 
         return view('user.index', compact('users'));
     }

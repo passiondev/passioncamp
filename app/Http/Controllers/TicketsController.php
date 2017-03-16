@@ -11,28 +11,15 @@ use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\TicketRepository;
 
-class TicketController extends Controller
+class TicketsController extends Controller
 {
-    protected $tickets;
-
-    public function __construct(TicketRepository $tickets)
+    public function index()
     {
-        $this->middleware('admin')->except('edit', 'update');
-
-        $this->tickets = $tickets;
-    }
-
-    public function index(Request $request)
-    {
-        $tickets = Ticket::forUser()
+        $tickets = Ticket::forUser(request()->user())
                    ->with('person', 'order', 'organization.church', 'organization.settings', 'waiver')
-                   ->get();
+                   ->paginate();
 
-        // if ($tickets->count() > 0 && ! $request->search && ! $request->page) {
-        //     return redirect()->route('ticket.index', ['page' => $tickets->lastPage()]);
-        // }
-
-        return view('ticket.index', compact('tickets'));
+        return view('tickets.index', compact('tickets'));
     }
 
     public function show(Ticket $ticket)

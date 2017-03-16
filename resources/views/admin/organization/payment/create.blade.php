@@ -1,15 +1,15 @@
 @extends('layouts.semantic')
 
 @section('content')
-    <div class="ui container">
-        <header class="page-header">
+    <div class="container">
+        <header>
             <h1>Add Payment</h1>
         </header>
 
         <div class="ui stackable grid">
             <div class="seven wide column">
                 <Transaction inline-template can-make-stripe-payments="1">
-                    {{ Form::open(['route' => (auth()->user()->isSuperAdmin() ? ['admin.organization.payment.store', $organization] : ['payment.store']), 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }}
+                    {{-- {{ Form::open(['route' => (auth()->user()->isSuperAdmin() ? ['admin.organization.payment.store', $organization] : ['payment.store']), 'id' => 'transactionForm', 'novalidate', 'v-on:submit.prevent' => 'submitHandler', 'class' => 'ui form']) }} --}}
 
                         <div class="ui visible error message payment-errors" v-show="errors.length > 0">
                             <div class="header">
@@ -60,7 +60,7 @@
 
                         <div class="field form-actions">
                             <button type="submit" class="ui primary button">Submit</button>
-                            <a href="{{ route('account.dashboard') }}" style="margin-left:1rem">Cancel</a>
+                            {{-- <a href="{{ route('account.dashboard') }}" style="margin-left:1rem">Cancel</a> --}}
                         </div>
 
                     {{ Form::close() }}

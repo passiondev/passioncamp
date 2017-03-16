@@ -62,7 +62,7 @@ Route::get('stop-impersonating', 'ImpersonationController@stopImpersonating');
 // Route::get('registration/{order}/payment/create', 'Order\PaymentController@create');
 // Route::post('registration/{order}/payment', 'Order\PaymentController@store');
 
-// Route::get('tickets', 'TicketController@index');
+Route::get('tickets', 'TicketsController@index');
 // Route::get('tickets/export', 'Ticket\ExportController@index');
 // Route::get('ticket/{ticket}', 'TicketController@show');
 // Route::get('ticket/{ticket}/edit', 'TicketController@edit');
