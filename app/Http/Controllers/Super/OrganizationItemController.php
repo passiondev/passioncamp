@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Super;
 
 use App\Item;
 use App\OrderItem;
 use App\Organization;
-use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Events\OrderItems\OrgItemUpdated;
 use App\Jobs\DeployRoomsAndAssignToHotels;
 
 class OrganizationItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('super');
+    }
+
     public function create(Organization $organization)
     {
         $items = Item::all();
@@ -24,7 +27,9 @@ class OrganizationItemController extends Controller
     {
         $item = Item::find(request('item'));
 
-        $orderItem = new OrderItem(request(['cost', 'quantity']));
+        $orderItem = new OrderItem(request('quantity') + [
+            'cost' => request('cost') * 100
+        ]);
         $orderItem->item()->associate($item);
         $orderItem->organization()->associate($organization);
         $orderItem->org_type = $item->type;
@@ -32,7 +37,7 @@ class OrganizationItemController extends Controller
 
         // app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
 
-        return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item added.');
+        return redirect()->action('Super\OrganizationController@show', $organization)->withSuccess('Item added.');
     }
 
     public function edit(Organization $organization, OrderItem $item)
@@ -44,7 +49,9 @@ class OrganizationItemController extends Controller
 
     public function update(Organization $organization, OrderItem $item)
     {
-        $item->update(request('item_id', 'cost', 'quantity'));
+        $item->update(request('item_id', 'quantity') + [
+            'cost' => request('cost') * 100
+        ]);
 
         // app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
 

@@ -77,6 +77,11 @@ class Organization extends Model
         return $this->hasMany(User::class);
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function attendees()
     {
         return $this->hasManyThrough(Ticket::class, Order::class);
@@ -296,5 +301,15 @@ class Organization extends Model
     public static function totalCost()
     {
         return static::with('items')->get()->sum('total_cost');
+    }
+
+    public function addTransaction($data = [])
+    {
+        $transaction = Transaction::create($data);
+
+        $this->transactions()->create([
+            'transaction_id' => $transaction->id,
+            'amount' => $transaction->amount,
+        ]);
     }
 }

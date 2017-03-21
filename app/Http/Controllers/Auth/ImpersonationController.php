@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Illuminate\Http\Request;
@@ -42,7 +42,7 @@ class ImpersonationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->action($user->isChurchAdmin() ? 'Account\DashboardController@index' : 'AccountController@index');
+        return redirect()->action($user->isChurchAdmin() ? 'Account\DashboardController' : 'Super\UserController@index');
     }
 
     /**
@@ -75,6 +75,6 @@ class ImpersonationController extends Controller
 
         Auth::login(User::findOrFail($userId));
 
-        return redirect()->action('UserController@index');
+        return redirect()->action('Super\UserController@index');
     }
 }

@@ -42,6 +42,7 @@
 
                     tickets.push({
                         number: number,
+                        considerations: {}
                     })
                 }
 

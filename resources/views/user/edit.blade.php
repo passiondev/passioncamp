@@ -7,7 +7,7 @@
         </header>
 
         <form action="{{ action('UserController@update', $user) }}" method="POST">
-            {{ method_field('PUT') }}
+            {{ method_field('PATCH') }}
             {{ csrf_field() }}
 
             @include ('user.partials.form')

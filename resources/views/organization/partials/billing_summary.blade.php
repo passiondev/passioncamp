@@ -11,39 +11,39 @@
                 <li>
                     <div class="transaction">
                         <div class="item left">
-                            {{ $item->name }} <small>({{ number_format($item->quantity) }} @ @currency($item->cost))</small>
+                            {{ $item->name }} <small>({{ number_format($item->quantity) }} @ {{ money_format('%.2n', $item->cost / 100) }})</small>
                             @can('edit', $item)
                                 {{-- <a href="{{ route('admin.organization.item.edit', [$organization, $item]) }}">edit</a> --}}
                             @endcan
                         </div>
-                        <div class="item right">@currency($item->quantity * $item->cost)</div>
+                        <div class="item right">{{ money_format('%.2n', $item->quantity * $item->cost / 100) }}</div>
                     </div>
                 </li>
             @endforeach
             <li class="callout total">
                 <div class="transaction">
                     <div class="item left">Total</div>
-                    <div class="item right">@currency($organization->total_cost)</div>
+                    <div class="item right">{{ money_format('%.2n', $organization->total_cost / 100) }}</div>
                 </div>
             </li>
             <li class="callout total">
                 <div class="transaction">
                     <div class="item left">Payments</div>
-                    <div class="item right">@currency($organization->total_paid)</div>
+                    <div class="item right">{{ money_format('%.2n', $organization->total_paid / 100) }}</div>
                 </div>
             </li>
             @if ($organization->deposit_balance > 0)
                 <li class="callout deposit_due">
                     <div class="transaction">
                         <div class="item left">Deposit Due</div>
-                        <div class="item right">@currency($organization->deposit_balance)</div>
+                        <div class="item right">{{ money_format('%.2n', $organization->deposit_balance / 100) }}</div>
                     </div>
                 </li>
             @endif
             <li class="callout balance">
                 <div class="transaction">
                     <div class="item left">Balance</div>
-                    <div class="item right">@currency($organization->balance)</div>
+                    <div class="item right">{{ money_format('%.2n', $organization->balance / 100) }}</div>
                 </div>
             </li>
         </ul>
@@ -60,17 +60,12 @@
                         {{ $split->name }}
                     </div>
                     <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
-                        @currency($split->amount)
+                        {{ money_format('%.2n', $split->amount / 100) }}
                     </div>
                 </div>
                 <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
             </li>
         @endforeach
         </ul>
-    </div>
-    <hr>
-    <div class="info-box__content d-flex justify-content-between">
-        <a href="{{ action('OrganizationItemController@create', $organization) }}" class="btn btn-secondary">Add Item</a>
-        <a href="{{ action('OrganizationPaymentController@create', $organization) }}" class="btn btn-primary">Make Payment</a>
     </div>
 </div>

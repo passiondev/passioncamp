@@ -1,35 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Super;
 
 use App\Church;
 use App\Person;
 use App\Organization;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class OrganizationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('super');
+    }
+
     public function index()
     {
         $organizations = Organization::with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees.waiver')->paginate();
 
-        return view('organization.index', compact('organizations'));
+        return view('super.organization.index', compact('organizations'));
     }
 
     public function show(Organization $organization)
     {
         $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes', 'attendees.waiver');
 
-        if (is_null($organization->contact)) {
-            $organization->contact = new Person;
-        }
-
-        if (is_null($organization->studentPastor)) {
-            $organization->studentPastor = new Person;
-        }
-
-        return view('organization.show', compact('organization'));
+        return view('super.organization.show', compact('organization'));
     }
 
     public function create()
@@ -39,7 +36,7 @@ class OrganizationController extends Controller
             ->contact()->associate(new Person)
             ->studentPastor()->associate(new Person);
 
-        return view('organization.create', compact('organization'));
+        return view('super.organization.create', compact('organization'));
     }
 
     public function store()
@@ -50,15 +47,15 @@ class OrganizationController extends Controller
             ->studentPastor()->associate(Person::create(request('student_pastor')))
         ->save();
 
-        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church created.');
+        return redirect()->action('Super\OrganizationController@show', $organization)->with('success', 'Church created.');
     }
 
     public function edit(Organization $organization)
     {
-        return view('organization.edit')->withOrganization($organization);
+        return view('super.organization.edit')->withOrganization($organization);
     }
 
-    public function update(Request $request, Organization $organization)
+    public function update(Organization $organization)
     {
         $organization->church->fill(request('church'))->save();
         $organization->contact->fill(request('contact'))->save();

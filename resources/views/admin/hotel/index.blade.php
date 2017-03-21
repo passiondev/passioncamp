@@ -18,7 +18,7 @@
             <tbody>
                 @foreach ($hotels as $hotel)
                     <tr>
-                        <td><a href="{{ action('HotelsController@show', $hotel) }}">{{ $hotel->name }}</a></td>
+                        <td><a href="{{ action('Super\HotelController@show', $hotel) }}">{{ $hotel->name }}</a></td>
                         <td style="text-align:center">{{ $hotel->capacity }}</td>
                         <td style="text-align:center">{{ $hotel->registered_count }}</td>
                         <td style="text-align:center">{{ $hotel->remaining_count }}</td>

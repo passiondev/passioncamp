@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
             dd($this);
         });
 
-        view()->composer('ticket.partials.form', function ($view) {
+        view()->composer(['ticket.partials.form', 'account.ticket.create', 'ticket.edit'], function ($view) {
             $gradeOptions = [];
 
             foreach (range(6, 12) as $grade) {

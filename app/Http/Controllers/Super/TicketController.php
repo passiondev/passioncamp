@@ -1,25 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Super;
 
 use App\Ticket;
-use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TicketRequest;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\Auth;
-use App\Repositories\TicketRepository;
 
-class TicketsController extends Controller
+class TicketController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        $tickets = Ticket::forUser(request()->user())
-                   ->with('person', 'order', 'organization.church', 'organization.settings', 'waiver')
-                   ->paginate();
-
-        return view('tickets.index', compact('tickets'));
+        $this->middleware('auth');
+        $this->middleware('super');
     }
 
     public function show(Ticket $ticket)

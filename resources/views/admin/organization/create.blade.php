@@ -6,7 +6,7 @@
             <h1>Add Church</h1>
         </header>
 
-        <form action="{{ action('OrganizationController@store') }}" method="POST">
+        <form action="{{ action('Super\OrganizationController@store') }}" method="POST">
             {{ csrf_field() }}
 
             @include('organization.partials.form')

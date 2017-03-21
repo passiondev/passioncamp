@@ -44,7 +44,7 @@
             </div>
             <div class="right menu mobile hidden">
                 @if (Session::has('spark:impersonator'))
-                    <a class="item" href="{{ action('ImpersonationController@stopImpersonating') }}">End Impersonation</a>
+                    <a class="item" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a>
                 @endif
 
                 @include ('menu.right')

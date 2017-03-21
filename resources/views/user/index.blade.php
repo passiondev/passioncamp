@@ -5,7 +5,7 @@
         <header class="d-flex justify-content-between align-items-bottom">
             <h1>Users</h1>
             <p>
-                <a class="btn btn-secondary" href="{{ action('UserController@create') }}">Add User</a>
+                <a class="btn btn-secondary" href="{{ action('Super\UserController@create') }}">Add Admin</a>
             </p>
         </header>
 
@@ -16,17 +16,19 @@
                     <td>{!! $user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
                     <td>{{ $user->person->name or '' }}</td>
                     <td style="line-height: 1">
-                        @if ($user->access == 100)
+                        @if (! $user->password)
+                            <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}">
+                        @elseif ($user->access == 100)
                             PASSION CAMP ADMIN
                         @else
                             {{ $user->organization->church->name }}<br>
                             <small><em>{{ $user->organization->church->location }}</em></small>
                         @endif
                     </td>
-                    <td><a href="{{ action('UserController@edit', $user) }}">edit</a></td>
+                    <td><a href="{{ action('Super\UserController@edit', $user) }}">edit</a></td>
                     <td>
                         @can ('impersonate', $user)
-                            <a href="{{ action('ImpersonationController@impersonate', $user) }}">impersonate</a>
+                            <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}">impersonate</a>
                         @endif
                     </td>
                 </tr>

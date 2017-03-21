@@ -112,6 +112,7 @@ class RegisterController extends Controller
                 'person_id' => Person::create(array_only($data, [
                     'first_name', 'last_name', 'email', 'phone',
                     'birthdate', 'gender', 'grade', 'allergies',
+                    'considerations',
                 ]))->id,
             ]);
         });

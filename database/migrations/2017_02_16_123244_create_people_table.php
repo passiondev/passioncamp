@@ -29,6 +29,7 @@ class CreatePeopleTable extends Migration {
             $table->string('gender')->nullable();
             $table->unsignedInteger('grade')->nullable();
             $table->text('allergies')->nullable();
+            $table->text('considerations')->nullable();
             $table->boolean('email_opt_in')->nullable();
             $table->timestamps();
             $table->softDeletes();

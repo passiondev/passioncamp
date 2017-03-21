@@ -6,7 +6,7 @@
             <h1>Update Church</h1>
         </header>
 
-        <form action="{{ action('OrganizationController@update', $organization) }}" method="POST">
+        <form action="{{ action('Super\OrganizationController@update', $organization) }}" method="POST">
             {{ method_field('PUT') }}
             {{ csrf_field() }}
 

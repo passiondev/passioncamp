@@ -17,6 +17,11 @@ class OrderPolicy
         }
     }
 
+    public function view(User $user, Order $order)
+    {
+        return $user->organization_id === $order->organization_id || $order->user_id == $user->id;
+    }
+
     public function owner(User $user, Order $order)
     {
         return $user->organization_id === $order->organization_id || $order->user_id == $user->id;

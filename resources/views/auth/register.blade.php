@@ -1,60 +1,54 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
 <div class="container">
-    <div class="ui centered grid">
-        <div class="column" style="max-width:450px">
-            <div class="panel panel-default">
-                <div class="ui header">Register</div>
-                <div class="panel-body">
-                    <form class="ui form" role="form" method="POST" action="{{ url("/register/{$user->id}/{$user->hash}") }}">
-                        {!! csrf_field() !!}
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-header">Create Your Account</div>
+                <div class="card-block">
+                    <form action="{{ url("/register/{$user->id}/{$user->hash}") }}" method="POST">
+                        {{ csrf_field() }}
 
-                        <div class="field {{ $errors->has('email') ? ' has-danger' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
+                        <div class="form-group row {{ $errors->has('email') ? 'has-danger' : '' }}">
+                            <label class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
 
                             <div class="col-md-6">
                                 <p class="form-control-static">{{ $user->email }}</p>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
                             </div>
                         </div>
 
-                        <div class="field {{ $errors->has('password') ? ' has-danger' : '' }}">
-                            <label class="col-md-4 control-label">Password</label>
+                        <div class="form-group row {{ $errors->has('password') ? 'has-danger' : '' }}">
+                            <label class="col-md-4 col-form-label text-md-right">Password</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
+                                <input name="password" type="password" class="form-control">
 
                                 @if ($errors->has('password'))
-                                    <span class="help-block">
+                                    <p class="form-text">
                                         <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                    </p>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="field {{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">
-                            <label class="col-md-4 control-label">Confirm Password</label>
+                        <div class="form-group row {{ $errors->has('password_confirmation') ? 'has-danger' : '' }}">
+                            <label class="col-md-4 col-form-label text-md-right">Confirm Password</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password_confirmation">
+                                <input name="password_confirmation" type="password" class="form-control">
 
                                 @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
+                                    <p class="form-text">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
+                                    </p>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="field ">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="ui primary button">
+                        <div class="row">
+                            <div class="col offset-md-4">
+                                <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
                             </div>

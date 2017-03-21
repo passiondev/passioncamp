@@ -43,6 +43,10 @@ class RegisterTest extends TestCase
                     'gender' => 'required',
                     'grade' => 'required',
                     'birthdate' => '03/29/1986',
+                    'considerations' => [
+                        'nut' => 'nut',
+                        'other' => 'other_text'
+                    ]
                 ],
                 2 => [
                     'first_name' => 'Two',

@@ -1,6 +1,6 @@
 <?php
 
-Route::resource('organizations', 'OrganizationController');
+// Route::resource('organizations', 'OrganizationController');
 
 Route::post('organizations/{organization}/note', 'Organization\NoteController@store');
 

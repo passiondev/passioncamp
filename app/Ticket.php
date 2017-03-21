@@ -35,6 +35,14 @@ class Ticket extends OrderItem
 
     protected $dates = ['checked_in_at'];
 
+    protected $casts = [
+        'ticket_data' => 'collection'
+    ];
+
+    protected $attributes = [
+        'agegroup' => 'student',
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -53,7 +61,9 @@ class Ticket extends OrderItem
         }
 
         if ($user->isChurchAdmin()) {
-            return $query->where('organization_id', $user->organization_id);
+            return $query->whereHas('order.organization', function ($q) use ($user) {
+                $q->where('id', $user->organization_id);
+            });
         }
 
         return $query->where('user_id', $user->id);
@@ -87,32 +97,27 @@ class Ticket extends OrderItem
                : "Ticket #{$this->id}";
     }
 
-    public function getFirstNameAttribute()
-    {
-        return $this->person ? $this->person->first_name : '';
-    }
-
-    public function getLastNameAttribute()
-    {
-        return $this->person ? $this->person->last_name : '';
-    }
-
     public function getFullNameAttribute()
     {
         return 'full name!';
     }
 
-    /*-------------- setters -----------------*/
-    public function setTicketDataAttribute($ticket_data)
+    public function getAttribute($key)
     {
-        if (is_array($ticket_data)) {
-            $ticket_data = json_encode($ticket_data);
+        $attribute = parent::getAttribute($key);
+
+        if (is_null($attribute) && $this->exists && isset($this->ticket_data)) {
+            $attribute = $this->ticket_data->get($key);
         }
 
-        $this->attributes['ticket_data' ] = $ticket_data;
+        if (is_null($attribute) && $this->exists && $this->relationLoaded('person')) {
+            $attribute = $this->person->$key;
+        }
 
-        return $this;
+        return $attribute;
     }
+
+    /*-------------- setters -----------------*/
 
     public function getShirtsizeAttribute()
     {
@@ -146,12 +151,12 @@ class Ticket extends OrderItem
         return $this->ticket_data('bus');
     }
 
-    public function ticket_data($key = null)
-    {
-        $data = json_decode($this->ticket_data, true);
+    // public function ticket_data($key = null)
+    // {
+    //     $data = json_decode($this->ticket_data, true);
 
-        return is_null($key) ? $data : array_get($data, $key);
-    }
+    //     return is_null($key) ? $data : array_get($data, $key);
+    // }
 
     public function revision()
     {
@@ -210,5 +215,12 @@ class Ticket extends OrderItem
     public function getHasPccWaiverAttribute()
     {
         return $this->pcc_waiver == 'X';
+    }
+
+    public function cancel(User $user = null)
+    {
+        $this->canceled_at = \Carbon\Carbon::now();
+        $this->canceled_by_id = $user->id;
+        $this->save();
     }
 }

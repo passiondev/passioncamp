@@ -5,7 +5,11 @@
     <header class="d-flex justify-content-between mb-5">
         <h1>{{ $organization->church->name }}</h1>
         <p>
-            <a class="btn btn-secondary" href="{{ action('OrganizationController@edit', $organization) }}">Edit</a>
+            @if (auth()->user()->isSuperAdmin())
+                <a href="{{ action('Super\OrganizationPaymentController@index', $organization) }}" class="btn btn-primary">Add Payment</a>
+                <a href="{{ action('Super\OrganizationItemController@create', $organization) }}" class="btn btn-secondary">Add Item</a>
+            @endif
+            <a class="btn btn-secondary" href="{{ action('Super\OrganizationController@edit', $organization) }}">Edit</a>
         </p>
     </header>
 
@@ -35,6 +39,8 @@
                 @include('organization/partials/billing_summary')
             </div>
         </div>
+
+        <hr>
 
         <div class="card-deck">
             <div class="card mb-3">
@@ -71,9 +77,11 @@
             </div>
         </div>
         <div class="card mb-3">
-            <header class="card-header">
+            <header class="card-header d-flex justify-content-between align-items-center">
                 <h3>Auth Users</h3>
-                {{-- <div class="sub header"><a href="{{ route('admin.organization.user.create', $organization) }}">Add Auth User</a></div> --}}
+                <div class="sub header">
+                    <a href="{{ action('Super\OrganizationUserController@create', $organization) }}" class="btn btn-secondary btn-sm">Add Auth User</a>
+                </div>
             </header>
             <div class="card-block">
                 @if ($organization->authUsers->count() > 0)
@@ -83,13 +91,13 @@
                                 <td>{{ $user->person->name or '' }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <div class="ui fluid input">
-                                        {{-- <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}"> --}}
-                                    </div>
+                                    @unless ($user->password)
+                                        <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}">
+                                    @endunless
                                 </td>
                                 <td>
                                     @can ('impersonate', $user)
-                                        <a href="{{ action('ImpersonationController@impersonate', $user) }}">impersonate</a>
+                                        <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}">impersonate</a>
                                     @endcan
                                 </td>
                             </tr>
@@ -100,7 +108,7 @@
         </div>
         <div class="card mb-3" id="notes">
             <header class="card-header">
-                <h3>Notes</h3>
+                <h3>Notes <small class="text-muted">coming soon</small></h3>
             </header>
             <div class="card-block">
                 @foreach ($organization->notes as $note)

@@ -318,3 +318,25 @@ body {
     }
   }
 }
+
+fieldset.form-group {
+    legend {
+        font-size: 1rem;
+    }
+    .form-check-inline {
+        margin-bottom: 0;
+    }
+    .form-check:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.alert {
+    :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.card-block + .card-header {
+    border-top: 1px solid $laravel-border-color;
+}

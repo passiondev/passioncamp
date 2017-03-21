@@ -25,7 +25,7 @@ class OrderController extends Controller
         $this->middleware('admin')->except('show');
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $orders = $this->orders
                   ->forUser(Auth::user())
@@ -33,16 +33,17 @@ class OrderController extends Controller
                   ->with('tickets.person', 'organization.church')
                   ->paginate(5);
 
-        if ($orders->count() > 0 && ! $request->search && ! $request->page) {
-            return redirect()->route('order.index', ['page' => $orders->lastPage()]);
-        }
+        // if ($orders->count() > 0 && ! $request->search && ! $request->page) {
+        //     return redirect()->route('order.index', ['page' => $orders->lastPage()]);
+        // }
 
         return view('order.index', compact('orders'));
     }
 
     public function show(Order $order)
     {
-        $this->authorize('owner', $order);
+        $this->authorize($order);
+
         $order->load('tickets.person', 'tickets.waiver', 'notes', 'organization.church', 'user.person');
 
         return view('order.show', compact('order'));
