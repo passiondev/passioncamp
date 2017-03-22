@@ -5,7 +5,7 @@ export default {
     mixins: [payment],
     props: ['stripeElements'],
     data() {
-        return store.OrganizationPaymentForm;
+        return store.TransactionForm;
     },
     methods: {
         submitHandler(e) {

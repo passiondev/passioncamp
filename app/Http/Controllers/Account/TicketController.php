@@ -37,21 +37,40 @@ class TicketController extends Controller
             'contact.phone' => 'required',
         ]);
 
-        $order = auth()->user()->organization->orders()->create([]);
-
-        $ticket = new Ticket(array_only(request('ticket'), ['agegroup']));
-        $ticket->organization()->associate(auth()->user()->organization);
-        $ticket->person()->associate(
-            Person::create(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies']))
+        $user = User::firstOrNew(
+            array_only(request('contact'), ['email'])
         );
 
-        $order->user()->associate(User::create([
-            'person_id' => Person::create(array_only(request('contact'), ['name', 'email', 'phone']))->id
-        ]));
+        if ($user->exists && $user->person_id) {
+            $user->person->update(
+                array_only(request('contact'), ['name', 'email', 'phone'])
+            );
+        } else {
+            $user->person()->associate(
+                Person::create(array_only(request('contact'), ['name', 'email', 'phone']))
+            )->save();
+        }
 
-        $order->tickets()->save($ticket);
+        $order = $user->orders()->create([
+            'organization_id' => auth()->user()->organization_id
+        ]);
 
-        $order->save();
+        $order->tickets()->save(
+            (new Ticket(
+                array_only(request('ticket'), ['agegroup'])
+            ))->person()->associate(
+                Person::create(
+                    request(['considerations'])
+                    + array_only(request('ticket'), [
+                        'first_name',
+                        'last_name',
+                        'gender',
+                        'grade',
+                        'allergies'
+                    ])
+                )
+            )
+        );
 
         return redirect()->action('TicketController@index', ['page' => Ticket::forUser(auth()->user())->paginate()->lastPage()])->withSuccess('Attendee added.');
     }

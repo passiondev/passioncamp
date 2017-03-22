@@ -6,7 +6,7 @@
         <ul class="block-list price-list">
             <li>
                 <div class="transaction">
-                    <div class="item left">Attendees <span class="ui basic circular green label">{{ $order->ticket_count }}</span></div>
+                    <div class="item left">Attendees <span class="badge badge-pill badge-success">{{ $order->ticket_count }}</span></div>
                     <div class="item right">{{ money_format('%(.2n', $order->ticket_total / 100) }}</div>
                 </div>
             </li>
@@ -49,12 +49,16 @@
                     <div class="transaction">
                         <div class="item left">
                             {{ $split->name }}
-                            @unless ($split->amount < 0 || auth()->user()->isOrderOwner())
-                                @if ($split->transaction->source == 'stripe')
-                                    <small><a href="{{ route('transaction.refund.create', $split) }}">refund</a></small>
-                                @else
-                                    <small><a href="{{ route('transaction.edit', $split) }}">edit</a></small>
+                            @unless (auth()->user()->isOrderOwner())
+
+                                @if ($split->transaction->source == 'stripe' && $split->amount > 0)
+                                    <small><a href="{{ action('TransactionRefundController@create', $split) }}">refund</a></small>
                                 @endif
+
+                                @if ($split->transaction->source != 'stripe')
+                                    <small><a href="{{ action('TransactionController@edit', $split) }}">edit</a></small>
+                                @endif
+
                             @endunless
                         </div>
                         <div class="item right item--{{ $split->amount>0?'success':'warning' }}">{{ money_format('%(.2n', $split->amount / 100) }}</div>

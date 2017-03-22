@@ -9,7 +9,7 @@ require('./bootstrap');
 import { currency } from './currency';
 import TransactionComponent from './components/Transaction'
 import AccountPaymentForm from './components/AccountPaymentForm'
-import OrganizationPaymentForm from './components/OrganizationPaymentForm'
+import TransactionForm from './components/TransactionForm'
 import TicketConsiderations from './components/TicketConsiderations'
 
 $(function() {
@@ -26,7 +26,7 @@ const app = new Vue({
     el: '#app',
     'components': {
         AccountPaymentForm,
-        OrganizationPaymentForm,
+        TransactionForm,
         TicketConsiderations,
     },
     data: store,

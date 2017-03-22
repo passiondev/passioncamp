@@ -2,33 +2,13 @@
 
 @section('content')
     <div class="container">
-        <header class="d-flex">
+        <header class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
-            @if (Auth::user()->isSuperAdmin())
-                <h2>{{ $order->organization->church->name }}</h2>
-            @endif
+            <div>
+                <a class="btn btn-secondary" href="{{ action('OrderTicketController@create', $order) }}">Add Attendee</a>
+                <a class="btn btn-secondary" href="{{ action('OrderTransactionController@create', $order) }}">Add Transaction</a>
+            </div>
         </header>
-
-        <div class="ui secondary menu">
-            @can ('add-attendees', $order)
-                <div class="item">
-                    Add Attendee
-                    {{-- <a class="ui primary button" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a> --}}
-                </div>
-            @endcan
-            @can ('record-transactions', $order->organization)
-                <div class="item">
-                    Record Transacation
-                    {{-- <a class="ui primary button" href="{{ route('order.transaction.create', $order) }}" class="button small">Record Transacation</a> --}}
-                </div>
-            @endcan
-            @if (Auth::user()->isOrderOwner() && $order->balance > 0)
-                <div class="item">
-                    Make Payment
-                    {{-- <a class="ui primary button" href="{{ route('order.payment.create', $order) }}" class="button small">Make Payment</a> --}}
-                </div>
-            @endif
-        </div>
 
         @unless ($order->hasContactInfo())
             <div class="ui warning message" style="margin-bottom:2rem">
@@ -37,20 +17,17 @@
             </div>
         @endif
 
-        <section>
-            <header class="ui dividing header section__header">
+        <section class="card mb-5">
+            <header class="card-header">
                 <h3>Attendees</h3>
             </header>
             @if ($order->tickets->count() > 0)
-                <table class="ui very basic striped table">
+                <table class="table">
                     <thead class="mobile hidden">
                         <tr>
                             <th>Name</th>
                             <th></th>
-                            @if ($order->organization->can_record_transactions)
-                                <th>Ticket Price</th>
-                            @endcan
-                            <th>Camp Waiver</th>
+                            <th>Ticket Price</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -61,41 +38,9 @@
                                 <td>
                                     @include('ticket/partials/label')
                                 </td>
-                                @if ($order->organization->can_record_transactions)
-                                    <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
-                                @endcan
+                                <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
                                 <td>
-                                    @unless ($ticket->is_canceled)
-                                        @if ($ticket->waiver && auth()->user()->isOrderOwner())
-                                            <h4 class="ui header">{{ $ticket->waiver->status }}</h4>
-                                        @elseif ($ticket->waiver)
-                                            <h4 class="ui header">
-                                                {{ $ticket->waiver->status }}
-                                                @unless ($ticket->waiver->status == 'signed')
-                                                    <div class="sub header">
-                                                        <Waiver inline-template>
-                                                            {{-- <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a> --}}
-                                                        </Waiver>
-                                                        @if (Auth::user()->isSuperAdmin())
-                                                            {{-- <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a> --}}
-                                                            {{-- <a href="{{ route('ticket.waiver.complete', $ticket) }}">complete</a> --}}
-                                                        @endif
-                                                    </div>
-                                                @endif
-                                            </h4>
-                                        @elseif (Auth::user()->isAdmin())
-                                            <Waiver inline-template>
-                                                {{-- <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a> --}}
-                                            </Waiver>
-                                        @else
-                                            <i>pending</i>
-                                        @endif
-                                    @endunless
-                                </td>
-                                <td>
-                                    @can ('edit', $ticket)
-                                        {{-- <a class="ui mini basic blue button" style="text-decoration:none!important" href="{{ route('ticket.edit', $ticket) }}">edit</a> --}}
-                                    @endcan
+                                    <a class="btn btn-outline-secondary btn-sm" href="{{ action('TicketController@edit', $ticket) }}">edit</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -112,24 +57,26 @@
 
         <div class="ui divider"></div>
 
-        <div class="ui stackable grid">
-            <div class="six wide column">
-                <h4>Contact</h4>
-                @if ($order->hasContactInfo())
-                    <dl>
-                        <dt>{{ $order->user->person->name }}</dt>
-                        <dd>{{ $order->user->person->phone }}</dd>
-                        <dd>{{ $order->user->person->email }}</dd>
-                    </dl>
-                    {{-- <p><a href="{{ route('order.contact.edit', $order) }}" class="ui mini basic blue button">edit</a></p> --}}
-                @else
-                    @can('edit-contact', $order)
-                        {{-- <p><a href="{{ route('order.contact.create', $order) }}" class="ui mini basic blue button">add contact</a></p> --}}
-                    @endcan
-                @endif
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <header class="card-header d-flex justify-content-between">
+                        <h4>Contact</h4>
+                        <div>
+                            <a href="{{ action('PersonController@edit', $order->user->person) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                        </div>
+                    </header>
+                    <div class="card-block">
+                        <dl>
+                            <dt>{{ $order->user->person->name }}</dt>
+                            <dd>{{ $order->user->person->phone }}</dd>
+                            <dd>{{ $order->user->person->email }}</dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
             @if ($order->organization->can_record_transactions)
-                <div class="ten wide column">
+                <div class="col-md-8">
                     @include('order/partials/registration_summary')
                 </div>
             @endif
@@ -141,19 +88,19 @@
                 </header>
                 <div class="ui comments">
                     @foreach ($order->notes as $note)
-                        <div class="comment">
-                            <div class="content">
-                                <span class="author">{{ $note->author ? $note->author->email :'' }}</span>
-                                <div class="metadata">
-                                    <span class="date">{{ $note->created_at->diffForHumans() }}</span>
-                                </div>
-                                <div class="text">
-                                    {!! nl2br($note->body) !!}
-                                </div>
-                            </div>
-                        </div>
+                        <blockquote class="blockquote">
+                            <p class="mb-0">{!! nl2br($note->body) !!}</p>
+                            <footer class="blockquote-footer">{{ $note->author ? $note->author->email :'' }}, <i>{{ $note->created_at->diffForHumans() }}</i></footer>
+                        </blockquote>
                     @endforeach
                 </div>
+                <form action="{{ action('OrderNoteController@store', $order) }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <textarea name="body" cols="30" rows="4" class="form-control"></textarea>
+                    </div>
+                    <button class="btn btn-secondary">Add Note</button>
+                </form>
                 {{-- {!! Form::open(['route' => ['order.note.store', $order], 'class' => 'ui form']) !!}
                     <div class="field">
                         {!! Form::textarea('body', null, ['rows' => '3']) !!}

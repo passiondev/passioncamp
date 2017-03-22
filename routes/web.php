@@ -49,6 +49,14 @@ Route::post('account/users', 'Account\UserController@store');
 Route::get('orders', 'OrderController@index');
 Route::get('orders/{order}', 'OrderController@show');
 
+Route::get('orders/{order}/tickets/create', 'OrderTicketController@create');
+Route::post('orders/{order}/tickets', 'OrderTicketController@store');
+
+Route::get('orders/{order}/transactions/create', 'OrderTransactionController@create');
+Route::post('orders/{order}/transactions', 'OrderTransactionController@store');
+
+Route::post('orders/{order}/notes', 'OrderNoteController@store');
+
 Route::get('tickets', 'TicketController@index');
 Route::get('tickets/create', 'Account\TicketController@create');
 Route::post('tickets', 'Account\TicketController@store');
@@ -58,8 +66,17 @@ Route::patch('tickets/{ticket}', 'TicketController@update');
 Route::delete('tickets/{ticket}', 'TicketController@delete');
 Route::patch('tickets/{ticket}/cancel', 'TicketController@cancel');
 
+Route::get('transactions/{split}/refund', 'TransactionRefundController@create');
+Route::post('transactions/{split}/refund', 'TransactionRefundController@store');
+Route::get('transactions/{split}/edit', 'TransactionController@edit');
+Route::patch('transactions/{split}', 'TransactionController@update');
+Route::delete('transactions/{split}', 'TransactionController@delete');
+
 Route::get('users/{user}/edit', 'UserController@edit');
 Route::patch('users/{user}', 'UserController@update');
+
+Route::get('person/{person}/edit', 'PersonController@edit');
+Route::patch('person/{person}', 'PersonController@update');
 
 Route::get('profile', 'ProfileController@show');
 Route::patch('profile', 'ProfileController@update');

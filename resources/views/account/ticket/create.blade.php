@@ -26,6 +26,14 @@
                     @include('ticket.partials.form-horizontal')
 
                 </div>
+
+                @if ($ticket->order->organization->slug == 'pcc')
+                    <h4 class="card-header">PCC Info</h4>
+                    <div class="card-block">
+                        @include('ticket.partials.form-horizontal-pcc')
+                    </div>
+                @endif
+
                 <h4 class="card-header"><template v-if="agegroup == 'student'">Parent/Guardian</template> Contact Information</h4>
                 <div class="card-block">
                     <div class="form-group row">

@@ -119,37 +119,37 @@ class Ticket extends OrderItem
 
     /*-------------- setters -----------------*/
 
-    public function getShirtsizeAttribute()
-    {
-        $shirtsize = $this->ticket_data('shirtsize');
-        $sizes = ['XS','S','M','L','XL'];
+    // public function getShirtsizeAttribute()
+    // {
+    //     $shirtsize = $this->ticket_data('shirtsize');
+    //     $sizes = ['XS','S','M','L','XL'];
 
-        if (is_null($shirtsize)) {
-            return null;
-        }
+    //     if (is_null($shirtsize)) {
+    //         return null;
+    //     }
 
-        return in_array($shirtsize, $sizes) ? $shirtsize : array_get($sizes, $shirtsize);
-    }
+    //     return in_array($shirtsize, $sizes) ? $shirtsize : array_get($sizes, $shirtsize);
+    // }
 
-    public function getSchoolAttribute()
-    {
-        return $this->ticket_data('school');
-    }
+    // public function getSchoolAttribute()
+    // {
+    //     return $this->ticket_data('school');
+    // }
 
-    public function getRoommateRequestedAttribute()
-    {
-        return $this->ticket_data('roommate_requested');
-    }
+    // public function getRoommateRequestedAttribute()
+    // {
+    //     return $this->ticket_data('roommate_requested');
+    // }
 
-    public function getLeaderAttribute()
-    {
-        return $this->ticket_data('leader');
-    }
+    // public function getLeaderAttribute()
+    // {
+    //     return $this->ticket_data('leader');
+    // }
 
-    public function getBusAttribute()
-    {
-        return $this->ticket_data('bus');
-    }
+    // public function getBusAttribute()
+    // {
+    //     return $this->ticket_data('bus');
+    // }
 
     // public function ticket_data($key = null)
     // {

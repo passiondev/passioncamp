@@ -30,7 +30,11 @@
                 @foreach ($tickets as $ticket)
                     <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
                         <td>
-                            {{ $ticket->name }}
+                            @if ($ticket->organization->slug == 'pcc')
+                                <a href="{{ action('OrderController@show', $ticket->order) }}">{{ $ticket->name }}</a>
+                            @else
+                                {{ $ticket->name }}
+                            @endif
                         </td>
                         @if (auth()->user()->isSuperAdmin())
                             <td>{{ $ticket->organization->church->name }}<br> <small>{{ $ticket->organization->church->location }}</small></td>
@@ -39,7 +43,7 @@
                             @include('ticket/partials/label')
                         </td>
                         <td>
-                            <a href="{{ action('TicketController@edit', $ticket) }}">edit</a>
+                            <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-primary btn-sm">edit</a>
                         </td>
                     </tr>
                 @endforeach

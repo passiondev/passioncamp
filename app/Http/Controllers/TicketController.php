@@ -26,6 +26,8 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket)
     {
+        request()->intended(url()->previous());
+
         $this->authorize($ticket);
 
         $ticket->load('person');
@@ -43,16 +45,30 @@ class TicketController extends Controller
             'ticket.last_name' => 'required',
             'ticket.gender' => 'required',
             'ticket.grade' => 'required_if:ticket.agegroup,student',
-            'contact.name' => 'required',
-            'contact.email' => 'required|email',
-            'contact.phone' => 'required',
+            'contact.name' => 'sometimes|required',
+            'contact.email' => 'sometimes|required|email',
+            'contact.phone' => 'sometimes|required',
         ]);
 
         $ticket->update(array_only(request('ticket'), ['agegroup']));
         $ticket->person->update(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies']));
-        $ticket->order->user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
 
-        return redirect()->action('TicketController@index')->withSuccess('Attendee updated.');
+        if (request()->has('contact')) {
+            try {
+                $user = User::whereEmail(array_get(request('contact'), 'email'))->firstOrFail();
+
+                $this->authorize('update', $user);
+
+                $user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
+            } catch (ModelNotFoundException $e) {
+                $person->update(array_only(request('contact'), ['name', 'email', 'phone']));
+                $person->user->update(array_only(request('contact'), ['email']));
+            } catch (\Exception $e) {
+                return redirect()->back()->withError($e->getMessage());
+            }
+        }
+
+        return redirect()->intended(action('TicketController@index'))->withSuccess('Attendee updated.');
     }
 
     public function cancel(Ticket $ticket)

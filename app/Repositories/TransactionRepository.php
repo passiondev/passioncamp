@@ -48,7 +48,7 @@ class TransactionRepository
         $split = new TransactionSplit;
         $split->transaction()->associate($transaction);
         $split->amount = $charge->amount / 100;
-        
+
         return $split;
     }
 }

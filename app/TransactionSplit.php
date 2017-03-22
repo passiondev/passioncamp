@@ -32,6 +32,10 @@ class TransactionSplit extends Model
             $method = $this->transaction->cc_last4;
         }
 
+        if ($this->amount < 0) {
+            $type = 'Refund';
+        }
+
         if (in_array($this->transaction->source, ['check', 'credit'])) {
             $type = ucfirst($this->transaction->source);
             $method = $this->transaction->identifier;
@@ -39,10 +43,6 @@ class TransactionSplit extends Model
 
         if (in_array($this->transaction->source, ['other'])) {
             $type = $this->transaction->identifier;
-        }
-
-        if ($this->amount < 0) {
-            $type = 'Refunded';
         }
 
         return trim(sprintf('%s %s', $type ?? '', $method ?? ''));

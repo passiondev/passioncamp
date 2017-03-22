@@ -11,16 +11,16 @@
 @section('content')
     <div class="container">
         <header>
-            <h1>Payments</h1>
+            <h1>Transactions</h1>
         </header>
 
         @include('errors.validation')
 
         <div class="card mb-3">
-            <h4 class="card-header">Make A Payment</h4>
+            <h4 class="card-header">Add A Transaction</h4>
             <div class="card-block">
                 <transaction-form inline-template stripe-elements="card-element">
-                    <form action="{{ action('Super\OrganizationPaymentController@store', $organization) }}" method="POST" v-on:submit.prevent="submitHandler">
+                    <form action="{{ action('OrderTransactionController@store', $order) }}" method="POST" v-on:submit.prevent="submitHandler">
                         {{ csrf_field() }}
 
                         <div class="form-group row">
@@ -39,7 +39,7 @@
                             <div class="col-md-8 col-lg-6">
                                 <div class="input-group">
                                     <div class="input-group-addon">$</div>
-                                    <input type="number" name="amount" id="amount" value="{{ old('amount', $balance ?? 0) }}" class="form-control">
+                                    <input type="number" name="amount" id="amount" value="{{ old('amount', $order->balance / 100) }}" class="form-control">
                                     <div class="input-group-addon">.00</div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        @if ($organization->transactions->count())
+        @if ($order->transactions->count())
             <div class="card">
                 <h4 class="card-header">All Transactions</h4>
                 <div>
@@ -84,7 +84,7 @@
                                 <th>Date</th>
                             </tr>
                         </thead>
-                        @foreach ($organization->transactions->reverse() as $split)
+                        @foreach ($order->transactions->reverse() as $split)
                             <tr>
                                 <td>{{ $split->name }}</td>
                                 <td>{{ money_format('%.2n', $split->amount / 100) }}</td>

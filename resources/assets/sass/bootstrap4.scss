@@ -340,3 +340,55 @@ fieldset.form-group {
 .card-block + .card-header {
     border-top: 1px solid $laravel-border-color;
 }
+
+.statistic {
+    line-height: normal;
+    font-size: $font-size-lg;
+    padding: $spacer / 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+
+    &.statistic-xl {
+        font-size: 3rem;
+        padding: $spacer / 2 $spacer;
+    }
+
+    &.statistic-lg {
+        font-size: $font-size-lg;
+    }
+
+    .small > & {
+        font-size: $font-size-base;
+    }
+
+    .horizontal > & {
+        flex-direction: row;
+        align-items: baseline;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        > .label {
+            margin-left: $spacer / 2;
+        }
+    }
+
+    > .value {
+        font-size: 1.25em;
+    }
+    > .label {
+        font-size: $font-size-sm;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+}
+
+.statistics {
+    display: flex;
+
+    &.horizontal {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
