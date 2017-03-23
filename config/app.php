@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Passion Camp Portal',
+    'name' => 'Passion Camp',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => 'http://portal.passioncamp.268generation.com',
+    'url' => env('APP_URL', 'http://portal.passioncamp.268generation.com'),
     'domain' => env('APP_DOMAIN', 'passioncamp.268generation.com'),
 
     /*
@@ -172,6 +172,7 @@ return [
         Codedge\Fpdf\FpdfServiceProvider::class,
         Zondicons\ZondiconsServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        Spatie\MailableTest\MailableTestServiceProvider::class,
 
         /*
          * Application Service Providers...

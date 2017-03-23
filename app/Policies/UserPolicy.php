@@ -16,14 +16,13 @@ class UserPolicy
         }
     }
 
-    public function edit(User $authUser, User $user)
-    {
-        return $authUser->organization_id == $user->organization_id;
-    }
-
     public function update(User $authUser, User $user)
     {
-        return $this->edit($authUser, $user);
+        // if ($authUser->isChurchAdmin()) {
+        //     return $authUser->organization_id == $user->organization_id;
+        // }
+
+        return $authUser->isChurchAdmin() || $authUser->id == $user->id;
     }
 
     public function impersonate(User $authUser, User $user)

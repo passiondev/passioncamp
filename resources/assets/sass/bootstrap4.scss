@@ -4,6 +4,17 @@
 
 @include bg-variant('.bg-white', #fff);
 
+.table.align-middle {
+    th, td {
+        vertical-align: middle;
+    }
+}
+.table-responsive {
+    @include media-breakpoint-up(sm) {
+        display: table;
+    }
+}
+
 .icon {
     width: 1rem;
     height: 1rem;
@@ -146,3 +157,248 @@ input[type=number].nospin::-webkit-outer-spin-button {
         }
     }
 }
+
+body {
+    padding-top: 50px;
+}
+.sidebar {
+    overflow-x: scroll;
+
+    @include media-breakpoint-up(sm) {
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        padding-left: 0;
+        padding-right: 0;
+
+        .nav-link {
+            border-radius: 0;
+        }
+    }
+
+}
+
+.info-box {
+  background-color: #fff;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #dcdcdc;
+
+}
+
+.info-box__title {
+  border-top: 3px solid #333;
+  padding: 1rem .75rem .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+
+  > h1, > h2, > h3, > h4, > h5, > h6 {
+    margin: 0;
+  }
+  > .button-group {
+    float: right;
+  }
+}
+
+.info-box__content {
+  padding: .75rem;
+
+  .info-box__title + & {
+    border-top: 1px solid #dcdcdc;
+  }
+
+  & + .info-box__title {
+    border-top: 0;
+    padding-top: 1.25rem;
+  }
+
+  > h1, > h2, > h3, > h4, > h5, > h6 {
+    margin: 0;
+  }
+}
+
+.block-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    @include clearfix;
+    padding: .75rem 1.5rem;
+
+    &.callout {
+      border: 0;
+      padding-left: .75rem;
+      padding-right: .75rem;
+    }
+  }
+
+  .info-box__content > & {
+    margin-left: -.75rem;
+    margin-right: -.75rem;
+    margin-bottom: -.75rem;
+  }
+}
+
+.price-list {
+  li {
+    background-color: #fff;
+  }
+  .transaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // @include clearfix;
+    position: relative;
+    &:after {
+      display: block;
+      position: absolute;
+      left: 1.5rem;
+      right: 1.5rem;
+      overflow: hidden;
+      content: ".........................................................................................................................................................................................";
+      color: #ccc;
+      font-size: 1rem;
+      letter-spacing: .225rem;
+    }
+  }
+  .item {
+    z-index: 2;
+    background-color: #fff;
+
+    &.right {
+      padding-left: .4rem;
+      padding-right: .3rem;
+    }
+  }
+  .item--success {
+    border-radius: 2px;
+    background-color: #e6efc2;
+  }
+  .item--warning {
+    border-radius: 2px;
+    background-color: #fbe3e4;
+  }
+  .caption {
+    clear: both;
+    margin: -.2rem auto 0 auto;
+    display: block;
+    color: #aaa;
+  }
+  .deposit_due {
+    .item {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      font-style: italic;
+      color: #ccc;
+      font-weight: bold;
+    }
+  }
+
+  .callout {
+    &.total {
+      margin-top: .75rem;
+      &, & .item { background-color: tint(#2185D0, 95%); }
+    }
+    &.deposit_due {
+      &, & .item { background-color: tint(#F2C037, 85%); }
+    }
+    &.balance {
+      &, & .item { background-color: tint(#2185D0, 82%); }
+    }
+  }
+}
+
+fieldset.form-group {
+    legend {
+        font-size: 1rem;
+    }
+    .form-check-inline {
+        margin-bottom: 0;
+    }
+    .form-check:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.alert {
+    :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.card-block + .card-header {
+    border-top: 1px solid $laravel-border-color;
+}
+
+.statistic {
+    line-height: normal;
+    font-size: $font-size-lg;
+    padding: $spacer / 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+
+    &.statistic-xl {
+        font-size: 3rem;
+        padding: $spacer / 2 $spacer;
+    }
+
+    &.statistic-lg {
+        font-size: $font-size-lg;
+    }
+
+    .small > & {
+        font-size: $font-size-base;
+    }
+
+    .horizontal > & {
+        flex-direction: row;
+        align-items: baseline;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        > .label {
+            margin-left: $spacer / 2;
+        }
+    }
+
+    > .value {
+        font-size: 1.25em;
+    }
+    > .label {
+        font-size: $font-size-sm;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+}
+
+.statistics {
+    display: flex;
+
+    &.horizontal {
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+$color-student: #de8e52;
+$color-leader: #3d9794;
+.color-student {
+    color: $color-student;
+}
+.color-leader {
+    color: $color-leader;
+}
+.badge-student {
+    @include badge-variant($color-student);
+}
+.badge-leader {
+    @include badge-variant($color-leader);
+}
+

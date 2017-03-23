@@ -1,25 +1,24 @@
 @include ('errors.validation')
 
 @if (auth()->user()->isSuperAdmin())
-    <div class="field">
-        {{ Form::label('organization', 'Organization') }}
-        {{ Form::select('organization', ['ADMIN' => 'PASSION CAMP ADMIN'] + $organizationOptions, null, ['id' => 'organization', 'class' => 'ui dropdown']) }}
+    <div class="form-group">
+        <label>Church</label>
+        <p class="form-control-static font-weight-bold">{{ $organization->church->name or 'PASSION CAMP ADMIN' }}</p>
     </div>
 @endif
 
-<div class="field">
-    {{ Form::label('first_name', 'First Name') }}
-    {{ Form::text('first_name', null, ['id' => 'first_name']) }}
+<div class="form-group">
+    <label for="first_name">First Name</label>
+    <input type="text" name="first_name" id="first_name" value="{{ old('first_name', $user->person->first_name ?? null) }}" class="form-control">
 </div>
 
-<div class="field">
-    {{ Form::label('last_name', 'Last Name') }}
-    {{ Form::text('last_name', null, ['id' => 'last_name']) }}
+<div class="form-group">
+    <label for="last_name">Last Name</label>
+    <input type="text" name="last_name" id="last_name" value="{{ old('last_name', $user->person->last_name ?? null) }}" class="form-control">
 </div>
 
-<div class="field">
-    {{ Form::label('email', 'Email Address') }}
-    {{ Form::email('email', null, ['id' => 'email']) }}
+<div class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" name="email" id="email" value="{{ old('email', $user->email ?? null) }}" class="form-control">
 </div>
 
-<button class="ui primary button" type="submit">{{ $action_text or 'Create User' }}</button>

@@ -1,81 +1,58 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
     <div class="ui container">
-        <header class="ui dividing header page-header">
-            <h1 class="page-header__title">Attendees</h1>
-            <div class="sub header page-header__actions">
-                <a href="{{ route('ticket.export.index') }}">Export</a>
+        <header class="d-flex justify-content-between">
+            <h1>Attendees</h1>
+            <div>
+                @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
+                    <a href="{{ action('Account\TicketController@create') }}" class="btn btn-secondary">Add Attendee</a>
+                @endunless
             </div>
         </header>
 
-        <div class="ui padded raised segment">
-            <form action="/tickets" method="GET">
-                <div class="ui big fluid action input">
-                    <input type="search" name="search" class="form-control input-group-field" placeholder="Search..." value="{{ request('search') }}">
-                    <button class="ui icon button" type="submit"><i class="search icon"></i></button>
-                </div>
-            </form>
-        </div>
-
         @unless($tickets->count())
-            <p><i>No results</i></p>
+            <p class="py-5">
+                <i>No attendees added yet...</i>
+            </p>
         @else
-            <table class="ui basic striped table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Grade</th>
-                    @can ('record-transactions', $tickets->first()->organization)
-                        <th>Price</th>
-                    @endcan
-                    <th>Waiver</th>
-                </tr>
-            </thead>
-                @foreach ($tickets as $ticket)
-                    <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                        <td><a href="{{ route('order.show', $ticket->order) }}">{{ $ticket->name }}</a></td>
-                        @if (Auth::user()->isSuperAdmin())
-                            <td>{{ $ticket->organization->church->name }}</td>
-                            <td>{{ $ticket->organization->church->location }}</td>
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        @if (auth()->user()->isSuperAdmin())
+                            <th></th>
                         @endif
-                        <td>
-                            @include('ticket/partials/label')
-                        </td>
-                        @can ('record-transactions', $ticket->organization)
-                            <td>@currency($ticket->price / 100)</td>
-                        @endcan
-                        <td>
-                            @can ('edit', $ticket)
-                                @unless ($ticket->waiver)
-                                    <Waiver inline-template>
-                                        <a v-on:click.prevent="send" href="{{ route('ticket.waiver.create', $ticket) }}">send waiver</a>
-                                    </Waiver>
-                                @else
-                                    <h4 class="ui header">
-                                        @unless ($ticket->is_canceled)
-                                            {!! $ticket->waiver->is_complete ? '<span style="font-weight:normal"><i class="green checkmark icon"></i>'.$ticket->waiver->status.'</span>' : $ticket->waiver->status !!}<br>
-                                        @endunless
-                                        @unless ($ticket->waiver->status == 'signed')
-                                            <div class="sub header">
-                                                <Waiver inline-template>
-                                                    <a href="{{ route('ticket.waiver.reminder', $ticket) }}">send reminder</a>
-                                                </Waiver>
-                                                @if (Auth::user()->isSuperAdmin())
-                                                    <a href="{{ route('ticket.waiver.cancel', $ticket) }}">cancel</a>
-                                                    <a href="{{ route('ticket.waiver.complete', $ticket) }}">complete</a>
-                                                @endif
-                                            </div>
-                                        @endif
-                                    </h4>
-                                @endif
-                            @endcan
-                        </td>
+                        <th>Grade</th>
+                        <th></th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody>
+                    @foreach ($tickets as $ticket)
+                        <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
+                            <td>
+                                @if ($ticket->organization->slug == 'pcc')
+                                    <a href="{{ action('OrderController@show', $ticket->order) }}">{{ $ticket->name }}</a>
+                                @else
+                                    {{ $ticket->name }}
+                                @endif
+                            </td>
+                            @if (auth()->user()->isSuperAdmin())
+                                <td>{{ $ticket->organization->church->name }}<br> <small>{{ $ticket->organization->church->location }}</small></td>
+                            @endif
+                            <td>
+                                @include('ticket/partials/label')
+                            </td>
+                            <td>
+                                <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         @endif
 
         {{-- {{ $tickets->appends(Request::only('search'))->links(new \App\Pagination\Semantic($tickets)) }} --}}
+        {{ $tickets->links() }}
     </div>
 @stop

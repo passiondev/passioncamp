@@ -8,7 +8,7 @@
 
         <div class="ui stackable grid">
             <div class="seven wide column">
-                <form action="{{ route('profile.update') }}" method="POST" novalidate>
+                <form action="{{ action('ProfileController@update') }}" method="POST" novalidate>
                     {{ csrf_field() }}
                     {{ method_field('PATCH') }}
 

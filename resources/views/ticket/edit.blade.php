@@ -1,34 +1,90 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
+
+@section('head')
+<script>
+    window.store = {!! json_encode([
+        'agegroup' => old('ticket.agegroup', $ticket->agegroup)
+    ]) !!};
+</script>
+@endsection
 
 @section('content')
-    <div class="ui container">
-        <header class="ui header">
-            <h1>Edit Ticket</h1>
-            <div class="sub header">
-                <a href="{{ route('order.show', $ticket->order) }}">Registration #{{ $ticket->order->id }}</a>
-            </div>
+    <div class="container">
+        <header>
+            <h1>Update Attendee</h1>
         </header>
 
-        @include ('errors.validation')
+        @include('errors.validation')
 
-        {{ Form::model($formData, ['route' => ['ticket.update', $ticket], 'method' => 'PATCH', 'class' => 'ui form']) }}
+        <form action="{{ action('TicketController@update', $ticket) }}" method="POST">
+            {{ method_field('PATCH') }}
+            {{ csrf_field() }}
 
-            @include ('ticket/partials/form', ['order' => $ticket->order, 'submitButtonText' => 'Update Ticket'])
+            <div class="card mb-3">
+                <h4 class="card-header">Attendee</h4>
+                <div class="card-block">
 
-        {{ Form::close() }}
+                    @include('ticket.partials.form-horizontal')
 
-        <footer style="display:flex;justify-content: flex-end">
-            @unless ($ticket->is_canceled || Auth::user()->isOrderOwner())
-                {{ Form::open(['route' => ['ticket.cancel', $ticket], 'method' => 'PATCH']) }}
-                    <button class="ui yellow button" style="margin-right: 1rem">Cancel Ticket</button>
-                {{ Form::close() }}
-            @endif
-            @if (Auth::user()->isSuperAdmin())
-                {{ Form::open(['route' => ['ticket.delete', $ticket], 'method' => 'DELETE']) }}
-                    <button class="ui red button">Delete Ticket</button>
-                {{ Form::close() }}
-            @endif
+                </div>
+
+                @if ($ticket->order->organization->slug == 'pcc')
+
+                    <h4 class="card-header">PCC Info</h4>
+                    <div class="card-block">
+                        @include('ticket.partials.form-horizontal-pcc')
+                    </div>
+
+                @else
+
+                    <h4 class="card-header"><template v-if="agegroup == 'student'">Parent/Guardian</template> Contact Information</h4>
+                    <div class="card-block">
+                        <div class="form-group row">
+                            <label for="name" class="col-md-3 col-form-label text-md-right">Name</label>
+                            <div class="col-md-6">
+                                <input type="text" name="contact[name]" id="name" class="form-control" value="{{ old('contact.name', $ticket->order->user->person->name) }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="email" class="col-md-3 col-form-label text-md-right">Email</label>
+                            <div class="col-md-6">
+                                <input type="email" name="contact[email]" id="email" class="form-control" value="{{ old('contact.email', $ticket->order->user->person->email) }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-3 col-form-label text-md-right">Phone</label>
+                            <div class="col-md-6">
+                                <input type="tel" name="contact[phone]" id="phone" class="form-control" value="{{ old('contact.phone', $ticket->order->user->person->phone) }}">
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col offset-md-3">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <footer class="text-right">
+            @can('cancel', $ticket)
+                <a href="{{ action('TicketController@delete', $ticket) }}" class="btn btn-outline-warning btn-sm" onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">Cancel</a>
+            @endcan
+            <a href="{{ action('TicketController@delete', $ticket) }}" class="btn btn-outline-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">Delete</a>
         </footer>
 
+        <form action="{{ action('TicketController@cancel', $ticket) }}" method="POST" id="cancel-form">
+            {{ method_field('PATCH') }}
+            {{ csrf_field() }}
+        </form>
+        <form action="{{ action('TicketController@delete', $ticket) }}" method="POST" id="delete-form">
+            {{ method_field('DELETE') }}
+            {{ csrf_field() }}
+        </form>
     </div>
 @stop

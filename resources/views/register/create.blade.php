@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         <div class="tickets">
-                            <ticket v-for="ticket in tickets" :ticket="ticket"></ticket>
+                            <ticket v-for="(ticket, index) in tickets" :index="index" :ticket="ticket"></ticket>
                         </div>
                     </section>
 

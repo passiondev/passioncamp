@@ -8,44 +8,42 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    protected $user;
-
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->user = $request->user();
-
-            return $next($request);
-        });
+        $this->middleware('auth');
     }
 
-    public function show(Request $request)
+    public function show()
     {
-        if (is_null($this->user->person)) {
-            $this->user->person()->associate(Person::create())->save();
+        $user = request()->user();
+
+        if (is_null($user->person)) {
+            $user->person()->associate(Person::create())->save();
         }
 
-        return view('profile.show')->withUser($this->user);
+        return view('profile.show')->withUser($user);
     }
 
     public function update()
     {
+        $user = request()->user();
+
         $this->validate(request(), [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,'.$this->user->id,
+            'email' => 'required|unique:users,email,'.$user->id,
             'password' => 'confirmed'
         ]);
 
-        $this->user->fill(request()->only('email'));
+        $user->fill(request(['email']));
 
         if (request('password')) {
-            $this->user->password = bcrypt(request('password'));
+            $user->password = bcrypt(request('password'));
         }
 
-        $this->user->save();
+        $user->save();
 
-        $this->user->person()->update(request([
+        $user->person()->update(request([
             'first_name',
             'last_name',
             'email',
@@ -53,6 +51,6 @@ class ProfileController extends Controller
 
         session()->flash('success', 'Your profile has been updated.');
 
-        return redirect()->intended('profile');
+        return redirect('/');
     }
 }

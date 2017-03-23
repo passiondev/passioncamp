@@ -1,7 +1,7 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container" style="padding-bottom:3rem">
+    <div class="container">
         <header class="ui dividing header page-header">
             <h1 class="page-header__title">Registrations</h1>
             <div class="sub header page-header__actions">
@@ -23,7 +23,7 @@
                 <p><i>No results</i></p>
             @endif
             @foreach($orders as $order)
-                <a href="{{ route('order.show', $order) }}" class="ui segment" style="display:block">
+                <a href="{{ action('OrderController@show', $order) }}" class="ui segment" style="display:block">
                     <div class="panel-body" style="margin-bottom:1rem">
                         @unless($order->tickets->count() > 0)
                             <p><i>no tickets</i></p>
@@ -56,7 +56,7 @@
                     </footer>
                 </a>
             @endforeach
-            {{ $orders->appends(Request::only('search'))->links() }}
+            {{ $orders->links() }}
         </div>
     </div>
 @stop

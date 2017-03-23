@@ -11,7 +11,7 @@
     <title>PCC Students SMMR CMP</title>
 
     <!-- Styles -->
-    <link href="/css/bootstrap4.css" rel="stylesheet">
+    <link href="{{ mix('/css/bootstrap4.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -22,8 +22,8 @@
     </script>
     @yield('head')
 </head>
-<body>
-    <header id="page-header" class="text-center">
+<body style="padding-top:0">
+    <header id="page-header" class="text-center pt-xl-5">
         <img src="/img/header-content.png" alt="SMMR CMP" class="img-fluid">
     </header>
     <div id="page-header-banner">
@@ -89,7 +89,7 @@
 
     <!-- Scripts -->
     @yield('foot')
-    <script src="/js/app.js"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
     {{ svg_spritesheet() }}
 </body>
 </html>

@@ -56,6 +56,10 @@ class RegisterController extends Controller
 
     public function showRegistrationForm(User $user, $hash)
     {
+        if ($user->password) {
+            return redirect('/');
+        }
+
         if ($user->hash !== $hash) {
             abort(403, 'Not authorized.');
         }

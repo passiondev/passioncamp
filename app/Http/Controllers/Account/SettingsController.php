@@ -9,7 +9,7 @@ class SettingsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('church');
+        $this->middleware('auth');
     }
 
     public function index()
@@ -17,6 +17,6 @@ class SettingsController extends Controller
         $organization = auth()->user()->organization;
         $organization->load('authUsers.person');
 
-        return view('organization.settings.index')->withOrganization($organization);
+        return view('account.settings.index')->withOrganization($organization);
     }
 }

@@ -56,6 +56,6 @@ class UserRepository
 
     public function getAdminUsers()
     {
-        return User::whereNotNull('email')->get();
+        return User::whereNotNull('email')->whereNotNull('access')->get();
     }
 }

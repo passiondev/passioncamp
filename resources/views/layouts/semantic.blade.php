@@ -44,7 +44,7 @@
             </div>
             <div class="right menu mobile hidden">
                 @if (Session::has('spark:impersonator'))
-                    <a class="item" href="{{ route('user.stop-impersonating') }}">End Impersonation</a>
+                    <a class="item" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a>
                 @endif
 
                 @include ('menu.right')
@@ -52,7 +52,7 @@
 
             <div class="right menu" style="margin-left:0!important">
                 @if (Auth::check())
-                    <a class="item" title="Sign Out" href="{{ route('logout') }}">
+                    <a class="item" title="Sign Out" href="/logout">
                         <i class="sign out icon"></i>
                     </a>
                 @endif

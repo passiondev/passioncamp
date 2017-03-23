@@ -2,117 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Mail;
 use App\User;
-use App\Organization;
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use Postmark\PostmarkClient;
-use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    protected $users;
-
-    public function __construct(UserRepository $users)
+    public function __construct()
     {
-        $this->users = $users;
-        $this->middleware('super')->only('index');
-        $this->middleware('admin')->except('index');
-    }
-
-    public function index()
-    {
-        $users = $this->users->getAdminUsers();
-        $users->load('person', 'organization.orders', 'organization.church');
-
-        return view('user.index', compact('users'));
-    }
-
-    public function create()
-    {
-        return view('user.create');
-    }
-
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|unique:user,email',
-        ]);
-
-        $user = $this->users->create(
-            $request->all(),
-            Auth::user()->isSuperAdmin() && $request->organization == 'ADMIN' ? 100 : 1
-        );
-
-        if (! $user->isSuperAdmin()) {
-            $organization = null;
-
-            if (! auth()->user()->isSuperAdmin()) {
-                $organization = auth()->user()->organization;
-            }
-
-            if (is_null($organization)) {
-                $organization = Organization::findOrFail($request->organization);
-            }
-
-            $organization->authUsers()->save($user);
-        }
-
-        $this->sendAccountCreationEmail($user);
-
-        if ($user->isSuperAdmin()) {
-            return redirect()->route('user.index');
-        }
-
-        if (auth()->user()->isSuperAdmin()) {
-            return redirect()->route('organization.settings.index', $organization);
-        }
-
-        return redirect()->route('account.settings');
+        $this->middleware('auth');
     }
 
     public function edit(User $user)
     {
         $this->authorize($user);
 
-        $user_data = [
-            'organization' => $user->isSuperAdmin() ? 'ADMIN' : $user->organization_id,
-            'first_name' => $user->person->first_name,
-            'last_name' => $user->person->last_name,
-            'email' => $user->person->email,
-        ];
-
-        return view('user.edit', compact('user_data'))->withUser($user);
+        return view('user.edit')->withUser($user);
     }
 
-    public function update(Request $request, User $user)
+    public function update(User $user)
     {
         $this->authorize($user);
 
-        $this->validate($request, [
+        $this->validate(request(), [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:user,email,'.$user->id,
+            'email' => 'required|unique:users,email,'.$user->id,
         ]);
 
-        $this->users->update($user, $request->all(), Auth::user()->isSuperAdmin() && $request->organization == 'ADMIN' ? 100 : 1);
+        if (auth()->user()->isSuperAdmin()) {
+            if (request('organization') == 'ADMIN') {
+                $user->access = 100;
+                $user->organization()->dissociate();
+            } else {
+                $user->access = 1;
+                $user->organization()->associate(request('organization'));
+            }
+        }
 
-        return redirect()->route(Auth::user()->isSuperAdmin() ? 'user.index' : 'account.settings');
-    }
+        $user->update(request(['email']));
+        $user->person->update(request(['first_name', 'last_name']));
 
-    public function sendAccountCreationEmail(User $user)
-    {
-        /**
-         * TODO
-         */
-        // Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {
-        //     $m->subject('Create Your Account');
-        //     $m->to($user->email);
-        // });
+        return auth()->user()->isSuperAdmin()
+             ? redirect()->action('OrganizationController@show', $user->organization)
+             : redirect()->action('Account\SettingsController@index');
     }
 }

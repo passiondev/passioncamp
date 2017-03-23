@@ -1,7 +1,21 @@
 
+import style from '../lib/stripe-elements-style'
+
 export default {
-    created() {
-        console.log('mixin hook called');
+    mounted() {
+        if (this.stripeElements) {
+            let elements = stripe.elements();
+            let card = this.Payment.card = elements.create('card', {style});
+            card.mount(`#${this.stripeElements}`);
+
+            card.addEventListener('change', ({error}) => {
+                if (error) {
+                    this.Payment.errors.push(error.message);
+                } else {
+                    this.Payment.errors = [];
+                }
+            });
+        }
     },
     data() {
         return {
@@ -11,7 +25,8 @@ export default {
                 card_cvc: '',
                 form: null,
                 errors: [],
-                occupied: false
+                occupied: false,
+                card: null
             }
         }
     },
@@ -25,6 +40,29 @@ export default {
         }
     },
     methods: {
+        elementsSubmitHandler(e) {
+            e.preventDefault();
+
+            this.Payment.form = e.target;
+            this.Payment.occupied = true;
+
+            stripe.createToken(this.Payment.card).then((result) => {
+                if (result.error) {
+                    this.stripeErrorHandler(result.error.message);
+                } else {
+                    this.stripeTokenHandler(result.token.id);
+                }
+            });
+        },
+        stripeTokenHandler(token) {
+            const input = document.createElement('input')
+                  input.type = 'hidden';
+                  input.name = 'stripeToken';
+                  input.value = token;
+
+            this.Payment.form.appendChild(input);
+            this.Payment.form.submit();
+        },
         stripeSubmitHandler(e) {
             this.Payment.errors = [];
             let cardType = Stripe.card.cardType(this.Payment.card_number);
@@ -52,17 +90,15 @@ export default {
         },
         stripeResponseHandler(status, response) {
             if (response.error) {
-                this.Payment.occupied = false;
-                this.Payment.errors.push(response.error);
+                this.stripeErrorHandler(response.error);
             } else {
-                let input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = 'stripeToken';
-                    input.value = response.id;
-                this.Payment.form.appendChild(input);
-
-                this.Payment.form.submit();
+                this.stripeTokenHandler(response.id);
             }
+        },
+        stripeErrorHandler(error) {
+            this.Payment.errors = [];
+            this.Payment.occupied = false;
+            this.Payment.errors.push(error);
         }
     }
 }

@@ -10,6 +10,18 @@ class OrganizationPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user, $ability)
+    {
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+    }
+
+    public function edit(User $user, Organization $organization)
+    {
+        return $organization->id == $user->organization_id;
+    }
+
     public function makeStripePayments(User $user, Organization $organization)
     {
         return (bool) $organization->setting('stripe_access_token');

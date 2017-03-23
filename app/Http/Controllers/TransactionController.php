@@ -9,72 +9,46 @@ use App\Repositories\TransactionRepository;
 
 class TransactionController extends Controller
 {
-    protected $transactions;
-
-    public function __construct(TransactionRepository $transactions)
+    public function __construct()
     {
-        $this->transactions = $transactions;
-
-        $this->middleware('admin');
+        $this->middleware('auth');
     }
 
-    public function refund(TransactionSplit $transaction)
+    public function edit(TransactionSplit $split)
     {
-        $this->authorize('owner', $transaction->order);
+        request()->intended(url()->previous());
 
-        return view('transaction.refund')->withTransaction($transaction);
+        $this->authorize('edit', $split->order);
+
+        return view('transaction.edit')->withTransaction($split);
     }
 
-    public function storeRefund(Request $request, TransactionSplit $transaction)
+    public function update(TransactionSplit $split)
     {
-        $this->authorize('owner', $transaction->order);
+        $this->authorize('owner', $split->order);
 
-        try {
-            $this->transactions->refund($transaction, $request->amount);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return redirect()->back()->withError($e->getMessage());
-        }
+        $this->validate(request(), [
+            'amount' => 'required',
+            'identifier' => 'required',
+        ]);
 
-        return redirect()->route('order.show', $transaction->order);
+        $split->update([
+            'amount' => request('amount') * 100
+        ]);
+        $split->transaction->update([
+            'amount' => request('amount') * 100,
+            'identifier' => request('identifier'),
+        ]);
+
+        return redirect()->intended(action('OrderController@show', $split->order))->withSucess('Transaction updated.');
     }
 
-    public function edit(TransactionSplit $transaction)
+    public function delete(TransactionSplit $split)
     {
-        $this->authorize('owner', $transaction->order);
+        $this->authorize('edit', $split->order);
 
-        $transactionData = [
-            'amount' => $transaction->amount,
-            'processor_transactionid' => $transaction->transaction->processor_transactionid
-        ];
+        $split->delete();
 
-        return view('transaction.edit', compact('transactionData'))->withTransaction($transaction);
-    }
-
-    public function update(Request $request, TransactionSplit $transaction)
-    {
-        $this->authorize('owner', $transaction->order);
-
-        $transaction->forceFill([
-            'amount' => $request->amount,
-        ])->save();
-
-        $transaction->transaction->forceFill([
-            'amount' => $request->amount,
-            'processor_transactionid' => $request->processor_transactionid,
-        ])->save();
-
-        return redirect()->route('order.show', $transaction->order);
-    }
-
-    public function delete(TransactionSplit $transaction)
-    {
-        $this->authorize('owner', $transaction->order);
-
-        $order = $transaction->order;
-
-        $transaction->delete();
-
-        return redirect()->route('order.show', $order);
+        return redirect()->back()->withSuccess('Transaction deleted');
     }
 }

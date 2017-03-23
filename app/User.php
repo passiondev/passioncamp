@@ -12,6 +12,10 @@ class User extends Authenticatable
 
     protected $guarded = [];
 
+    protected $casts = [
+        'flags' => 'collection',
+    ];
+
     public static function make(array $attributes = [])
     {
         $model = new static($attributes);
@@ -78,7 +82,11 @@ class User extends Authenticatable
             return 'Order Owner';
         }
 
-        return $this->organization->church->name . ' - ' . $this->organization->church->location;
+        if ($this->organization) {
+            return $this->organization->church->name . ' - ' . $this->organization->church->location;
+        }
+
+        return;
     }
 
     public function setEmailAttribute($value)

@@ -5,6 +5,7 @@ namespace App\Providers;
 use Mandrill;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,7 +29,13 @@ class AppServiceProvider extends ServiceProvider
             dd($this);
         });
 
-        view()->composer('ticket.partials.form', function ($view) {
+        Request::macro('intended', function ($url) {
+            if ($url != $this->fullUrl()) {
+                $this->session()->put('url.intended', $url);
+            }
+        });
+
+        view()->composer(['ticket.partials.form', 'ticket.partials.form-horizontal'], function ($view) {
             $gradeOptions = [];
 
             foreach (range(6, 12) as $grade) {
@@ -38,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('gradeOptions', $gradeOptions);
         });
 
-        view()->composer('user.partials.form', function ($view) {
+        view()->composer(['user.partials.form', 'user.edit', 'user.create'], function ($view) {
             $organizationOptions = [];
 
             \App\Organization::with('church')->each(function ($organization) use (&$organizationOptions) {
