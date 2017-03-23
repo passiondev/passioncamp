@@ -26,7 +26,7 @@ class OrganizationItemController extends Controller
     {
         $item = Item::find(request('item'));
 
-        $orderItem = new OrderItem(request('quantity') + [
+        $orderItem = new OrderItem(request(['quantity']) + [
             'cost' => request('cost') * 100
         ]);
         $orderItem->item()->associate($item);
