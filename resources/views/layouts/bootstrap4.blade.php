@@ -11,7 +11,7 @@
     <title>Passion Camp Portal</title>
 
     <!-- Styles -->
-    <link href="/css/bootstrap4.css" rel="stylesheet">
+    <link href="{{ mix('/css/bootstrap4.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -137,7 +137,7 @@
     </div>
     <!-- Scripts -->
     @yield('foot')
-    <script src="/js/app.js"></script>
+    <script src="{{ mix('/js/app.js') }}"></script>
     {{ svg_spritesheet() }}
 </body>
 </html>
