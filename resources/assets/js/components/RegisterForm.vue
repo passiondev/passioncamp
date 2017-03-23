@@ -40,10 +40,7 @@
                 while (tickets.length < this.num_tickets) {
                     let number = tickets.length + 1;
 
-                    tickets.push({
-                        number: number,
-                        considerations: {}
-                    })
+                    tickets.push({})
                 }
 
                 while (tickets.length > this.num_tickets) {

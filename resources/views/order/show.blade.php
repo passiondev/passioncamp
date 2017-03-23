@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <header class="d-flex justify-content-between align-items-center mb-3">
+        <header class="d-md-flex justify-content-between align-items-center mb-3">
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
             <div>
                 <a class="btn btn-secondary" href="{{ action('OrderTicketController@create', $order) }}">Add Attendee</a>
@@ -22,7 +22,7 @@
                 <h3>Attendees</h3>
             </header>
             @if ($order->tickets->count() > 0)
-                <table class="table">
+                <table class="table table-responsive">
                     <thead class="mobile hidden">
                         <tr>
                             <th>Name</th>
@@ -58,8 +58,8 @@
         <div class="ui divider"></div>
 
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-lg-4">
+                <div class="card mb-3">
                     <header class="card-header d-flex justify-content-between">
                         <h4>Contact</h4>
                         <div>
@@ -76,7 +76,7 @@
                 </div>
             </div>
             @if ($order->organization->can_record_transactions)
-                <div class="col-md-8">
+                <div class="col-lg-8">
                     @include('order/partials/registration_summary')
                 </div>
             @endif

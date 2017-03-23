@@ -10637,10 +10637,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             while (tickets.length < this.num_tickets) {
                 var number = tickets.length + 1;
 
-                tickets.push({
-                    number: number,
-                    considerations: {}
-                });
+                tickets.push({});
             }
 
             while (tickets.length > this.num_tickets) {
@@ -10825,9 +10822,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
-    props: ['ticket'],
+    props: ['ticket', 'index'],
+    created: function created() {
+        if (!this.ticket.considerations) {
+            this.ticket.considerations = {};
+        }
+    },
     data: function data() {
         return {
             food_toggle: Object.keys(_.pick(this.ticket.considerations, ['nut', 'vegetarian', 'gluten', 'dairy', 'other'])).length,
@@ -10835,25 +10838,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             other_toggle: Object.keys(_.pick(this.ticket.considerations, ['other'])).length,
             drug_toggle: Object.keys(_.pick(this.ticket.considerations, ['drug'])).length,
             physical_toggle: Object.keys(_.pick(this.ticket.considerations, ['physical'])).length,
-            nut: this.ticket.considerations.nut,
-            vegetarian: this.ticket.considerations.vegetarian,
-            gluten: this.ticket.considerations.gluten,
-            dairy: this.ticket.considerations.dairy,
-            other: this.ticket.considerations.other,
-            drug: this.ticket.considerations.drug,
-            physical: this.ticket.considerations.physical,
-            visual: this.ticket.considerations.visual,
-            hearing: this.ticket.considerations.hearing
+            nut: this.getConsideration('nut'),
+            vegetarian: this.getConsideration('vegetarian'),
+            gluten: this.getConsideration('gluten'),
+            dairy: this.getConsideration('dairy'),
+            other: this.getConsideration('other'),
+            drug: this.getConsideration('drug'),
+            physical: this.getConsideration('physical'),
+            visual: this.getConsideration('visual'),
+            hearing: this.getConsideration('hearing')
         };
     },
 
+    methods: {
+        getConsideration: function getConsideration(consideration) {
+            return this.ticket.considerations && this.ticket.considerations[consideration];
+        }
+    },
     watch: {
         other_toggle: function other_toggle(toggle) {
             var _this = this;
 
             if (toggle) {
                 setTimeout(function () {
-                    document.getElementById('considerations_' + _this.ticket.number + '_other').focus();
+                    document.getElementById('considerations_' + _this.index + '_other').focus();
                 }, 300);
             }
         },
@@ -10862,7 +10870,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (toggle) {
                 setTimeout(function () {
-                    document.getElementById('considerations_' + _this2.ticket.number + '_drug').focus();
+                    document.getElementById('considerations_' + _this2.index + '_drug').focus();
                 }, 300);
             }
         },
@@ -10871,7 +10879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (toggle) {
                 setTimeout(function () {
-                    document.getElementById('considerations_' + _this3.ticket.number + '_physical').focus();
+                    document.getElementById('considerations_' + _this3.index + '_physical').focus();
                 }, 300);
             }
         }
@@ -34563,7 +34571,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "card mb-3"
   }, [_c('header', {
     staticClass: "card-header"
-  }, [_c('h4', [_vm._v("Student #" + _vm._s(_vm.ticket.number))])]), _vm._v(" "), _c('div', {
+  }, [_c('h4', [_vm._v("Student #" + _vm._s(_vm.index + 1))])]), _vm._v(" "), _c('div', {
     staticClass: "card-block ticket"
   }, [_c('div', {
     staticClass: "row"
@@ -34572,7 +34580,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__first_name")
+      "for": ("tickets_" + _vm.index + "__first_name")
     }
   }, [_vm._v("First Name")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -34584,8 +34592,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "id": ("tickets_" + (_vm.ticket.number) + "__first_name"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][first_name]")
+      "id": ("tickets_" + _vm.index + "__first_name"),
+      "name": ("tickets[" + _vm.index + "][first_name]")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.first_name)
@@ -34601,7 +34609,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__last_name")
+      "for": ("tickets_" + _vm.index + "__last_name")
     }
   }, [_vm._v("Last Name")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -34613,8 +34621,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "id": ("tickets_" + (_vm.ticket.number) + "__last_name"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][last_name]")
+      "id": ("tickets_" + _vm.index + "__last_name"),
+      "name": ("tickets[" + _vm.index + "][last_name]")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.last_name)
@@ -34632,7 +34640,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__email")
+      "for": ("tickets_" + _vm.index + "__email")
     }
   }, [_vm._v("Email Address")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -34644,8 +34652,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "email",
-      "id": ("tickets_" + (_vm.ticket.number) + "__email"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][email]")
+      "id": ("tickets_" + _vm.index + "__email"),
+      "name": ("tickets[" + _vm.index + "][email]")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.email)
@@ -34661,7 +34669,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__phone")
+      "for": ("tickets_" + _vm.index + "__phone")
     }
   }, [_vm._v("Phone Number")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -34673,8 +34681,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "id": ("tickets_" + (_vm.ticket.number) + "__phone"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][phone]")
+      "id": ("tickets_" + _vm.index + "__phone"),
+      "name": ("tickets[" + _vm.index + "][phone]")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.phone)
@@ -34692,7 +34700,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__birthdate")
+      "for": ("tickets_" + _vm.index + "__birthdate")
     }
   }, [_vm._v("Birthdate")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -34705,8 +34713,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "placeholder": "mm/dd/yyyy",
       "type": "text",
-      "id": ("tickets_" + (_vm.ticket.number) + "__birthdate"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][birthdate]")
+      "id": ("tickets_" + _vm.index + "__birthdate"),
+      "name": ("tickets[" + _vm.index + "][birthdate]")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.birthdate)
@@ -34722,7 +34730,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__gender")
+      "for": ("tickets_" + _vm.index + "__gender")
     }
   }, [_vm._v("Gender")]), _vm._v(" "), _c('div', {
     staticClass: "form-controls form-controls--radio"
@@ -34738,8 +34746,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "radio",
       "value": "M",
-      "name": ("tickets[" + (_vm.ticket.number) + "][gender]"),
-      "id": ("tickets_" + (_vm.ticket.number) + "__gender")
+      "name": ("tickets[" + _vm.index + "][gender]"),
+      "id": ("tickets_" + _vm.index + "__gender")
     },
     domProps: {
       "checked": _vm._q(_vm.ticket.gender, "M")
@@ -34761,8 +34769,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "radio",
       "value": "F",
-      "name": ("tickets[" + (_vm.ticket.number) + "][gender]"),
-      "id": ("tickets_" + (_vm.ticket.number) + "__gender")
+      "name": ("tickets[" + _vm.index + "][gender]"),
+      "id": ("tickets_" + _vm.index + "__gender")
     },
     domProps: {
       "checked": _vm._q(_vm.ticket.gender, "F")
@@ -34777,7 +34785,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__shirtsize")
+      "for": ("tickets_" + _vm.index + "__shirtsize")
     }
   }, [_vm._v("Shirt Size")]), _vm._v(" "), _c('select', {
     directives: [{
@@ -34788,8 +34796,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "id": ("tickets_" + (_vm.ticket.number) + "__shirtsize"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][shirtsize]")
+      "id": ("tickets_" + _vm.index + "__shirtsize"),
+      "name": ("tickets[" + _vm.index + "][shirtsize]")
     },
     on: {
       "change": function($event) {
@@ -34828,7 +34836,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__grade")
+      "for": ("tickets_" + _vm.index + "__grade")
     }
   }, [_vm._v("Grade")]), _vm._v(" "), _c('select', {
     directives: [{
@@ -34839,8 +34847,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "id": ("tickets_" + (_vm.ticket.number) + "__grade"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][grade]")
+      "id": ("tickets_" + _vm.index + "__grade"),
+      "name": ("tickets[" + _vm.index + "][grade]")
     },
     on: {
       "change": function($event) {
@@ -34885,7 +34893,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__school")
+      "for": ("tickets_" + _vm.index + "__school")
     }
   }, [_vm._v("School")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -34897,8 +34905,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "id": ("tickets_" + (_vm.ticket.number) + "__school"),
-      "name": ("tickets[" + (_vm.ticket.number) + "][school]")
+      "id": ("tickets_" + _vm.index + "__school"),
+      "name": ("tickets[" + _vm.index + "][school]")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.school)
@@ -34914,7 +34922,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__roommate_requested")
+      "for": ("tickets_" + _vm.index + "__roommate_requested")
     }
   }, [_vm._v("Roommate Requested "), _c('small', {
     staticClass: "text-muted"
@@ -34928,8 +34936,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "name": ("tickets[" + (_vm.ticket.number) + "][roommate_requested]"),
-      "id": ("tickets_" + (_vm.ticket.number) + "__roommate_requested")
+      "name": ("tickets[" + _vm.index + "][roommate_requested]"),
+      "id": ("tickets_" + _vm.index + "__roommate_requested")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.roommate_requested)
@@ -34945,7 +34953,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "control-label",
     attrs: {
-      "for": ("tickets_" + (_vm.ticket.number) + "__travel_plans")
+      "for": ("tickets_" + _vm.index + "__travel_plans")
     }
   }, [_vm._v("Alternate Arrival/Departure Plans "), _c('small', {
     staticClass: "text-muted"
@@ -34959,8 +34967,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "name": ("tickets[" + (_vm.ticket.number) + "][travel_plans]"),
-      "id": ("tickets_" + (_vm.ticket.number) + "__travel_plans")
+      "name": ("tickets[" + _vm.index + "][travel_plans]"),
+      "id": ("tickets_" + _vm.index + "__travel_plans")
     },
     domProps: {
       "value": _vm._s(_vm.ticket.travel_plans)
@@ -35027,7 +35035,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-check-input",
     attrs: {
       "type": "checkbox",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][nut]"),
+      "name": ("tickets[" + _vm.index + "][considerations][nut]"),
       "value": "nut"
     },
     domProps: {
@@ -35065,7 +35073,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-check-input",
     attrs: {
       "type": "checkbox",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][vegetarian]"),
+      "name": ("tickets[" + _vm.index + "][considerations][vegetarian]"),
       "value": "vegetarian"
     },
     domProps: {
@@ -35103,7 +35111,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-check-input",
     attrs: {
       "type": "checkbox",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][gluten]"),
+      "name": ("tickets[" + _vm.index + "][considerations][gluten]"),
       "value": "gluten"
     },
     domProps: {
@@ -35141,7 +35149,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-check-input",
     attrs: {
       "type": "checkbox",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][dairy]"),
+      "name": ("tickets[" + _vm.index + "][considerations][dairy]"),
       "value": "dairy"
     },
     domProps: {
@@ -35212,8 +35220,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control form-control-sm",
     attrs: {
       "type": "text",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][other]"),
-      "id": ("considerations_" + (_vm.ticket.number) + "_other"),
+      "name": ("tickets[" + _vm.index + "][considerations][other]"),
+      "id": ("considerations_" + _vm.index + "_other"),
       "placeholder": "Other..."
     },
     domProps: {
@@ -35309,8 +35317,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control form-control-sm",
     attrs: {
       "type": "text",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][drug]"),
-      "id": ("considerations_" + (_vm.ticket.number) + "_drug"),
+      "name": ("tickets[" + _vm.index + "][considerations][drug]"),
+      "id": ("considerations_" + _vm.index + "_drug"),
       "placeholder": "Please list name of drug..."
     },
     domProps: {
@@ -35368,8 +35376,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control form-control-sm",
     attrs: {
       "type": "text",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][physical]"),
-      "id": ("considerations_" + (_vm.ticket.number) + "_physical"),
+      "name": ("tickets[" + _vm.index + "][considerations][physical]"),
+      "id": ("considerations_" + _vm.index + "_physical"),
       "placeholder": "Please provide more info..."
     },
     domProps: {
@@ -35395,7 +35403,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-check-input",
     attrs: {
       "type": "checkbox",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][visual]"),
+      "name": ("tickets[" + _vm.index + "][considerations][visual]"),
       "value": "visual"
     },
     domProps: {
@@ -35433,7 +35441,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-check-input",
     attrs: {
       "type": "checkbox",
-      "name": ("tickets[" + (_vm.ticket.number) + "][considerations][hearing]"),
+      "name": ("tickets[" + _vm.index + "][considerations][hearing]"),
       "value": "hearing"
     },
     domProps: {
