@@ -5,7 +5,7 @@
         <header class="d-flex justify-content-between">
             <h1>Attendees</h1>
             <div>
-                @unless (auth()->user()->isSuperAdmin())
+                @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
                     <a href="{{ action('Account\TicketController@create') }}" class="btn btn-secondary">Add Attendee</a>
                 @endunless
             </div>
@@ -17,36 +17,38 @@
             </p>
         @else
             <table class="table table-responsive table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    @if (auth()->user()->isSuperAdmin())
-                        <th></th>
-                    @endif
-                    <th>Grade</th>
-                    <th></th>
-                </tr>
-            </thead>
-                @foreach ($tickets as $ticket)
-                    <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                        <td>
-                            @if ($ticket->organization->slug == 'pcc')
-                                <a href="{{ action('OrderController@show', $ticket->order) }}">{{ $ticket->name }}</a>
-                            @else
-                                {{ $ticket->name }}
-                            @endif
-                        </td>
+                <thead>
+                    <tr>
+                        <th>Name</th>
                         @if (auth()->user()->isSuperAdmin())
-                            <td>{{ $ticket->organization->church->name }}<br> <small>{{ $ticket->organization->church->location }}</small></td>
+                            <th></th>
                         @endif
-                        <td>
-                            @include('ticket/partials/label')
-                        </td>
-                        <td>
-                            <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
-                        </td>
+                        <th>Grade</th>
+                        <th></th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody>
+                    @foreach ($tickets as $ticket)
+                        <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
+                            <td>
+                                @if ($ticket->organization->slug == 'pcc')
+                                    <a href="{{ action('OrderController@show', $ticket->order) }}">{{ $ticket->name }}</a>
+                                @else
+                                    {{ $ticket->name }}
+                                @endif
+                            </td>
+                            @if (auth()->user()->isSuperAdmin())
+                                <td>{{ $ticket->organization->church->name }}<br> <small>{{ $ticket->organization->church->location }}</small></td>
+                            @endif
+                            <td>
+                                @include('ticket/partials/label')
+                            </td>
+                            <td>
+                                <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         @endif
 

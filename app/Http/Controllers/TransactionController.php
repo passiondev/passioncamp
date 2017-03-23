@@ -9,6 +9,11 @@ use App\Repositories\TransactionRepository;
 
 class TransactionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function edit(TransactionSplit $split)
     {
         request()->intended(url()->previous());

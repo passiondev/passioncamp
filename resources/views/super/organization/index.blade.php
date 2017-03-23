@@ -5,7 +5,7 @@
         <header class="d-flex justify-content-between">
             <h1>Churches</h1>
             <p>
-                <a class="btn btn-secondary" href="{{ action('Super\OrganizationController@create') }}">Add Church</a>
+                <a class="btn btn-secondary" href="{{ action('OrganizationController@create') }}">Add Church</a>
             </p>
         </header>
 
@@ -23,7 +23,7 @@
                 @foreach ($organizations as $organization)
                     <tr>
                         <td>
-                                <a href="{{ action('Super\OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
+                                <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
                                 <div>
                                     {{ $organization->church->location }}
                                     <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>

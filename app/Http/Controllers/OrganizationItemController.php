@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Super;
+namespace App\Http\Controllers;
 
 use App\Item;
 use App\OrderItem;
 use App\Organization;
-use App\Http\Controllers\Controller;
 use App\Jobs\DeployRoomsAndAssignToHotels;
 
 class OrganizationItemController extends Controller
@@ -37,7 +36,7 @@ class OrganizationItemController extends Controller
 
         // app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
 
-        return redirect()->action('Super\OrganizationController@show', $organization)->withSuccess('Item added.');
+        return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item added.');
     }
 
     public function edit(Organization $organization, OrderItem $item)

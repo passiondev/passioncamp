@@ -16,7 +16,7 @@
             <tbody>
                 @foreach ($hotel->organizations as $organization)
                     <tr>
-                        <td><a href="{{ action('Super\OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a></td>
+                        <td><a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a></td>
                         <td>{{ $organization->roomCountForHotel($hotel) }}</td>
                     </tr>
                 @endforeach

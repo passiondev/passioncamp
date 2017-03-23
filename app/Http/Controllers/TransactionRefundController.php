@@ -7,6 +7,11 @@ use App\TransactionSplit;
 
 class TransactionRefundController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function create(TransactionSplit $split)
     {
         request()->intended(url()->previous());

@@ -20,7 +20,7 @@ class PersonPolicy
     public function update(User $user, Person $person)
     {
         if ($user->isChurchAdmin()) {
-            return $user->organization_id == $person->user->organization_id;
+            return $user->organization_id == $person->user->orders->first()->organization_id;
         }
 
         return $user->id == $person->user_id;

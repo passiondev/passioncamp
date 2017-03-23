@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PersonController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function edit(Person $person)
     {
         request()->intended(url()->previous());

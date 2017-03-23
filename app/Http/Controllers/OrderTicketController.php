@@ -9,9 +9,15 @@ use Illuminate\Http\Request;
 
 class OrderTicketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('hasEnoughTickets');
+    }
+
     public function create(Order $order)
     {
-        $this->authorize($order);
+        $this->authorize('edit', $order);
 
         request()->intended(url()->previous());
 
@@ -22,7 +28,7 @@ class OrderTicketController extends Controller
 
     public function store(Order $order)
     {
-        $this->authorize($order);
+        $this->authorize('edit', $order);
 
         $this->validate(request(), [
             'ticket.agegroup' => 'required',

@@ -6,7 +6,7 @@
             <h1>Add Item</h1>
         </header>
 
-        <form action="{{ action('Super\OrganizationItemController@store', $organization) }}" method="POST">
+        <form action="{{ action('OrganizationItemController@store', $organization) }}" method="POST">
             {{ csrf_field() }}
 
             <div class="form-group">

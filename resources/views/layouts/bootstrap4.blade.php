@@ -86,7 +86,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ action('Super\OrganizationController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\OrganizationController') ? 'active' :'' }}">
+                                <a href="{{ action('OrganizationController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'OrganizationController') ? 'active' :'' }}">
                                     Churches
                                 </a>
                             </li>
@@ -96,7 +96,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ action('Super\HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\HotelController') ? 'active' :'' }}">
+                                <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                     Hotels
                                 </a>
                             </li>

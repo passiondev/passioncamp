@@ -6,10 +6,10 @@
         <h1>{{ $organization->church->name }}</h1>
         <p>
             @if (auth()->user()->isSuperAdmin())
-                <a href="{{ action('Super\OrganizationPaymentController@index', $organization) }}" class="btn btn-outline-primary">Add Payment</a>
-                <a href="{{ action('Super\OrganizationItemController@create', $organization) }}" class="btn btn-outline-primary">Add Item</a>
+                <a href="{{ action('OrganizationPaymentController@index', $organization) }}" class="btn btn-outline-primary">Add Payment</a>
+                <a href="{{ action('OrganizationItemController@create', $organization) }}" class="btn btn-outline-primary">Add Item</a>
             @endif
-            <a class="btn btn-secondary" href="{{ action('Super\OrganizationController@edit', $organization) }}">Edit</a>
+            <a class="btn btn-secondary" href="{{ action('OrganizationController@edit', $organization) }}">Edit</a>
         </p>
     </header>
 
@@ -80,7 +80,7 @@
             <header class="card-header d-flex justify-content-between align-items-center">
                 <h3>Auth Users</h3>
                 <div class="sub header">
-                    <a href="{{ action('Super\OrganizationUserController@create', $organization) }}" class="btn btn-secondary btn-sm">Add Auth User</a>
+                    <a href="{{ action('OrganizationUserController@create', $organization) }}" class="btn btn-secondary btn-sm">Add Auth User</a>
                 </div>
             </header>
             <div class="card-block">

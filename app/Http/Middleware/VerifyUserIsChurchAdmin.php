@@ -20,7 +20,7 @@ class VerifyUserIsChurchAdmin
         }
 
         if ($request->user() && $request->user()->isSuperAdmin()) {
-            return redirect()->route('admin.organization.index');
+            return redirect()->route('/');
         }
 
         return abort(401, 'Unauthorized.');

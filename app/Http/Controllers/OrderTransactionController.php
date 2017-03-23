@@ -7,13 +7,22 @@ use Illuminate\Http\Request;
 
 class OrderTransactionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function create(Order $order)
     {
+        $this->authorize('edit', $order);
+
         return view('order-transaction.create', compact('order'));
     }
 
     public function store(Order $order)
     {
+        $this->authorize('edit', $order);
+
         $this->validate(request(), [
             'type' => 'required',
             'amount' => 'required|integer|not_in:0',

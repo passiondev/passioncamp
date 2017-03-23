@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Super;
+namespace App\Http\Controllers;
 
 use App\Hotel;
 use App\Http\Controllers\Controller;

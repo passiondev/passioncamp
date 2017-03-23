@@ -20,7 +20,7 @@
             <h4 class="card-header">Make A Payment</h4>
             <div class="card-block">
                 <transaction-form inline-template stripe-elements="card-element">
-                    <form action="{{ action('Super\OrganizationPaymentController@store', $organization) }}" method="POST" v-on:submit.prevent="submitHandler">
+                    <form action="{{ action('OrganizationPaymentController@store', $organization) }}" method="POST" v-on:submit.prevent="submitHandler">
                         {{ csrf_field() }}
 
                         <div class="form-group row">

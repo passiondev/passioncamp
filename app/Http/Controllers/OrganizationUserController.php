@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Super;
+namespace App\Http\Controllers;
 
 use App\User;
 use App\Person;
 use App\Organization;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class OrganizationUserController extends Controller
 {
@@ -34,6 +32,6 @@ class OrganizationUserController extends Controller
             'person_id' => Person::create(request(['first_name', 'last_name']))->id,
         ]);
 
-        return redirect()->action('Super\OrganizationController@show', $organization);
+        return redirect()->action('OrganizationController@show', $organization);
     }
 }

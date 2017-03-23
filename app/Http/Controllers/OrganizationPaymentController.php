@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Super;
+namespace App\Http\Controllers;
 
 use App\Organization;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class OrganizationPaymentController extends Controller
 {
@@ -59,6 +57,6 @@ class OrganizationPaymentController extends Controller
             ]);
         }
 
-        return redirect()->action('Super\OrganizationController@show', $organization)->with('success', 'Payment added.');
+        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Payment added.');
     }
 }

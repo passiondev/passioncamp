@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class OrderNoteController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function store(Order $order)
     {
         $this->authorize('edit', $order);

@@ -1,19 +1,13 @@
 <?php
 
-Route::get('/', function () {
-    if (Auth::user()->isSuperAdmin()) {
-        return redirect()->action('Super\DashboardController');
-    }
-
-    return redirect()->action('Account\DashboardController');
-})->middleware('auth');
+Route::get('/', 'RedirectController@home');
 
 Route::get('admin', 'Super\DashboardController');
 
-Route::resource('admin/organizations', 'Super\OrganizationController');
+Route::resource('admin/organizations', 'OrganizationController');
 
-Route::get('admin/hotels', 'Super\HotelController@index');
-Route::get('admin/hotels/{hotel}', 'Super\HotelController@show');
+Route::get('admin/hotels', 'HotelController@index');
+Route::get('admin/hotels/{hotel}', 'HotelController@show');
 
 Route::get('admin/tickets', 'Super\TicketController@index');
 
@@ -22,19 +16,17 @@ Route::get('admin/users/create', 'Super\UserController@create');
 Route::post('admin/users', 'Super\UserController@store');
 Route::get('admin/users/{user}/edit', 'Super\UserController@edit');
 Route::put('admin/users/{user}/update', 'Super\UserController@update');
-// Route::post('user/{user}/password/reset', 'User\PasswordController@reset');
 
-Route::get('admin/organizations/{organization}/item/create', 'Super\OrganizationItemController@create');
-Route::post('admin/organizations/{organization}/item/store', 'Super\OrganizationItemController@store');
-Route::get('admin/organizations/{organization}/item/{item}/edit', 'Super\OrganizationItemController@edit');
-Route::put('admin/organizations/{organization}/item/{item}/update', 'Super\OrganizationItemController@update');
+Route::get('admin/organizations/{organization}/item/create', 'OrganizationItemController@create');
+Route::post('admin/organizations/{organization}/item/store', 'OrganizationItemController@store');
+Route::get('admin/organizations/{organization}/item/{item}/edit', 'OrganizationItemController@edit');
+Route::put('admin/organizations/{organization}/item/{item}/update', 'OrganizationItemController@update');
 
-Route::get('admin/organizations/{organization}/users/create', 'Super\OrganizationUserController@create');
-Route::post('admin/organizations/{organization}/users', 'Super\OrganizationUserController@store');
+Route::get('admin/organizations/{organization}/users/create', 'OrganizationUserController@create');
+Route::post('admin/organizations/{organization}/users', 'OrganizationUserController@store');
 
-Route::get('admin/organizations/{organization}/payments', 'Super\OrganizationPaymentController@index');
-Route::post('admin/organizations/{organization}/payments/store', 'Super\OrganizationPaymentController@store');
-
+Route::get('admin/organizations/{organization}/payments', 'OrganizationPaymentController@index');
+Route::post('admin/organizations/{organization}/payments/store', 'OrganizationPaymentController@store');
 
 Route::get('account/dashboard', 'Account\DashboardController');
 
@@ -60,7 +52,6 @@ Route::post('orders/{order}/notes', 'OrderNoteController@store');
 Route::get('tickets', 'TicketController@index');
 Route::get('tickets/create', 'Account\TicketController@create');
 Route::post('tickets', 'Account\TicketController@store');
-// Route::get('tickets/{ticket}', 'TicketController@show');
 Route::get('tickets/{ticket}/edit', 'TicketController@edit');
 Route::patch('tickets/{ticket}', 'TicketController@update');
 Route::delete('tickets/{ticket}', 'TicketController@delete');

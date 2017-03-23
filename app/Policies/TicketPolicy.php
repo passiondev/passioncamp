@@ -66,6 +66,6 @@ class TicketPolicy
 
     public function cancel(User $user, Ticket $ticket)
     {
-        return ! $ticket->canceled_at && $ticket->order->organization->slug == 'pcc';
+        return $this->update($user, $ticket) && ! $ticket->canceled_at && $ticket->order->organization->slug == 'pcc';
     }
 }

@@ -175,67 +175,6 @@ class Organization extends Model
         return $this->slug == 'pcc';
     }
 
-    public function addPayment($data)
-    {
-        if ($data['type'] == 'check') {
-            return $this->addCheckPayment($data);
-        }
-
-        if ($data['type'] == 'credit') {
-            return $this->addCreditPayment($data);
-        }
-
-        throw new \Exception("Could not add payment: payment type not available.");
-    }
-
-    private function addCheckPayment($data)
-    {
-        $transaction = new Transaction;
-        $transaction->amount = $data['amount'];
-        $transaction->processor_transactionid = $data['transaction_id'];
-        $transaction->type = ucwords($data['type']);
-        $transaction->save();
-
-        $split = new TransactionSplit;
-        $split->transaction()->associate($transaction);
-        $split->organization()->associate($this);
-        $split->amount = $data['amount'];
-        $split->save();
-    }
-
-    private function addCreditPayment($data)
-    {
-        $gateway = Omnipay::create('Stripe');
-        $gateway->setApiKey(config('services.stripe.secret'));
-
-        $charge = $gateway->purchase([
-            'amount' => number_format($data['amount'], 2, '.', ''),
-            'currency' => 'USD',
-            'description' => 'Passion Camp',
-            'token' => $data['stripeToken'],
-        ])->send();
-
-        if (! $charge->isSuccessful()) {
-            throw new \Exception($charge->getMessage());
-            return false;
-        }
-
-        $transaction = new Transaction;
-        $transaction->amount = $data['amount'];
-        $transaction->processor_transactionid = $charge->getTransactionReference();
-        $transaction->card_type = $charge->getSource()['brand'];
-        $transaction->card_num = $charge->getSource()['last4'];
-        $transaction->type = ucwords($data['type']);
-        $transaction->source = 'stripe';
-        $transaction->save();
-
-        $split = new TransactionSplit;
-        $split->transaction()->associate($transaction);
-        $split->organization()->associate($this);
-        $split->amount = $data['amount'];
-        $split->save();
-    }
-
     public function getTicketCountAttribute()
     {
         return $this->tickets->sum('quantity');

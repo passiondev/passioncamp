@@ -6,6 +6,11 @@ use App\User;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function edit(User $user)
     {
         $this->authorize($user);
@@ -37,7 +42,7 @@ class UserController extends Controller
         $user->person->update(request(['first_name', 'last_name']));
 
         return auth()->user()->isSuperAdmin()
-             ? redirect()->action('Super\OrganizationController@show', $user->organization)
+             ? redirect()->action('OrganizationController@show', $user->organization)
              : redirect()->action('Account\SettingsController@index');
     }
 }

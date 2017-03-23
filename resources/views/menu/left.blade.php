@@ -1,6 +1,6 @@
 @if (auth()->user())
     @if (auth()->user()->isSuperAdmin())
-        <a class="item {{ request()->route()->getAction() == 'Super\OrganizationController@index' ? 'active' :'' }}" href="{{ action('Super\OrganizationController@index') }}">Churches</a>
+        <a class="item {{ request()->route()->getAction() == 'OrganizationController@index' ? 'active' :'' }}" href="{{ action('OrganizationController@index') }}">Churches</a>
         {{-- <a class="item {{ request()->route()->getAction() == 'hotel.index' ? 'active' :'' }}" href="{{ route('hotel.index') }}">Hotels</a> --}}
         <a class="item {{ request()->route()->getAction() == 'Super\UserController@index' ? 'active' :'' }}" href="{{ action('Super\UserController@index') }}">Users</a>
     @endif

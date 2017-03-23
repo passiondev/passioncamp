@@ -22,8 +22,8 @@
     </script>
     @yield('head')
 </head>
-<body>
-    <header id="page-header" class="text-center">
+<body style="padding-top:0">
+    <header id="page-header" class="text-center pt-xl-5">
         <img src="/img/header-content.png" alt="SMMR CMP" class="img-fluid">
     </header>
     <div id="page-header-banner">

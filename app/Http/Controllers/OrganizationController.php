@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Super;
+namespace App\Http\Controllers;
 
 use App\Church;
 use App\Person;
 use App\Organization;
-use App\Http\Controllers\Controller;
 
 class OrganizationController extends Controller
 {
@@ -47,7 +46,7 @@ class OrganizationController extends Controller
             ->studentPastor()->associate(Person::create(request('student_pastor')))
         ->save();
 
-        return redirect()->action('Super\OrganizationController@show', $organization)->with('success', 'Church created.');
+        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church created.');
     }
 
     public function edit(Organization $organization)
