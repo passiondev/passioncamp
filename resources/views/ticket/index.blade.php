@@ -6,7 +6,7 @@
             <h1>Attendees</h1>
             <div>
                 @unless (auth()->user()->isSuperAdmin())
-                    <a href="{{ action('Account\TicketController@create') }}" class="btn btn-primary">Add Attendee</a>
+                    <a href="{{ action('Account\TicketController@create') }}" class="btn btn-secondary">Add Attendee</a>
                 @endunless
             </div>
         </header>
@@ -16,7 +16,7 @@
                 <i>No attendees added yet...</i>
             </p>
         @else
-            <table class="table table-striped">
+            <table class="table table-responsive table-striped">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -43,7 +43,7 @@
                             @include('ticket/partials/label')
                         </td>
                         <td>
-                            <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-primary btn-sm">edit</a>
+                            <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
                         </td>
                     </tr>
                 @endforeach

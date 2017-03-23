@@ -5,42 +5,46 @@
     <div class="ui container Dashboard">
         <div class="row mb-5">
             <div class="col">
-                <div class="Statistics_container">
-                    <h3>Registrations</h3>
-                    <div class="statistics">
-                        <div class="statistic statistic-xl">
-                            <div class="value">{{ $organization->tickets_remaining_count }}</div>
-                            <div class="label">Remaining</div>
-                        </div>
-                        <div class="horizontal statistics">
-                            <div class="statistic">
-                                <div class="value">{{ $organization->ticket_count }}</div>
-                                <div class="label">Purchased</div>
+                <div class="card text-center mb-3">
+                    <h3 class="card-header">Registrations</h3>
+                    <div class="card-block">
+                        <div class="statistics justify-content-center">
+                            <div class="statistic statistic-xl">
+                                <div class="value">{{ $organization->tickets_remaining_count }}</div>
+                                <div class="label">Remaining</div>
                             </div>
-                            <div class="statistic">
-                                <div class="value">{{ $organization->orders->ticket_count }}</div>
-                                <div class="label">Registered</div>
+                            <div class="horizontal statistics">
+                                <div class="statistic">
+                                    <div class="value">{{ $organization->ticket_count }}</div>
+                                    <div class="label">Purchased</div>
+                                </div>
+                                <div class="statistic">
+                                    <div class="value">{{ $organization->orders->ticket_count }}</div>
+                                    <div class="label">Registered</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col">
-                <div class="Statistics_container">
-                    <h3>Attendees</h3>
-                    <div class="statistics">
-                        <div class="statistic statistic-xl">
-                            <div class="value">{{ $organization->orders->ticket_count }}</div>
-                            <div class="label">Registered</div>
-                        </div>
-                        <div class="horizontal statistics">
-                            <div class="purple statistic">
-                                <div class="value" style="color:purple">{{ $organization->orders->student_count }}</div>
-                                <div class="label">Students</div>
+                <div class="card text-center mb-3">
+                    <h3 class="card-header">Attendees</h3>
+                    <div class="card-block">
+                        <div class="statistics justify-content-center">
+                            <div class="statistic statistic-xl">
+                                <div class="value">{{ $organization->orders->ticket_count }}</div>
+                                <div class="label">Registered</div>
                             </div>
-                            <div class="teal statistic">
-                                <div class="value" style="color:teal">{{ $organization->orders->leader_count }}</div>
-                                <div class="label">Leaders</div>
+                            <div class="horizontal statistics">
+                                <div class="statistic color-student">
+                                    <div class="value">{{ $organization->orders->student_count }}</div>
+                                    <div class="label">Students</div>
+                                </div>
+                                <div class="statistic color-leader">
+                                    <div class="value">{{ $organization->orders->leader_count }}</div>
+                                    <div class="label">Leaders</div>
+                                </div>
                             </div>
                         </div>
                     </div>

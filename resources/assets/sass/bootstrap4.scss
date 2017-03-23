@@ -9,6 +9,11 @@
         vertical-align: middle;
     }
 }
+.table-responsive {
+    @include media-breakpoint-up(sm) {
+        display: table;
+    }
+}
 
 .icon {
     width: 1rem;
@@ -174,17 +179,6 @@ body {
         }
     }
 
-}
-
-.badge-student {
-    @include badge-variant(purple);
-    font-size: inherit;
-    font-weight: 700;
-}
-.badge-leader {
-    @include badge-variant(teal);
-    font-size: inherit;
-    font-weight: 700;
 }
 
 .info-box {
@@ -392,3 +386,19 @@ fieldset.form-group {
         justify-content: center;
     }
 }
+
+$color-student: #de8e52;
+$color-leader: #3d9794;
+.color-student {
+    color: $color-student;
+}
+.color-leader {
+    color: $color-leader;
+}
+.badge-student {
+    @include badge-variant($color-student);
+}
+.badge-leader {
+    @include badge-variant($color-leader);
+}
+

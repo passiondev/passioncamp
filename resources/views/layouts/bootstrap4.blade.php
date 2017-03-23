@@ -29,8 +29,8 @@
         </button>
 
         <!-- Branding Image -->
-        <a class="navbar-brand" href="{{ url('/') }}">
-            Passion Camp
+        <a class="navbar-brand py-0" href="{{ url('/') }}">
+            <img src="{{ url('img/camp-logo.png') }}" alt="Passion Camp" height="40">
         </a>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -76,7 +76,7 @@
             <div class="row">
                 <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
                     @unless (Auth::user()->isSuperAdmin())
-                        <h4 class="px-3">{{ auth()->user()->organization->church->name }}</h4>
+                        <h4 class="px-sm-3 mb-3">{{ auth()->user()->organization->church->name }}</h4>
                     @endunless
                     <ul class="nav nav-pills flex-sm-column">
                         @if (Auth::user()->isSuperAdmin())
@@ -125,7 +125,7 @@
                         @endif
                     </ul>
                 </div>
-                <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-3" id="app">
+                <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5" id="app">
                     @yield('content')
                 </div>
             @else

@@ -64,7 +64,7 @@ class OrderItem extends Model
     public function getNameAttribute()
     {
         if ($this->item) {
-            return $this->item->name;
+            return $this->item->full_name;
         }
 
         return ucwords($this->type);

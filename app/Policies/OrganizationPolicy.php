@@ -10,12 +10,15 @@ class OrganizationPolicy
 {
     use HandlesAuthorization;
 
-    public function edit(User $user, Organization $organization)
+    public function before($user, $ability)
     {
         if ($user->isSuperAdmin()) {
             return true;
         }
+    }
 
+    public function edit(User $user, Organization $organization)
+    {
         return $organization->id == $user->organization_id;
     }
 

@@ -12,8 +12,8 @@
             <div class="form-group">
                 <label for="item">Item</label>
                 <select name="item" id="item" class="form-control">
+                    <option></option>
                     @foreach ($items as $item)
-                        <option></option>
                         <option value="{{ $item->id }}" @if (old('item') == $item->id) selected @endif>{{ $item->name }}</option>
                     @endforeach
                 </select>

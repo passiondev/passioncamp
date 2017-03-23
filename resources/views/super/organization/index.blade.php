@@ -9,8 +9,7 @@
             </p>
         </header>
 
-
-        <table class="table table-striped">
+        <table class="table table-responsive table-striped" style="table-layout: fixed;width:100%">
             <thead>
                 <tr>
                     <th>Church</th>

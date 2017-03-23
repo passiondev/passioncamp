@@ -2,12 +2,12 @@
 
 @section('content')
     <div class="container">
-    <header class="d-flex justify-content-between mb-5">
+    <header class="d-md-flex justify-content-between mb-5">
         <h1>{{ $organization->church->name }}</h1>
         <p>
             @if (auth()->user()->isSuperAdmin())
-                <a href="{{ action('Super\OrganizationPaymentController@index', $organization) }}" class="btn btn-primary">Add Payment</a>
-                <a href="{{ action('Super\OrganizationItemController@create', $organization) }}" class="btn btn-secondary">Add Item</a>
+                <a href="{{ action('Super\OrganizationPaymentController@index', $organization) }}" class="btn btn-outline-primary">Add Payment</a>
+                <a href="{{ action('Super\OrganizationItemController@create', $organization) }}" class="btn btn-outline-primary">Add Item</a>
             @endif
             <a class="btn btn-secondary" href="{{ action('Super\OrganizationController@edit', $organization) }}">Edit</a>
         </p>
@@ -85,7 +85,7 @@
             </header>
             <div class="card-block">
                 @if ($organization->authUsers->count() > 0)
-                    <table class="table table-striped">
+                    <table class="table table-responsive table-striped">
                         @foreach ($organization->authUsers as $user)
                             <tr>
                                 <td>{{ $user->person->name or '' }}</td>
@@ -97,7 +97,7 @@
                                 </td>
                                 <td>
                                     @can ('impersonate', $user)
-                                        <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}">impersonate</a>
+                                        <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}" class="btn btn-sm btn-outline-secondary">impersonate</a>
                                     @endcan
                                 </td>
                             </tr>
@@ -108,21 +108,21 @@
         </div>
         <div class="card mb-3" id="notes">
             <header class="card-header">
-                <h3>Notes <small class="text-muted">coming soon</small></h3>
+                <h3>Notes</h3>
             </header>
             <div class="card-block">
                 @foreach ($organization->notes as $note)
                     <blockquote class="blockquote">
                         <p class="mb-0">
                             {!! nl2br($note->body) !!}
-                            <footer class="blockquote-footer">{{ $note->author ? $note->author->email :'' }}, {{ $note->created_at->diffForHumans() }}</footer>
+                            <footer class="blockquote-footer">{{ $note->author ? $note->author->email :'' }}, <time datetime="{{ $note->created_at->toAtomString() }}" title="{{ $note->created_at->toAtomString() }}"><i>{{ $note->created_at->diffForHumans() }}</i></time></footer>
                         </p>
                     </div>
                 @endforeach
-                <form action="#" method="POST">
+                <form action="{{ action('OrganizationNoteController@store', $organization) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <textarea name="body" cols="30" rows="10" class="form-control"></textarea>
+                        <textarea name="body" cols="30" rows="4" class="form-control"></textarea>
                     </div>
                     <button class="btn btn-primary">Add Note</button>
                 </form>

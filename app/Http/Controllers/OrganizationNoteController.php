@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
+use App\Organization;
 use Illuminate\Http\Request;
 
-class OrderNoteController extends Controller
+class OrganizationNoteController extends Controller
 {
-    public function store(Order $order)
+    public function store(Organization $organization)
     {
-        $this->authorize('edit', $order);
+        $this->authorize('edit', $organization);
 
         $this->validate(request(), [
             'body' => 'required',
         ]);
 
-        $order->addNote(request('body'));
+        $organization->addNote(request('body'));
 
         return redirect()->back()->withSuccess('Note added.');
     }

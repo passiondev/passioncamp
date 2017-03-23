@@ -10,7 +10,7 @@
         </header>
 
 
-        <table class="table table-striped align-middle">
+        <table class="table table-responsive table-striped align-middle">
             @foreach ($users as $user)
                 <tr>
                     <td>{!! $user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
@@ -25,10 +25,10 @@
                             <small><em>{{ $user->organization->church->location }}</em></small>
                         @endif
                     </td>
-                    <td><a href="{{ action('Super\UserController@edit', $user) }}">edit</a></td>
+                    <td><a href="{{ action('Super\UserController@edit', $user) }}" class="btn btn-sm btn-outline-secondary">edit</a></td>
                     <td>
                         @can ('impersonate', $user)
-                            <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}">impersonate</a>
+                            <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}" class="btn btn-sm btn-outline-secondary">impersonate</a>
                         @endif
                     </td>
                 </tr>

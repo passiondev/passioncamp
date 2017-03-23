@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Account;
 
 use App\Person;
 use Illuminate\Http\Request;
+use App\Mail\AccountUserCreated;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -23,10 +25,12 @@ class UserController extends Controller
             'email' => 'required|unique:users,email',
         ]);
 
-        auth()->user()->organization->users()->create(request(['email']) + [
+        $user = auth()->user()->organization->users()->create(request(['email']) + [
             'access' => 1,
             'person_id' => Person::create(request(['first_name', 'last_name']))->id,
         ]);
+
+        Mail::to($user)->send(new AccountUserCreated($user));
 
         return redirect()->action('Account\SettingsController@index');
     }

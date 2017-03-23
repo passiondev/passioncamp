@@ -1,11 +1,11 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
+    <div class="container">
         <header class="page-header">
             <h1>Hotels</h1>
         </header>
-        <table class="ui very basic unstackable fixed table">
+        <table class="table table-responsive table-striped">
             <thead>
                 <tr>
                     <th>Name</th>

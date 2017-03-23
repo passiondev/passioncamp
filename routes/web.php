@@ -78,6 +78,8 @@ Route::patch('users/{user}', 'UserController@update');
 Route::get('person/{person}/edit', 'PersonController@edit');
 Route::patch('person/{person}', 'PersonController@update');
 
+Route::post('organization/{organization}/notes', 'OrganizationNoteController@store');
+
 Route::get('profile', 'ProfileController@show');
 Route::patch('profile', 'ProfileController@update');
 

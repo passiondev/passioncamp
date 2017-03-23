@@ -53,7 +53,7 @@
                 </div>
             </header>
             <div class="card-block">
-                <table class="table">
+                <table class="table table-responsive">
                     <tr>
                         @foreach (auth()->user()->organization->authUsers as $user)
                             <tr>
