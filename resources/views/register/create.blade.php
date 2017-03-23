@@ -100,12 +100,6 @@
                                 <legend>Donation Amount</legend>
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="10" v-model.number="fund_amount">
-                                        $10
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="fund_amount" value="25" v-model.number="fund_amount">
                                         $25
                                     </label>
@@ -114,6 +108,18 @@
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="fund_amount" value="50" v-model.number="fund_amount">
                                         $50
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="75" v-model.number="fund_amount">
+                                        $75
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="fund_amount" value="100" v-model.number="fund_amount">
+                                        $100
                                     </label>
                                 </div>
                                 <div class="form-check">
