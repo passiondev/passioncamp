@@ -60,9 +60,16 @@ class Handler extends ExceptionHandler
 
     protected function convertExceptionToResponse(Exception $exception)
     {
+        return $this->shouldReportToSentry($exception)
+            ? $this->convertExceptionToSentryResponse($exception)
+            : parent::convertExceptionToResponse($exception);
+    }
+
+    public function convertExceptionToSentryResponse(Exception $exception)
+    {
         $exception = FlattenException::create($exception);
 
-        return response()->view('errors.500', [
+        return response()->view('errors.sentry', [
             'sentryID' => $this->sentryID,
         ], $exception->getStatusCode(), $exception->getHeaders());
     }
