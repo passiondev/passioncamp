@@ -16,7 +16,6 @@
         "laravelcollective/html": "5.4.*",
         "sameer-shelavale/php-countries-array": "*",
         "stripe/stripe-php": "~3.5",
-        "bugsnag/bugsnag-laravel": "1.*",
         "itbz/fpdf": "~1.7",
         "guzzlehttp/guzzle": "~6.0",
         "mandrill/mandrill": "~1.0",
