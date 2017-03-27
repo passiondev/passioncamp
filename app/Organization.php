@@ -182,7 +182,7 @@ class Organization extends Model
 
     public function getTicketsRemainingCountAttribute()
     {
-        return $this->ticket_count - $this->orders->ticket_count;
+        return $this->ticket_count - $this->attendees->count();
     }
 
     public function getCanMakeStripePaymentsAttribute()
