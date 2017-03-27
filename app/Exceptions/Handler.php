@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\Debug\Exception\FlattenException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -55,6 +56,15 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         return parent::render($request, $e);
+    }
+
+    protected function convertExceptionToResponse(Exception $exception)
+    {
+        $exception = FlattenException::create($exception);
+
+        return response()->view('errors.500', [
+            'sentryID' => $this->sentryID,
+        ], $exception->getStatusCode(), $exception->getHeaders());
     }
     /**
      * Convert an authentication exception into an unauthenticated response.
