@@ -42,8 +42,10 @@ return [
         ]
     ],
 
-    'echosign' => [
-        'callback' => env('ECHOSIGN_CALLBACK', 'echosign.callback'),
+    'adobesign' => [
+        'key' => env('ADOBESIGN_KEY'),
+        'secret' => env('ADOBESIGN_SECRET'),
+        'refresh' => env('ADOBESIGN_REFRESH'),
     ],
 
     'rollbar' => [

@@ -187,6 +187,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
         App\Providers\PrintNodeServiceProvider::class,
+        App\Providers\AdobeSignServiceProvider::class,
     ],
 
     /*
