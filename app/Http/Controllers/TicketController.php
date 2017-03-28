@@ -7,6 +7,7 @@ use App\Order;
 use App\Person;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TicketController extends Controller
 {
@@ -61,8 +62,8 @@ class TicketController extends Controller
 
                 $user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
             } catch (ModelNotFoundException $e) {
-                $person->update(array_only(request('contact'), ['name', 'email', 'phone']));
-                $person->user->update(array_only(request('contact'), ['email']));
+                $ticket->order->user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
+                $ticket->order->user->person->user->update(array_only(request('contact'), ['email']));
             } catch (\Exception $e) {
                 return redirect()->back()->withError($e->getMessage());
             }
