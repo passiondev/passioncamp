@@ -21,4 +21,9 @@ class RoomPolicy
     {
         return $user->organization_id === $room->organization_id;
     }
+
+    public function update(User $user, Room $room)
+    {
+        return $user->organization_id === $room->organization_id;
+    }
 }

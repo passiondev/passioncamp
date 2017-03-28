@@ -1,43 +1,47 @@
-<div class="column">
-    <div class="room ui segment js-droppable {{ $room->is_at_capacity ? 'full' : '' }}" data-id="{{ $room->id }}">
-        <header class="ui dividing header" style="display:flex;justify-content:space-between;align-items:baseline">
-            <div>
+<div class="room card js-droppable {{ $room->is_at_capacity ? 'full' : '' }}" data-id="{{ $room->id }}">
+    <header class="card-header">
+        <div class="d-flex justify-content-between align-items-baseline">
+            <h4>
                 @if (Auth::user()->isSuperAdmin())
-                <h4>{{ $room->organization->church->name }}</h4>
+                    <small class="text-muted">{{ $room->organization->church->name }}</small><br>
                 @endif
-                <h4 style="margin-top:0">{{ $room->name }}</h4>
-            </div>
-            <div class="ui sub header" style="text-transform:none">
-                <a href="{{ route('roominglist.edit', $room) }}">edit</a>
-                @if (Auth::user()->isSuperAdmin())
-                    <span><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></span>
-                @endif
-            </div>
-        </header>
-        @if (strlen($room->description) || strlen($room->notes))
+                {{ $room->name }}
+            </h4>
+
             <div>
-                <h5>{{ $room->description }}</h5>
-                <p>{{ $room->notes }}</p>
-            </div>
-            <div class="ui divider"></div>
-        @endif
-        <div class="stats">
-            <div class="ui mini statistics" style="font-size:.675em">
-                <div class="blue statistic" style="margin-bottom: 0">
-                    <div class="value">{{ $room->assigned }}</div>
-                    <div class="label">Assigned</div>
-                </div>
-                <div class="green statistic" style="margin-bottom: 0">
-                    <div class="value">{{ $room->capacity }}</div>
-                    <div class="label">Capacity</div>
-                </div>
+                <a href="{{ action('RoomController@edit', $room) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                @if (Auth::user()->isSuperAdmin())
+                    {{-- <span><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></span> --}}
+                @endif
             </div>
         </div>
-        <div class="ui divider" style="margin:.5rem 0"></div>
+    </header>
+    <div class="card-block">
+        <div class="statistics justify-content-center mb-3">
+            <div class="blue statistic">
+                <div class="value">{{ $room->assigned }}</div>
+                <div class="label">Assigned</div>
+            </div>
+            <div class="green statistic">
+                <div class="value">{{ $room->capacity }}</div>
+                <div class="label">Capacity</div>
+            </div>
+        </div>
+
         <div class="tickets">
-            <div class="ui segments">
-                @each ('roominglist.partials.ticket', $room->tickets->assigendSort(), 'ticket', 'roominglist.partials.noticket')
+            <div class="list-group">
+                @foreach($room->tickets->assigendSort() as $ticket)
+                    <div class="list-group-item">
+                        @include ('roominglist.partials.ticket')
+                    </div>
+                @endforeach
             </div>
         </div>
+    </div>
+    <div class="card-footer text-muted bg-white">
+        @if (strlen($room->description) || strlen($room->notes))
+            <h6 class="mb-0">{{ $room->description }}</h6>
+            <p class="card-text">{{ $room->notes }}</p>
+        @endif
     </div>
 </div>

@@ -395,6 +395,7 @@ $color-leader: #3d9794;
     @include badge-variant($color-leader);
 }
 
+<<<<<<< HEAD
 .btn-google {
     @include button-variant(#fff, #DC4E41, #DC4E41);
     display: inline-flex;
@@ -420,4 +421,17 @@ $color-leader: #3d9794;
     color: #fff;
     fill: #fff;
     border-color: #DC4E41;
+}
+
+.overflowing {
+    &:before {
+        content: "";
+        z-index: 1000;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 20px;
+        background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    }
 }

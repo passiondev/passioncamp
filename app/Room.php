@@ -2,26 +2,17 @@
 
 namespace App;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Sofa\Revisionable\Laravel\Revisionable;
 
 class Room extends Model
 {
-    use SoftDeletes, Revisionable;
+    use SoftDeletes;
 
     protected $revisionable = ['name', 'description', 'notes', 'hotel_id'];
 
-    protected $fillable = [
-        'name',
-        'description',
-        'notes',
-        'capacity',
-        'roomnumber',
-        'confirmation_number',
-        'is_checked_in',
-        'is_key_received',
-    ];
+    protected $guarded = [];
 
     protected $dates = [
         'key_received_at',
@@ -45,7 +36,7 @@ class Room extends Model
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class)->active();
+        return $this->belongsToMany(Ticket::class, 'room_assignments')->withTimestamps()->using(RoomAssignment::class);
     }
 
     public function scopeForUser($query, $user = null)
@@ -86,6 +77,7 @@ class Room extends Model
 
     public function revision()
     {
+        return;
         // get fresh revision info if it hasnt been loaded
         if (! $this->relationLoaded('latestRevision')) {
             $this->load('latestRevision');

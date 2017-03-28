@@ -24,7 +24,7 @@ class CreateRoomsTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
             $table->integer('hotel_id')->nullable();
-            $table->string('confirmation_number');
+            $table->string('confirmation_number')->nullable();;
             $table->dateTime('key_received_at')->nullable();
             $table->dateTime('checked_in_at')->nullable();
         });
