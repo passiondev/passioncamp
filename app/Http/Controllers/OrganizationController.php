@@ -16,7 +16,7 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        $organizations = Organization::with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees.waiver')->paginate();
+        $organizations = Organization::join('churches', 'organizations.church_id', '=', 'churches.id')->with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees.waiver')->orderBy('name')->paginate();
 
         return view('super.organization.index', compact('organizations'));
     }
