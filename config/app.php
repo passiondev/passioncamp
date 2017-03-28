@@ -173,6 +173,7 @@ return [
         Zondicons\ZondiconsServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         Spatie\MailableTest\MailableTestServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
 
         /*
          * Application Service Providers...

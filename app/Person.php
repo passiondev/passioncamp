@@ -26,6 +26,20 @@ class Person extends Model
         return ucwords(sprintf("%s %s", $this->first_name, $this->last_name));
     }
 
+    public function getConsiderationsAttribute($considerations)
+    {
+        return $this->castAttribute('considerations', $considerations) ?? collect([]);
+    }
+
+    public function getFormattedConsiderationsAttribute()
+    {
+        return collect(['nut', 'vegetarian', 'gluten', 'dairy', 'other', 'drug', 'physical', 'visual', 'hearing'])->mapWithKeys(function ($consideration) {
+            $value = $this->considerations->get($consideration, '');
+
+            return [$consideration => $value == $consideration ? 'X' : $value];
+        });
+    }
+
     public function setNameAttribute($name)
     {
         $parts = explode(' ', $name);

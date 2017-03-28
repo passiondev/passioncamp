@@ -57,6 +57,8 @@ Route::patch('tickets/{ticket}', 'TicketController@update');
 Route::delete('tickets/{ticket}', 'TicketController@delete');
 Route::patch('tickets/{ticket}/cancel', 'TicketController@cancel');
 
+Route::post('tickets/export', 'TicketExportController@store');
+
 Route::get('transactions/{split}/refund', 'TransactionRefundController@create');
 Route::post('transactions/{split}/refund', 'TransactionRefundController@store');
 Route::get('transactions/{split}/edit', 'TransactionController@edit');

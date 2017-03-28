@@ -8,6 +8,7 @@
                 @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
                     <a href="{{ action('Account\TicketController@create') }}" class="btn btn-secondary">Add Attendee</a>
                 @endunless
+                <a href="{{ action('TicketExportController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('export-form').submit();">Export...</a>
             </div>
         </header>
 
@@ -55,4 +56,8 @@
         {{-- {{ $tickets->appends(Request::only('search'))->links(new \App\Pagination\Semantic($tickets)) }} --}}
         {{ $tickets->links() }}
     </div>
+
+    <form action="{{ action('TicketExportController@store') }}" method="POST" id="export-form">
+        {{ csrf_field() }}
+    </form
 @stop
