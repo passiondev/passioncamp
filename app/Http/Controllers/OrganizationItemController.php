@@ -17,7 +17,7 @@ class OrganizationItemController extends Controller
 
     public function create(Organization $organization)
     {
-        $items = Item::all();
+        $items = Item::orderBy('type')->orderBy('name')->get()->groupBy('type')->reverse();
 
         return view('admin.organization.item.create', compact(['organization', 'items']));
     }

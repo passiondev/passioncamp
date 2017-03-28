@@ -13,8 +13,12 @@
                 <label for="item">Item</label>
                 <select name="item" id="item" class="form-control">
                     <option></option>
-                    @foreach ($items as $item)
-                        <option value="{{ $item->id }}" @if (old('item') == $item->id) selected @endif>{{ $item->name }}</option>
+                    @foreach ($items as $type => $group)
+                        <optgroup label={{ ucfirst($type) }}>
+                            @foreach ($group as $item)
+                                <option value="{{ $item->id }}" @if (old('item') == $item->id) selected @endif>{{ $item->name }}</option>
+                            @endforeach
+                        </optgroup>
                     @endforeach
                 </select>
             </div>
