@@ -29,7 +29,7 @@
                                 <select name="type" id="type" class="form-control" v-model="type">
                                     <option value="credit">Credit Card</option>
                                     <option value="stripe">Stripe</option>
-                                    <option value="check">Check</option>
+                                    <option value="other">Check / Other</option>
                                 </select>
                             </div>
                         </div>

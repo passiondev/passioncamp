@@ -28,17 +28,16 @@ class TransactionSplit extends Model
     public function getNameAttribute()
     {
         if ($this->transaction->source == 'stripe') {
-            $type = $this->transaction->cc_brand;
-            $method = $this->transaction->cc_last4;
+            if ($this->transaction->cc_brand) {
+                $type = $this->transaction->cc_brand;
+                $method = $this->transaction->cc_last4;
+            } else {
+                $type = 'Credit Card';
+            }
         }
 
         if ($this->amount < 0) {
             $type = 'Refund';
-        }
-
-        if (in_array($this->transaction->source, ['check', 'credit'])) {
-            $type = ucfirst($this->transaction->source);
-            $method = $this->transaction->identifier;
         }
 
         if (in_array($this->transaction->source, ['other'])) {

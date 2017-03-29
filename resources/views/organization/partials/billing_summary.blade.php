@@ -63,6 +63,9 @@
                         {{ money_format('%.2n', $split->amount / 100) }}
                     </div>
                 </div>
+                @if ($split->transaction->source == 'stripe')
+                    <small class="caption">{{ $split->transaction->identifier }}</small>
+                @endif
                 <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
             </li>
         @endforeach
