@@ -6,7 +6,7 @@
             <h1>Add User</h1>
         </header>
 
-        <form action="{{ action('Super\UserController@store', $user) }}" method="POST">
+        <form action="{{ action('Super\UserController@store') }}" method="POST">
             {{ csrf_field() }}
 
             @include ('user.partials.form')

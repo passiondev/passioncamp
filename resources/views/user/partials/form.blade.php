@@ -1,9 +1,9 @@
 @include ('errors.validation')
 
-@if (auth()->user()->isSuperAdmin())
+@if (auth()->user()->isSuperAdmin() && isset($organization))
     <div class="form-group">
         <label>Church</label>
-        <p class="form-control-static font-weight-bold">{{ $organization->church->name or 'PASSION CAMP ADMIN' }}</p>
+        <p class="form-control-static font-weight-bold">{{ $organization->church->name }}</p>
     </div>
 @endif
 

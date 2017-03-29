@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Super;
 
 use App\User;
 use App\Person;
+use App\Mail\AccountUserCreated;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -18,9 +20,7 @@ class UserController extends Controller
     {
         $users = User::with('person', 'organization.orders', 'organization.church')
             ->whereNotNull('email')
-            ->where(function ($q) {
-                $q->where('access', 100);
-            })
+            ->whereAccess(100)
             ->paginate();
 
         return view('user.index', compact('users'));
@@ -39,10 +39,13 @@ class UserController extends Controller
             'email' => 'required|unique:users,email',
         ]);
 
-        $user = new User(request(['email']));
-        $user->access = 100;
-        $user->person()->associate(Person::create(request(['first_name', 'last_name'])));
-        $user->save();
+        $user = User::create([
+            'email' => request('email'),
+            'access' => 100,
+            'person_id' => Person::create(request(['first_name', 'last_name']))->id
+        ]);
+
+        Mail::to($user)->send(new AccountUserCreated($user));
 
         return redirect()->action('Super\UserController@index')->withSuccess('Admin added.');
     }

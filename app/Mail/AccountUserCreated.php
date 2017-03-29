@@ -14,6 +14,8 @@ class AccountUserCreated extends Mailable implements ShouldQueue
 
     public $user;
 
+    public $subject = 'Create Your Passion Camp Portal Account';
+
     /**
      * Create a new message instance.
      *
