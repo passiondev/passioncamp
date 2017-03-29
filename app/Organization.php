@@ -222,19 +222,13 @@ class Organization extends Model
             return static::with('transactions')->get()->sum('total_paid');
         }
 
-        $transactions = static::with('transactions.transaction')->get()->pluck('transactions')->collapse();
-
-        if ($source == 'other') {
-            $transactions = $transactions->filter(function ($transaction) {
-                return is_null($transaction->transaction->source);
-            });
-        } else {
-            $transactions = $transactions->filter(function ($transaction) use ($source) {
+        return static::with('transactions.transaction')->get()
+            ->pluck('transactions')
+            ->collapse()
+            ->filter(function ($transaction) use ($source) {
                 return $transaction->transaction->source == $source;
-            });
-        }
-
-        return $transactions->sum('transaction.amount');
+            })
+            ->sum('transaction.amount');
     }
 
     public static function totalCost()
