@@ -19,12 +19,20 @@ class RoomingListController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('auth');
     }
 
     public function index()
     {
-        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get();
+        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->map(function ($ticket) {
+            return [
+                'id' => $ticket->id,
+                'name' => $ticket->name,
+                'gender' => $ticket->person->gender,
+                'type' => $ticket->agegroup,
+                'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
+            ];
+        });
         $rooms = Room::forUser(auth()->user())->with('tickets.person', 'organization.church')->get();
 
         return view('roominglist.index', compact('unassigned', 'rooms'));

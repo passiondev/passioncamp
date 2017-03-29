@@ -76,7 +76,7 @@
             </ul>
         </div>
     </nav>
-    <div class="container-fluid h-100 py-2">
+    <div class="container-fluid h-100 py-2" id="app">
         @yield('content')
     </div>
     <!-- Scripts -->

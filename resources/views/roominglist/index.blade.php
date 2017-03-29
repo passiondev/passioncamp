@@ -1,5 +1,13 @@
 @extends('layouts.roominglist')
 
+@section ('head')
+<script>
+    window.store = {!! json_encode([
+        'unassigned' => $unassigned
+    ]) !!};
+</script>
+@endsection
+
 @section('content')
     <div class="row d-flex align-items-stretch h-100">
         <div class="rooms overflowing col-9 d-flex flex-column h-100">
@@ -33,14 +41,15 @@
         </div>
         <div class="tickets overflowing col-3 d-flex flex-column h-100">
             <h1>Tickets</h1>
-            <div style="overflow-y: scroll">
-                <div id="unassigned" class="list-group js-droppable" data-id="0">
+            <div style="overflow-y: scroll;padding-bottom: 20px">
+                <roominglist-unassigned></roominglist-unassigned>
+                {{-- <div id="unassigned" class="list-group js-droppable" data-id="0">
                     @foreach($unassigned as $ticket)
                         <div class="list-group-item">
                             @include ('roominglist.partials.ticket')
                         </div>
                     @endforeach
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

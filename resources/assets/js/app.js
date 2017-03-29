@@ -12,6 +12,7 @@ import AccountPaymentForm from './components/AccountPaymentForm'
 import TransactionForm from './components/TransactionForm'
 import TicketConsiderations from './components/TicketConsiderations'
 import ChurchSearch from './components/ChurchSearch'
+import RoominglistUnassigned from './components/RoominglistUnassigned'
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
@@ -24,6 +25,7 @@ const app = new Vue({
         TransactionForm,
         TicketConsiderations,
         ChurchSearch,
+        RoominglistUnassigned,
     },
     data: store,
     mounted() {
@@ -45,4 +47,3 @@ $(function() {
     $('.js-form-input-card-cvc').payment('formatCardCVC');
     $('.js-form-input-card-expiry').payment('formatCardExpiry');
 });
-
