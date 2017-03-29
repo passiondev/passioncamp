@@ -16,11 +16,24 @@
                 <div class="card-footer text-muted">Tickets</div>
             </div>
         </div>
-
         <div class="card-deck mb-3">
             <div class="card mb-3 text-center">
                 <div class="card-block">
-                    <h2>{{ money_format("%.0n", App\Organization::totalPaid()) }}</h2>
+                    <h2>{{ money_format("%.0n", $totalCost = App\Organization::totalCost()) }}</h2>
+                </div>
+                <div class="card-footer text-muted">Total Due</div>
+            </div>
+            <div class="card mb-3 text-center">
+                <div class="card-block">
+                    <h2>{{ money_format("%.0n", $totalCost - ($totalPaid = App\Organization::totalPaid())) }}</h2>
+                </div>
+                <div class="card-footer text-muted">Balance Remaining</div>
+            </div>
+        </div>
+        <div class="card-deck mb-3">
+            <div class="card mb-3 text-center">
+                <div class="card-block">
+                    <h2>{{ money_format("%.0n", $totalPaid) }}</h2>
                 </div>
                 <div class="card-footer text-muted">Total Paid</div>
             </div>
