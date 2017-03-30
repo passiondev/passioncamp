@@ -17,7 +17,7 @@ class SocialAuthController extends Controller
 
     public function redirect($provider)
     {
-        return Socialite::redirectUrl(action('SocialAuthController@callback', 'google'))->driver($provider)->redirect();
+        return Socialite::driver($provider)->redirectUrl(action('SocialAuthController@callback', 'google'))->redirect();
     }
 
     public function callback($provider)
