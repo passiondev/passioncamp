@@ -34,7 +34,7 @@ class SocialAuthController extends Controller
 
         auth()->login($user);
 
-        return redirect()->back();
+        return redirect()->intended('/');
     }
 
     public function disconnect($provider)
