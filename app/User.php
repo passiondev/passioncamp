@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasManyThrough(Ticket::class, Order::class);
     }
 
+    public function socialAccounts()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
     public function getIsSuperAdminAttribute()
     {
         return $this->isSuperAdmin();
@@ -100,5 +105,15 @@ class User extends Authenticatable
     public function getHashAttribute()
     {
         return hash_hmac('sha256', $this->email, env('APP_KEY'));
+    }
+
+    public function getIsRegisteredAttribute()
+    {
+        return $this->password || $this->socialAccounts->count();
+    }
+
+    public function hasSocialAccountFor($provider)
+    {
+        return $this->socialAccounts->pluck('provider')->contains($provider);
     }
 }

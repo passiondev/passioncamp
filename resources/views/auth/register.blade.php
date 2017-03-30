@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container">
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
@@ -25,7 +30,7 @@
                                 <input name="password" type="password" class="form-control">
 
                                 @if ($errors->has('password'))
-                                    <p class="form-text">
+                                    <p class="form-control-feedback">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </p>
                                 @endif
@@ -39,7 +44,7 @@
                                 <input name="password_confirmation" type="password" class="form-control">
 
                                 @if ($errors->has('password_confirmation'))
-                                    <p class="form-text">
+                                    <p class="form-control-feedback">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
                                     </p>
                                 @endif
@@ -47,10 +52,14 @@
                         </div>
 
                         <div class="row">
-                            <div class="col offset-md-4">
+                            <div class="col-lg-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
+                                <hr>
+                                <a class="btn btn-sm btn-google" href="{{ action('Auth\RegisterController@registerWithSocial', ['google', $user, $user->hash]) }}" onclick="event.preventDefault(); document.getElementById('google-form').submit();">
+                                    @icon('google') Register with Google
+                                </a>
                             </div>
                         </div>
                     </form>
@@ -59,4 +68,8 @@
         </div>
     </div>
 </div>
+
+<form action="{{ action('Auth\RegisterController@registerWithSocial', ['google', $user, $user->hash]) }}" method="POST" id="google-form">
+    {{ csrf_field() }}
+</form>
 @endsection

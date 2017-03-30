@@ -21,7 +21,7 @@ class ProfileController extends Controller
             $user->person()->associate(Person::create())->save();
         }
 
-        return view('profile.show')->withUser($user);
+        return view('profile.show', compact('user'));
     }
 
     public function update()
@@ -32,16 +32,9 @@ class ProfileController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|unique:users,email,'.$user->id,
-            'password' => 'confirmed'
         ]);
 
-        $user->fill(request(['email']));
-
-        if (request('password')) {
-            $user->password = bcrypt(request('password'));
-        }
-
-        $user->save();
+        $user->update(request(['email']));
 
         $user->person()->update(request([
             'first_name',
@@ -49,8 +42,6 @@ class ProfileController extends Controller
             'email',
         ]));
 
-        session()->flash('success', 'Your profile has been updated.');
-
-        return redirect('/');
+        return redirect('/')->withSuccess('Your profile has been updated.');
     }
 }

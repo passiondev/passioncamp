@@ -75,6 +75,7 @@ Route::post('organization/{organization}/notes', 'OrganizationNoteController@sto
 
 Route::get('profile', 'ProfileController@show');
 Route::patch('profile', 'ProfileController@update');
+Route::delete('profile/oauth/{provider}', 'SocialAuthController@disconnect');
 
 Route::get('login', 'Auth\LoginController@showLoginForm');
 Route::post('login', 'Auth\LoginController@login');
@@ -82,6 +83,7 @@ Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('lo
 
 Route::get('register/{user}/{hash}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
 Route::post('register/{user}/{hash}', 'Auth\RegisterController@register');
+Route::post('register/{provider}/{user}/{hash}', 'Auth\RegisterController@registerWithSocial');
 
 // Password Reset Routes...
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -91,3 +93,6 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('impersonate/{user}', 'Auth\ImpersonationController@impersonate');
 Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating');
+
+Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
+Route::post('oauth/{provider}', 'SocialAuthController@redirect');

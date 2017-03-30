@@ -52,20 +52,13 @@
                             {{ Auth::user()->person->name }} <span class="caret"></span>
                         </a>
 
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="dropdown-item">
-                                <a href="{{ action('ProfileController@show') }}">Profile</a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-
-                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
-                        </ul>
+                        <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" href="{{ action('ProfileController@show') }}">Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Sign Out
+                            </a>
+                        </div>
                     </li>
                 @endif
             </ul>
@@ -135,6 +128,10 @@
             @endif
         </div>
     </div>
+
+    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
     <!-- Scripts -->
     @yield('foot')
     <script src="{{ mix('/js/app.js') }}"></script>

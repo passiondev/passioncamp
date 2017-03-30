@@ -21,10 +21,10 @@
     vertical-align: text-top;
     display: inline-block;
 
-    a & {
+    a:not('.btn') & {
         fill: $link-color;
     }
-    a:hover & {
+    a:not('.btn'):hover & {
         fill: $link-hover-color;
     }
 }
@@ -402,3 +402,29 @@ $color-leader: #3d9794;
     @include badge-variant($color-leader);
 }
 
+.btn-google {
+    @include button-variant(#fff, #DC4E41, #DC4E41);
+    display: inline-flex;
+    align-items: center;
+    text-align: left;
+    padding-left: $btn-padding-x / 2;
+    // position: relative;
+    // text-align: left;
+    // padding-left: 2rem;
+    > :first-child {
+        margin-right: $btn-padding-x / 2;
+        padding: .125rem;
+    }
+    fill: #fff;
+}
+
+.btn-outline-google {
+    @include button-outline-variant(#DC4E41);
+}
+
+.bg-google {
+    background-color: #DC4E41;
+    color: #fff;
+    fill: #fff;
+    border-color: #DC4E41;
+}

@@ -170,10 +170,11 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Vinkla\Pusher\PusherServiceProvider::class,
         Codedge\Fpdf\FpdfServiceProvider::class,
-        Zondicons\ZondiconsServiceProvider::class,
+        BladeSvg\BladeSvgServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         Spatie\MailableTest\MailableTestServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*
          * Application Service Providers...

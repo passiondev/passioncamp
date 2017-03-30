@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -56,7 +57,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm(User $user, $hash)
     {
-        if ($user->password) {
+        if ($user->is_registered) {
             return redirect('/');
         }
 
@@ -88,5 +89,16 @@ class RegisterController extends Controller
         Auth::login($user);
 
         return redirect($this->redirectPath());
+    }
+
+    public function registerWithSocial($provider, User $user, $hash)
+    {
+        if ($user->hash !== $hash) {
+            abort(403, 'Not authorized.');
+        }
+
+        auth('social')->login($user);
+
+        return Socialite::driver($provider)->redirectUrl(action('SocialAuthController@callback', [$provider]))->redirect();
     }
 }
