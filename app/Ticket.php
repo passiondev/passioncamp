@@ -207,16 +207,6 @@ class Ticket extends OrderItem
         $this->save();
     }
 
-    public function getPccWaiverAttribute()
-    {
-        return $this->ticket_data('pcc_waiver');
-    }
-
-    public function getHasPccWaiverAttribute()
-    {
-        return $this->pcc_waiver == 'X';
-    }
-
     public function cancel(User $user = null)
     {
         $this->canceled_at = \Carbon\Carbon::now();

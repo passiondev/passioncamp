@@ -51,8 +51,14 @@ class TicketController extends Controller
             'contact.phone' => 'sometimes|required',
         ]);
 
-        $ticket->update(array_only(request('ticket'), ['agegroup']));
-        $ticket->person->update(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies']));
+        $ticket->update(
+            array_only(request('ticket'), ['agegroup', 'squad'])
+            + [
+                'ticket_data' => request('ticket_data'),
+                'price' => array_has(request('ticket'), 'price') ? array_get(request('ticket'), 'price') * 100 : null
+            ]
+        );
+        $ticket->person->update(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies', 'email', 'phone', 'birthdate']));
 
         if (request()->has('contact')) {
             try {

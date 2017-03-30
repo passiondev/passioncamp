@@ -42,6 +42,7 @@ class TicketTransformer extends TransformerAbstract
                 'leader' => $ticket->leader,
                 'bus' => $ticket->bus,
                 'travel plans' => $ticket->travel_plans,
+                'pcc waiver?' => $ticket->pcc_waiver,
                 'price' => $ticket->price / 100,
             ];
         }
