@@ -25,9 +25,9 @@ class SocialAuthController extends Controller
         try {
             $user = $this->createOrGetUser($provider, auth('social')->check() ? auth('social')->user() : auth()->user());
         } catch (SocialAccountAlreadyRegistered $e) {
-            return redirect()->back()->withError($e->getMessage());
+            return redirect()->intended('/')->withError($e->getMessage());
         } catch (ModelNotFoundException $e) {
-            return redirect()->back()->withError(sprintf('An account cannot be found with your %s email address.', ucfirst($provider)));
+            return redirect()->intended('/')->withError(sprintf('An account cannot be found with your %s email address.', ucfirst($provider)));
         } finally {
             auth('social')->logout();
         }
