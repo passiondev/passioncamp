@@ -58,6 +58,6 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_KEY'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' => url('/oauth/google/callback'),
+        'redirect' => 'https://portal.passioncamp.268generation.com/oauth/google/callback',
     ],
 ];
