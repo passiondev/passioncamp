@@ -11,12 +11,7 @@ import TransactionComponent from './components/Transaction'
 import AccountPaymentForm from './components/AccountPaymentForm'
 import TransactionForm from './components/TransactionForm'
 import TicketConsiderations from './components/TicketConsiderations'
-
-$(function() {
-    $('.js-form-input-card-number').payment('formatCardNumber');
-    $('.js-form-input-card-cvc').payment('formatCardCVC');
-    $('.js-form-input-card-expiry').payment('formatCardExpiry');
-});
+import ChurchSearch from './components/ChurchSearch'
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
@@ -28,6 +23,26 @@ const app = new Vue({
         AccountPaymentForm,
         TransactionForm,
         TicketConsiderations,
+        ChurchSearch,
     },
     data: store,
+    mounted() {
+        window.addEventListener('keydown', e => {
+            if (e.target.localName != 'body') {
+                return;
+            }
+
+            if (e.keyCode == 191) {
+                e.preventDefault();
+                document.getElementById('church-search').getElementsByTagName('input')[0].focus()
+            }
+        });
+    }
 });
+
+$(function() {
+    $('.js-form-input-card-number').payment('formatCardNumber');
+    $('.js-form-input-card-cvc').payment('formatCardCVC');
+    $('.js-form-input-card-expiry').payment('formatCardExpiry');
+});
+

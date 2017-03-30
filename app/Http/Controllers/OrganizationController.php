@@ -21,6 +21,16 @@ class OrganizationController extends Controller
         return view('super.organization.index', compact('organizations'));
     }
 
+    public function search()
+    {
+        return Organization::join('churches', 'organizations.church_id', '=', 'churches.id')->with('church')->where('name', 'LIKE', request('query') . '%')->orderBy('name')->get()->map(function ($organization) {
+            return [
+                'id' => $organization->id,
+                'name' => $organization->church->name,
+            ];
+        });
+    }
+
     public function show(Organization $organization)
     {
         $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes', 'attendees.waiver');

@@ -23,6 +23,7 @@
     @yield('head')
 </head>
 <body>
+<div id="app">
     <nav class="navbar navbar-toggleable-md navbar-light mb-3 fixed-top bg-faded">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#app-navbar-collapse">
             <span class="navbar-toggler-icon"></span>
@@ -36,6 +37,11 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
+                @if (Auth::check() && Auth::user()->isSuperAdmin())
+                    <li class="nav-item">
+                        <church-search></church-search>
+                    </li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -118,7 +124,7 @@
                         @endif
                     </ul>
                 </div>
-                <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5" id="app">
+                <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5">
                     @yield('content')
                 </div>
             @else
@@ -132,6 +138,7 @@
     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
         {{ csrf_field() }}
     </form>
+</div>
     <!-- Scripts -->
     @yield('foot')
     <script src="{{ mix('/js/app.js') }}"></script>

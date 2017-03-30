@@ -4,6 +4,7 @@ Route::get('/', 'RedirectController@home');
 
 Route::get('admin', 'Super\DashboardController');
 
+Route::get('admin/organizations/search', 'OrganizationController@search');
 Route::resource('admin/organizations', 'OrganizationController');
 
 Route::get('admin/hotels', 'HotelController@index');
