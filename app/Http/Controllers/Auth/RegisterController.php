@@ -99,6 +99,6 @@ class RegisterController extends Controller
 
         auth('social')->login($user);
 
-        return Socialite::driver($provider)->redirectUrl(action('SocialAuthController@callback', [$provider]))->redirect();
+        return Socialite::driver($provider)->redirect();
     }
 }

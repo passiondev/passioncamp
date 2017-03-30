@@ -58,6 +58,6 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_KEY'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' => '',
+        'redirect' => url('/oauth/google/callback'),
     ],
 ];
