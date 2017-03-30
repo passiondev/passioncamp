@@ -17,7 +17,7 @@ class SocialAuthController extends Controller
 
     public function redirect($provider)
     {
-        return Socialite::driver($provider)->redirectUrl(action('SocialAuthController@callback', 'google'))->redirect();
+        return Socialite::driver($provider)->redirectUrl(action('SocialAuthController@callback', $provider))->redirect();
     }
 
     public function callback($provider)
@@ -48,7 +48,7 @@ class SocialAuthController extends Controller
 
     private function createOrGetUser($provider, User $authUser = null)
     {
-        $providerUser = Socialite::driver($provider)->user();
+        $providerUser = Socialite::driver($provider)->redirectUrl(action('SocialAuthController@callback', $provider))->user();
 
         $account = SocialAccount::whereProvider($provider)
             ->whereProviderUserId($providerUser->getId())
