@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Person;
 use App\Organization;
+use App\Mail\AccountUserCreated;
+use Illuminate\Support\Facades\Mail;
 
 class OrganizationUserController extends Controller
 {
@@ -27,10 +29,12 @@ class OrganizationUserController extends Controller
             'email' => 'required|unique:users,email',
         ]);
 
-        $organization->users()->create(request(['email']) + [
+        $user = $organization->users()->create(request(['email']) + [
             'access' => 1,
             'person_id' => Person::create(request(['first_name', 'last_name']))->id,
         ]);
+
+        Mail::to($user)->send(new AccountUserCreated($user));
 
         return redirect()->action('OrganizationController@show', $organization);
     }
