@@ -23,6 +23,19 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->organization = Organization::whereSlug('pcc')->firstOrFail();
+        $this->ticket_price = $this->getCurrentTicketPrice();
+    }
+    public function getCurrentTicketPrice()
+    {
+        $prices = [
+            '370' => Carbon::parse('2017-01-01'),
+            '390' => Carbon::parse('2017-04-03'),
+            '410' => Carbon::parse('2017-05-01'),
+        ];
+
+        return collect($prices)->filter(function($date) {
+            return Carbon::now()->gte($date);
+        })->keys()->sort()->last();
     }
 
     public function create()
