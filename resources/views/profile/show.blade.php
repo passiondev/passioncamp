@@ -7,6 +7,8 @@
             <h4 class="card-header">Update Profile</h4>
             <div class="card-block">
                 <form action="{{ action('ProfileController@update') }}" method="POST" novalidate>
+                    {{ method_field('PATCH') }}
+                    {{ csrf_field() }}
                     <div class="form-group row">
                         <label for="first_name" class="col-md-3 col-form-label text-md-right">First Name</label>
                         <div class="col-md-8 col-lg-6">
