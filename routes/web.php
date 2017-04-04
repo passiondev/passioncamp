@@ -51,6 +51,7 @@ Route::post('orders/{order}/transactions', 'OrderTransactionController@store');
 Route::post('orders/{order}/notes', 'OrderNoteController@store');
 
 Route::get('tickets', 'TicketController@index');
+Route::get('tickets/search', 'TicketController@search');
 Route::get('tickets/create', 'Account\TicketController@create');
 Route::post('tickets', 'Account\TicketController@store');
 Route::get('tickets/{ticket}/edit', 'TicketController@edit');

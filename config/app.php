@@ -175,6 +175,7 @@ return [
         Spatie\MailableTest\MailableTestServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
 
         /*
          * Application Service Providers...

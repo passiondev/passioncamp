@@ -2,9 +2,17 @@
 
 @section('content')
     <div class="ui container">
-        <header class="d-flex justify-content-between">
-            <h1>Attendees</h1>
-            <div>
+        <header class="d-lg-flex justify-content-between align-items-center mb-lg-2">
+            <h1 class="mb-2 mb-lg-0">Attendees</h1>
+            <form class="mb-2 mb-lg-0 ml-lg-4" action="{{ action('TicketController@search') }}" method="GET">
+                <div class="input-group">
+                    <input type="search" name="query" class="form-control input-go" placeholder="Search..." value="{{ request('query') }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary">@icon('search')</button>
+                    </span>
+                </div>
+            </form>
+            <div class="mb-2 mb-lg-0 ml-auto">
                 @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
                     <a href="{{ action('Account\TicketController@create') }}" class="btn btn-secondary">Add Attendee</a>
                 @endunless
@@ -59,5 +67,5 @@
 
     <form action="{{ action('TicketExportController@store') }}" method="POST" id="export-form">
         {{ csrf_field() }}
-    </form
+    </form>
 @stop

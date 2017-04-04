@@ -4,14 +4,15 @@ namespace App;
 
 use Auth;
 use App\Waiver;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Sofa\Revisionable\Laravel\Revisionable;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Sofa\Revisionable\Laravel\Revisionable;
 
 class Ticket extends OrderItem
 {
-    use FormAccessible, SoftDeletes;
+    use FormAccessible, SoftDeletes, Searchable;
     // use Revisionable;
 
     protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
@@ -212,5 +213,13 @@ class Ticket extends OrderItem
         $this->canceled_at = \Carbon\Carbon::now();
         $this->canceled_by_id = $user->id;
         $this->save();
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'name' => $this->person->name,
+            'organization_id' => $this->order->organization_id,
+        ];
     }
 }

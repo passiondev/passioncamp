@@ -39,7 +39,9 @@
         "spatie/laravel-mailable-test": "^1.0",
         "spatie/laravel-fractal": "^3.5",
         "laravel/socialite": "^3.0",
-        "nothingworks/blade-svg": "^0.1.0"
+        "nothingworks/blade-svg": "^0.1.0",
+        "laravel/scout": "^3.0",
+        "algolia/algoliasearch-client-php": "^1.17"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

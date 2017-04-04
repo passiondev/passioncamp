@@ -23,122 +23,122 @@
     @yield('head')
 </head>
 <body>
-<div id="app">
-    <nav class="navbar navbar-toggleable-md navbar-light mb-3 fixed-top bg-faded">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#app-navbar-collapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div id="app">
+        <nav class="navbar navbar-toggleable-md navbar-light mb-3 fixed-top bg-faded">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#app-navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <!-- Branding Image -->
-        <a class="navbar-brand py-0" href="{{ url('/') }}">
-            <img src="{{ url('img/camp-logo.png') }}" alt="Passion Camp" height="40">
-        </a>
+            <!-- Branding Image -->
+            <a class="navbar-brand py-0" href="{{ url('/') }}">
+                <img src="{{ url('img/camp-logo.png') }}" alt="Passion Camp" height="40">
+            </a>
 
-        <div class="collapse navbar-collapse" id="app-navbar-collapse">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-                @if (Auth::check() && Auth::user()->isSuperAdmin())
-                    <li class="nav-item">
-                        <church-search></church-search>
-                    </li>
-                @endif
-            </ul>
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav mr-auto">
+                    @if (Auth::check() && Auth::user()->isSuperAdmin())
+                        <li class="nav-item">
+                            <church-search></church-search>
+                        </li>
+                    @endif
+                </ul>
 
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav">
-                @if (Session::has('spark:impersonator'))
-                    <li class="nav-item"><a class="nav-link" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
-                @endif
-                <!-- Authentication Links -->
-                @if (Auth::guest())
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                @else
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            {{ Auth::user()->person->name }} <span class="caret"></span>
-                        </a>
-
-                        <div class="dropdown-menu" role="menu">
-                            <a class="dropdown-item" href="{{ action('ProfileController@show') }}">Profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Sign Out
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav">
+                    @if (Session::has('spark:impersonator'))
+                        <li class="nav-item"><a class="nav-link" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
+                    @endif
+                    <!-- Authentication Links -->
+                    @if (Auth::guest())
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::user()->person->name }} <span class="caret"></span>
                             </a>
-                        </div>
-                    </li>
-                @endif
-            </ul>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        @if (Auth::check())
-            <div class="row">
-                <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
-                    @unless (Auth::user()->isSuperAdmin())
-                        <h4 class="px-sm-3 mb-3">{{ auth()->user()->organization->church->name }}</h4>
-                    @endunless
-                    <ul class="nav nav-pills flex-sm-column">
-                        @if (Auth::user()->isSuperAdmin())
-                            <li class="nav-item">
-                                <a href="{{ action('Super\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\DashboardController') ? 'active' :'' }}">
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ action('OrganizationController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'OrganizationController') ? 'active' :'' }}">
-                                    Churches
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
-                                    Attendees
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
-                                    Hotels
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ action('Super\UserController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\UserController') ? 'active' :'' }}">
-                                    Users
-                                </a>
-                            </li>
-                        @endif
-                        @if (Auth::user()->isChurchAdmin())
-                            <li class="nav-item">
-                                <a href="{{ action('Account\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Account\DashboardController') ? 'active' :'' }}">
-                                    Account
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
-                                    Attendees
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ action('Account\SettingsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
-                                    Settings
-                                </a>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-                <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5">
-                    @yield('content')
-                </div>
-            @else
-                <div class="py-5">
-                    @yield('content')
-                </div>
-            @endif
-        </div>
-    </div>
 
-    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-        {{ csrf_field() }}
-    </form>
-</div>
+                            <div class="dropdown-menu" role="menu">
+                                <a class="dropdown-item" href="{{ action('ProfileController@show') }}">Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Sign Out
+                                </a>
+                            </div>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            @if (Auth::check())
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
+                        @unless (Auth::user()->isSuperAdmin())
+                            <h4 class="px-sm-3 mb-3">{{ auth()->user()->organization->church->name }}</h4>
+                        @endunless
+                        <ul class="nav nav-pills flex-sm-column">
+                            @if (Auth::user()->isSuperAdmin())
+                                <li class="nav-item">
+                                    <a href="{{ action('Super\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\DashboardController') ? 'active' :'' }}">
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('OrganizationController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'OrganizationController') ? 'active' :'' }}">
+                                        Churches
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
+                                        Attendees
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
+                                        Hotels
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('Super\UserController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\UserController') ? 'active' :'' }}">
+                                        Users
+                                    </a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->isChurchAdmin())
+                                <li class="nav-item">
+                                    <a href="{{ action('Account\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Account\DashboardController') ? 'active' :'' }}">
+                                        Account
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
+                                        Attendees
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('Account\SettingsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
+                                        Settings
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5">
+                        @yield('content')
+                    </div>
+                @else
+                    <div class="py-5">
+                        @yield('content')
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+    </div>
     <!-- Scripts -->
     @yield('foot')
     <script src="{{ mix('/js/app.js') }}"></script>

@@ -25,6 +25,25 @@ class TicketController extends Controller
         return view('ticket.index', compact('tickets'));
     }
 
+    public function search()
+    {
+        // $tickets = Ticket::search(request('query'))->where(function ($q) {
+        //     return auth()->user()->isSuperAdmin() ?: $q->where('organization_id');
+        // })->paginate();
+
+        $tickets = Ticket::search(request('query'));
+
+        if (! auth()->user()->isSuperAdmin()) {
+            $tickets->where('organization_id', auth()->user()->organization_id);
+        }
+
+        $tickets = $tickets->paginate();
+
+        $tickets->load('person', 'order.organization.church');
+
+        return view('ticket.index', compact('tickets'));
+    }
+
     public function edit(Ticket $ticket)
     {
         request()->intended(url()->previous());
