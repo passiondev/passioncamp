@@ -38,19 +38,11 @@ class TicketController extends Controller
             'contact.phone' => 'required',
         ]);
 
-        $user = User::firstOrNew(
-            array_only(request('contact'), ['email'])
-        );
+        $user = new User;
 
-        if ($user->exists && $user->person_id) {
-            $user->person->update(
-                array_only(request('contact'), ['name', 'email', 'phone'])
-            );
-        } else {
-            $user->person()->associate(
-                Person::create(array_only(request('contact'), ['name', 'email', 'phone']))
-            )->save();
-        }
+        $user->person()->associate(
+            Person::create(array_only(request('contact'), ['name', 'email', 'phone']))
+        )->save();
 
         $order = $user->orders()->create([
             'organization_id' => auth()->user()->organization_id

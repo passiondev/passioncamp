@@ -80,18 +80,7 @@ class TicketController extends Controller
         $ticket->person->update(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies', 'email', 'phone', 'birthdate']));
 
         if (request()->has('contact')) {
-            try {
-                $user = User::whereEmail(array_get(request('contact'), 'email'))->firstOrFail();
-
-                $this->authorize('update', $user);
-
-                $user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
-            } catch (ModelNotFoundException $e) {
-                $ticket->order->user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
-                $ticket->order->user->person->user->update(array_only(request('contact'), ['email']));
-            } catch (\Exception $e) {
-                return redirect()->back()->withError($e->getMessage());
-            }
+            $ticket->order->user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
         }
 
         return redirect()->intended(action('TicketController@index'))->withSuccess('Attendee updated.');
