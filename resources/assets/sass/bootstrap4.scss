@@ -395,7 +395,6 @@ $color-leader: #3d9794;
     @include badge-variant($color-leader);
 }
 
-<<<<<<< HEAD
 .btn-google {
     @include button-variant(#fff, #DC4E41, #DC4E41);
     display: inline-flex;
@@ -435,13 +434,14 @@ $color-leader: #3d9794;
         background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
     }
 }
+
 .ticket {
     cursor: grab;
 }
+
 .sortable-chosen {
     cursor: grabbing;
 }
-
 
 .tickets .list-group div:empty {
     border: 1px dashed $laravel-border-color;
