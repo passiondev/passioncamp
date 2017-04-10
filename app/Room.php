@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Events\RoomDeleted;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Sofa\Revisionable\Laravel\Revisionable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
@@ -17,6 +18,14 @@ class Room extends Model
     protected $dates = [
         'key_received_at',
         'checked_in_at',
+    ];
+
+    protected $events = [
+        'deleted' => RoomDeleted::class,
+    ];
+
+    protected $attributes = [
+        'capacity' => 4,
     ];
 
     public function isRevisioned()

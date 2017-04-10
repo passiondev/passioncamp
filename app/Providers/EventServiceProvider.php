@@ -25,7 +25,13 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\User\SometimesUpdateEmail::class,
             \App\Listeners\User\SometimesUpdateAccess::class,
             \App\Listeners\User\SendRegistrationEmail::class,
-        ]
+        ],
+        \App\Events\OrgItemSaved::class => [
+            \App\Listeners\DispatchDeployRoomsForOrganization::class,
+        ],
+        \App\Events\RoomDeleted::class => [
+            \App\Listeners\DetachRoomTickets::class,
+        ],
     ];
 
     /**

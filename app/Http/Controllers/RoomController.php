@@ -23,7 +23,7 @@ class RoomController extends Controller
     {
         $this->authorize($room);
 
-        $room->update(request([
+        $room->update(request()->intersect([
             'name',
             'description',
             'notes',

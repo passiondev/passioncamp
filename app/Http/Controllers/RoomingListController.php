@@ -24,16 +24,29 @@ class RoomingListController extends Controller
 
     public function index()
     {
-        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->map(function ($ticket) {
-            return [
+        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->unassigendSort()->mapWithKeys(function ($ticket) use (&$i) {
+            return [++$i => [
                 'id' => $ticket->id,
                 'name' => $ticket->name,
                 'gender' => $ticket->person->gender,
                 'type' => $ticket->agegroup,
                 'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
-            ];
+            ]];
         });
-        $rooms = Room::forUser(auth()->user())->with('tickets.person', 'organization.church')->get();
+
+        $rooms = Room::forUser(auth()->user())->with('tickets.person', 'organization.church')->get()->map(function ($room) {
+            $room['ticket_map'] = $room->tickets->assigendSort()->mapWithKeys(function ($ticket) use (&$i) {
+                return [++$i => [
+                    'id' => $ticket->id,
+                    'name' => $ticket->name,
+                    'gender' => $ticket->person->gender,
+                    'type' => $ticket->agegroup,
+                    'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
+                ]];
+            });
+
+            return $room;
+        });
 
         return view('roominglist.index', compact('unassigned', 'rooms'));
     }

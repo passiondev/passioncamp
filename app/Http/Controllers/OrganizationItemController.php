@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use App\OrgItem;
 use App\OrderItem;
 use App\Organization;
 use App\Jobs\DeployRoomsAndAssignToHotels;
@@ -26,7 +27,7 @@ class OrganizationItemController extends Controller
     {
         $item = Item::find(request('item'));
 
-        $orderItem = new OrderItem(request(['quantity']) + [
+        $orderItem = new OrgItem(request(['quantity']) + [
             'cost' => request('cost') * 100
         ]);
         $orderItem->item()->associate($item);

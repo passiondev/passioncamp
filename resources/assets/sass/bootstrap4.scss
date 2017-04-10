@@ -435,3 +435,29 @@ $color-leader: #3d9794;
         background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
     }
 }
+.ticket {
+    cursor: grab;
+}
+.sortable-chosen {
+    cursor: grabbing;
+}
+
+
+.tickets .list-group div:empty {
+    border: 1px dashed $laravel-border-color;
+    // border-radius: .25rem;
+    padding: .75rem 1.25rem;
+    color: $text-muted;
+    font-style: italic;
+    font-size: 90%;
+    &:before {
+        content: "Drag and drop tickets here"
+    }
+}
+
+.badge-male {
+    background-color: #007FFF;
+}
+.badge-female {
+    background-color: #FF69B4;
+}

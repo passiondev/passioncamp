@@ -16,3 +16,15 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
+
+
+Artisan::command('passioncamp:deploy-rooms {organizationIds?*}', function ($organizationIds = []) {
+    tap(
+        empty($organizationIds) ? App\Organization::all() : App\Organization::whereIn('id', $organizationIds)->get(),
+        function ($organizations) {
+            $organizations->each(function ($organization) {
+                dispatch(new App\Jobs\Organization\DeployRooms($organization));
+            });
+        }
+    );
+});

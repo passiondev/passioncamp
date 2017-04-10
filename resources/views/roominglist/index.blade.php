@@ -3,7 +3,8 @@
 @section ('head')
 <script>
     window.store = {!! json_encode([
-        'unassigned' => $unassigned
+        'unassigned' => $unassigned,
+        'dragging' => false
     ]) !!};
 </script>
 @endsection
@@ -12,7 +13,7 @@
     <div class="row d-flex align-items-stretch h-100">
         <div class="rooms overflowing col-9 d-flex flex-column h-100">
             <h1>Rooms</h1>
-            <div style="overflow-y: scroll">
+            <div id="rooms-scroll" style="overflow-y: scroll; overflow-x: hidden">
                 <div class="alert alert-info">
                     <h3>Important Info About Creating Your Rooming List</h3>
                     <p>All hotel rooms sleep 4 people and account for 2 people in each of the following bed types: king, queen, double, and sleeper sofa. For example, a room with a king bed and sleeper sofa will sleep 4 people.</p>
@@ -21,36 +22,24 @@
                 <div class="row">
                     @foreach ($rooms as $room)
                         <div class="col-xl-4 col-6 mb-3">
-                            @include ('roominglist.partials.room')
-                        </div>
-                        <div class="col-xl-4 col-6 mb-3">
-                            @include ('roominglist.partials.room')
-                        </div>
-                        <div class="col-xl-4 col-6 mb-3">
-                            @include ('roominglist.partials.room')
-                        </div>
-                        <div class="col-xl-4 col-6 mb-3">
-                            @include ('roominglist.partials.room')
-                        </div>
-                        <div class="col-xl-4 col-6 mb-3">
-                            @include ('roominglist.partials.room')
+                            <roominglist-room :room="{{ json_encode($room) }}" url="{{ action('RoomAssignmentController@update', $room) }}">
+                                @if (Auth::user()->isSuperAdmin())
+                                    <template slot="organization">
+                                        <small class="text-muted">{{ $room->organization->church->name }}</small><br>
+                                    </template>
+                                @endif
+                                <div slot="actions">
+                                    <a href="{{ action('RoomController@edit', $room) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                                    @if (Auth::user()->isSuperAdmin())
+                                        {{-- <span><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></span> --}}
+                                    @endif
+                                </div>
+                            </roominglist-room>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
-        <div class="tickets overflowing col-3 d-flex flex-column h-100">
-            <h1>Tickets</h1>
-            <div style="overflow-y: scroll;padding-bottom: 20px">
-                <roominglist-unassigned></roominglist-unassigned>
-                {{-- <div id="unassigned" class="list-group js-droppable" data-id="0">
-                    @foreach($unassigned as $ticket)
-                        <div class="list-group-item">
-                            @include ('roominglist.partials.ticket')
-                        </div>
-                    @endforeach
-                </div> --}}
-            </div>
-        </div>
+        <roominglist-unassigned></roominglist-unassigned>
     </div>
 @stop
