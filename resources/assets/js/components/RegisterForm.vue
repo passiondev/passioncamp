@@ -4,11 +4,12 @@
 
 <script>
     import payment from '../Mixins/Payment.js';
+    import ticket from './RegisterFormTicket.vue'
 
     export default {
         mixins: [payment],
         components: {
-            'ticket': require('./RegisterFormTicket.vue')
+            ticket
         },
         data() {
             let local = {};

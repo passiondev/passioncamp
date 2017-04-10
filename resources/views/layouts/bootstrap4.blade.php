@@ -114,9 +114,14 @@
                                 <li class="nav-item">
                                     <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
                                         Attendees
+                                <a href="{{ action('RoomingListController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoomingListController') ? 'active' :'' }}">
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    Rooming List
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                     <a href="{{ action('Account\SettingsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
                                         Settings
                                     </a>

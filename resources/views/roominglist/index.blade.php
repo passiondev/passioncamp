@@ -1,45 +1,45 @@
-@extends('layouts.semantic')
+@extends('layouts.roominglist')
+
+@section ('head')
+<script>
+    window.store = {!! json_encode([
+        'unassigned' => $unassigned,
+        'dragging' => false
+    ]) !!};
+</script>
+@endsection
 
 @section('content')
-    <div class="grid">
-        <div class="eleven wide column">
-            <h1 style="margin-left:20px">Rooms</h1>
-            <div class="roominglist scroll">
-                <div class="ui info message" style="margin-bottom:2rem">
+    <div class="row d-flex align-items-stretch h-100">
+        <div class="rooms overflowing col-9 d-flex flex-column h-100">
+            <h1>Rooms</h1>
+            <div id="rooms-scroll" style="overflow-y: scroll; overflow-x: hidden">
+                <div class="alert alert-info">
                     <h3>Important Info About Creating Your Rooming List</h3>
                     <p>All hotel rooms sleep 4 people and account for 2 people in each of the following bed types: king, queen, double, and sleeper sofa. For example, a room with a king bed and sleeper sofa will sleep 4 people.</p>
                     <p>If you place a 5th person in a room, you will need to bring an air mattress. <i>Roll-aways/cots may be requested but <strong>CANNOT</strong> be guaranteed.</i></p>
                 </div>
-                <div class="ui fluid icon input">
-                    <i class="search icon"></i>
-                    <input type="search" placeholder="Search..." data-filter="#rooms" data-filter-item=".room" class="js-filter">
-                </div>
-
-                <div id="rooms" class="ui two columns grid" style="margin-top:1rem">
-                    @each ('roominglist.partials.room', $rooms, 'room')
-                </div>
-            </div>
-        </div>
-        <div class="five wide column">
-            <h1 style="margin-left:20px">Unassigned</h1>
-            <div class="tickets scroll">
-                <div class="ui fluid icon input">
-                    <i class="search icon"></i>
-                    <input type="search" placeholder="Search..." data-filter="#unassigned" data-filter-item=".ticket" class="js-filter">
-                </div>
-
-                <div id="unassigned" class="ui segments js-droppable" data-id="0">
-                    @each ('roominglist.partials.ticket', $unassigned, 'ticket')
-                    <div class="empty">No Tickets</div>
+                <div class="row">
+                    @foreach ($rooms as $room)
+                        <div class="col-xl-4 col-6 mb-3">
+                            <roominglist-room :room="{{ json_encode($room) }}" url="{{ action('RoomAssignmentController@update', $room) }}">
+                                @if (Auth::user()->isSuperAdmin())
+                                    <template slot="organization">
+                                        <small class="text-muted">{{ $room->organization->church->name }}</small><br>
+                                    </template>
+                                @endif
+                                <div slot="actions">
+                                    <a href="{{ action('RoomController@edit', $room) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                                    @if (Auth::user()->isSuperAdmin())
+                                        {{-- <span><a href="{{ route('roominglist.label', $room) }}" {!! session('printer') == 'PDF' ? 'target="_blank"' : '' !!} {!! session('printer') && session('printer') != 'PDF' ? 'data-test="test" v-on:click.prevent="ajax"' : '' !!}>print</a></span> --}}
+                                    @endif
+                                </div>
+                            </roominglist-room>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
+        <roominglist-unassigned></roominglist-unassigned>
     </div>
-@stop
-@section ('foot')
-    <script>
-        $(function () {
-          new App.Assignments()
-        })
-    </script>
 @stop

@@ -17,19 +17,36 @@ use App\PrintNode\RoominglistPrintNodeClient;
 
 class RoomingListController extends Controller
 {
-    private $rooms;
-
-    public function __construct(RoomRepository $rooms)
+    public function __construct()
     {
-        $this->rooms = $rooms;
-
-        $this->middleware('admin');
+        $this->middleware('auth');
     }
 
     public function index()
     {
-        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->unassigendSort();
-        $rooms = Room::forUser()->with('tickets.person', 'organization.church')->get();
+        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->unassigendSort()->mapWithKeys(function ($ticket) use (&$i) {
+            return [++$i => [
+                'id' => $ticket->id,
+                'name' => $ticket->name,
+                'gender' => $ticket->person->gender,
+                'type' => $ticket->agegroup,
+                'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
+            ]];
+        });
+
+        $rooms = Room::forUser(auth()->user())->with('tickets.person', 'organization.church')->get()->map(function ($room) {
+            $room['ticket_map'] = $room->tickets->assigendSort()->mapWithKeys(function ($ticket) use (&$i) {
+                return [++$i => [
+                    'id' => $ticket->id,
+                    'name' => $ticket->name,
+                    'gender' => $ticket->person->gender,
+                    'type' => $ticket->agegroup,
+                    'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
+                ]];
+            });
+
+            return $room;
+        });
 
         return view('roominglist.index', compact('unassigned', 'rooms'));
     }
@@ -98,7 +115,7 @@ class RoomingListController extends Controller
     public function overview()
     {
         \Session::put('url.intended', route('roominglist.overview'));
-        
+
         $rooms = Room::forUser()->with('tickets.person', 'organization.church', 'hotel')->orderBy('organization_id')->orderBy('id')->get();
         $organizations = Organization::has('rooms')->with('church')->join('church', 'organization.church_id', '=', 'church.id')->orderBy('church.name')->get();
 

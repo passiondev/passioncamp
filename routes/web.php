@@ -39,6 +39,13 @@ Route::get('account/settings', 'Account\SettingsController@index');
 Route::get('account/users/create', 'Account\UserController@create');
 Route::post('account/users', 'Account\UserController@store');
 
+Route::get('roominglist', 'RoomingListController@index');
+Route::get('rooms/{room}/edit', 'RoomController@edit');
+Route::patch('rooms/{room}', 'RoomController@update');
+Route::post('rooms/{room}/assignments', 'RoomAssignmentController@store');
+Route::patch('rooms/{room}/assignments', 'RoomAssignmentController@update');
+Route::delete('rooms/{room}/assignments', 'RoomAssignmentController@delete');
+
 Route::get('orders', 'OrderController@index');
 Route::get('orders/{order}', 'OrderController@show');
 

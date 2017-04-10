@@ -1,4 +1,4 @@
-<div class="ticket ui segment js-draggable" data-id="{{ $ticket->id }}" data-room-id="{{ $ticket->room_id ?: 0 }}">
+<div class="ticket w-100 d-flex justify-content-between js-draggable" data-id="{{ $ticket->id }}" data-room-id="{{ $ticket->room_id ?: 0 }}">
     {{ $ticket->name }}
     <div class="meta">
         @include('ticket/partials/label')

@@ -72,7 +72,7 @@ class Ticket extends OrderItem
 
     public function scopeUnassigned($query)
     {
-        return $query->whereNull('room_id');
+        return $query->doesntHave('rooms');
     }
 
     public function waiver()
@@ -85,9 +85,14 @@ class Ticket extends OrderItem
         return $this->hasMany(Waiver::class)->active();
     }
 
-    public function room()
+    public function getRoomAttribute()
     {
-        return $this->belongsTo(Room::class);
+        return $this->rooms->first();
+    }
+
+    public function rooms()
+    {
+        return $this->belongsToMany(Room::class, 'room_assignments')->withTimestamps()->using(RoomAssignment::class);
     }
 
     /*-------------- getters -----------------*/
