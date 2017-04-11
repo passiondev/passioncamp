@@ -14,7 +14,7 @@
                         <label for="capacity" class="col-md-3 col-form-label text-md-right">Capacity</label>
                         <div class="col-md-6">
                             <select name="capacity" id="capacity" class="form-control">
-                                @foreach (range(4,6) as $capacity)
+                                @foreach (range(4,5) as $capacity)
                                     <option value="{{ $capacity }}" @if (old('capacity', $room->capacity) == $capacity) selected @endif>{{ $capacity }}</option>
                                 @endforeach
                             </select>

@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <header class="d-flex justify-content-between">
             <h1>Churches</h1>
             <p>
@@ -9,34 +9,37 @@
             </p>
         </header>
 
-        <table class="table table-responsive table-striped" style="table-layout: fixed;width:100%">
+        <table class="table table-responsive table-bordered table-align-middle" style="table-layout: fixed;width:100%;">
             <thead>
                 <tr>
-                    <th>Church</th>
-                    <th>Contact</th>
-                    <th>Balance</th>
-                    <th class="text-center">Tickets</th>
+                    <th></th>
+                    <th class="text-center">Balance</th>
+                    <th class="text-center border-left">Purchased Tickets</th>
+                    <th class="text-center border-right">Rooms</th>
                     <th class="text-center">Registered</th>
+                    <th class="text-center">Assigned to Room</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)
                     <tr>
-                        <td>
+                        <th class="table-active">
                                 <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
-                                <div>
-                                    {{ $organization->church->location }}
-                                    <small style="display:block;font-weight: normal;color:#aaa">{{ $organization->created_at->format('M j, Y g:i A') }}</small>
-                                </div>
+                                <small>{{ $organization->church->location }}</small>
+                        </th>
+                        <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
+                            {{ money_format('%.0n', $organization->balance / 100) }}
                         </td>
-                        <td>
-                            @if ($organization->contact)
-                                {{ $organization->contact->name }} <br> <small>{{ $organization->contact->email }}</small>
-                            @endif
+                        <td class="text-center border-left">{{ $organization->num_tickets }}</td>
+                        <td class="text-center border-right {{ $organization->hotel_items_count != $organization->rooms->count() ? 'table-danger' : '' }}">
+                            {{ $organization->rooms->count() }}
                         </td>
-                        <td>{{ money_format('%.0n', $organization->balance / 100) }}</td>
-                        <td class="text-center">{{ $organization->num_tickets }}</td>
-                        <td class="text-center" class="{{ $organization->attendees->active()->count() == $organization->num_tickets ? 'positive' : '' }} {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'negative' : '' }}">{{ $organization->attendees->active()->count() }}</td>
+                        <td class="text-center {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'table-danger' : '' }}">
+                            {{ $organization->attendees->active()->count() }}
+                        </td>
+                        <td class="text-center {{ $organization->assigned_to_room_count > 0 && $organization->assigned_to_room_count == $organization->attendees->active()->count() ? 'table-success' : '' }}">
+                            {{ number_format($organization->assigned_to_room_count) }}
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
+    <div class="container-fluid">
         <header class="d-lg-flex justify-content-between align-items-center mb-lg-2">
             <h1 class="mb-2 mb-lg-0">Attendees</h1>
             <form class="mb-2 mb-lg-0 ml-lg-4" action="{{ action('TicketController@search') }}" method="GET">

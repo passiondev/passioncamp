@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <header class="d-flex justify-content-between align-items-bottom">
             <h1>Users</h1>
             <p>

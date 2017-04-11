@@ -461,3 +461,17 @@ $color-leader: #3d9794;
 .badge-female {
     background-color: #FF69B4;
 }
+
+.table {
+    .border-left {
+        border-left: 2px solid $laravel-border-color;
+    }
+    .border-right {
+        border-right: 2px solid $laravel-border-color;
+    }
+}
+.table-align-middle {
+    th, td {
+        vertical-align: middle;
+    }
+}

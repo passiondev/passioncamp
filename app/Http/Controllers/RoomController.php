@@ -23,16 +23,15 @@ class RoomController extends Controller
     {
         $this->authorize($room);
 
-        $room->update(request()->intersect([
-            'name',
-            'description',
-            'notes',
-            'capacity',
-            'roomnumber',
-            'confirmation_number',
-            'is_checked_in',
-            'is_key_received',
-        ]));
+        $room->update(
+            auth()->user()->isSuperAdmin()
+            ? request([
+                'capacity', 'description', 'notes',
+                'name', 'roomnumber', 'confirmation_number',
+                'is_checked_in', 'is_key_received',
+            ])
+            : request(['capacity', 'description', 'notes'])
+        );
 
         return redirect()->action('RoomingListController@index');
     }

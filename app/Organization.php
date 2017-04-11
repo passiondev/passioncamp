@@ -54,7 +54,7 @@ class Organization extends Model
 
     public function getHotelItemsCountAttribute()
     {
-        return $this->hotelItems()->sum('quantity');
+        return $this->hotelItems->sum('quantity');
     }
 
     public function hotels()
@@ -212,7 +212,7 @@ class Organization extends Model
     public function getAssignedToRoomCountAttribute()
     {
         return $this->attendees->active()->filter(function ($attendee) {
-            return $attendee->room_id;
+            return ! empty($attendee->room);
         })->count();
     }
 

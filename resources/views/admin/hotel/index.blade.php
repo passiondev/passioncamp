@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <header class="page-header">
             <h1>Hotels</h1>
         </header>

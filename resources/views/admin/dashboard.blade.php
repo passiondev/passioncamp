@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="card-deck mb-3">
             <div class="card mb-3 text-center">
                 <div class="card-block">
