@@ -14,10 +14,10 @@
                 <tr>
                     <th></th>
                     <th class="text-center">Balance</th>
-                    <th class="text-center border-left">Purchased Tickets</th>
-                    <th class="text-center border-right">Rooms</th>
+                    <th class="text-center border-left border-right">Purchased Tickets</th>
                     <th class="text-center">Registered</th>
                     <th class="text-center">Assigned to Room</th>
+                    <th class="text-center border-left">Rooms</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,15 +30,15 @@
                         <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
                             {{ money_format('%.0n', $organization->balance / 100) }}
                         </td>
-                        <td class="text-center border-left">{{ $organization->num_tickets }}</td>
-                        <td class="text-center border-right {{ $organization->hotel_items_count != $organization->rooms->count() ? 'table-danger' : '' }}">
-                            {{ $organization->rooms->count() }}
-                        </td>
+                        <td class="text-center border-left border-right">{{ $organization->num_tickets }}</td>
                         <td class="text-center {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'table-danger' : '' }}">
                             {{ $organization->attendees->active()->count() }}
                         </td>
                         <td class="text-center {{ $organization->assigned_to_room_count > 0 && $organization->assigned_to_room_count == $organization->attendees->active()->count() ? 'table-success' : '' }}">
                             {{ number_format($organization->assigned_to_room_count) }}
+                        </td>
+                        <td class="text-center border-left {{ $organization->hotel_items_count != $organization->rooms->count() ? 'table-danger' : '' }}">
+                            {{ $organization->rooms->count() }}
                         </td>
                     </tr>
                 @endforeach
