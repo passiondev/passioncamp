@@ -30,15 +30,15 @@
                         <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
                             {{ money_format('%.0n', $organization->balance / 100) }}
                         </td>
-                        <td class="text-center border-left border-right">{{ $organization->num_tickets }}</td>
-                        <td class="text-center {{ $organization->attendees->active()->count() > $organization->num_tickets ? 'table-danger' : '' }}">
-                            {{ $organization->attendees->active()->count() }}
+                        <td class="text-center border-left border-right">{{ $organization->tickets_sum }}</td>
+                        <td class="text-center {{ $organization->active_attendees_count > $organization->tickets_sum ? 'table-danger' : '' }}">
+                            {{ $organization->active_attendees_count }}
                         </td>
-                        <td class="text-center {{ $organization->assigned_to_room_count > 0 && $organization->assigned_to_room_count == $organization->attendees->active()->count() ? 'table-success' : '' }}">
+                        <td class="text-center {{ $organization->assigned_to_room_count > 0 && $organization->assigned_to_room_count == $organization->active_attendees_count ? 'table-success' : '' }}">
                             {{ number_format($organization->assigned_to_room_count) }}
                         </td>
-                        <td class="text-center border-left {{ $organization->hotel_items_count != $organization->rooms->count() ? 'table-danger' : '' }}">
-                            {{ $organization->rooms->count() }}
+                        <td class="text-center border-left {{ $organization->hotels_sum != $organization->rooms_count ? 'table-danger' : '' }}">
+                            {{ $organization->rooms_count }}
                         </td>
                     </tr>
                 @endforeach

@@ -16,7 +16,13 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        $organizations = Organization::join('churches', 'organizations.church_id', '=', 'churches.id')->with('contact', 'church', 'tickets', 'transactions.transaction', 'items', 'attendees.waiver', 'attendees.rooms', 'rooms', 'hotelItems')->orderBy('name')->paginate();
+        $organizations = Organization::join('churches', 'organizations.church_id', '=', 'churches.id')
+            ->with('church', 'transactions.transaction', 'items')
+            ->withCount(['activeAttendees', 'assignedToRoom', 'rooms'])
+            ->withTicketsSum()
+            ->withHotelsSum()
+            ->orderBy('name')
+            ->paginate();
 
         return view('super.organization.index', compact('organizations'));
     }

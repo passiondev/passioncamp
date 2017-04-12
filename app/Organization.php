@@ -22,9 +22,29 @@ class Organization extends Model
 
     public function scopeActive($query)
     {
-        return $this->whereHas('items', function ($q) {
+        return $query->whereHas('items', function ($q) {
             $q->where('quantity', '>', '0');
         });
+    }
+
+    public function scopeWithTicketsSum($query)
+    {
+        return $query->selectSub("
+                SELECT SUM(quantity)
+                FROM order_items
+                WHERE order_items.organization_id = organizations.id and org_type = 'ticket'
+            ", 'tickets_sum'
+        );
+    }
+
+    public function scopeWithHotelsSum($query)
+    {
+        return $query->selectSub("
+                SELECT SUM(quantity)
+                FROM order_items
+                WHERE order_items.organization_id = organizations.id and org_type = 'hotel'
+            ", 'hotels_sum'
+        );
     }
 
     public function church()
@@ -87,6 +107,16 @@ class Organization extends Model
         return $this->hasManyThrough(Ticket::class, Order::class);
     }
 
+    public function activeAttendees()
+    {
+        return $this->attendees()->active();
+    }
+
+    public function assignedToRoom()
+    {
+        return $this->activeAttendees()->has('rooms');
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -139,13 +169,6 @@ class Organization extends Model
         $setting->value = $value;
 
         $setting->save();
-    }
-
-    public function getNumTicketsAttribute()
-    {
-        $quantity = $this->tickets->sum('quantity');
-
-        return number_format($quantity, 0);
     }
 
     public function getTotalCostAttribute()
@@ -206,13 +229,6 @@ class Organization extends Model
     {
         return $this->attendees->active()->filter(function ($attendee) {
             return $attendee->waiver && $attendee->waiver->status == 'signed';
-        })->count();
-    }
-
-    public function getAssignedToRoomCountAttribute()
-    {
-        return $this->attendees->active()->filter(function ($attendee) {
-            return ! empty($attendee->room);
         })->count();
     }
 
