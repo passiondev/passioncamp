@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use App\OrgItem;
-use App\OrderItem;
 use App\Organization;
 use App\Jobs\DeployRoomsAndAssignToHotels;
 
@@ -27,33 +26,27 @@ class OrganizationItemController extends Controller
     {
         $item = Item::find(request('item'));
 
-        $orderItem = new OrgItem(request(['quantity']) + [
+        $OrgItem = new OrgItem(request(['quantity']) + [
             'cost' => request('cost') * 100
         ]);
-        $orderItem->item()->associate($item);
-        $orderItem->organization()->associate($organization);
-        $orderItem->org_type = $item->type;
-        $orderItem->save();
-
-        // app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
+        $OrgItem->item()->associate($item);
+        $OrgItem->organization()->associate($organization);
+        $OrgItem->org_type = $item->type;
+        $OrgItem->save();
 
         return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item added.');
     }
 
-    public function edit(Organization $organization, OrderItem $item)
+    public function edit(Organization $organization, OrgItem $item)
     {
-        $items = Item::all();
-
-        return view('admin.organization.item.edit', compact('items', 'item'))->withOrganization($organization);
+        return view('admin.organization.item.edit', compact('items', 'organization'));
     }
 
-    public function update(Organization $organization, OrderItem $item)
+    public function update(Organization $organization, OrgItem $item)
     {
-        $item->update(request('item_id', 'quantity') + [
+        $item->update(request(['quantity']) + [
             'cost' => request('cost') * 100
         ]);
-
-        // app()->call([new DeployRoomsAndAssignToHotels, 'handle']);
 
         return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item updated.');
     }

@@ -21,7 +21,7 @@ Route::put('admin/users/{user}/update', 'Super\UserController@update');
 Route::get('admin/organizations/{organization}/item/create', 'OrganizationItemController@create');
 Route::post('admin/organizations/{organization}/item/store', 'OrganizationItemController@store');
 Route::get('admin/organizations/{organization}/item/{item}/edit', 'OrganizationItemController@edit');
-Route::put('admin/organizations/{organization}/item/{item}/update', 'OrganizationItemController@update');
+Route::match(['put', 'patch'], 'admin/organizations/{organization}/item/{item}/update', 'OrganizationItemController@update');
 
 Route::get('admin/organizations/{organization}/users/create', 'OrganizationUserController@create');
 Route::post('admin/organizations/{organization}/users', 'OrganizationUserController@store');

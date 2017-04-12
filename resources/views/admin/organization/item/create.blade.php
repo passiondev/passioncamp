@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <header>
             <h1>Add Item</h1>
         </header>
@@ -28,7 +28,11 @@
             </div>
             <div class="form-group">
                 <label for="cost">Cost/ea</label>
-                <input type="number" name="cost" id="cost" class="form-control" value="{{ old('cost') }}">
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="number" name="cost" id="cost" class="form-control" value="{{ old('cost') }}">
+                    <span class="input-group-addon">.00</span>
+                </div>
             </div>
 
             <button class="btn btn-primary">Submit</button>

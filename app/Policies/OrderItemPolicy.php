@@ -17,6 +17,11 @@ class OrderItemPolicy
 
     public function edit(User $user, $item)
     {
+        return $this->update($user, $item);
+    }
+
+    public function update(User $user, $item)
+    {
         if ($item->isOrganizationItem()) {
             return $user->isSuperAdmin();
         }

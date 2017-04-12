@@ -12,8 +12,8 @@
                     <div class="transaction">
                         <div class="item left">
                             {{ $item->name }} <small>({{ number_format($item->quantity) }} @ {{ money_format('%.2n', $item->cost / 100) }})</small>
-                            @can('edit', $item)
-                                {{-- <a href="{{ route('admin.organization.item.edit', [$organization, $item]) }}">edit</a> --}}
+                            @can('update', $item)
+                                <a class="btn btn-link btn-sm text-muted" href="{{ action('OrganizationItemController@edit', [$organization, $item]) }}">edit</a>
                             @endcan
                         </div>
                         <div class="item right">{{ money_format('%.2n', $item->quantity * $item->cost / 100) }}</div>

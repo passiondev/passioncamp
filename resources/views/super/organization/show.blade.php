@@ -1,7 +1,7 @@
 @extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
     <header class="d-md-flex justify-content-between mb-5">
         <h1>{{ $organization->church->name }}</h1>
         <p>
