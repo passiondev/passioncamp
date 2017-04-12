@@ -39,7 +39,7 @@ class OrganizationItemController extends Controller
 
     public function edit(Organization $organization, OrgItem $item)
     {
-        return view('admin.organization.item.edit', compact('items', 'organization'));
+        return view('admin.organization.item.edit', compact('item', 'organization'));
     }
 
     public function update(Organization $organization, OrgItem $item)
