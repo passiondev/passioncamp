@@ -22,7 +22,7 @@ class OrganizationController extends Controller
             ->withTicketsSum()
             ->withHotelsSum()
             ->orderBy('name')
-            ->paginate();
+            ->get();
 
         return view('super.organization.index', compact('organizations'));
     }

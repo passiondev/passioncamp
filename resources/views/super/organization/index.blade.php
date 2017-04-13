@@ -44,7 +44,5 @@
                 @endforeach
             </tbody>
         </table>
-
-        {{ $organizations->links() }}
     </div>
 @stop
