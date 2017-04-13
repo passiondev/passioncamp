@@ -28,7 +28,7 @@
                                 <small>{{ $organization->church->location }}</small>
                         </th>
                         <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
-                            {{ money_format('%.0n', $organization->balance / 100) }}
+                            {{ $organization->balance == 0 ? '--' : money_format('%.0n', $organization->balance / 100) }}
                         </td>
                         <td class="text-center border-left border-right">{{ $organization->tickets_sum }}</td>
                         <td class="text-center {{ $organization->active_attendees_count > $organization->tickets_sum ? 'table-danger' : '' }}">
