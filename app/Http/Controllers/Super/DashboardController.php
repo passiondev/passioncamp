@@ -7,16 +7,10 @@ use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('super');
-    }
-
     public function __invoke()
     {
         $data = [
-            'num_churches' => Organization::count(),
+            'num_churches' => Organization::active()->count(),
             'num_tickets' => Organization::join('order_items', function ($join) {
                 $join->on('organizations.id', '=', 'organization_id')
                      ->where('org_type', 'ticket')
@@ -31,6 +25,6 @@ class DashboardController extends Controller
 
         $data['balance'] = $data['total_cost'] - $data['total_paid'];
 
-        return view('admin.dashboard', compact('data'));
+        return request()->wantsJson() ? response()->json($data) : view('admin.dashboard', compact('data'));
     }
 }

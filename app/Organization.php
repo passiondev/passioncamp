@@ -23,7 +23,7 @@ class Organization extends Model
     public function scopeActive($query)
     {
         return $query->whereHas('items', function ($q) {
-            $q->where('quantity', '>', '0');
+            $q->whereIn('org_type', ['ticket', 'hotel'])->where('quantity', '>', '0');
         });
     }
 

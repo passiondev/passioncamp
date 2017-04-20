@@ -13,14 +13,37 @@
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
+        'email' => $faker->safeEmail,
+        'person_id' => function ($self) {
+            return factory(App\Person::class)->create([
+                'email' => $self['email'],
+            ])->id;
+        }
     ];
 });
+
+$factory->state(App\User::class, 'superAdmin', function ($faker) {
+    return [
+        'access' => 100,
+        'organization_id' => null,
+    ];
+});
+
+$factory->state(App\User::class, 'churchAdmin', function ($faker) {
+    return [
+        'access' => 1,
+        'organization_id' => function () {
+            return factory(App\Organization::class)->create()->id;
+        },
+    ];
+});
+
 $factory->define(App\Person::class, function (Faker\Generator $faker) {
     return [
-        'first_name' => $faker->first_name,
-        'last_name' => $faker->last_name,
-        'email' => $faker->email,
-        'phone' => $faker->phone,
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'email' => $faker->safeEmail,
+        'phone' => $faker->phoneNumber,
     ];
 });
 
