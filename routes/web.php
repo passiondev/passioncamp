@@ -1,5 +1,9 @@
 <?php
 
+Route::get('test', function () {
+    dispatch(new \App\Jobs\GenerateRoomingListVersion);
+});
+
 Route::get('/', 'RedirectController@home');
 
 Route::get('admin', 'Super\DashboardController')->middleware(['auth', 'super']);

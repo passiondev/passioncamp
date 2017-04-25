@@ -15,12 +15,14 @@ trait Revisionable
 
     public function revision()
     {
-        $properties['attributes'] = static::logChanges($this);
-        $properties['old'] = $this->activity()->latest()->first()->changes['attributes'];
-        $properties['old'] = collect($properties['old'])->diff($properties['attributes'])->all();
-        // $properties['changed'] = array_keys($properties['old']);
+        $lastActivity = $this->activity()->latest()->first();
 
-        app(ActivityLogger::class)
+        $properties['attributes'] = static::logChanges($this);
+        $properties['old'] = $lastActivity->changes['attributes'] ?? [];
+        $properties['old'] = collect($properties['old'])->diff($properties['attributes'])->all();
+        $properties['changed'] = count($lastActivity) ? array_keys($properties['old']) : static::attributesToBeLogged();
+
+        return app(ActivityLogger::class)
             ->useLog($this->getLogNameToUse())
             ->performedOn($this)
             ->withProperties($properties)

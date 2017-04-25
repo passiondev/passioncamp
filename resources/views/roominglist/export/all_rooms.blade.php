@@ -14,20 +14,16 @@
                     <th>Description</th>
                     <th>Notes</th>
                     <th>Gender</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
+                    <th>Name #1</th>
+                    <th>Name #2</th>
+                    <th>Name #3</th>
+                    <th>Name #4</th>
+                    <th>Name #5</th>
+                    <th>Name #6</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($all_rooms as $room)
+                @foreach ($allRooms as $room)
                     <tr>
                         <td>{{ $room['id'] }}</td>
                         <td>{{ $room['confirmation_number'] }}</td>
@@ -38,8 +34,7 @@
                         <td @if($room['changed']) style="background-color: #FFFF00;" @endif>{{ $room['notes'] }}</td>
                         <td>{{ $room['gender'] }}</td>
                         @foreach ($room['tickets'] as $ticket)
-                            <td @if($ticket['changed']) style="background-color: #FFFF00;" @endif>{{ $ticket['lname'] }}</td>
-                            <td @if($ticket['changed']) style="background-color: #FFFF00;" @endif>{{ $ticket['fname'] }}</td>
+                            <td @if($ticket['changed']) style="background-color: #FFFF00;" @endif>{{ $ticket['name'] }}</td>
                         @endforeach
                     </tr>
                 @endforeach
