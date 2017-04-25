@@ -27,7 +27,7 @@
         "jenssegers/rollbar": "~1.5",
         "graham-campbell/flysystem": "~3.4",
         "league/flysystem-dropbox": "~1.0",
-        "sofa/revisionable": "5.3.*",
+        "sofa/revisionable": "5.4.*",
         "maatwebsite/excel": "~2.1",
         "vinkla/pusher": "~2.3",
         "spipu/html2pdf": "~4.6",
@@ -41,7 +41,8 @@
         "laravel/socialite": "^3.0",
         "nothingworks/blade-svg": "^0.1.0",
         "laravel/scout": "^3.0",
-        "algolia/algoliasearch-client-php": "^1.17"
+        "algolia/algoliasearch-client-php": "^1.17",
+        "spatie/laravel-activitylog": "^1.13"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -9,22 +9,17 @@ use Illuminate\Database\Eloquent\Builder;
 use Sofa\Revisionable\Laravel\Revisionable;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Sofa\Revisionable\Laravel\RevisionableTrait;
 
 class Ticket extends OrderItem
 {
-    use FormAccessible, SoftDeletes, Searchable;
-    // use Revisionable;
-
-    protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
-
-    public function isRevisioned()
-    {
-        return false;
-    }
+    use FormAccessible, SoftDeletes, Searchable, Revisionable;
 
     protected $appends = ['name'];
 
     protected $revisionable = ['name', 'room_id'];
+
+    protected $revisionPresenter = \App\Presenters\Revisions\Ticket::class;
 
     protected $table = 'order_items';
 

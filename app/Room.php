@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Revisionable;
+
+    protected static function bootRevisionable()
+    {
+        // static::observe(Listener::class);
+    }
 
     protected $revisionable = ['name', 'description', 'notes', 'hotel_id'];
 
@@ -27,11 +32,6 @@ class Room extends Model
     protected $attributes = [
         'capacity' => 4,
     ];
-
-    public function isRevisioned()
-    {
-        return false;
-    }
 
     public function organization()
     {
@@ -86,23 +86,29 @@ class Room extends Model
 
     public function revision()
     {
-        return;
-        // get fresh revision info if it hasnt been loaded
-        if (! $this->relationLoaded('latestRevision')) {
-            $this->load('latestRevision');
-        }
+        $this->revisions()->create([
+            'table_name' => $this->getTable(),
+            'action' => $action,
+            'old' => json_encode($this->hasHistory() ? $this->getOldAttributes() : []),
+            'new' => json_encode($this->getNewAttributes()),
+        ]);
 
-        $logger = static::getRevisionableLogger();
-        $table = $this->getTable();
-        $id    = $this->getKey();
-        $user  = Auth::user();
-        $latest = $this->latestRevision ? $this->latestRevision->new : [];
-        $current = $this->getNewAttributes() + ['hotel' => $this->hotel_name];
+        // // get fresh revision info if it hasnt been loaded
+        // if (! $this->relationLoaded('latestRevision')) {
+        //     $this->load('latestRevision');
+        // }
 
-        $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
+        // $logger = static::getRevisionableLogger();
+        // $table = $this->getTable();
+        // $id    = $this->getKey();
+        // $user  = Auth::user();
+        // $latest = $this->latestRevision ? $this->latestRevision->new : [];
+        // $current = $this->getNewAttributes() + ['hotel' => $this->hotel_name];
 
-        // unset relation so that fresh revision info will be pulled
-        unset($this->relations['latestRevision']);
+        // $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
+
+        // // unset relation so that fresh revision info will be pulled
+        // unset($this->relations['latestRevision']);
     }
 
     public function getHasChangedSinceLastRevisionAttribute()
