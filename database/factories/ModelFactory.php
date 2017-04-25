@@ -49,11 +49,20 @@ $factory->define(App\Person::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Order::class, function (Faker\Generator $faker) {
     return [
+        'organization_id' => function () {
+            return factory(App\Organization::class)->create()->id;
+        }
     ];
 });
 
 $factory->define(App\Ticket::class, function (Faker\Generator $faker) {
     return [
+        'person_id' => function () {
+            return factory(App\Person::class)->create()->id;
+        },
+        'order_id' => function () {
+            return factory(App\Order::class)->create()->id;
+        }
     ];
 });
 
@@ -85,5 +94,20 @@ $factory->define(App\Organization::class, function (Faker\Generator $faker) {
         'church_id' => function () {
             return factory(App\Church::class)->create()->id;
         },
+    ];
+});
+
+$factory->define(App\Room::class, function ($faker) {
+    return [
+        'organization_id' => function () {
+            return factory(App\Organization::class)->create()->id;
+        },
+        'name' => 'Room',
+    ];
+});
+
+$factory->define(App\Hotel::class, function ($faker) {
+    return [
+        'name' => 'Hotel',
     ];
 });

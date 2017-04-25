@@ -4,33 +4,40 @@ namespace App;
 
 use App\Events\RoomDeleted;
 use Illuminate\Support\Facades\Auth;
-use Sofa\Revisionable\Laravel\Revisionable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
     use SoftDeletes, Revisionable;
 
-    protected static function bootRevisionable()
-    {
-        // static::observe(Listener::class);
-    }
-
-    protected $revisionable = ['name', 'description', 'notes', 'hotel_id'];
-
     protected $guarded = [];
+
+    protected $attributes = [
+        'capacity' => 4,
+    ];
 
     protected $dates = [
         'key_received_at',
         'checked_in_at',
     ];
 
-    protected $events = [
-        'deleted' => RoomDeleted::class,
+    protected static $logAttributes = [
+        'name',
+        'description',
+        'notes',
+        'hotelName',
     ];
 
-    protected $attributes = [
-        'capacity' => 4,
+    protected $appends = [
+        'hotelName',
+    ];
+
+    protected $with = [
+        'hotel',
+    ];
+
+    protected $events = [
+        'deleted' => RoomDeleted::class,
     ];
 
     public function organization()
@@ -81,39 +88,7 @@ class Room extends Model
 
     public function getHotelNameAttribute()
     {
-        return $this->hotel ? $this->hotel->name : '';
-    }
-
-    public function revision()
-    {
-        $this->revisions()->create([
-            'table_name' => $this->getTable(),
-            'action' => $action,
-            'old' => json_encode($this->hasHistory() ? $this->getOldAttributes() : []),
-            'new' => json_encode($this->getNewAttributes()),
-        ]);
-
-        // // get fresh revision info if it hasnt been loaded
-        // if (! $this->relationLoaded('latestRevision')) {
-        //     $this->load('latestRevision');
-        // }
-
-        // $logger = static::getRevisionableLogger();
-        // $table = $this->getTable();
-        // $id    = $this->getKey();
-        // $user  = Auth::user();
-        // $latest = $this->latestRevision ? $this->latestRevision->new : [];
-        // $current = $this->getNewAttributes() + ['hotel' => $this->hotel_name];
-
-        // $logger->revisionLog('revision', $table, $id, $latest, $current, $user);
-
-        // // unset relation so that fresh revision info will be pulled
-        // unset($this->relations['latestRevision']);
-    }
-
-    public function getHasChangedSinceLastRevisionAttribute()
-    {
-        return $this->latestRevision && ! empty($this->latestRevision->getDiff());
+        return $this->hotel->name ?? '';
     }
 
     public function getIsKeyReceivedAttribute()
@@ -138,13 +113,15 @@ class Room extends Model
 
     public function checkIn()
     {
-        $this->checked_in_at = \Carbon\Carbon::now();
-        $this->save();
+        $this->update([
+            'is_checked_in' => true
+        ]);
     }
 
     public function keyReceived()
     {
-        $this->key_received_at = \Carbon\Carbon::now();
-        $this->save();
+        $this->update([
+            'key_received_at' => \Carbon\Carbon::now(),
+        ]);
     }
 }
