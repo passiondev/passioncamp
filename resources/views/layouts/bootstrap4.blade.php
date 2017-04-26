@@ -95,6 +95,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ action('Super\RoominglistsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoominglistsController') ? 'active' :'' }}">
+                                        Rooming&nbsp;Lists
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                         Hotels
                                     </a>

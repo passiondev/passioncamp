@@ -117,8 +117,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
                       ->setAutoFilter('A1:H1');
             });
             $excel->setActiveSheetIndex(0);
-        })->download('xlsx');
-        // })->store('xlsx', false, true);
+        })->store('xlsx', false, true);
 
         $version->file_path = $document['full'];
         $version->save();
