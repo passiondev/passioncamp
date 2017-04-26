@@ -27,9 +27,14 @@ class RegisterController extends Controller
     }
     public function getCurrentTicketPrice()
     {
+        if (request('code') == 'rising') {
+            return 370;
+        }
+
         $prices = [
-            '370' => Carbon::parse('2017-01-01'),
-            '390' => Carbon::parse('2017-04-03'),
+            // '370' => Carbon::parse('2017-01-01'),
+            '360' => Carbon::parse('2017-04-03'),
+            '390' => Carbon::parse('2017-04-27'),
             '410' => Carbon::parse('2017-05-01'),
         ];
 

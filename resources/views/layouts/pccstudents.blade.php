@@ -24,7 +24,7 @@
 </head>
 <body style="padding-top:0">
     <header id="page-header" class="text-center pt-xl-5">
-        <img src="/img/header-content.png" alt="SMMR CMP" class="img-fluid">
+        <img src="{{ request('code') ? '/img/header-content-special.png' : '/img/header-content.png' }}" alt="SMMR CMP" class="img-fluid">
     </header>
     <div id="page-header-banner">
         <div class="container d-flex flex-column align-items-center justify-content-between flex-sm-row">
