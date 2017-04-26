@@ -17,7 +17,7 @@
     <register-form inline-template>
         <form class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
             {{ csrf_field() }}
-            @if (request('codel'))
+            @if (request('code'))
                 <input type="hidden" name="code" value="{{ request('code') }}">
             @endif
             <div class="row">

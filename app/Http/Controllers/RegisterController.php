@@ -25,6 +25,7 @@ class RegisterController extends Controller
         $this->organization = Organization::whereSlug('pcc')->firstOrFail();
         $this->ticket_price = $this->getCurrentTicketPrice();
     }
+
     public function getCurrentTicketPrice()
     {
         if (request('code') == 'rising') {
