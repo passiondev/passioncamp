@@ -328,6 +328,10 @@ fieldset.form-group {
     border-top: 1px solid $laravel-border-color;
 }
 
+.card-block.dividing + .card-block.dividing {
+    border-top: 1px solid $laravel-border-color;
+}
+
 .statistic {
     line-height: normal;
     font-size: $font-size-lg;

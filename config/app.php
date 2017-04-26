@@ -166,7 +166,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
-        Sofa\Revisionable\Laravel\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Vinkla\Pusher\PusherServiceProvider::class,
         Codedge\Fpdf\FpdfServiceProvider::class,
@@ -176,6 +175,7 @@ return [
         Spatie\Fractal\FractalServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
 
         /*
          * Application Service Providers...

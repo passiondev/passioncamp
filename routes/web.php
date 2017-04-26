@@ -1,8 +1,15 @@
 <?php
 
+Route::get('test', function () {
+    dispatch(new \App\Jobs\GenerateRoomingListVersion);
+});
+
 Route::get('/', 'RedirectController@home');
 
 Route::get('admin', 'Super\DashboardController')->middleware(['auth', 'super']);
+Route::get('admin/roominglists', 'Super\RoominglistsController@index');
+Route::post('admin/roominglists/export', 'RoominglistExportController@create');
+Route::get('admin/roominglists/{version}/download', 'RoominglistExportController@download');
 
 Route::get('admin/organizations/search', 'OrganizationController@search');
 Route::resource('admin/organizations', 'OrganizationController');

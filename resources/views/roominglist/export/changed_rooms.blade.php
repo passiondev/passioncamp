@@ -19,17 +19,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($changed_rooms as $room)
+                @foreach ($rooms as $room)
                     <tr>
                         <td>{{ $room['id'] }}</td>
                         <td>{{ $room['church'] }}</td>
-                        <td>{{ $room['current']['hotel'] }}</td>
+                        <td>{{ $room['current']['hotelName'] }}</td>
                         <td>{{ $room['current']['name'] }}</td>
-                        <td>{{ $room['current']['desc'] }}</td>
+                        <td>{{ $room['current']['description'] }}</td>
                         <td>{{ $room['current']['notes'] }}</td>
-                        <td>{{ $room['previous']['hotel'] }}</td>
+                        <td>{{ $room['previous']['hotelName'] }}</td>
                         <td>{{ $room['previous']['name'] }}</td>
-                        <td>{{ $room['previous']['desc'] }}</td>
+                        <td>{{ $room['previous']['description'] }}</td>
                         <td>{{ $room['previous']['notes'] }}</td>
                     </tr>
                 @endforeach

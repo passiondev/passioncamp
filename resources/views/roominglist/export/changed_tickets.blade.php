@@ -9,24 +9,20 @@
                     <th>ID</th>
                     <th>Church</th>
                     <th>Current Room ID</th>
-                    <th>Current First Name</th>
-                    <th>Current Last Name</th>
+                    <th>Current Name</th>
                     <th>Previous Room ID</th>
-                    <th>Previous First Name</th>
-                    <th>Previous Last Name</th>
+                    <th>Previous Name</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($changed_tickets as $ticket)
+                @foreach ($tickets as $ticket)
                     <tr>
                         <td>{{ $ticket['id'] }}</td>
                         <td>{{ $ticket['church'] }}</td>
-                        <td>{{ $ticket['current']['room_id'] }}</td>
-                        <td>{{ $ticket['current']['fname'] }}</td>
-                        <td>{{ $ticket['current']['lname'] }}</td>
-                        <td>{{ $ticket['previous']['room_id'] }}</td>
-                        <td>{{ $ticket['previous']['fname'] }}</td>
-                        <td>{{ $ticket['previous']['lname'] }}</td>
+                        <td>{{ $ticket['current']['roomId'] }}</td>
+                        <td>{{ $ticket['current']['name'] }}</td>
+                        <td>{{ $ticket['previous']['roomId'] }}</td>
+                        <td>{{ $ticket['previous']['name'] }}</td>
                     </tr>
                 @endforeach
             </tbody>
