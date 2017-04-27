@@ -32,6 +32,7 @@ class TicketTransformer extends TransformerAbstract
 
         if ($this->includeAdditionalFields) {
             $data += [
+                'church' => $ticket->order->organization->church->name,
                 'email' => $ticket->email,
                 'phone' => $ticket->phone,
                 'birthdate' => $ticket->birthdate ? $ticket->birthdate->toDateString() : null,
