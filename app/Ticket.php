@@ -42,7 +42,7 @@ class Ticket extends OrderItem
     ];
 
     protected $with = [
-        'room',
+        'roomAssignment',
     ];
 
     protected static function boot()
@@ -86,14 +86,19 @@ class Ticket extends OrderItem
         return $this->hasMany(Waiver::class);
     }
 
-    public function getRoomAttribute()
+    public function roomAssignment()
     {
-        return $this->rooms->first();
+        return $this->hasOne(RoomAssignment::class)->latest();
+    }
+
+    public function roomAssignments()
+    {
+        return $this->hasMany(RoomAssignment::class);
     }
 
     public function rooms()
     {
-        return $this->belongsToMany(Room::class, 'room_assignments')->withTimestamps()->using(RoomAssignment::class);
+        return $this->belongsToMany(Room::class, 'room_assignments')->withTimestamps();
     }
 
     /*-------------- getters -----------------*/
@@ -106,7 +111,7 @@ class Ticket extends OrderItem
 
     public function getRoomIdAttribute()
     {
-        return $this->room->id ?? '';
+        return $this->roomAssignment->room_id ?? null;
     }
 
     public function getAttribute($key)

@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
-
-class RoomAssignment extends Pivot
+class RoomAssignment extends Model
 {
     public function ticket()
     {

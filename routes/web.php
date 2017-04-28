@@ -1,37 +1,5 @@
 <?php
 
-use KevinEm\AdobeSign\AdobeSign;
-
-Route::get('test', function () {
-    $response = app(AdobeSign::class)->createAgreement([
-        'documentCreationInfo' => [
-            'fileInfos'         => [
-                'libraryDocumentId' => '3AAABLblqZhBH0HWWqwG-o0C6ueCVbKH3RPHKq1KbD7S_GtgiLBrKZuP5rybf8NYSaohATtL7BtWTgiweA9YB98sLBdvl7OT5'
-            ],
-            'name'              => 'Passion Camp Waiver',
-            'signatureType'     => 'ESIGN',
-            'recipientSetInfos' => [
-                'recipientSetMemberInfos' => [
-                    'email' => 'matt.floyd@268generation.com'
-                ],
-                'recipientSetRole'        => [
-                    'SIGNER'
-                ]
-            ],
-            'mergeFieldInfo'    => [
-                [
-                    'fieldName'    => 'Custom Field 1',
-                    'defaultValue' => 'Matt Floyd'
-                ]
-            ],
-            'signatureFlow'     => 'SENDER_SIGNATURE_NOT_REQUIRED'
-        ]
-    ]);
-    dd($response);
-
-    return app(AdobeSign::class)->getLibraryDocument('3AAABLblqZhBH0HWWqwG-o0C6ueCVbKH3RPHKq1KbD7S_GtgiLBrKZuP5rybf8NYSaohATtL7BtWTgiweA9YB98sLBdvl7OT5');
-});
-
 Route::get('/', 'RedirectController@home');
 
 Route::get('admin', 'Super\DashboardController')->middleware(['auth', 'super']);
