@@ -17,8 +17,8 @@ class CreateWaiversTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('ticket_id');
             $table->string('provider', 20)->nullable();
-            $table->string('provider_agreement_id', 20)->nullable();
-            $table->string('status');
+            $table->string('provider_agreement_id')->nullable();
+            $table->string('status', 20);
             $table->timestamps();
         });
     }

@@ -9,9 +9,9 @@ class TicketWaiversController extends Controller
 {
     public function store(Ticket $ticket)
     {
-        $waiver = $ticket->waiver()->create(
-            request(['provider'])
-        );
+        $waiver = $ticket->waiver()->create([
+            'provider' => 'adobesign'
+        ]);
 
         return request()->expectsJson()
             ? response()->json($waiver, 201)

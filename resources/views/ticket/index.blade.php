@@ -61,7 +61,6 @@
             </table>
         @endif
 
-        {{-- {{ $tickets->appends(Request::only('search'))->links(new \App\Pagination\Semantic($tickets)) }} --}}
         {{ $tickets->links() }}
     </div>
 

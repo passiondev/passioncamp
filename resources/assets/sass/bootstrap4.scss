@@ -479,3 +479,9 @@ $color-leader: #3d9794;
         vertical-align: middle;
     }
 }
+
+tr.canceled {
+    th, td {
+        text-decoration: line-through;
+    }
+}
