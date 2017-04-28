@@ -111,3 +111,14 @@ $factory->define(App\Hotel::class, function ($faker) {
         'name' => 'Hotel',
     ];
 });
+
+$factory->define(App\Waiver::class, function ($faker) {
+    return [
+        'ticket_id' => function () {
+            return factory(App\Ticket::class)->create()->id;
+        },
+        'provider' => 'adobesign',
+        'provider_agreement_id' => $faker->md5,
+        'status' => 'pending',
+    ];
+});

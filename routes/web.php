@@ -112,3 +112,5 @@ Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
 Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
 Route::get('waivers', 'WaiversController@index');
+
+Route::get('/webhooks/adobesign', 'Webhooks\AdobeSignController');

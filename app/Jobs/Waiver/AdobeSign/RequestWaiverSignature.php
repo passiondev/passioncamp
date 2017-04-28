@@ -53,7 +53,8 @@ class RequestWaiverSignature implements ShouldQueue
                         'defaultValue' => $this->waiver->ticket->name
                     ]
                 ],
-                'signatureFlow' => 'SENDER_SIGNATURE_NOT_REQUIRED'
+                'signatureFlow' => 'SENDER_SIGNATURE_NOT_REQUIRED',
+                'callbackInfo' => action('Webhooks\AdobeSignController'),
             ]
         ]);
 

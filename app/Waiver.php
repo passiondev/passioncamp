@@ -22,4 +22,9 @@ class Waiver extends Model
     {
         return $this->belongsTo(Ticket::class);
     }
+
+    public function getStatusAttribute($status)
+    {
+        return WaiverStatus::get($status);
+    }
 }
