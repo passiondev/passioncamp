@@ -35,14 +35,20 @@
                             {{ $ticket->order->user->person->email }}
                         </td>
                         <td>
-                            @if ($ticket->waiver)
-                                {{ ucfirst($ticket->waiver->status) }}
-                            @else
-                                <a href="{{ action('TicketWaiversController@store', $ticket) }}" class="btn btn-sm btn-outline-primary" onclick="event.preventDefault(); document.getElementById('waiver-{{ $ticket->id }}-form').submit();">Send Waiver</a>
+                            @unless ($ticket->waiver)
+                                <send-waiver href="{{ action('TicketWaiversController@store', $ticket) }}" btn-style="outline-primary">
+                                    Send Waiver
+                                </send-waiver>
 
-                                <form action="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" id="waiver-{{ $ticket->id }}-form">
+                                {{-- <form onsubmit="event.preventDefault(); alert('submit');" action="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" id="waiver-{{ $ticket->id }}-form" style="display:none">
                                     {{ csrf_field() }}
-                                </form>
+                                </form> --}}
+                            @elseif ($ticket->waiver->canBeReminded())
+                                <send-waiver href="{{ action('WaiversController@reminder', $ticket->waiver) }}" btn-style="outline-secondary">
+                                    Remind
+                                </send-waiver>
+                            @else
+                                {{ ucfirst($ticket->waiver->status) }}
                             @endif
                         </td>
                         <td>

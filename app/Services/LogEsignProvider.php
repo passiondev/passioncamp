@@ -13,4 +13,11 @@ class LogEsignProvider implements EsignProviderContract
 
         return str_random(30);
     }
+
+    public function sendReminder($agreementId)
+    {
+        Log::info($agreementId);
+
+        return 'reminder-sent';
+    }
 }

@@ -33,8 +33,6 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer text-muted bg-white" v-if="room.description || room.notes">
-        </div>
     </div>
 </template>
 <script>

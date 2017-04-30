@@ -10,7 +10,7 @@ class WaiverStatus
 
     public static function get($status)
     {
-        switch ($status) {
+        switch (strtoupper($status)) {
             case 'SIGNED':
                 return static::COMPLETE;
 

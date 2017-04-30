@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
 use App\Room;
 use App\Hotel;
-use Exception;
 use App\Ticket;
 use App\Organization;
 use App\PrintJobHandler;
@@ -69,7 +67,7 @@ class RoomingListController extends Controller
 
         try {
             $this->rooms->assign($room, $ticket);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $request->ajax() || $request->wantsJson()
                 ? response()->json([
                     'message' => $e->getMessage(),

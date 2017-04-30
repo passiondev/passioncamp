@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Ticket;
+use Carbon\Carbon;
 use App\Observers\WaiverObserver;
 
 class Waiver extends Model
@@ -26,5 +27,11 @@ class Waiver extends Model
     public function getStatusAttribute($status)
     {
         return WaiverStatus::get($status);
+    }
+
+    public function canBeReminded()
+    {
+        // updated more than 24 hours ago
+        return Carbon::now()->subHour(24)->gt($this->updated_at) && $this->status == WaiverStatus::PENDING;
     }
 }

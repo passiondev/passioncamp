@@ -10,16 +10,18 @@ class AdobeSignController extends Controller
 {
     public function __invoke()
     {
+        info(request()->all());
+
         $waiver = Waiver::whereProvider('adobesign')
             ->where('provider_agreement_id', request('agreementId'))
             ->firstOrFail();
 
-        if (request()->has('status') && $waiver->status != request('status')) {
+        if (request()->has('status')) {
             $waiver->update([
                 'status' => request('status')
             ]);
         }
 
-        return response([], 204);
+        return response($waiver, 200);
     }
 }

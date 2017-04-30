@@ -6,6 +6,7 @@ use App\Waiver;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
+use App\Jobs\Waiver\AdobeSign\SendReminder;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use App\Jobs\Waiver\AdobeSign\RequestWaiverSignature;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -38,7 +39,20 @@ class WaiversTest extends TestCase
     /** @test */
     function it_can_send_a_reminder_for_an_existing_request()
     {
+        $this->withExceptionHandling();
+        Queue::fake();
+        $waiver = factory('App\Waiver')->create([
+            'status' => 'new'
+        ]);
 
+        $this->actingAs($waiver->ticket->order->user);
+
+        $response = $this->json('POST', "/waivers/{$waiver->id}/reminder");
+        $response->assertStatus(201);
+
+        Queue::assertPushed(SendReminder::class, function ($job) use ($waiver) {
+            return $job->waiver->id === $waiver->id;
+        });
     }
 
     /** @test */

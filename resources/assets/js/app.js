@@ -15,6 +15,7 @@ import ChurchSearch from './components/ChurchSearch'
 import RoominglistUnassigned from './components/RoominglistUnassigned'
 import autoscroll from 'dom-autoscroller'
 import RoominglistRoom from './components/RoominglistRoom'
+import sendWaiver from './components/waivers/send-waiver'
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
@@ -22,13 +23,14 @@ Vue.component('Transaction', TransactionComponent);
 
 const app = new Vue({
     el: '#app',
-    'components': {
+    components: {
         AccountPaymentForm,
         TransactionForm,
         TicketConsiderations,
         ChurchSearch,
         RoominglistUnassigned,
-        RoominglistRoom
+        RoominglistRoom,
+        sendWaiver,
     },
     data: store,
     mounted() {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\Waiver;
 use Illuminate\Http\Request;
+use App\Jobs\Waiver\AdobeSign\SendReminder;
 
 class WaiversController extends Controller
 {
@@ -24,5 +26,20 @@ class WaiversController extends Controller
             ->get();
 
         return view('waivers.index', compact('tickets'));
+    }
+
+    public function reminder(Waiver $waiver)
+    {
+        $this->authorize('view', $waiver);
+
+        if (! $waiver->canBeReminded()) {
+            abort(403, 'This waiver cannot be reminded.');
+        }
+
+        dispatch(new SendReminder($waiver));
+
+        return request()->expectsJson()
+            ? response([], 201)
+            : redirect()->back();
     }
 }

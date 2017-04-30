@@ -20,4 +20,13 @@ class AdobesignEsignProvider implements EsignProviderContract
 
         return $response['agreementId'];
     }
+
+    public function sendReminder($agreementId)
+    {
+        $response = $this->adobesign->sendReminder([
+            'agreementId' => $agreementId,
+        ]);
+
+        return $response['result'];
+    }
 }
