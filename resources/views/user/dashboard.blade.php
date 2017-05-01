@@ -12,7 +12,7 @@
         <div class="col-md-6">
             <div class="card">
                 <header class="card-header">
-                    <h4>Attendees</h4>
+                    <h4>Students</h4>
                 </header>
                 <table class="table table-responsive">
                     <thead class="mobile hidden">
