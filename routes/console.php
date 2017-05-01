@@ -38,7 +38,7 @@ Artisan::command('pcc:balance-due', function () {
         });
 
     $userIds = $orders->pluck('user_id')->unique();
-dd($userIds);
+
     $sent = $userIds->each(function ($userId) {
         dispatch(new App\Jobs\SendBalanceDueEmail(App\User::find($userId)));
     });
