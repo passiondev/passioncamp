@@ -43,6 +43,10 @@ export default {
         elementsSubmitHandler(e) {
             e.preventDefault();
 
+            if (this.Payment.occupied) {
+                return;
+            }
+
             this.Payment.form = e.target;
             this.Payment.occupied = true;
 

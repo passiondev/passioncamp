@@ -36,7 +36,7 @@
 
                         <div class="row">
                             <div class="col offset-md-3">
-                                <button type="submit" class="btn btn-primary">Submit Payment</button>
+                                <button type="submit" class="btn btn-primary" :disabled="Payment.occupied">Submit Payment</button>
                             </div>
                         </div>
                     </form>
