@@ -12,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 class SendConfirmationEmail implements ShouldQueue
 {
     private $order;
-    private $template = 'pcc-students-smmr-cmp-2017-confirmation';
+    private $template = 'pcc-students-smmr-cmp-2017';
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,11 +34,18 @@ class SendConfirmationEmail implements ShouldQueue
     public function handle(Mandrill $mandrill)
     {
         $message = [
+            'subject' => 'SMMR CMP Registration Confirmation',
             'to' => [
                 [
                     'name' => $this->order->user->person->name,
                     'email' => $this->order->user->person->email,
                 ]
+            ],
+            'global_merge_vars' => [
+                [
+                    'name' => 'BODY',
+                    'content' => view('emails.order.confirmation', ['order' => $this->order])->render()
+                ],
             ]
         ];
 
