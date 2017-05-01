@@ -26,6 +26,10 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket)
     {
+        if ($ticket->order->user_id == $user->id) {
+            return true;
+        }
+
         return $user->organization_id === $ticket->order->organization_id;
     }
 

@@ -14,7 +14,7 @@ class OrganizationNoteController extends Controller
 
     public function store(Organization $organization)
     {
-        $this->authorize('edit', $organization);
+        $this->authorize('update', $organization);
 
         $this->validate(request(), [
             'body' => 'required',

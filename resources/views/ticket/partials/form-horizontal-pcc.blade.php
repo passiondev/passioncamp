@@ -40,49 +40,51 @@
     </div>
 </div>
 
-<div class="form-group row">
-    <label for="squad" class="col-md-3 col-form-label text-md-right">Squad</label>
-    <div class="col-md-6">
-        <input type="text" name="ticket[squad]" id="squad" value="{{ old('ticket.squad', $ticket->squad) }}" class="form-control">
-    </div>
-</div>
-
-<div class="form-group row">
-    <label for="leader" class="col-md-3 col-form-label text-md-right">Leader</label>
-    <div class="col-md-6">
-        <input type="text" name="ticket_data[leader]" id="leader" value="{{ old('ticket_data.leader', $ticket->leader) }}" class="form-control">
-    </div>
-</div>
-
-<div class="form-group row">
-    <label for="bus" class="col-md-3 col-form-label text-md-right">Bus</label>
-    <div class="col-md-6">
-        <input type="text" name="ticket_data[bus]" id="bus" value="{{ old('ticket_data.bus', $ticket->bus) }}" class="form-control">
-    </div>
-</div>
-
-<div class="form-group row">
-    <label for="travel_plans" class="col-md-3 col-form-label text-md-right">Travel Plans</label>
-    <div class="col-md-6">
-        <input type="text" name="ticket_data[travel_plans]" id="travel_plans" value="{{ old('ticket_data.travel_plans', $ticket->travel_plans) }}" class="form-control">
-    </div>
-</div>
-
-<div class="form-group row">
-    <label for="price" class="col-md-3 col-form-label text-md-right">Price</label>
-    <div class="col-md-6">
-        <input type="text" name="ticket[price]" id="price" value="{{ old('ticket.price', $ticket->price / 100) }}" class="form-control">
-    </div>
-</div>
-
-<div class="form-group row">
-    <div class="col-md-6 offset-md-3">
-        <div class="form-check">
-            <input type="hidden" name="ticket_data[pcc_waiver]" value="0" style="display:none">
-            <label class="form-check-label">
-                <input type="checkbox" name="ticket_data[pcc_waiver]" id="pcc_waiver" value="1" class="form-check-input" @if (old('ticket_data.pcc_waiver', $ticket->pcc_waiver)) checked @endif>
-                PCC Waiver?
-            </label>
+@if (auth()->user()->isAdmin())
+    <div class="form-group row">
+        <label for="squad" class="col-md-3 col-form-label text-md-right">Squad</label>
+        <div class="col-md-6">
+            <input type="text" name="ticket[squad]" id="squad" value="{{ old('ticket.squad', $ticket->squad) }}" class="form-control">
         </div>
     </div>
-</div>
+
+    <div class="form-group row">
+        <label for="leader" class="col-md-3 col-form-label text-md-right">Leader</label>
+        <div class="col-md-6">
+            <input type="text" name="ticket_data[leader]" id="leader" value="{{ old('ticket_data.leader', $ticket->leader) }}" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="bus" class="col-md-3 col-form-label text-md-right">Bus</label>
+        <div class="col-md-6">
+            <input type="text" name="ticket_data[bus]" id="bus" value="{{ old('ticket_data.bus', $ticket->bus) }}" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="travel_plans" class="col-md-3 col-form-label text-md-right">Travel Plans</label>
+        <div class="col-md-6">
+            <input type="text" name="ticket_data[travel_plans]" id="travel_plans" value="{{ old('ticket_data.travel_plans', $ticket->travel_plans) }}" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="price" class="col-md-3 col-form-label text-md-right">Price</label>
+        <div class="col-md-6">
+            <input type="text" name="ticket[price]" id="price" value="{{ old('ticket.price', $ticket->price / 100) }}" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6 offset-md-3">
+            <div class="form-check">
+                <input type="hidden" name="ticket_data[pcc_waiver]" value="0" style="display:none">
+                <label class="form-check-label">
+                    <input type="checkbox" name="ticket_data[pcc_waiver]" id="pcc_waiver" value="1" class="form-check-input" @if (old('ticket_data.pcc_waiver', $ticket->pcc_waiver)) checked @endif>
+                    PCC Waiver?
+                </label>
+            </div>
+        </div>
+    </div>
+@endif

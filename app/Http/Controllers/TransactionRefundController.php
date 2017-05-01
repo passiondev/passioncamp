@@ -16,14 +16,14 @@ class TransactionRefundController extends Controller
     {
         request()->intended(url()->previous());
 
-        $this->authorize('edit', $split->order);
+        $this->authorize('update', $split->order);
 
         return view('transaction-refund.create')->withTransaction($split);
     }
 
     public function store(TransactionSplit $split)
     {
-        $this->authorize('edit', $split->order);
+        $this->authorize('update', $split->order);
 
         $this->validate(request(), [
             'amount' => 'required|integer|min:1',

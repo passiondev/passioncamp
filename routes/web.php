@@ -115,3 +115,7 @@ Route::get('waivers', 'WaiversController@index');
 Route::post('waivers/{waiver}/reminder', 'WaiversController@reminder');
 
 Route::get('/webhooks/adobesign', 'Webhooks\AdobeSignController');
+
+Route::get('dashboard', 'User\DashboardController');
+Route::get('payments', 'User\PaymentsController@index');
+Route::post('payments', 'User\PaymentsController@store');

@@ -5,8 +5,10 @@
         <header class="d-md-flex justify-content-between align-items-center mb-3">
             <h1 class="page-header__title">Registration #{{ $order->id }}</h1>
             <div>
-                <a class="btn btn-secondary" href="{{ action('OrderTicketController@create', $order) }}">Add Attendee</a>
-                <a class="btn btn-secondary" href="{{ action('OrderTransactionController@create', $order) }}">Add Transaction</a>
+                @can ('update', $order)
+                    <a class="btn btn-secondary" href="{{ action('OrderTicketController@create', $order) }}">Add Attendee</a>
+                    <a class="btn btn-secondary" href="{{ action('OrderTransactionController@create', $order) }}">Add Transaction</a>
+                @endcan
             </div>
         </header>
 
@@ -21,38 +23,33 @@
             <header class="card-header">
                 <h3>Attendees</h3>
             </header>
-            @if ($order->tickets->count() > 0)
-                <table class="table table-responsive">
-                    <thead class="mobile hidden">
-                        <tr>
-                            <th>Name</th>
-                            <th></th>
-                            <th>Ticket Price</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($order->tickets as $ticket)
-                            <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                                <td>{{ $ticket->name }}</td>
-                                <td>
-                                    @include('ticket/partials/label')
-                                </td>
-                                <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
-                                <td>
+
+            <table class="table table-responsive">
+                <thead class="mobile hidden">
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                        <th>Ticket Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($order->tickets as $ticket)
+                        <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
+                            <td>{{ $ticket->name }}</td>
+                            <td>
+                                @include('ticket/partials/label')
+                            </td>
+                            <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
+                            <td>
+                                @can ('update', $ticket)
                                     <a class="btn btn-outline-secondary btn-sm" href="{{ action('TicketController@edit', $ticket) }}">edit</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                @can ('add-attendees', $order)
-                    <div class="callout secondary" style="margin-top: 1rem;text-align:center">
-                        {{-- <a class="button" href="{{ route('order.ticket.create', $order) }}">Add Attendee</a> --}}
-                    </div>
-                @endcan
-            @endif
+                                @endcan
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </section>
 
         <div class="ui divider"></div>
@@ -63,7 +60,9 @@
                     <header class="card-header d-flex justify-content-between">
                         <h4>Contact</h4>
                         <div>
-                            <a href="{{ action('PersonController@edit', $order->user->person) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                            @can ('update', $order->user->person)
+                                <a href="{{ action('PersonController@edit', $order->user->person) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                            @endcan
                         </div>
                     </header>
                     <div class="card-block">
@@ -82,6 +81,30 @@
             @endif
         </div>
         @can ('record-notes', $order)
+
+        <table class="table table-responsive table-striped align-middle">
+                <tr>
+                    <td>{!! $order->user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
+                    <td>{{ $order->user->person->name or '' }}</td>
+                    <td style="line-height: 1">
+                        @if (! $order->user->is_registered)
+                            <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$order->user, $order->user->hash]) }}">
+                        @elseif ($order->user->access == 100)
+                            PASSION CAMP ADMIN
+                        @else
+                            {{ $order->user->organization->church->name }}<br>
+                            <small><em>{{ $order->user->organization->church->location }}</em></small>
+                        @endif
+                    </td>
+                    <td><a href="{{ action('Super\UserController@edit', $order->user) }}" class="btn btn-sm btn-outline-secondary">edit</a></td>
+                    <td>
+                        @can ('impersonate', $order->user)
+                            <a href="{{ action('Auth\ImpersonationController@impersonate', $order->user) }}" class="btn btn-sm btn-outline-secondary">impersonate</a>
+                        @endif
+                    </td>
+                </tr>
+        </table>
+
             <section class="ui segment panel panel-default" id="notes">
                 <header class="ui dividing header panel-heading">
                     <h4>Notes</h4>
@@ -101,12 +124,6 @@
                     </div>
                     <button class="btn btn-secondary">Add Note</button>
                 </form>
-                {{-- {!! Form::open(['route' => ['order.note.store', $order], 'class' => 'ui form']) !!}
-                    <div class="field">
-                        {!! Form::textarea('body', null, ['rows' => '3']) !!}
-                    </div>
-                    <button class="ui small primary button">Add Note</button>
-                {!! Form::close() !!} --}}
             </section>
         @endif
     </div>

@@ -88,6 +88,11 @@ class OrderPolicy
 
     public function edit(User $user, Order $order)
     {
+        return $this->update($user, $order);
+    }
+
+    public function update(User $user, Order $order)
+    {
         return $user->organization_id == $order->organization_id;
     }
 }

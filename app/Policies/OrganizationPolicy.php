@@ -17,9 +17,14 @@ class OrganizationPolicy
         }
     }
 
-    public function edit(User $user, Organization $organization)
+    public function update(User $user, Organization $organization)
     {
         return $organization->id == $user->organization_id;
+    }
+
+    public function edit(User $user, Organization $organization)
+    {
+        return $this->update($user, $organization);
     }
 
     public function makeStripePayments(User $user, Organization $organization)

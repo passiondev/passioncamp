@@ -14,7 +14,7 @@ class OrderNoteController extends Controller
 
     public function store(Order $order)
     {
-        $this->authorize('edit', $order);
+        $this->authorize('update', $order);
 
         $this->validate(request(), [
             'body' => 'required',

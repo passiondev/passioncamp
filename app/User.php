@@ -48,9 +48,24 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasManyThrough(TransactionSplit::class, Order::class);
+    }
+
+    public function items()
+    {
+        return $this->hasManyThrough(OrderItem::class, Order::class);
+    }
+
     public function tickets()
     {
         return $this->hasManyThrough(Ticket::class, Order::class);
+    }
+
+    public function donations()
+    {
+        return $this->items()->where('type', 'donation');
     }
 
     public function socialAccounts()
@@ -121,5 +136,30 @@ class User extends Authenticatable
     public function hasSocialAccountFor($provider)
     {
         return $this->socialAccounts->pluck('provider')->contains($provider);
+    }
+
+    public function getTicketTotalAttribute()
+    {
+        return $this->tickets->active()->sum('price');
+    }
+
+    public function getDonationTotalAttribute()
+    {
+        return $this->donations->active()->sum('price');
+    }
+
+    public function getGrandTotalAttribute()
+    {
+        return $this->items->active()->sum('price');
+    }
+
+    public function getTransactionsTotalAttribute()
+    {
+        return $this->transactions->sum('amount');
+    }
+
+    public function getBalanceAttribute()
+    {
+        return $this->grand_total - $this->transactions_total;
     }
 }

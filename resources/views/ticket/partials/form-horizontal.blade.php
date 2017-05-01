@@ -1,13 +1,15 @@
-<div class="form-group row">
-    <label for="agegroup" class="col-md-3 col-form-label text-md-right">Type</label>
-    <div class="col-md-6">
-        <select name="ticket[agegroup]" id="agegroup" class="form-control" v-model="agegroup">
-            @foreach (['student' => 'Student', 'leader' => 'Leader'] as $key => $value)
-                <option value="{{ $key }}">{{ $value }}</option>
-            @endforeach
-        </select>
+@if (auth()->user()->isAdmin())
+    <div class="form-group row">
+        <label for="agegroup" class="col-md-3 col-form-label text-md-right">Type</label>
+        <div class="col-md-6">
+            <select name="ticket[agegroup]" id="agegroup" class="form-control" v-model="agegroup">
+                @foreach (['student' => 'Student', 'leader' => 'Leader'] as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
-</div>
+@endif
 
 <div class="form-group row">
     <label for="first_name" class="col-md-3 col-form-label text-md-right">First Name</label>

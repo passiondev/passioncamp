@@ -125,12 +125,12 @@ class Organization extends Model
 
     public function students()
     {
-        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'student');
+        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'student')->active();
     }
 
     public function leaders()
     {
-        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'leader');
+        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'leader')->active();
     }
 
     public function activeAttendees()

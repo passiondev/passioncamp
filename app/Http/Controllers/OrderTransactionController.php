@@ -14,14 +14,14 @@ class OrderTransactionController extends Controller
 
     public function create(Order $order)
     {
-        $this->authorize('edit', $order);
+        $this->authorize('update', $order);
 
         return view('order-transaction.create', compact('order'));
     }
 
     public function store(Order $order)
     {
-        $this->authorize('edit', $order);
+        $this->authorize('update', $order);
 
         $this->validate(request(), [
             'type' => 'required',

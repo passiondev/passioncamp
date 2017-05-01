@@ -42,6 +42,11 @@
                             <church-search></church-search>
                         </li>
                     @endif
+                    @if (Auth::check() && ! Auth::user()->isAdmin())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ action('User\DashboardController') }}">Dashboard</a>
+                        </li>
+                    @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -71,10 +76,10 @@
             </div>
         </nav>
         <div class="container-fluid">
-            @if (Auth::check())
+            @if (Auth::check() && Auth::user()->isAdmin())
                 <div class="row">
                     <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
-                        @unless (Auth::user()->isSuperAdmin())
+                        @if (Auth::user()->isChurchAdmin())
                             <h4 class="px-sm-3 mb-3">{{ auth()->user()->organization->church->name }}</h4>
                         @endunless
                         <ul class="nav nav-pills flex-sm-column">
@@ -137,12 +142,12 @@
                     <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5">
                         @yield('content')
                     </div>
-                @else
-                    <div class="py-5">
-                        @yield('content')
-                    </div>
-                @endif
-            </div>
+                </div>
+            @else
+                <div class="py-5">
+                    @yield('content')
+                </div>
+            @endif
         </div>
 
         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

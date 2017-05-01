@@ -18,14 +18,14 @@ class TransactionController extends Controller
     {
         request()->intended(url()->previous());
 
-        $this->authorize('edit', $split->order);
+        $this->authorize('update', $split->order);
 
         return view('transaction.edit')->withTransaction($split);
     }
 
     public function update(TransactionSplit $split)
     {
-        $this->authorize('owner', $split->order);
+        $this->authorize('update', $split->order);
 
         $this->validate(request(), [
             'amount' => 'required',
@@ -45,7 +45,7 @@ class TransactionController extends Controller
 
     public function delete(TransactionSplit $split)
     {
-        $this->authorize('edit', $split->order);
+        $this->authorize('update', $split->order);
 
         $split->delete();
 

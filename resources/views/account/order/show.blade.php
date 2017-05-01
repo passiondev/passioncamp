@@ -37,7 +37,7 @@
                                     {{ $ticket->waiver->status }}
                                 </td>
                                 <td>
-                                    @can ('edit', $ticket)
+                                    @can ('update', $ticket)
                                         <a style="text-decoration:none!important" href="{{ route('ticket.edit', $ticket) }}">edit</a>
                                     @endcan
                                 </td>
