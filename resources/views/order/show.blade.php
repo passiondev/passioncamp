@@ -80,31 +80,30 @@
                 </div>
             @endif
         </div>
-        @can ('record-notes', $order)
 
         <table class="table table-responsive table-striped align-middle">
-                <tr>
-                    <td>{!! $order->user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
-                    <td>{{ $order->user->person->name or '' }}</td>
-                    <td style="line-height: 1">
-                        @if (! $order->user->is_registered)
-                            <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$order->user, $order->user->hash]) }}">
-                        @elseif ($order->user->access == 100)
-                            PASSION CAMP ADMIN
-                        @else
-                            {{ $order->user->organization->church->name }}<br>
-                            <small><em>{{ $order->user->organization->church->location }}</em></small>
-                        @endif
-                    </td>
-                    <td><a href="{{ action('Super\UserController@edit', $order->user) }}" class="btn btn-sm btn-outline-secondary">edit</a></td>
+            <tr>
+                <td>{!! $order->user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
+                <td>{{ $order->user->person->name or '' }}</td>
+                <td style="line-height: 1">
+                    @if (! $order->user->is_registered)
+                        <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$order->user, $order->user->hash]) }}">
+                    @elseif ($order->user->access == 100)
+                        PASSION CAMP ADMIN
+                    @else
+                        {{ $order->user->organization->church->name }}<br>
+                        <small><em>{{ $order->user->organization->church->location }}</em></small>
+                    @endif
+                </td>
+                @can ('impersonate', $order->user)
                     <td>
-                        @can ('impersonate', $order->user)
-                            <a href="{{ action('Auth\ImpersonationController@impersonate', $order->user) }}" class="btn btn-sm btn-outline-secondary">impersonate</a>
-                        @endif
+                        <a href="{{ action('Auth\ImpersonationController@impersonate', $order->user) }}" class="btn btn-sm btn-outline-secondary">impersonate</a>
                     </td>
-                </tr>
+                @endif
+            </tr>
         </table>
 
+        @can ('record-notes', $order)
             <section class="ui segment panel panel-default" id="notes">
                 <header class="ui dividing header panel-heading">
                     <h4>Notes</h4>
