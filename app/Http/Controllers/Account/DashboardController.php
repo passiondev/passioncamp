@@ -11,8 +11,10 @@ class DashboardController extends BaseController
 
     public function __invoke()
     {
-        auth()->user()->organization->load('orders.items', 'orders.tickets', 'orders.donations', 'orders.transactions');
+        $organization = auth()->user()->organization()
+            ->withCount('students', 'leaders')
+            ->first();
 
-        return view('account.dashboard')->withOrganization(auth()->user()->organization);
+        return view('account.dashboard')->withOrganization($organization);
     }
 }

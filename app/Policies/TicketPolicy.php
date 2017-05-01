@@ -26,7 +26,7 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket)
     {
-        //
+        return $user->organization_id === $ticket->order->organization_id;
     }
 
     /**
@@ -49,7 +49,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket)
     {
-        return $user->organization_id === $ticket->order->organization_id;
+        return $this->view($user, $ticket);
     }
 
     /**
@@ -61,11 +61,13 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket)
     {
-        return $user->organization_id === $ticket->order->organization_id;
+        return $this->view($user, $ticket);
     }
 
     public function cancel(User $user, Ticket $ticket)
     {
-        return $this->update($user, $ticket) && ! $ticket->canceled_at && $ticket->order->organization->slug == 'pcc';
+        return $this->view($user, $ticket)
+            && ! $ticket->canceled_at
+            && $ticket->order->organization->slug == 'pcc';
     }
 }

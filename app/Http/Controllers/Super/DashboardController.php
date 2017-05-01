@@ -11,12 +11,7 @@ class DashboardController extends Controller
     {
         $data = [
             'num_churches' => Organization::active()->count(),
-            'num_tickets' => Organization::join('order_items', function ($join) {
-                $join->on('organizations.id', '=', 'organization_id')
-                     ->where('org_type', 'ticket')
-                     ->whereNull('order_items.canceled_at')
-                     ->whereNull('order_items.deleted_at');
-            })->select(\DB::raw('SUM(quantity) AS computed_num_tickets'))->first()->computed_num_tickets,
+            'num_tickets' => Organization::all()->sum('tickets_sum'),
             'total_cost' => Organization::totalCost() / 100,
             'total_paid' => Organization::totalPaid() / 100,
             'stripe' => Organization::totalPaid('stripe') / 100,

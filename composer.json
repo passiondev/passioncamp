@@ -40,6 +40,7 @@
         "spatie/laravel-fractal": "^3.5",
         "laravel/socialite": "^3.0",
         "nothingworks/blade-svg": "^0.1.0",
+        "kevinem/adobe-sign-php": "^0.1.0",
         "laravel/scout": "^3.0",
         "algolia/algoliasearch-client-php": "^1.17",
         "spatie/laravel-activitylog": "^1.13"

@@ -1,9 +1,5 @@
 <?php
 
-Route::get('test', function () {
-    dispatch(new \App\Jobs\GenerateRoomingListVersion);
-});
-
 Route::get('/', 'RedirectController@home');
 
 Route::get('admin', 'Super\DashboardController')->middleware(['auth', 'super']);
@@ -75,6 +71,8 @@ Route::patch('tickets/{ticket}/cancel', 'TicketController@cancel');
 
 Route::post('tickets/export', 'TicketExportController@store');
 
+Route::post('tickets/{ticket}/waivers', 'TicketWaiversController@store');
+
 Route::get('transactions/{split}/refund', 'TransactionRefundController@create');
 Route::post('transactions/{split}/refund', 'TransactionRefundController@store');
 Route::get('transactions/{split}/edit', 'TransactionController@edit');
@@ -112,3 +110,8 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 
 Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
 Route::post('oauth/{provider}', 'SocialAuthController@redirect');
+
+Route::get('waivers', 'WaiversController@index');
+Route::post('waivers/{waiver}/reminder', 'WaiversController@reminder');
+
+Route::get('/webhooks/adobesign', 'Webhooks\AdobeSignController');

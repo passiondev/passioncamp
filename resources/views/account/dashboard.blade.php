@@ -15,11 +15,11 @@
                             </div>
                             <div class="horizontal statistics">
                                 <div class="statistic">
-                                    <div class="value">{{ $organization->ticket_count }}</div>
+                                    <div class="value">{{ $organization->tickets_sum }}</div>
                                     <div class="label">Purchased</div>
                                 </div>
                                 <div class="statistic">
-                                    <div class="value">{{ $organization->orders->ticket_count }}</div>
+                                    <div class="value">{{ $organization->active_attendees_count }}</div>
                                     <div class="label">Registered</div>
                                 </div>
                             </div>
@@ -33,16 +33,16 @@
                     <div class="card-block">
                         <div class="statistics justify-content-center">
                             <div class="statistic statistic-xl">
-                                <div class="value">{{ $organization->orders->ticket_count }}</div>
+                                <div class="value">{{ $organization->active_attendees_count }}</div>
                                 <div class="label">Registered</div>
                             </div>
                             <div class="horizontal statistics">
                                 <div class="statistic color-student">
-                                    <div class="value">{{ $organization->orders->student_count }}</div>
+                                    <div class="value">{{ $organization->students_count }}</div>
                                     <div class="label">Students</div>
                                 </div>
                                 <div class="statistic color-leader">
-                                    <div class="value">{{ $organization->orders->leader_count }}</div>
+                                    <div class="value">{{ $organization->leaders_count }}</div>
                                     <div class="label">Leaders</div>
                                 </div>
                             </div>

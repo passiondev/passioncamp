@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Hotel;
 use App\Http\Controllers\Controller;
+use App\Scopes\OrganizationCountsScope;
 
 class HotelController extends Controller
 {
@@ -15,7 +16,9 @@ class HotelController extends Controller
 
     public function index()
     {
-        $hotels = Hotel::with('items')->get();
+        $hotels = Hotel::withCount(['organizations' => function ($q) {
+            $q->withoutGlobalScopes();
+        }])->get();
 
         return view('admin.hotel.index')->withHotels($hotels);
     }

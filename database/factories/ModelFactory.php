@@ -14,9 +14,9 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'email' => $faker->safeEmail,
-        'person_id' => function ($self) {
+        'person_id' => function ($data) {
             return factory(App\Person::class)->create([
-                'email' => $self['email'],
+                'email' => $data['email'],
             ])->id;
         }
     ];
@@ -51,7 +51,12 @@ $factory->define(App\Order::class, function (Faker\Generator $faker) {
     return [
         'organization_id' => function () {
             return factory(App\Organization::class)->create()->id;
-        }
+        },
+        'user_id' => function ($data) {
+            return factory(App\User::class)->create([
+                'organization_id' => $data['organization_id']
+            ])->id;
+        },
     ];
 });
 
@@ -109,5 +114,16 @@ $factory->define(App\Room::class, function ($faker) {
 $factory->define(App\Hotel::class, function ($faker) {
     return [
         'name' => 'Hotel',
+    ];
+});
+
+$factory->define(App\Waiver::class, function ($faker) {
+    return [
+        'ticket_id' => function () {
+            return factory(App\Ticket::class)->create()->id;
+        },
+        'provider' => 'adobesign',
+        'provider_agreement_id' => $faker->md5,
+        'status' => 'pending',
     ];
 });

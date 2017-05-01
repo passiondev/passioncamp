@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dcafaaee75a6529b7085ecb6ffc8e991",
+    "content-hash": "511e64456068c1e648de57e0e66bd51c",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -1144,6 +1144,89 @@
                 "tokenizer"
             ],
             "time": "2016-12-07T09:37:55+00:00"
+        },
+        {
+            "name": "kevinem/adobe-sign-php",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kevinem/adobe-sign-php.git",
+                "reference": "336ff7f0653276b1fe71be7f314332b89607654a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kevinem/adobe-sign-php/zipball/336ff7f0653276b1fe71be7f314332b89607654a",
+                "reference": "336ff7f0653276b1fe71be7f314332b89607654a",
+                "shasum": ""
+            },
+            "require": {
+                "kevinem/oauth2-adobe-sign": "^0.1.4",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6",
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "KevinEm\\AdobeSign\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Em",
+                    "email": "kevinem@thinkdevise.com"
+                }
+            ],
+            "description": "Adobe Sign PHP Client",
+            "time": "2016-07-19T21:57:28+00:00"
+        },
+        {
+            "name": "kevinem/oauth2-adobe-sign",
+            "version": "0.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kevinem/oauth2-adobe-sign.git",
+                "reference": "828e3d3300ed7a2d6686e19acb581307de7eec91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kevinem/oauth2-adobe-sign/zipball/828e3d3300ed7a2d6686e19acb581307de7eec91",
+                "reference": "828e3d3300ed7a2d6686e19acb581307de7eec91",
+                "shasum": ""
+            },
+            "require": {
+                "league/oauth2-client": "^1.4",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.5",
+                "phpunit/phpunit": "^5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "KevinEm\\OAuth2\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Em",
+                    "email": "kevinem@thinkdevise.com"
+                }
+            ],
+            "description": "Adobe Sign OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+            "time": "2016-07-20T21:21:56+00:00"
         },
         {
             "name": "laravel/framework",

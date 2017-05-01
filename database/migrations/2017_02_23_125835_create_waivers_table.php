@@ -15,12 +15,10 @@ class CreateWaiversTable extends Migration
     {
         Schema::create('waivers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('documentKey');
-            $table->string('status');
-            $table->string('eventType');
             $table->unsignedInteger('ticket_id');
-            $table->datetime('canceled_at');
-            $table->unsignedInteger('canceled_by_id');
+            $table->string('provider', 20)->nullable();
+            $table->string('provider_agreement_id')->nullable();
+            $table->string('status', 20);
             $table->timestamps();
         });
     }

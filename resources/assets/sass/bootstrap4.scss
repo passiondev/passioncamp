@@ -384,8 +384,8 @@ fieldset.form-group {
     }
 }
 
-$color-student: #de8e52;
-$color-leader: #3d9794;
+$color-student: #FF9800;
+$color-leader: #009688;
 .color-student {
     color: $color-student;
 }
@@ -477,5 +477,11 @@ $color-leader: #3d9794;
 .table-align-middle {
     th, td {
         vertical-align: middle;
+    }
+}
+
+tr.canceled {
+    th, td {
+        text-decoration: line-through;
     }
 }
