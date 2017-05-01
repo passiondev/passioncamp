@@ -6,12 +6,24 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Hotel extends Item
 {
+    protected $casts = [
+        'registered_sum' => 'int',
+    ];
+
+    protected $appends = [
+        'remaining_count'
+    ];
+
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope('type', function (Builder $builder) {
             $builder->where('type', '=', 'hotel');
+        });
+
+        static::addGlobalScope('registeredSum', function ($builder) {
+            $builder->withRegisteredSum();
         });
     }
 
@@ -27,21 +39,21 @@ class Hotel extends Item
 
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'order_items', 'item_id', 'organization_id')->wherePivot('quantity', '>', '0');
+        return $this->belongsToMany(Organization::class, 'order_items', 'item_id', 'organization_id')->withoutGlobalScopes();
     }
 
-    public function getRegisteredCountAttribute()
+    public function scopeWithRegisteredSum($query)
     {
-        return number_format($this->items->sum('quantity'));
-    }
-
-    public function getCapacityAttribute($capacity)
-    {
-        return number_format($capacity);
+        $query->selectSub("
+                SELECT SUM(quantity)
+                FROM order_items
+                WHERE order_items.item_id = items.id
+            ", 'registered_sum'
+        );
     }
 
     public function getRemainingCountAttribute()
     {
-        return $this->capacity - $this->registered_count;
+        return $this->capacity - $this->registered_sum;
     }
 }

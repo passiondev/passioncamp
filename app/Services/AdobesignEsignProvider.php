@@ -16,6 +16,8 @@ class AdobesignEsignProvider implements EsignProviderContract
 
     public function createSignatureRequest(array $data)
     {
+        \Log::info($data);
+
         $response = $this->adobesign->createAgreement($data);
 
         return $response['agreementId'];

@@ -15,6 +15,22 @@ class Organization extends Model
 {
     use SoftDeletes, Notated;
 
+    protected $casts = [
+        'tickets_sum' => 'integer',
+        'hotels_sum' => 'integer',
+    ];
+
+    protected static function boot()
+    {
+        static::addGlobalScope('activeAttendeesCount', function ($builder) {
+            $builder->withCount('activeAttendees');
+        });
+
+        static::addGlobalScope('ticketsSum', function ($builder) {
+            $builder->withTicketsSum();
+        });
+    }
+
     public function newCollection(array $models = [])
     {
         return new OrganizationCollection($models);
@@ -105,6 +121,16 @@ class Organization extends Model
     public function attendees()
     {
         return $this->hasManyThrough(Ticket::class, Order::class);
+    }
+
+    public function students()
+    {
+        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'student');
+    }
+
+    public function leaders()
+    {
+        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'leader');
     }
 
     public function activeAttendees()
@@ -205,7 +231,7 @@ class Organization extends Model
 
     public function getTicketsRemainingCountAttribute()
     {
-        return $this->ticket_count - $this->attendees->count();
+        return $this->tickets_sum - $this->active_attendees_count;
     }
 
     public function getCanMakeStripePaymentsAttribute()
@@ -235,10 +261,10 @@ class Organization extends Model
     public static function totalPaid($source = null)
     {
         if ($source == null) {
-            return static::with('transactions')->get()->sum('total_paid');
+            return static::withoutGlobalScopes()->with('transactions')->get()->sum('total_paid');
         }
 
-        return static::with('transactions.transaction')->get()
+        return static::withoutGlobalScopes()->with('transactions.transaction')->get()
             ->pluck('transactions')
             ->collapse()
             ->filter(function ($transaction) use ($source) {
@@ -249,7 +275,7 @@ class Organization extends Model
 
     public static function totalCost()
     {
-        return static::with('items')->get()->sum('total_cost');
+        return static::withoutGlobalScopes()->with('items')->get()->sum('total_cost');
     }
 
     public function addTransaction($data = [])

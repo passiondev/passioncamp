@@ -19,10 +19,10 @@
                 @foreach ($hotels as $hotel)
                     <tr>
                         <td><a href="{{ action('HotelController@show', $hotel) }}">{{ $hotel->name }}</a></td>
-                        <td class="text-center">{{ $hotel->capacity }}</td>
-                        <td class="text-center">{{ $hotel->registered_count }}</td>
+                        <td class="text-center">{{ number_format($hotel->capacity) }}</td>
+                        <td class="text-center">{{ $hotel->registered_sum }}</td>
                         <td class="text-center">{{ $hotel->remaining_count }}</td>
-                        <td class="text-center">{{ $hotel->organizations->count() }}</td>
+                        <td class="text-center">{{ $hotel->organizations_count }}</td>
                     </tr>
                 @endforeach
             </tbody>
