@@ -42,7 +42,7 @@ class ImpersonationController extends Controller
 
         Auth::login($user);
 
-        return redirect()->action($user->isChurchAdmin() ? 'Account\DashboardController' : 'Super\UserController@index');
+        return redirect('/');
     }
 
     /**
