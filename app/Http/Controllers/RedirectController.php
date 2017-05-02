@@ -18,7 +18,7 @@ class RedirectController extends Controller
         }
 
         if (auth()->user()->isChurchAdmin()) {
-            return redirect()->action('Super\DashboardController');
+            return redirect()->action('Account\DashboardController');
         }
 
         return redirect()->action('User\DashboardController');
