@@ -9,6 +9,8 @@ trait Revisionable
 {
     use LogsActivity;
 
+    protected static $recordEvents = [];
+
     public function revision()
     {
         $lastActivity = $this->activity()->latest()->first();
