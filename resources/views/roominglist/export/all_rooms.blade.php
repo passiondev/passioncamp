@@ -14,12 +14,18 @@
                     <th>Description</th>
                     <th>Notes</th>
                     <th>Gender</th>
-                    <th>Name #1</th>
-                    <th>Name #2</th>
-                    <th>Name #3</th>
-                    <th>Name #4</th>
-                    <th>Name #5</th>
-                    <th>Name #6</th>
+                    <th>First Name #1</th>
+                    <th>Last Name #1</th>
+                    <th>First Name #2</th>
+                    <th>Last Name #2</th>
+                    <th>First Name #3</th>
+                    <th>Last Name #3</th>
+                    <th>First Name #4</th>
+                    <th>Last Name #4</th>
+                    <th>First Name #5</th>
+                    <th>Last Name #5</th>
+                    <th>First Name #6</th>
+                    <th>Last Name #6</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +40,8 @@
                         <td @if($room['changed']) style="background-color: #FFFF00;" @endif>{{ $room['notes'] }}</td>
                         <td>{{ $room['gender'] }}</td>
                         @foreach ($room['tickets'] as $ticket)
-                            <td @if($ticket['changed']) style="background-color: #FFFF00;" @endif>{{ $ticket['name'] }}</td>
+                            <td @if($ticket['changed']) style="background-color: #FFFF00;" @endif>{{ $ticket['first_name'] }}</td>
+                            <td @if($ticket['changed']) style="background-color: #FFFF00;" @endif>{{ $ticket['last_name'] }}</td>
                         @endforeach
                     </tr>
                 @endforeach

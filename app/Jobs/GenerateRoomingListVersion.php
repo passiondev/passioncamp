@@ -34,7 +34,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
     public function handle()
     {
         $rooms = Room::with('organization.church')->get();
-        $tickets = Ticket::with('organization.church')->get();
+        $tickets = Ticket::with('order.organization.church')->get();
 
         \DB::beginTransaction();
 
@@ -59,7 +59,8 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
                 'gender' => $room->tickets->pluck('person.gender')->implode(''),
                 'tickets' => $room->tickets->map(function ($ticket) use ($ticketChanges) {
                     return [
-                        'name' => $ticket->name,
+                        'first_name' => $ticket->first_name,
+                        'last_name' => $ticket->last_name,
                         'changed' => isset($ticketChanges[$ticket->id]) ? $ticketChanges[$ticket->id]->hasChanges() : null,
                     ];
                 })->toArray(),
@@ -81,7 +82,7 @@ class GenerateRoomingListVersion extends Job implements ShouldQueue
         $tickets = $tickets->map(function ($ticket) use ($ticketChanges) {
             return [
                 'id' => $ticket->id,
-                'church' => $ticket->organization->church->name ?? '',
+                'church' => $ticket->order->organization->church->name ?? '',
                 'current' => $ticketChanges[$ticket->id]->properties['attributes'],
                 'previous' => collect(['roomId', 'name'])->mapwithKeys(function ($key) use ($ticket, $ticketChanges) {
                     return [$key => $ticketChanges[$ticket->id]->properties['old'][$key] ?? null];

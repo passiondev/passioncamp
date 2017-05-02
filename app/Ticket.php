@@ -32,12 +32,15 @@ class Ticket extends OrderItem
     ];
 
     protected static $logAttributes = [
-        'name',
+        'first_name',
+        'last_name',
         'roomId'
     ];
 
     protected $appends = [
         'name',
+        'first_name',
+        'last_name',
         'roomId',
     ];
 
@@ -107,6 +110,20 @@ class Ticket extends OrderItem
         return $this->person && strlen($this->person->first_name)
                ? $this->person->name
                : "Ticket #{$this->id}";
+    }
+
+    public function getFirstNameAttribute()
+    {
+        if ($this->person && strlen($this->person->first_name)) {
+            return $this->person->first_name;
+        }
+    }
+
+    public function getLastNameAttribute()
+    {
+        if ($this->person && strlen($this->person->last_name)) {
+            return $this->person->last_name;
+        }
     }
 
     public function getRoomIdAttribute()
