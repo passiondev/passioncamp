@@ -52,7 +52,7 @@ class Room extends Model
 
     public function tickets()
     {
-        return $this->belongsToMany(Ticket::class, 'room_assignments')->withTimestamps();
+        return $this->belongsToMany(Ticket::class, 'room_assignments')->withTimestamps()->active();
     }
 
     public function scopeForUser($query, $user = null)
