@@ -91,8 +91,8 @@
                     @elseif ($order->user->access == 100)
                         PASSION CAMP ADMIN
                     @else
-                        {{ $order->user->organization->church->name }}<br>
-                        <small><em>{{ $order->user->organization->church->location }}</em></small>
+                        {{ $order->organization->church->name }}<br>
+                        <small><em>{{ $order->organization->church->location }}</em></small>
                     @endif
                 </td>
                 @can ('impersonate', $order->user)
