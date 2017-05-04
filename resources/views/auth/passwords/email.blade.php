@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
-                <div class="card-header">Reset Password</div>
+                <div class="card-header">Reset Password / Create Your Account</div>
                 <div class="card-block">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -22,6 +22,8 @@
 
                             <div class="col-lg-6">
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+
+                                <p class="form-text text-muted" style="line-height: 1.2"><small>If you have not created an account and password, enter the email address you used when you registered.</small></p>
 
                                 @if ($errors->has('email'))
                                     <p class="form-control-feedback">
