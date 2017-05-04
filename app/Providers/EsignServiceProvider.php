@@ -2,36 +2,28 @@
 
 namespace App\Providers;
 
+use App\Contracts\EsignProvider;
 use KevinEm\AdobeSign\AdobeSign;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Esign\LogEsignProvider;
 use League\OAuth2\Client\Token\AccessToken;
+use App\Services\Esign\AdobeSignEsignProvider;
 use KevinEm\OAuth2\Client\AdobeSign as OAuth2Client;
 
 class EsignServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind(
-            \App\Contracts\EsignProvider::class,
-            \App\Services\AdobesignEsignProvider::class
-        );
-
-        $this->app->bind(\App\Services\AdobesignEsignProvider::class, function ($app) {
-            return new \App\Services\AdobesignEsignProvider(
-                $this->resolveAdobeSignClient($app)
-            );
+        $this->app->bind(AdobeSignEsignProvider::class, function ($app) {
+            return $this->resolveAdobeSignEsignProvider($app);
         });
 
-
-        if (! $this->app->environment('production')) {
-            $this->app->bind(
-                \App\Services\AdobesignEsignProvider::class,
-                \App\Services\LogEsignProvider::class
-            );
+        if ($this->app->environment('production')) {
+            $this->app->bind(EsignProvider::class, AdobeSignEsignProvider::class);
         }
     }
 
-    public function resolveAdobeSignClient($app)
+    public function resolveAdobeSignEsignProvider($app)
     {
         $provider = new OAuth2Client([
             'clientId' => config('services.adobesign.key'),
@@ -56,6 +48,6 @@ class EsignServiceProvider extends ServiceProvider
 
         $adobeSign->setAccessToken($accessToken->getToken());
 
-        return $adobeSign;
+        return new AdobeSignEsignProvider($adobeSign);
     }
 }
