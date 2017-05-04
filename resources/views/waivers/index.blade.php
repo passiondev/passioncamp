@@ -39,16 +39,17 @@
                                 <send-waiver href="{{ action('TicketWaiversController@store', $ticket) }}" btn-style="outline-primary">
                                     Send Waiver
                                 </send-waiver>
-
-                                {{-- <form onsubmit="event.preventDefault(); alert('submit');" action="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" id="waiver-{{ $ticket->id }}-form" style="display:none">
-                                    {{ csrf_field() }}
-                                </form> --}}
-                            @elseif ($ticket->waiver->canBeReminded())
-                                <send-waiver href="{{ action('WaiversController@reminder', $ticket->waiver) }}" btn-style="outline-secondary">
-                                    Remind
-                                </send-waiver>
                             @else
                                 {{ ucfirst($ticket->waiver->status) }}
+
+                                @if (! $ticket->waiver->isComplete())
+                                    <form action="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this waiver?')">
+                                        {{ method_field('DELETE') }}
+                                        {{ csrf_field() }}
+
+                                        <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                                    </form>
+                                @endif
                             @endif
                         </td>
                         <td>

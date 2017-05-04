@@ -31,6 +31,11 @@ class Waiver extends Model
         return Carbon::now()->subHour(24)->gt($this->updated_at) && $this->status == WaiverStatus::PENDING;
     }
 
+    public function isComplete()
+    {
+        return $this->status == WaiverStatus::COMPLETE;
+    }
+
     public function provider()
     {
         return EsignProviderFactory::make($this->provider);

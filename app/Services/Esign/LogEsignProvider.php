@@ -14,9 +14,9 @@ class LogEsignProvider implements EsignProvider
         $this->logger = $logger;
     }
 
-    public function createSignatureRequest()
+    public function createSignatureRequest(array $data)
     {
-        $this->logger->info([]);
+        $this->logger->info($data);
 
         return str_random(30);
     }

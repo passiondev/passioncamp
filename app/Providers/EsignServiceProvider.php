@@ -14,12 +14,16 @@ class EsignServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind(AdobeSignEsignProvider::class, function ($app) {
-            return $this->resolveAdobeSignEsignProvider($app);
-        });
-
         if ($this->app->environment('production')) {
+            $this->app->bind(AdobeSignEsignProvider::class, function ($app) {
+                return $this->resolveAdobeSignEsignProvider($app);
+            });
+
             $this->app->bind(EsignProvider::class, AdobeSignEsignProvider::class);
+        }
+        else {
+            $this->app->bind(EsignProvider::class, AdobeSignEsignProvider::class);
+            $this->app->bind(AdobeSignEsignProvider::class, LogEsignProvider::class);
         }
     }
 
