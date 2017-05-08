@@ -15,6 +15,15 @@ class Waiver extends Model
         'status' => WaiverStatus::CREATED,
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($waiver) {
+            $waiver->provider()->cancelSignatureRequest($waiver->provider_agreement_id);
+        });
+    }
+
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);

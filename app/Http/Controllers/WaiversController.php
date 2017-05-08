@@ -45,8 +45,6 @@ class WaiversController extends Controller
 
     public function destroy(Waiver $waiver)
     {
-        $waiver->provider()->cancelSignatureRequest($waiver->provider_agreement_id);
-
         $waiver->delete();
 
         return request()->expectsJson()
