@@ -113,6 +113,7 @@ Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
 Route::get('waivers', 'WaiversController@index');
 Route::post('waivers/{waiver}/reminder', 'WaiversController@reminder');
+Route::delete('waivers/{waiver}', 'WaiversController@destroy');
 
 Route::get('/webhooks/adobesign', 'Webhooks\AdobeSignController');
 
