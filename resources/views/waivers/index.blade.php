@@ -42,14 +42,16 @@
                             @else
                                 {{ ucfirst($ticket->waiver->status) }}
 
-                                @if (! $ticket->waiver->isComplete())
-                                    <form action="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this waiver?')">
-                                        {{ method_field('DELETE') }}
-                                        {{ csrf_field() }}
+                                @can('delete', $ticket->waiver)
+                                    @if (! $ticket->waiver->isComplete())
+                                        <a href="{{ action('WaiversController@destroy', $ticket->waiver) }}" class="btn btn-sm btn-outline-danger ml-2" onclick="event.preventDefault(); return (confirm('Are you sure you want to cancel this waiver?') ? document.getElementById('cancel-{{ $ticket->waiver->id }}-form').submit() : null)">Cancel</a>
 
-                                        <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
-                                    </form>
-                                @endif
+                                        <form id="cancel-{{ $ticket->waiver->id }}-form" action="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="POST" style="display:none">
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                        </form>
+                                    @endif
+                                @endcan
                             @endif
                         </td>
                         <td>
