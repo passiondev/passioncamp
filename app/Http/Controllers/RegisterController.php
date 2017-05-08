@@ -71,7 +71,6 @@ class RegisterController extends Controller
             'tickets.*.gender' => 'required',
             'tickets.*.grade' => 'required',
             'tickets.*.birthdate' => 'required',
-            'payment_type' => 'required',
         ]);
 
         \DB::beginTransaction();
@@ -148,7 +147,7 @@ class RegisterController extends Controller
         try {
             $charge = \Stripe\Charge::create(
                 [
-                    'amount' => request('payment_type') == 'deposit' ? $order->deposit_total : $order->grand_total,
+                    'amount' => $order->grand_total,
                     'currency' => 'usd',
                     'source' => request('stripeToken'),
                     'description' => 'Passion Camp',

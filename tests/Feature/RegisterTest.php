@@ -69,10 +69,10 @@ class RegisterTest extends TestCase
     {
         $response = $this->register();
 
-        dd($response->getContent());
+        // dd($response->getContent());
         // $response->assertRedirect(route('register.confirmation'));
         $this->assertEquals(1, Order::count());
-        $this->assertEquals(3, Ticket::count());
+        $this->assertEquals(82000, Order::first()->transactions_total);
     }
 
     /** @test */

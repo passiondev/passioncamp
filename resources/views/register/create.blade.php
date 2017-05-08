@@ -8,7 +8,7 @@
             'ticketData' => old('tickets', []),
             'fund_amount' => old('fund_amount'),
             'fund_amount_other' => old('fund_amount_other'),
-            'payment_type' => old('payment_type', 'full')
+            'payment_type' => 'full'
         ]) !!}
     </script>
 @endsection
@@ -205,34 +205,9 @@
                                                     <strong>@{{ full_amount | currency }}</strong>
                                                 </div>
                                             </li>
-                                            <li class="row order-summary__item">
-                                                <div class="col">
-                                                    Deposit Amount
-                                                </div>
-                                                <div class="col text-right">
-                                                    @{{ deposit_amount | currency }}
-                                                </div>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="card-block">
-                                <h4>Payment Options</h4>
-                                <div class="form-check-pill">
-                                    <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_type">
-                                    <label for="payment_type--full">
-                                        @icon('checkmark') Pay Full Amount
-                                    </label>
-                                </div>
-                                <div class="form-check-pill">
-                                    <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_type">
-                                    <label for="payment_type--deposit">
-                                        @icon('checkmark') Pay Deposit
-                                    </label>
-                                </div>
-                                <p class="form-text"><em>**Deposits are non-refundable.</em></p>
                             </div>
 
                             <div class="card-block">
@@ -308,14 +283,6 @@
                                         </div>
                                         <div class="col text-right">
                                             <strong>@{{ full_amount | currency }}</strong>
-                                        </div>
-                                    </li>
-                                    <li class="row order-summary__item px-4">
-                                        <div class="col">
-                                            Deposit Amount
-                                        </div>
-                                        <div class="col text-right">
-                                            @{{ deposit_amount | currency }}
                                         </div>
                                     </li>
                                 </ul>
