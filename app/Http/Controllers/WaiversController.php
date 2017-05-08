@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Ticket;
 use App\Waiver;
 use Illuminate\Http\Request;
-use App\Jobs\Waiver\AdobeSign\SendReminder;
+use App\Jobs\Waiver\SendReminder;
 
 class WaiversController extends Controller
 {
@@ -40,6 +40,15 @@ class WaiversController extends Controller
 
         return request()->expectsJson()
             ? response([], 201)
+            : redirect()->back();
+    }
+
+    public function destroy(Waiver $waiver)
+    {
+        $waiver->delete();
+
+        return request()->expectsJson()
+            ? response([], 204)
             : redirect()->back();
     }
 }

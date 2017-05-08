@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Jobs\Waiver\AdobeSign;
+namespace App\Jobs\Waiver;
 
 use App\WaiverStatus;
 use Illuminate\Bus\Queueable;
-use App\Contracts\EsignProvider;
-use KevinEm\AdobeSign\AdobeSign;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,9 +30,9 @@ class RequestWaiverSignature implements ShouldQueue
      *
      * @return void
      */
-    public function handle(EsignProvider $adobesign)
+    public function handle()
     {
-        $agreementId = $adobesign->createSignatureRequest([
+        $agreementId = $this->waiver->provider()->createSignatureRequest([
             'documentCreationInfo' => [
                 'fileInfos' => [
                     'libraryDocumentId' => '3AAABLblqZhBH0HWWqwG-o0C6ueCVbKH3RPHKq1KbD7S_GtgiLBrKZuP5rybf8NYSaohATtL7BtWTgiweA9YB98sLBdvl7OT5'

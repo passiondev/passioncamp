@@ -39,16 +39,19 @@
                                 <send-waiver href="{{ action('TicketWaiversController@store', $ticket) }}" btn-style="outline-primary">
                                     Send Waiver
                                 </send-waiver>
-
-                                {{-- <form onsubmit="event.preventDefault(); alert('submit');" action="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" id="waiver-{{ $ticket->id }}-form" style="display:none">
-                                    {{ csrf_field() }}
-                                </form> --}}
-                            @elseif ($ticket->waiver->canBeReminded())
-                                <send-waiver href="{{ action('WaiversController@reminder', $ticket->waiver) }}" btn-style="outline-secondary">
-                                    Remind
-                                </send-waiver>
                             @else
                                 {{ ucfirst($ticket->waiver->status) }}
+
+                                @can('delete', $ticket->waiver)
+                                    @if (! $ticket->waiver->isComplete())
+                                        <a href="{{ action('WaiversController@destroy', $ticket->waiver) }}" class="btn btn-sm btn-outline-danger ml-2" onclick="event.preventDefault(); return (confirm('Are you sure you want to cancel this waiver?') ? document.getElementById('cancel-{{ $ticket->waiver->id }}-form').submit() : null)">Cancel</a>
+
+                                        <form id="cancel-{{ $ticket->waiver->id }}-form" action="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="POST" style="display:none">
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                        </form>
+                                    @endif
+                                @endcan
                             @endif
                         </td>
                         <td>

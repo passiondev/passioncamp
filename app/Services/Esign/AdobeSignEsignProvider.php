@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Esign;
 
-use KevinEm\AdobeSign\AdobeSign;
-use App\Contracts\EsignProvider as EsignProviderContract;
+use App\Contracts\EsignProvider;
+use KevinEm\AdobeSign\AdobeSign as AdobeSignClient;
 
-class AdobesignEsignProvider implements EsignProviderContract
+class AdobeSignEsignProvider implements EsignProvider
 {
     protected $adobesign;
 
-    public function __construct(AdobeSign $adobesign)
+    public function __construct(AdobeSignClient $adobesign)
     {
         $this->adobesign = $adobesign;
     }
 
     public function createSignatureRequest(array $data)
     {
-        \Log::info($data);
+        \Log::debug($data);
 
         $response = $this->adobesign->createAgreement($data);
 
@@ -28,6 +28,13 @@ class AdobesignEsignProvider implements EsignProviderContract
         $response = $this->adobesign->sendReminder([
             'agreementId' => $agreementId,
         ]);
+
+        return $response['result'];
+    }
+
+    public function cancelSignatureRequest($agreementId)
+    {
+        $response = $this->adobesign->deleteAgreement($agreementId);
 
         return $response['result'];
     }

@@ -2,8 +2,12 @@
 
 namespace Tests\Unit;
 
+use Mockery;
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Contracts\EsignProvider;
+use Illuminate\Support\Facades\Event;
+use Facades\App\Services\Esign\ProviderFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -55,8 +59,63 @@ class TicketTest extends TestCase
 
         // dd($ticket->activity()->latest()->first()->changes);
 
-        dd($ticket->activity->toArray());
 
         $this->assertCount(3, $ticket->activity()->get());
+    }
+
+    /** @test */
+    function it_fires_canceling_event()
+    {
+        Event::fake();
+
+        $ticket = factory('App\Ticket')->create();
+        $ticket->cancel();
+
+        Event::assertDispatched('eloquent.created: App\Ticket');
+        Event::assertDispatched('eloquent.canceling: App\Ticket');
+    }
+
+    /** @test */
+    function it_cancels_waiver_request_when_being_canceled()
+    {
+        $waiver = factory('App\Waiver')->create([
+            'provider' => 'adobesign'
+        ]);
+        $this->assertInstanceOf('App\Ticket', $ticket = $waiver->fresh()->ticket);
+
+        $esign = Mockery::mock(EsignProvider::class);
+
+        ProviderFactory::shouldReceive('make')
+            ->with('adobesign')
+            ->andReturn($esign);
+
+        $esign->shouldReceive('cancelSignatureRequest')
+            ->once()
+            ->with($waiver->provider_agreement_id)
+            ->andReturnNull();
+
+        $ticket->cancel();
+    }
+
+    /** @test */
+    function it_cancels_waiver_request_when_being_deleted()
+    {
+        $waiver = factory('App\Waiver')->create([
+            'provider' => 'adobesign'
+        ]);
+        $this->assertInstanceOf('App\Ticket', $ticket = $waiver->fresh()->ticket);
+
+        $esign = Mockery::mock(EsignProvider::class);
+
+        ProviderFactory::shouldReceive('make')
+            ->with('adobesign')
+            ->andReturn($esign);
+
+        $esign->shouldReceive('cancelSignatureRequest')
+            ->once()
+            ->with($waiver->provider_agreement_id)
+            ->andReturnNull();
+
+        $ticket->delete();
     }
 }

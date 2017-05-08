@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Jobs\Waiver\AdobeSign;
+namespace App\Jobs\Waiver;
 
 use Illuminate\Bus\Queueable;
-use App\Contracts\EsignProvider;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,9 +29,10 @@ class SendReminder implements ShouldQueue
      *
      * @return void
      */
-    public function handle(EsignProvider $adobesign)
+    public function handle()
     {
-        $status = $adobesign->sendReminder($this->waiver->provider_agreement_id);
+        $status = $this->waiver->provider()
+            ->sendReminder($this->waiver->provider_agreement_id);
 
         $this->waiver->fill([
             'status' => $status,

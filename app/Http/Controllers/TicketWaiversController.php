@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use Illuminate\Http\Request;
+use App\Jobs\Waiver\RequestWaiverSignature;
 
 class TicketWaiversController extends Controller
 {
@@ -19,6 +20,8 @@ class TicketWaiversController extends Controller
         $waiver = $ticket->waiver()->create([
             'provider' => 'adobesign'
         ]);
+
+        dispatch(new RequestWaiverSignature($waiver));
 
         return request()->expectsJson()
             ? response()->json($waiver, 201)

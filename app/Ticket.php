@@ -5,6 +5,7 @@ namespace App;
 use Auth;
 use App\Waiver;
 use Laravel\Scout\Searchable;
+use App\Observers\TicketObserver;
 use Illuminate\Database\Eloquent\Builder;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -48,9 +49,15 @@ class Ticket extends OrderItem
         'roomAssignment',
     ];
 
+    protected $observables = [
+        'canceled',
+    ];
+
     protected static function boot()
     {
         parent::boot();
+
+        static::observe(TicketObserver::class);
 
         static::addGlobalScope('type', function (Builder $builder) {
             $builder->where('type', '=', 'ticket');
@@ -163,9 +170,12 @@ class Ticket extends OrderItem
 
     public function cancel(User $user = null)
     {
-        $this->canceled_at = \Carbon\Carbon::now();
-        $this->canceled_by_id = $user->id;
-        $this->save();
+        $this->update([
+            'canceled_at' => $this->freshTimestamp(),
+            'canceled_by_id' => $user->id ?? null
+        ]);
+
+        $this->fireModelEvent('canceled', false);
     }
 
     public function toSearchableArray()

@@ -5,6 +5,7 @@ namespace App;
 use App\Ticket;
 use Carbon\Carbon;
 use App\Observers\WaiverObserver;
+use Facades\App\Services\Esign\ProviderFactory as EsignProviderFactory;
 
 class Waiver extends Model
 {
@@ -14,9 +15,13 @@ class Waiver extends Model
         'status' => WaiverStatus::CREATED,
     ];
 
-    protected static function boot()
+    public static function boot()
     {
-        static::observe(WaiverObserver::class);
+        parent::boot();
+
+        static::deleted(function ($waiver) {
+            $waiver->provider()->cancelSignatureRequest($waiver->provider_agreement_id);
+        });
     }
 
     public function ticket()
@@ -33,5 +38,15 @@ class Waiver extends Model
     {
         // updated more than 24 hours ago
         return Carbon::now()->subHour(24)->gt($this->updated_at) && $this->status == WaiverStatus::PENDING;
+    }
+
+    public function isComplete()
+    {
+        return $this->status == WaiverStatus::COMPLETE;
+    }
+
+    public function provider()
+    {
+        return EsignProviderFactory::make($this->provider);
     }
 }
