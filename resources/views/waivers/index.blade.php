@@ -36,7 +36,7 @@
                         </td>
                         <td>
                             @unless ($ticket->waiver)
-                                <send-waiver href="{{ action('TicketWaiversController@store', $ticket) }}" btn-style="outline-primary">
+                                <send-waiver href="{{ action('TicketWaiversController@store', $ticket) }}" btn-style="outline-primary" v-cloak>
                                     Send Waiver
                                 </send-waiver>
                             @else
