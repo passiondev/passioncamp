@@ -120,3 +120,5 @@ Route::get('/webhooks/adobesign', 'Webhooks\AdobeSignController');
 Route::get('dashboard', 'User\DashboardController');
 Route::get('payments', 'User\PaymentsController@index');
 Route::post('payments', 'User\PaymentsController@store');
+
+Route::get('ticket-items', 'TicketItemsController@index');
