@@ -110,6 +110,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ action('TicketItemsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketItemsController') ? 'active' :'' }}">
+                                        Tickets
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ action('Super\UserController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\UserController') ? 'active' :'' }}">
                                         Users
                                     </a>
