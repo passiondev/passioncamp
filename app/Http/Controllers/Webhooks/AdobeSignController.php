@@ -10,15 +10,21 @@ class AdobeSignController extends Controller
 {
     public function __invoke()
     {
+        $activity = activity('adobesign')->withProperties(request()->all())->log('received');
+
         $waiver = Waiver::whereProvider('adobesign')
             ->where('provider_agreement_id', request('agreementId'))
             ->firstOrFail();
 
         if (request()->has('status')) {
             $waiver->update([
-                'status' => request('status')
+                'status' => request('status', 'SIGNED')
             ]);
         }
+
+        $activity->subject()->associate($waiver)->update([
+            'description' => 'processed',
+        ]);
 
         return response($waiver, 200);
     }
