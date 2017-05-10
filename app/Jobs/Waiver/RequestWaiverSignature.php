@@ -37,7 +37,8 @@ class RequestWaiverSignature implements ShouldQueue
                 'fileInfos' => [
                     'libraryDocumentId' => '3AAABLblqZhBbAFBkT6dWSNEEUttbb8Ck4bFUPCbOUpzG8hndrlCqudK8p57OdW47Tg1PGnMEdjp55Lkw36GIBElm5QwCx00c'
                 ],
-                'name' => 'Passion Camp Waiver',
+                'name' => 'Passion Camp 2017 Waiver & Release',
+                'message' => 'Please note that each participant must have a signed waiver completed by May 29.',
                 'signatureType' => 'ESIGN',
                 'recipientSetInfos' => [
                     'recipientSetMemberInfos' => [
