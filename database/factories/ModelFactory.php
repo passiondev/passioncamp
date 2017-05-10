@@ -44,6 +44,7 @@ $factory->define(App\Person::class, function (Faker\Generator $faker) {
         'last_name' => $faker->lastName,
         'email' => $faker->safeEmail,
         'phone' => $faker->phoneNumber,
+        'gender' => $faker->randomElement(['M','F'])
     ];
 });
 
@@ -90,6 +91,8 @@ $factory->define(App\Item::class, function (Faker\Generator $faker) {
 $factory->define(App\Church::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
+        'city' => $faker->city,
+        'state' => $faker->state,
     ];
 });
 

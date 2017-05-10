@@ -35,7 +35,7 @@ class RequestWaiverSignature implements ShouldQueue
         $agreementId = $this->waiver->provider()->createSignatureRequest([
             'documentCreationInfo' => [
                 'fileInfos' => [
-                    'libraryDocumentId' => '3AAABLblqZhBH0HWWqwG-o0C6ueCVbKH3RPHKq1KbD7S_GtgiLBrKZuP5rybf8NYSaohATtL7BtWTgiweA9YB98sLBdvl7OT5'
+                    'libraryDocumentId' => '3AAABLblqZhBbAFBkT6dWSNEEUttbb8Ck4bFUPCbOUpzG8hndrlCqudK8p57OdW47Tg1PGnMEdjp55Lkw36GIBElm5QwCx00c'
                 ],
                 'name' => 'Passion Camp Waiver',
                 'signatureType' => 'ESIGN',
@@ -47,9 +47,53 @@ class RequestWaiverSignature implements ShouldQueue
                 ],
                 'mergeFieldInfo' => [
                     [
-                        'fieldName' => 'Custom Field 1',
+                        'fieldName' => 'Church Name',
+                        'defaultValue' => $this->waiver->ticket->order->organization->church->name
+                    ],
+                    [
+                        'fieldName' => 'Church Location',
+                        'defaultValue' => $this->waiver->ticket->order->organization->church->location
+                    ],
+                    [
+                        'fieldName' => 'Participant Name',
                         'defaultValue' => $this->waiver->ticket->name
-                    ]
+                    ],
+                    [
+                        'fieldName' => 'Participant Name 2',
+                        'defaultValue' => $this->waiver->ticket->name
+                    ],
+                    [
+                        'fieldName' => 'Participant Name 3',
+                        'defaultValue' => $this->waiver->ticket->name
+                    ],
+                    [
+                        'fieldName' => 'Participant Name 4',
+                        'defaultValue' => $this->waiver->ticket->name
+                    ],
+                    [
+                        'fieldName' => 'Participant Gender',
+                        'defaultValue' => $this->waiver->ticket->gender == 'M' ? 'Male' : 'Female'
+                    ],
+                    [
+                        'fieldName' => 'Parent Name',
+                        'defaultValue' => $this->waiver->ticket->order->user->person->name
+                    ],
+                    [
+                        'fieldName' => 'Parent Name 2',
+                        'defaultValue' => $this->waiver->ticket->order->user->person->name
+                    ],
+                    [
+                        'fieldName' => 'Parent Name 3',
+                        'defaultValue' => $this->waiver->ticket->order->user->person->name
+                    ],
+                    [
+                        'fieldName' => 'Parent Phone',
+                        'defaultValue' => $this->waiver->ticket->order->user->person->phone
+                    ],
+                    [
+                        'fieldName' => 'Parent Email',
+                        'defaultValue' => $this->waiver->ticket->order->user->person->email
+                    ],
                 ],
                 'signatureFlow' => 'SENDER_SIGNATURE_NOT_REQUIRED',
                 'callbackInfo' => action('Webhooks\AdobeSignController'),
