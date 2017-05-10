@@ -105,6 +105,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ action('WaiversController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiversController') ? 'active' :'' }}">
+                                        Waivers <span class="badge badge-success">NEW</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                         Hotels
                                     </a>
@@ -134,6 +139,11 @@
                                 <li class="nav-item">
                                     <a href="{{ action('RoomingListController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoomingListController') ? 'active' :'' }}">
                                         Rooming List
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('WaiversController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiversController') ? 'active' :'' }}">
+                                        Waivers <span class="badge badge-success">NEW</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
