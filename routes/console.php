@@ -1,6 +1,9 @@
 <?php
 
+use App\Waiver;
+use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +19,6 @@ use Illuminate\Foundation\Inspiring;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->describe('Display an inspiring quote');
-
 
 Artisan::command('passioncamp:deploy-rooms {organizationIds?*}', function ($organizationIds = []) {
     tap(
@@ -46,4 +48,20 @@ Artisan::command('pcc:balance-due', function () {
     $this->info('Orders: ' . $orders->count());
     $this->info('Users: ' . $userIds->count());
     $this->info('Sent: ' . $sent->count());
+});
+
+Artisan::command('passioncamp:update-waivers', function ($organizationIds = []) {
+    $count = 0;
+
+    // all waivers that are pending that were updated more than 12 hours ago
+    Waiver::whereStatus('pending')
+        ->where('updated_at', '<', Carbon::parse('-12 hours'))
+        ->chunk(100, function ($waivers) use (&$count) {
+            $waivers->each(function ($waiver) use (&$count) {
+                dispatch(new FetchAndUpdateStatus($waiver));
+                $count++;
+            });
+        });
+
+    $this->info($count);
 });
