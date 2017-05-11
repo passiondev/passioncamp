@@ -9,4 +9,8 @@ interface EsignProvider
     public function sendReminder($agreementId);
 
     public function cancelSignatureRequest($agreementId);
+
+    public function fetchStatus($agreementId);
+
+    public function fetchPdf($agreementId);
 }

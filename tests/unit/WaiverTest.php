@@ -23,4 +23,12 @@ class WaiverTest extends TestCase
 
         $this->assertInstanceOf(EsignProvider::class, $waiver->provider());
     }
+
+    /** @test */
+    function it_has_a_dropbox_file_path()
+    {
+        $waiver = factory('App\Waiver')->create();
+
+        $this->assertNotEmpty($waiver->dropboxFilePath());
+    }
 }

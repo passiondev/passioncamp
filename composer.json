@@ -26,7 +26,6 @@
         "league/csv": "~8.1",
         "jenssegers/rollbar": "~1.5",
         "graham-campbell/flysystem": "~3.4",
-        "league/flysystem-dropbox": "~1.0",
         "sofa/revisionable": "5.4.*",
         "maatwebsite/excel": "~2.1",
         "vinkla/pusher": "~2.3",
@@ -43,7 +42,8 @@
         "kevinem/adobe-sign-php": "^0.1.0",
         "laravel/scout": "^3.0",
         "algolia/algoliasearch-client-php": "^1.17",
-        "spatie/laravel-activitylog": "^1.13"
+        "spatie/laravel-activitylog": "^1.13",
+        "spatie/flysystem-dropbox": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

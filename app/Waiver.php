@@ -49,4 +49,25 @@ class Waiver extends Model
     {
         return EsignProviderFactory::make($this->provider);
     }
+
+    public function fetchStatus()
+    {
+        $status = $this->provider()->fetchStatus($this->provider_agreement_id);
+
+        return WaiverStatus::get($status);
+    }
+
+    public function fetchPdf()
+    {
+        return $this->provider()->fetchPdf($this->provider_agreement_id);
+    }
+
+    public function dropboxFilePath()
+    {
+        return vsprintf('%s/%s/%s.pdf', [
+            'Passion Camp 2017 Waivers',
+            $this->ticket->order->organization_id . ' - ' . $this->ticket->order->organization->church->name,
+            $this->ticket_id . ' - ' . $this->ticket->name,
+        ]);
+    }
 }

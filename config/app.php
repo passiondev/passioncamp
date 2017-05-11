@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://portal.passioncamp.268generation.com'),
+    'url' => env('APP_URL', 'https://portal.passioncamp.268generation.com'),
     'domain' => env('APP_DOMAIN', 'passioncamp.268generation.com'),
 
     /*
@@ -188,6 +188,7 @@ return [
         App\Providers\BladeServiceProvider::class,
         App\Providers\PrintNodeServiceProvider::class,
         App\Providers\EsignServiceProvider::class,
+        App\Providers\DropboxServiceProvider::class,
     ],
 
     /*
