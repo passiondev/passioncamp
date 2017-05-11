@@ -14,9 +14,12 @@
             </form>
             <div class="mb-2 mb-lg-0 ml-auto">
                 @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
-                    <a href="{{ action('Account\TicketController@create') }}" class="btn btn-secondary">Add Attendee</a>
+                    <a href="{{ action('Account\TicketController@create') }}" class="btn btn-outline-primary">Add Attendee</a>
                 @endunless
-                <a href="{{ action('TicketExportController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('export-form').submit();">Export</a>
+                @if (auth()->user()->organization->slug == 'pcc')
+                    <a href="{{ action('OrderExportsController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('order-export-form').submit();">Export Orders</a>
+                @endif
+                <a href="{{ action('TicketExportController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('export-form').submit();">Export Attendees</a>
             </div>
         </header>
 
@@ -65,6 +68,9 @@
     </div>
 
     <form action="{{ action('TicketExportController@store') }}" method="POST" id="export-form">
+        {{ csrf_field() }}
+    </form>
+    <form action="{{ action('OrderExportsController@store') }}" method="POST" id="order-export-form">
         {{ csrf_field() }}
     </form>
 @stop

@@ -50,6 +50,7 @@ Route::patch('rooms/{room}/assignments', 'RoomAssignmentController@update');
 Route::delete('rooms/{room}/assignments', 'RoomAssignmentController@delete');
 
 Route::get('orders', 'OrderController@index');
+Route::post('orders/export', 'OrderExportsController@store');
 Route::get('orders/{order}', 'OrderController@show');
 
 Route::get('orders/{order}/tickets/create', 'OrderTicketController@create');
