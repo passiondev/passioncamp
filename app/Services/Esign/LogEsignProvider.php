@@ -32,4 +32,14 @@ class LogEsignProvider implements EsignProvider
     {
         $this->logger->info($agreementId);
     }
+
+    public function fetchStatus($agreementId)
+    {
+        return 'complete';
+    }
+
+    public function fetchPdf($agreementId)
+    {
+        return 'Hello World';
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Jobs\Waiver;
 use App\WaiverStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -34,14 +35,14 @@ class FetchAndUpdateStatus implements ShouldQueue
     {
         $status = $this->waiver->fetchStatus();
 
-        $this->wavier->update([
+        $this->waiver->update([
             'status' => $status
         ]);
 
         if ($status == WaiverStatus::COMPLETE) {
             $pdf = $this->waiver->fetchPdf();
 
-            // store to disk
+            Storage::disk('dropbox')->put($this->waiver->dropboxFilePath(), $pdf);
         }
     }
 }

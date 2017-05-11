@@ -188,6 +188,7 @@ return [
         App\Providers\BladeServiceProvider::class,
         App\Providers\PrintNodeServiceProvider::class,
         App\Providers\EsignServiceProvider::class,
+        App\Providers\DropboxServiceProvider::class,
     ],
 
     /*
