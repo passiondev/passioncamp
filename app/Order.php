@@ -19,6 +19,20 @@ class Order extends Model
         return new OrderCollection($models);
     }
 
+    public function scopeForUser($query, $user = null)
+    {
+        $user = $user ?? Auth::user();
+
+        if ($user->isSuperAdmin()) {
+            return $query;
+        }
+
+        if ($user->isChurchAdmin()) {
+            return $query->where('organization_id', $user->organization_id);
+        }
+
+        return $query->where('user_id', $user->id);
+    }
     public function organization()
     {
         return $this->belongsTo(Organization::class);
