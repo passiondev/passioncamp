@@ -16,7 +16,7 @@
                 @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
                     <a href="{{ action('Account\TicketController@create') }}" class="btn btn-outline-primary">Add Attendee</a>
                 @endunless
-                @if (auth()->user()->organization->slug == 'pcc')
+                @if (auth()->user()->isChurchAdmin() && auth()->user()->organization->slug == 'pcc')
                     <a href="{{ action('OrderExportsController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('order-export-form').submit();">Export Orders</a>
                 @endif
                 <a href="{{ action('TicketExportController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('export-form').submit();">Export Attendees</a>
