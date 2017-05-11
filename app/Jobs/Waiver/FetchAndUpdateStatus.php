@@ -35,9 +35,9 @@ class FetchAndUpdateStatus implements ShouldQueue
     {
         $status = $this->waiver->fetchStatus();
 
-        $this->waiver->update([
+        $this->waiver->fill([
             'status' => $status
-        ]);
+        ])->touch();
 
         if ($status == WaiverStatus::COMPLETE) {
             $pdf = $this->waiver->fetchPdf();
