@@ -6,6 +6,7 @@ use App\Ticket;
 use App\Waiver;
 use Illuminate\Http\Request;
 use App\Jobs\Waiver\SendReminder;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
 
 class WaiversController extends Controller
 {
@@ -26,6 +27,13 @@ class WaiversController extends Controller
             ->get();
 
         return view('waivers.index', compact('tickets'));
+    }
+
+    public function refresh(Waiver $waiver)
+    {
+        dispatch(new FetchAndUpdateStatus($waiver));
+
+        return redirect()->back();
     }
 
     public function reminder(Waiver $waiver)

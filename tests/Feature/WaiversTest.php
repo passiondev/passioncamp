@@ -7,6 +7,10 @@ use App\Waiver;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Contracts\EsignProvider;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
 use Facades\App\Services\Esign\ProviderFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -14,7 +18,7 @@ class WaiversTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected function setUp()
+    public function setUp()
     {
         parent::setUp();
 
@@ -97,5 +101,31 @@ class WaiversTest extends TestCase
         $response->assertStatus(200);
 
         $this->assertEquals('OUT_FOR_SIGNATURE', $waiver->fresh()->getAttributes()['status']);
+    }
+
+    /** @test */
+    function it_can_update_status_and_download_file()
+    {
+        Storage::fake('dropbox');
+
+        $waiver = factory('App\Waiver')->create();
+        $admin = factory('App\User')->create([
+            'access' => 100
+        ]);
+
+        $this->esign->shouldReceive('fetchStatus')
+            ->once()
+            ->with($waiver->provider_agreement_id)
+            ->andReturn('complete');
+
+        $this->esign->shouldReceive('fetchPdf')
+            ->once()
+            ->with($waiver->provider_agreement_id)
+            ->andReturn('Hello World');
+
+        $this->actingAs($admin)->post("/waivers/{$waiver->id}/refresh");
+        $this->assertEquals('complete', $waiver->fresh()->status);
+        Storage::disk('dropbox')->assertExists($waiver->dropboxFilePath());
+        Storage::disk('dropbox')->delete($waiver->dropboxFilePath());
     }
 }

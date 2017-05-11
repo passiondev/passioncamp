@@ -38,4 +38,16 @@ class AdobeSignEsignProvider implements EsignProvider
 
         return $response['result'];
     }
+
+    public function fetchStatus($agreementId)
+    {
+        $response = $this->adobesign->getAgreement($agreementId);
+
+        return $response['status'];
+    }
+
+    public function fetchPdf($agreementId)
+    {
+        return $this->adobesign->getAgreementCombinedDocument($agreementId);
+    }
 }

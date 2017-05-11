@@ -42,6 +42,16 @@
                             @else
                                 {{ ucfirst($ticket->waiver->status) }}
 
+                                @can('update', $ticket->waiver)
+                                    @if (! $ticket->waiver->isComplete())
+                                        <a href="{{ action('WaiversController@refresh', $ticket->waiver) }}" class="btn btn-sm btn-outline-info ml-2" onclick="event.preventDefault(); document.getElementById('refresh-{{ $ticket->waiver->id }}-form').submit()">Refresh</a>
+
+                                        <form id="refresh-{{ $ticket->waiver->id }}-form" action="{{ action('WaiversController@refresh', $ticket->waiver) }}" method="POST" style="display:none">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    @endif
+                                @endcan
+
                                 @can('delete', $ticket->waiver)
                                     @if (! $ticket->waiver->isComplete())
                                         <a href="{{ action('WaiversController@destroy', $ticket->waiver) }}" class="btn btn-sm btn-outline-danger ml-2" onclick="event.preventDefault(); return (confirm('Are you sure you want to cancel this waiver?') ? document.getElementById('cancel-{{ $ticket->waiver->id }}-form').submit() : null)">Cancel</a>
