@@ -13,12 +13,12 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th class="text-center">Balance</th>
-                    <th class="text-center border-left border-right">Purchased Tickets</th>
-                    <th class="text-center">Registered</th>
-                    <th class="text-center">Assigned to Room</th>
-                    <th class="text-center">Completed Waivers</th>
-                    <th class="text-center border-left">Rooms</th>
+                    <th class="text-center" style="position: relative;">Balance <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ number_format($organizations->sum('balance') / 100) }}</th>
+                    <th  style="position: relative;" class="text-center border-left border-right">Tickets <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('tickets_sum') }}</span></th>
+                    <th  style="position: relative;" class="text-center">Attendees <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('active_attendees_count') }}</span></th>
+                    <th  style="position: relative;" class="text-center">Room Assigned <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('assigned_to_room_count') }}</span></th>
+                    <th  style="position: relative;" class="text-center">Waiver Complete <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('completed_waivers_count') }}</span></th>
+                    <th  style="position: relative;" class="text-center border-left">Rooms <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('rooms_count') }}</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +31,9 @@
                         <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
                             {{ $organization->balance == 0 ? '--' : money_format('%.0n', $organization->balance / 100) }}
                         </td>
-                        <td class="text-center border-left border-right">{{ $organization->tickets_sum }}</td>
+                        <td class="text-center border-left border-right">
+                            {{ $organization->tickets_sum }}
+                        </td>
                         <td class="text-center {{ $organization->active_attendees_count > $organization->tickets_sum ? 'table-danger' : '' }}">
                             {{ $organization->active_attendees_count }}
                         </td>
