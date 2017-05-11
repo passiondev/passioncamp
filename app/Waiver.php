@@ -24,6 +24,11 @@ class Waiver extends Model
         });
     }
 
+    public function scopeComplete($query)
+    {
+        return $query->where('status', WaiverStatus::COMPLETE);
+    }
+
     public function ticket()
     {
         return $this->belongsTo(Ticket::class);

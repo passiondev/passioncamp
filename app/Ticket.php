@@ -91,6 +91,11 @@ class Ticket extends OrderItem
         return $this->hasOne(Waiver::class)->latest();
     }
 
+    public function completedWaivers()
+    {
+        return $this->waivers()->complete();
+    }
+
     public function waivers()
     {
         return $this->hasMany(Waiver::class);

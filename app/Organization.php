@@ -287,4 +287,9 @@ class Organization extends Model
             'amount' => $transaction->amount,
         ]);
     }
+
+    public function completedWaivers()
+    {
+        return $this->activeAttendees()->has('completedWaivers');
+    }
 }
