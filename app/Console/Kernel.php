@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('passioncamp:update-waivers')
-                 ->dailyAt('03:00');
+                 ->hourly();
     }
     /**
      * Register the Closure based commands for the application.
