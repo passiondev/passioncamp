@@ -38,13 +38,13 @@
                             {{ $organization->active_attendees_count }}
                         </td>
                         <td class="text-center {{ $organization->assigned_to_room_count > 0 && $organization->assigned_to_room_count == $organization->active_attendees_count ? 'table-success' : '' }}">
-                            {{ number_format($organization->assigned_to_room_count) }}
+                            {{ $organization->rooms_count ? number_format($organization->assigned_to_room_count) : '--' }}
                         </td>
                         <td class="text-center {{ $organization->completed_waivers_count > 0 && $organization->completed_waivers_count == $organization->active_attendees_count ? 'table-success' : '' }}">
                             {{ number_format($organization->completed_waivers_count) }}
                         </td>
                         <td class="text-center border-left {{ $organization->hotels_sum != $organization->rooms_count ? 'table-danger' : '' }}">
-                            {{ $organization->rooms_count }}
+                            {{ $organization->rooms_count ?: '--' }}
                         </td>
                     </tr>
                 @endforeach
