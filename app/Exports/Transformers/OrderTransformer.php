@@ -2,6 +2,7 @@
 
 namespace App\Exports\Transformers;
 
+use App\Person;
 use League\Fractal\TransformerAbstract;
 
 class OrderTransformer extends TransformerAbstract
@@ -26,6 +27,6 @@ class OrderTransformer extends TransformerAbstract
 
     public function includeContact($order)
     {
-        return $this->item($order->user->person, new ContactTransformer);
+        return $this->item($order->user->person ?? new Person, new ContactTransformer);
     }
 }
