@@ -49,4 +49,16 @@ class Waiver extends Model
     {
         return EsignProviderFactory::make($this->provider);
     }
+
+    public function fetchStatus()
+    {
+        $status = $this->provider()->fetchStatus($this->provider_agreement_id);
+
+        return WaiverStatus::get($status);
+    }
+
+    public function fetchPdf()
+    {
+        return $this->provider()->fetchPdf($this->provider_agreement_id);
+    }
 }
