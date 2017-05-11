@@ -15,7 +15,7 @@ class OrderExportsController extends Controller
 
     public function store()
     {
-        $orders = Order::forUser(auth()->user())->withCount('activeTickets')->with('donations', 'items', 'transactions')->limit(10)->get();
+        $orders = Order::forUser(auth()->user())->withCount('activeTickets')->with('donations', 'items', 'transactions')->get();
 
         (new OrderExport($orders))->download();
         die();
