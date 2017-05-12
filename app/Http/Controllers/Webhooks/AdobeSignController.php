@@ -3,28 +3,27 @@
 namespace App\Http\Controllers\Webhooks;
 
 use App\Waiver;
+use App\WaiverStatus;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
 
 class AdobeSignController extends Controller
 {
     public function __invoke()
     {
-        $activity = activity('adobesign')->withProperties(request()->all())->log('received');
+        $this->validate(request(), [
+            'documentKey' => 'required',
+            'eventType' => 'required',
+        ]);
 
         $waiver = Waiver::whereProvider('adobesign')
-            ->where('provider_agreement_id', request('agreementId'))
+            ->where('provider_agreement_id', request('documentKey'))
             ->firstOrFail();
 
-        if (request()->has('status')) {
-            $waiver->update([
-                'status' => request('status', 'SIGNED')
-            ]);
+        if ($waiver->status != WaiverStatus::COMPLETE) {
+            dispatch(new FetchAndUpdateStatus($waiver));
         }
-
-        $activity->subject()->associate($waiver)->update([
-            'description' => 'processed',
-        ]);
 
         return response($waiver, 200);
     }

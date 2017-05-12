@@ -9,6 +9,7 @@ use Tests\TestCase;
 use App\Contracts\EsignProvider;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
 use Facades\App\Services\Esign\ProviderFactory;
@@ -89,18 +90,14 @@ class WaiversTest extends TestCase
     /** @test */
     function it_updates_on_callback_from_adobe()
     {
-        $waiver = factory('App\Waiver')->create([
-            'status' => 'new'
-        ]);
+        Queue::fake();
 
-        $response = $this->json('get', '/webhooks/adobesign', [
-            'agreementId' => $waiver->provider_agreement_id,
-            'status' => 'OUT_FOR_SIGNATURE'
-        ]);
+        $waiver = factory('App\Waiver')->create();
+
+        $response = $this->put("/webhooks/adobesign?documentKey={$waiver->provider_agreement_id}&eventType=ESIGNED");
 
         $response->assertStatus(200);
-
-        $this->assertEquals('OUT_FOR_SIGNATURE', $waiver->fresh()->getAttributes()['status']);
+        Queue::assertPushed(FetchAndUpdateStatus::class);
     }
 
     /** @test */

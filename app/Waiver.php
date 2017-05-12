@@ -39,6 +39,11 @@ class Waiver extends Model
         return WaiverStatus::get($status);
     }
 
+    public function setStatusAttribute($status)
+    {
+        $this->attributes['status'] = WaiverStatus::get($status);
+    }
+
     public function canBeReminded()
     {
         // updated more than 24 hours ago
