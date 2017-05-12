@@ -10,24 +10,36 @@
         </header>
 
         <table class="table table-responsive table-bordered table-align-middle" style="table-layout: fixed;width:100%;">
-            <thead>
+            <thead class="thead-default">
                 <tr>
-                    <th></th>
-                    <th class="text-center" style="position: relative;">Balance <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ number_format($organizations->sum('balance') / 100) }}</th>
-                    <th  style="position: relative;" class="text-center border-left border-right">Tickets <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('tickets_sum') }}</span></th>
-                    <th  style="position: relative;" class="text-center">Attendees <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('active_attendees_count') }}</span></th>
-                    <th  style="position: relative;" class="text-center">Room Assigned <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('assigned_to_room_count') }}</span></th>
-                    <th  style="position: relative;" class="text-center">Waiver Complete <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('completed_waivers_count') }}</span></th>
-                    <th  style="position: relative;" class="text-center border-left">Rooms <span class="badge badge-info" style="position: absolute;transform: rotate(-30deg);top:-1em;right:0">{{ $organizations->sum('rooms_count') }}</span></th>
+                    <th class="pb-0 "></th>
+                    <th class="pb-0 text-center">Balance</th>
+                    <th class="pb-0 text-center border-left border-right">Tickets</th>
+                    <th class="pb-0 text-center">Attendees</th>
+                    <th class="pb-0 text-center">Room Assigned</th>
+                    <th class="pb-0 text-center">Waiver Complete</th>
+                    <th class="pb-0 text-center border-left">Rooms</th>
+                </tr>
+                <tr class="table-sm" style="font-size:90%;">
+                    <th class="text-info pt-0 text-right thead-default"></th>
+                    <th class="text-info pt-0 text-center">${{ number_format($organizations->sum('balance') / 100) }}</th>
+                    <th class="text-info pt-0 text-center border-left border-right">{{ number_format($organizations->sum('tickets_sum')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('active_attendees_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('assigned_to_room_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('completed_waivers_count')) }}</th>
+                    <th class="text-info pt-0 text-center border-left">{{ number_format($organizations->sum('rooms_count')) }}</th>
+                </tr>
+                <tr class="text-info table-sm">
+                    <td colspan="7"></td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)
                     <tr>
-                        <th class="table-active">
+                        <td class="">
                                 <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
                                 <small>{{ $organization->church->location }}</small>
-                        </th>
+                        </td>
                         <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
                             {{ $organization->balance == 0 ? '--' : money_format('%.0n', $organization->balance / 100) }}
                         </td>
