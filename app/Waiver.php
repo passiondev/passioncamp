@@ -5,6 +5,7 @@ namespace App;
 use App\Ticket;
 use Carbon\Carbon;
 use App\Observers\WaiverObserver;
+use App\Jobs\CancelSignatureRequest;
 use Facades\App\Services\Esign\ProviderFactory as EsignProviderFactory;
 
 class Waiver extends Model
@@ -20,7 +21,7 @@ class Waiver extends Model
         parent::boot();
 
         static::deleted(function ($waiver) {
-            $waiver->provider()->cancelSignatureRequest($waiver->provider_agreement_id);
+            $waiver->cancelSignatureRequest();
         });
     }
 
@@ -79,5 +80,10 @@ class Waiver extends Model
             $this->ticket->order->organization_id . ' - ' . $this->ticket->order->organization->church->name,
             $this->ticket_id . ' - ' . $this->ticket->name,
         ]);
+    }
+
+    public function cancelSignatureRequest()
+    {
+        dispatch(new CancelSignatureRequest($this->provider, $this->provider_agreement_id));
     }
 }

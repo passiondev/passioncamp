@@ -12,7 +12,7 @@ class WaiverStatus
     {
         switch (strtoupper($status)) {
             case 'NEW':
-                return static::NEW;
+                return static::CREATED;
 
             case 'COMPLETE':
             case 'ESIGNED':

@@ -55,8 +55,6 @@ class WaiversController extends Controller
     {
         $waiver->delete();
 
-        return request()->expectsJson()
-            ? response([], 204)
-            : redirect()->back();
+        return redirect()->back();
     }
 }
