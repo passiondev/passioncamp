@@ -84,6 +84,10 @@ class Waiver extends Model
 
     public function cancelSignatureRequest()
     {
+        if (! $this->provider_agreement_id) {
+            return;
+        }
+
         dispatch(new CancelSignatureRequest($this->provider, $this->provider_agreement_id));
     }
 }
