@@ -125,6 +125,10 @@ class User extends Authenticatable
 
     public function getHashAttribute()
     {
+        if (! $this->email) {
+            return hash_hmac('sha256', $this->id, env('APP_KEY'));
+        }
+
         return hash_hmac('sha256', $this->email, env('APP_KEY'));
     }
 

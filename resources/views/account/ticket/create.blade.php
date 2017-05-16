@@ -47,6 +47,9 @@
                         <label for="email" class="col-md-3 col-form-label text-md-right">Email</label>
                         <div class="col-md-6">
                             <input type="email" name="contact[email]" id="email" class="form-control" value="{{ old('contact.email') }}">
+                            @if (Auth::user()->organization->slug == 'pcc')
+                                <small class="form-text text-muted">This will be used to create or associate an existing account.</small>
+                            @endif
                         </div>
                     </div>
 

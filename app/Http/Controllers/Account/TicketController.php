@@ -38,11 +38,22 @@ class TicketController extends Controller
             'contact.phone' => 'required',
         ]);
 
-        $user = new User;
 
-        $user->person()->associate(
-            Person::create(array_only(request('contact'), ['name', 'email', 'phone']))
-        )->save();
+        if (auth()->user()->organization->slug == 'pcc') {
+            $user = User::firstOrCreate([
+                'email' => request('contact.email')
+            ]);
+        } else {
+            $user = new User;
+        }
+
+        if ($user->wasRecentlyCreated) {
+            $user->person()->associate(
+                Person::create(array_only(request('contact'), ['name', 'email', 'phone']))
+            )->save();
+        } else {
+            $user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
+        }
 
         $order = $user->orders()->create([
             'organization_id' => auth()->user()->organization_id
