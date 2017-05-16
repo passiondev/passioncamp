@@ -44,7 +44,7 @@ class TicketController extends Controller
                 'email' => request('contact.email')
             ]);
         } else {
-            $user = new User;
+            $user = User::create([]);
         }
 
         if ($user->wasRecentlyCreated) {
