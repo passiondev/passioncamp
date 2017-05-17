@@ -49,7 +49,7 @@ class WaiverPolicy
      */
     public function update(User $user, Waiver $waiver)
     {
-        //
+        return $this->view($user, $waiver);
     }
 
     /**
@@ -61,6 +61,6 @@ class WaiverPolicy
      */
     public function delete(User $user, Waiver $waiver)
     {
-        //
+        return $this->view($user, $waiver);
     }
 }
