@@ -19,7 +19,8 @@ class OrderTransformer extends TransformerAbstract
             'donation' => $order->donation_total / 100,
             'grand total' => $order->grand_total / 100,
             'total paid' => $order->transactions_total / 100,
-            'balance' => $order->balance / 100,
+            'order balance' => $order->balance / 100,
+            'account balance' => $order->user ? $order->user->balance / 100 : '',
         ];
 
         return $data;
