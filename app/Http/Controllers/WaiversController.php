@@ -47,7 +47,7 @@ class WaiversController extends Controller
         dispatch(new SendReminder($waiver));
 
         return request()->expectsJson()
-            ? response([], 201)
+            ? response($waiver, 201)
             : redirect()->back();
     }
 
@@ -55,6 +55,8 @@ class WaiversController extends Controller
     {
         $waiver->delete();
 
-        return redirect()->back();
+        return request()->expectsJson()
+            ? response([], 204)
+            : requestredirect()->back();
     }
 }

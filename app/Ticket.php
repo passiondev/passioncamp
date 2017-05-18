@@ -7,6 +7,7 @@ use App\Waiver;
 use Laravel\Scout\Searchable;
 use App\Observers\TicketObserver;
 use Illuminate\Database\Eloquent\Builder;
+use App\Jobs\Waiver\RequestWaiverSignature;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -189,5 +190,20 @@ class Ticket extends OrderItem
             'name' => $this->person->name,
             'organization_id' => $this->order->organization_id,
         ];
+    }
+
+    public function createWaiver($provider = 'adobesign')
+    {
+        if ($this->waivers()->count()) {
+            return $this->waivers()->latest();
+        }
+
+        $waiver = $this->waiver()->create([
+            'provider' => $provider,
+        ]);
+
+        dispatch(new RequestWaiverSignature($waiver));
+
+        return $waiver;
     }
 }

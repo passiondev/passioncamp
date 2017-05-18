@@ -1,5 +1,5 @@
 <template>
-    <a :href="href" class="btn btn-sm" :class="`btn-${btnStyle}`" @click.prevent="submit">
+    <a :href="href" class="btn btn-sm" :class="`btn-${btnStyle}`" @click.prevent.once="submit">
         <slot></slot>
     </a>
 </template>
@@ -15,6 +15,8 @@
                     .then((response) => {
                         parent.removeChild(e.target);
                         parent.innerHTML = 'Sent';
+                    }, (response) => {
+                        console.log(response);
                     })
                     .catch(error => console.log(error))
             }

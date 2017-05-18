@@ -17,11 +17,7 @@ class TicketWaiversController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        $waiver = $ticket->waiver()->create([
-            'provider' => 'adobesign'
-        ]);
-
-        dispatch(new RequestWaiverSignature($waiver));
+        $waiver = $ticket->createWaiver();
 
         return request()->expectsJson()
             ? response()->json($waiver, 201)
