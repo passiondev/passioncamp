@@ -6,45 +6,45 @@
         <ul class="block-list price-list">
             <li>
                 <div class="transaction">
-                    <div class="item left">Attendees <span class="badge badge-pill badge-success">{{ $order->ticket_count }}</span></div>
-                    <div class="item right">{{ money_format('%(.2n', $order->ticket_total / 100) }}</div>
+                    <div class="item left">Attendees <span class="badge badge-pill badge-success">{{ $order->user->ticket_count }}</span></div>
+                    <div class="item right">{{ money_format('%(.2n', $order->user->ticket_total / 100) }}</div>
                 </div>
             </li>
-            @if ($order->donation_total > 0)
+            @if ($order->user->donation_total > 0)
                 <li>
                     <div class="transaction">
                         <div class="item left">Donation</div>
-                        <div class="item right">{{ money_format('%(.2n', $order->donation_total / 100) }}</div>
+                        <div class="item right">{{ money_format('%(.2n', $order->user->donation_total / 100) }}</div>
                     </div>
                 </li>
             @endif
             <li class="callout total">
                 <div class="transaction">
                     <div class="item left">Total</div>
-                    <div class="item right">{{ money_format('%(.2n', $order->grand_total / 100) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->user->grand_total / 100) }}</div>
                 </div>
             </li>
             <li class="callout total">
                 <div class="transaction">
                     <div class="item left">Payments</div>
-                    <div class="item right">{{ money_format('%(.2n', $order->transactions_total / 100) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->user->transactions_total / 100) }}</div>
                 </div>
             </li>
             <li class="callout balance">
                 <div class="transaction">
                     <div class="item left">Balance</div>
-                    <div class="item right">{{ money_format('%(.2n', $order->balance / 100) }}</div>
+                    <div class="item right">{{ money_format('%(.2n', $order->user->balance / 100) }}</div>
                 </div>
             </li>
         </ul>
     </div>
-    @if ($order->transactions->count() > 0)
+    @if ($order->user->transactions->count() > 0)
         <div class="info-box__title">
             <h5>Transactions</h5>
         </div>
         <div class="info-box__content">
             <ul class="block-list price-list">
-            @foreach ($order->transactions as $split)
+            @foreach ($order->user->transactions as $split)
                 <li>
                     <div class="transaction">
                         <div class="item left">
