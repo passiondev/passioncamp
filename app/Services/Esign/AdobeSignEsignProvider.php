@@ -34,7 +34,9 @@ class AdobeSignEsignProvider implements EsignProvider
 
     public function cancelSignatureRequest($agreementId)
     {
-        $response = $this->adobesign->deleteAgreement($agreementId);
+        $response = $this->adobesign->updateAgreementStatus($agreementId, [
+            'value' => 'CANCEL',
+        ]);
 
         return $response['result'];
     }
