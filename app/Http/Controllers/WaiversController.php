@@ -57,6 +57,6 @@ class WaiversController extends Controller
 
         return request()->expectsJson()
             ? response([], 204)
-            : requestredirect()->back();
+            : redirect()->back();
     }
 }
