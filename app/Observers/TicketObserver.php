@@ -6,14 +6,14 @@ class TicketObserver
 {
     public function canceled($ticket)
     {
-        if ($ticket->has('waiver')) {
+        if ($ticket->waivers()->count()) {
             $ticket->waiver->delete();
         }
     }
 
     public function deleted($ticket)
     {
-        if ($ticket->has('waiver')) {
+        if ($ticket->waivers()->count()) {
             $ticket->waiver->delete();
         }
     }
