@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Room;
+use App\Hotel;
+use App\Organization;
 use App\Filters\RoomFilters;
 use Illuminate\Http\Request;
 
@@ -19,9 +21,12 @@ class RoomController extends Controller
             $q->withoutGlobalScopes();
         }, 'organization.church'])->orderByChurchName()->orderBy('id')->get();
 
+        $organizations = Organization::select('organizations.*')->with('church')->join('churches', 'church_id', '=', 'churches.id')->orderBy('churches.name')->withoutGlobalScopes()->get();
+        $hotels = Hotel::select('*')->orderBy('name')->withoutGlobalScopes(['registeredSum'])->get();
+
         return request()->expectsJson()
             ? $rooms
-            : view('room.index', compact('rooms'));
+            : view('room.index', compact('rooms', 'organizations', 'hotels'));
     }
 
     public function edit(Room $room)

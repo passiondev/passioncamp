@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
+
         <table class="table table-striped align-middle">
             <thead>
                 <tr>
