@@ -47,7 +47,7 @@ class TicketController extends Controller
             $user = User::create([]);
         }
 
-        if ($user->wasRecentlyCreated) {
+        if ($user->wasRecentlyCreated || ! $user->person) {
             $user->person()->associate(
                 Person::create(array_only(request('contact'), ['name', 'email', 'phone']))
             )->save();
