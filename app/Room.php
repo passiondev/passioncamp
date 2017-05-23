@@ -74,6 +74,11 @@ class Room extends Model
             ->orderBy('churches.name');
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
     public function getAssignedAttribute()
     {
         return $this->tickets->count();

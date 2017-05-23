@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Room;
+use App\Filters\RoomFilters;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -12,13 +13,15 @@ class RoomController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(RoomFilters $filters)
     {
-        $rooms = Room::with(['tickets.person', 'organization' => function ($q) {
+        $rooms = Room::filter($filters)->with(['tickets.person', 'organization' => function ($q) {
             $q->withoutGlobalScopes();
         }, 'organization.church'])->orderByChurchName()->orderBy('id')->get();
 
-        return view('room.index', compact('rooms'));
+        return request()->expectsJson()
+            ? $rooms
+            : view('room.index', compact('rooms'));
     }
 
     public function edit(Room $room)
