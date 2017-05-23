@@ -10,6 +10,8 @@ Route::get('admin/roominglists/{version}/download', 'RoominglistExportController
 Route::get('admin/organizations/search', 'OrganizationController@search');
 Route::resource('admin/organizations', 'OrganizationController');
 
+Route::get('admin/rooms', 'RoomController@index');
+
 Route::get('admin/hotels', 'HotelController@index');
 Route::get('admin/hotels/{hotel}', 'HotelController@show');
 

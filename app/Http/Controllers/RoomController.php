@@ -12,6 +12,15 @@ class RoomController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $rooms = Room::with(['tickets.person', 'organization' => function ($q) {
+            $q->withoutGlobalScopes();
+        }, 'organization.church'])->orderByChurchName()->orderBy('id')->get();
+
+        return view('room.index', compact('rooms'));
+    }
+
     public function edit(Room $room)
     {
         $this->authorize($room);
