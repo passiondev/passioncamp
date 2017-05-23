@@ -93,6 +93,6 @@ class OrderPolicy
 
     public function update(User $user, Order $order)
     {
-        return $user->organization_id == $order->organization_id;
+        return $user->organization_id == $order->organization_id || ($order->organization_id == null && $user->organization->slug == 'pcc');
     }
 }
