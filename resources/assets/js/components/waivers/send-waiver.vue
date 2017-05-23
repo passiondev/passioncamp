@@ -15,8 +15,6 @@
                     .then((response) => {
                         parent.removeChild(e.target);
                         parent.innerHTML = 'Sent';
-                    }, (response) => {
-                        console.log(response);
                     })
                     .catch(error => console.log(error))
             }

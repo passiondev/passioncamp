@@ -16,6 +16,7 @@ import RoominglistUnassigned from './components/RoominglistUnassigned'
 import autoscroll from 'dom-autoscroller'
 import RoominglistRoom from './components/RoominglistRoom'
 import sendWaiver from './components/waivers/send-waiver'
+import Ajax from './components/Ajax.vue'
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
@@ -31,6 +32,7 @@ const app = new Vue({
         RoominglistUnassigned,
         RoominglistRoom,
         sendWaiver,
+        Ajax,
     },
     data: store,
     mounted() {

@@ -32,7 +32,30 @@
                         </td>
                         <td class="text-center">{{ $room->capacity }}</td>
                         <td class="text-center">{{ $room->tickets->count() }}</td>
-                        <td></td>
+                        <td>
+                            <ul class="list-unstyled mb-0" style="font-size:85%">
+                                <li>
+                                    <ajax href="{{ action('RoomController@keyReceived', $room) }}" method="POST" :is-success="{{ json_encode($room->is_key_received) }}" v-cloak>
+                                        receive key
+                                        <span slot="success">
+                                            @icon('checkmark', 'text-success') key
+                                        </span>
+                                    </ajax>
+                                </li>
+                                <li>
+                                    <ajax href="{{ action('RoomController@checkin', $room) }}" method="POST" :is-success="{{ json_encode($room->is_checked_in) }}" v-cloak>
+                                        check in
+                                        <span slot="success">
+                                            @icon('checkmark', 'text-success') checked in
+                                        </span>
+                                    </ajax>
+                                </li>
+                                <li>
+                                    <a href="{{ action('RoomController@edit', $room) }}">edit</a>
+                                </li>
+                                <li>print</li>
+                            </ul>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

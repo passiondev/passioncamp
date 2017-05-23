@@ -65,4 +65,28 @@ class RoomsTest extends TestCase
         $response->assertSee('my-hotel');
         $response->assertDontSee('not-my-hotel');
     }
+
+    /** @test */
+    function it_can_check_in_a_room()
+    {
+        $this->signIn();
+
+        $room = factory('App\Room')->create();
+
+        $response = $this->json('POST', "/rooms/{$room->id}/check-in");
+
+        $this->assertTrue($room->fresh()->is_checked_in);
+    }
+
+    /** @test */
+    function it_can_mark_a_key_received()
+    {
+        $this->signIn();
+
+        $room = factory('App\Room')->create();
+
+        $response = $this->json('POST', "/rooms/{$room->id}/key-received");
+
+        $this->assertTrue($room->fresh()->is_key_received);
+    }
 }

@@ -26,6 +26,8 @@ class RoomController extends Controller
 
     public function edit(Room $room)
     {
+        request()->intended(url()->previous());
+
         $this->authorize($room);
 
         return view('room.edit', compact('room'));
@@ -45,6 +47,24 @@ class RoomController extends Controller
             : request(['capacity', 'description', 'notes'])
         );
 
-        return redirect()->action('RoomingListController@index');
+        return redirect()->intended(action('RoomingListController@index'));
+    }
+
+    public function checkin(Room $room)
+    {
+        $room->checkin();
+
+        return request()->expectsJson()
+            ? response()->json($room, 204)
+            : redirect()->back();
+    }
+
+    public function keyReceived(Room $room)
+    {
+        $room->keyReceived();
+
+        return request()->expectsJson()
+            ? response()->json($room, 204)
+            : redirect()->back();
     }
 }
