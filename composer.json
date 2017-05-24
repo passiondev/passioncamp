@@ -43,7 +43,8 @@
         "laravel/scout": "^3.0",
         "algolia/algoliasearch-client-php": "^1.17",
         "spatie/laravel-activitylog": "^1.13",
-        "spatie/flysystem-dropbox": "^1.0"
+        "spatie/flysystem-dropbox": "^1.0",
+        "dompdf/dompdf": "^0.8.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

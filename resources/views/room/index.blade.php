@@ -46,7 +46,7 @@
                         <td>{{ $room->name }}</td>
                         <td>
                             <ul class="list-unstyled mb-0" style="font-size:85%; line-height: 1.2">
-                                @foreach ($room->tickets as $ticket)
+                                @foreach ($room->tickets->assigendSort() as $ticket)
                                     <li>{{ $ticket->person->name }}</li>
                                 @endforeach
                             </ul>
@@ -74,7 +74,9 @@
                                 <li>
                                     <a href="{{ action('RoomController@edit', $room) }}">edit</a>
                                 </li>
-                                <li>print</li>
+                                <li>
+                                    <a href="{{ action('RoomController@label', $room) }}">print</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
