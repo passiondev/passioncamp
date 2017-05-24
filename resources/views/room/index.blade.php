@@ -2,8 +2,28 @@
 
 @section('content')
     <div class="container-fluid">
+        <form action="{{ action('RoomController@index') }}" method="GET" class="form-inline mb-3">
+            <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
+                <option selected disabled>Church...</option>
+                <option value="">- All -</option>
+                @foreach ($organizations as $organization)
+                    <option value="{{ $organization->id }}" @if (request('organization') == $organization->id) selected @endif>
+                        {{ $organization->church->name }} - {{ $organization->church->location }}
+                    </option>
+                @endforeach
+            </select>
+            <select name="hotel" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
+                <option selected disabled>Hotel...</option>
+                <option value="">- All -</option>
+                @foreach ($hotels as $hotel)
+                    <option value="{{ $hotel->id }}" @if (request('hotel') == $hotel->id) selected @endif>
+                        {{ $hotel->name }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
 
-        <table class="table table-striped align-middle">
+        <table class="table table-striped align-middle table-responsive">
             <thead>
                 <tr>
                     <th>Church</th>
