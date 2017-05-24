@@ -27,7 +27,9 @@ class PaymentsController extends Controller
             'stripeToken' => 'required',
         ]);
 
-        $order = auth()->user()->orders()->create([]);
+        $order = auth()->user()->orders()->create([
+            'organization_id' => 1
+        ]);
 
         try {
             $charge = \Stripe\Charge::create([
