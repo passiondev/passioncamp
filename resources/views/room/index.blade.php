@@ -42,7 +42,12 @@
                             <strong><a href="{{ action('OrganizationController@show', $room->organization) }}">{{ $room->organization->church->name }}</a></strong><br>
                             <small class="text-muted">{{ $room->organization->church->location }}</small>
                         </td>
-                        <td>{{ $room->hotelName }}</td>
+                        <td>
+                            {{ $room->hotelName }}
+                            @if ($room->roomnumber)
+                                #{{ $room->roomnumber }}
+                            @endif
+                        </td>
                         <td>{{ $room->name }}</td>
                         <td>
                             <ul class="list-unstyled mb-0" style="font-size:85%; line-height: 1.2">
