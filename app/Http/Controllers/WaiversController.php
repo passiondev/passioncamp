@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use App\Waiver;
+use App\Organization;
 use Illuminate\Http\Request;
+use App\Filters\TicketFilters;
 use App\Jobs\Waiver\SendReminder;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
 
@@ -15,25 +17,30 @@ class WaiversController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(TicketFilters $filters)
     {
         $tickets = Ticket::forUser(auth()->user())
-            ->with('person', 'waiver', 'order.organization', 'order.user.person')
+            ->filter($filters)
+            ->with('person', 'waiver', 'order.organization.church', 'order.user.person')
             ->active()
             ->join('people', 'order_items.person_id', '=', 'people.id')
             ->select('order_items.*')
             ->orderBy('people.last_name')
-            ->orderBy('people.first_name')
-            ->get();
+            ->orderBy('people.first_name');
+        $tickets = $filters->hasFilters() ? $tickets->get() : $tickets->paginate();
 
-        return view('waivers.index', compact('tickets'));
+        $organizations = Organization::select('organizations.*')->with('church')->join('churches', 'church_id', '=', 'churches.id')->orderBy('churches.name')->withoutGlobalScopes()->get();
+
+        return view('waivers.index', compact('tickets', 'organizations'));
     }
 
     public function refresh(Waiver $waiver)
     {
         dispatch(new FetchAndUpdateStatus($waiver));
 
-        return redirect()->back();
+        return request()->expectsJson()
+            ? $waiver
+            : redirect()->back();
     }
 
     public function reminder(Waiver $waiver)

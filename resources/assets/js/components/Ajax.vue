@@ -11,7 +11,8 @@
         props: [
             'href',
             'method',
-            'is-success'
+            'is-success',
+            'confirm',
         ],
 
         data() {
@@ -24,9 +25,18 @@
             click(e) {
                 const method = this.method.toLowerCase();
 
+                if (this.confirm) {
+                    return confirm(this.confirm) ? this._submit(e) : null;
+                }
+
+                return this._submit(e);
+            },
+
+            _submit(e) {
                 axios[this.method.toLowerCase()](this.href)
                     .then(response => {
                         this.success = true;
+                        this.$emit('success', response.data);
                     })
                     .catch(error => {})
             }

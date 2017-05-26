@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\WaiverStatus;
 use Illuminate\Http\Request;
-use App\Jobs\Waiver\RequestWaiverSignature;
 
 class TicketWaiversController extends Controller
 {
@@ -17,7 +17,18 @@ class TicketWaiversController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        $waiver = $ticket->createWaiver();
+        if (!! request()->query('completed')) {
+            $ticket->waivers->each(function ($waiver) {
+                $waiver->delete();
+            });
+
+            $waiver = $ticket->waiver()->create([
+                'provider' => 'offline',
+                'status' => WaiverStatus::COMPLETE,
+            ]);
+        } else {
+            $waiver = $ticket->createWaiver();
+        }
 
         return request()->expectsJson()
             ? response()->json($waiver, 201)

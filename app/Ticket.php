@@ -87,6 +87,11 @@ class Ticket extends OrderItem
         return $query->doesntHave('rooms');
     }
 
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
     public function waiver()
     {
         return $this->hasOne(Waiver::class)->latest();
