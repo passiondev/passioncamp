@@ -106,7 +106,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ action('WaiversController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiversController') ? 'active' :'' }}">
-                                        Waivers <span class="badge badge-success">NEW</span>
+                                        Waivers
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -143,7 +143,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ action('WaiversController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiversController') ? 'active' :'' }}">
-                                        Waivers <span class="badge badge-success">NEW</span>
+                                        Waivers
                                     </a>
                                 </li>
                                 <li class="nav-item">
