@@ -27,7 +27,7 @@ class WaiversController extends Controller
             ->select('order_items.*')
             ->orderBy('people.last_name')
             ->orderBy('people.first_name');
-        $tickets = $filters->hasFilters() ? $tickets->get() : $tickets->paginate();
+        $tickets = $filters->hasFilters() || auth()->user()->isChurchAdmin() ? $tickets->get() : $tickets->paginate();
 
         $organizations = Organization::select('organizations.*')->with('church')->join('churches', 'church_id', '=', 'churches.id')->orderBy('churches.name')->withoutGlobalScopes()->get();
 

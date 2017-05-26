@@ -6,17 +6,19 @@
             <h1 class="mb-2 mb-lg-0">Waivers</h1>
         </header>
 
-        <form action="{{ action('WaiversController@index') }}" method="GET" class="form-inline mb-3">
-            <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
-                <option selected disabled>Church...</option>
-                <option value="">- All -</option>
-                @foreach ($organizations as $organization)
-                    <option value="{{ $organization->id }}" @if (request('organization') == $organization->id) selected @endif>
-                        {{ $organization->church->name }} - {{ $organization->church->location }}
-                    </option>
-                @endforeach
-            </select>
-        </form>
+        @if (auth()->user()->isSuperAdmin())
+            <form action="{{ action('WaiversController@index') }}" method="GET" class="form-inline mb-3">
+                <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
+                    <option selected disabled>Church...</option>
+                    <option value="">- All -</option>
+                    @foreach ($organizations as $organization)
+                        <option value="{{ $organization->id }}" @if (request('organization') == $organization->id) selected @endif>
+                            {{ $organization->church->name }} - {{ $organization->church->location }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        @endif
 
         <table class="table table-responsive table-striped">
             <thead>
@@ -89,7 +91,7 @@
                                         </ajax>
 
                                         @if (auth()->user()->isSuperAdmin())
-                                            <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="btn btn-sm btn-outline-secondary" @success="success">
+                                            <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="btn btn-sm btn-outline-secondary ml-2" @success="success">
                                                 Complete
                                             </ajax>
                                         @endif
