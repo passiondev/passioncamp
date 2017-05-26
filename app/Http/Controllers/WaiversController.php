@@ -20,9 +20,11 @@ class WaiversController extends Controller
     public function index(TicketFilters $filters)
     {
         $tickets = Ticket::forUser(auth()->user())
-            ->filter($filters)
-            ->with('person', 'waiver', 'order.organization.church', 'order.user.person')
             ->active()
+            ->when(auth()->user()->isSuperAdmin(), function ($q) use ($filters) {
+                $q->filter($filters);
+            })
+            ->with('person', 'waiver', 'order.organization.church', 'order.user.person')
             ->join('people', 'order_items.person_id', '=', 'people.id')
             ->select('order_items.*')
             ->orderBy('people.last_name')

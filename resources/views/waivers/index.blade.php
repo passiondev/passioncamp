@@ -52,31 +52,41 @@
                             @if ($ticket->waiver && $ticket->waiver->isComplete())
                                 {{ ucfirst($ticket->waiver->status) }}
                             @elseif ($ticket->waiver)
-                                <ticket-waiver :data="{{ json_encode($ticket->waiver) }}" inline-template v-cloak>
-                                    <div>
-                                        @icon('checkmark', 'text-success', ['v-if' => 'updated'])
-                                        <span v-text="waiver.status" class="text-capitalize"></span>
-                                        <div v-if="! updated">
-                                            @can('update', $ticket->waiver)
-                                                <ajax href="{{ action('WaiversController@refresh', $ticket->waiver) }}" method="POST" class="btn btn-sm btn-outline-info" @success="waiver = {status: 'Refreshing'};updated = true;" v-cloak>
-                                                    Refresh
-                                                </ajax>
-                                            @endcan
+                                    <ticket-waiver :data="{{ json_encode($ticket->waiver) }}" inline-template v-cloak>
+                                        <ul class="list-unstyled mb-0" style="font-size:85%">
 
-                                            @can('delete', $ticket->waiver)
-                                                <ajax href="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="DELETE" class="btn btn-sm btn-outline-danger ml-2" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'Canceled'};updated = true;" v-cloak>
-                                                    Cancel
+                                            <li v-show="status == 'canceled' && updated" class="mb-2">
+                                                <ajax href="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
+                                                    Send Waiver
                                                 </ajax>
-                                            @endcan
+                                            </li>
+
+                                            <li class="text-capitalize">
+                                                @icon('checkmark', 'text-success', ['v-if' => 'updated'])
+                                                <em v-text="waiver.status" class="text-capitalize"></em>
+                                            </li>
+
+                                            <li v-if="! updated">
+                                                <ajax href="{{ action('WaiversController@refresh', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
+                                                    refresh
+                                                </ajax>
+                                            </li>
+
+                                            <li v-if="! updated">
+                                                <ajax href="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="DELETE" class="text-danger" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'canceled'};updated = true;" v-cloak>
+                                                    cancel
+                                                </ajax>
+                                            </li>
 
                                             @if (auth()->user()->isSuperAdmin() && ! $ticket->waiver->isComplete())
-                                                <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="btn btn-sm btn-outline-secondary ml-2" @success="waiver = {status: 'Complete'};updated = true;" v-cloak>
-                                                    Complete
-                                                </ajax>
+                                                <li v-if="! updated">
+                                                    <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="text-muted" confirm="Are you sure you want to mark this waiver completed?" @success="waiver = {status: 'Complete'};updated = true;" v-cloak>
+                                                        complete
+                                                    </ajax>
+                                                </li>
                                             @endif
-                                        </div>
-                                    </div>
-                                </ticket-waiver>
+                                        </ul>
+                                    </ticket-waiver>
                             @else
                                 <ticket-waiver :data="{{ json_encode($ticket->waiver) }}" inline-template v-cloak>
                                     <div v-if="!! waiver" class="text-capitalize">
@@ -85,15 +95,19 @@
                                         @{{ status }}
                                     </div>
 
-                                    <div v-else>
-                                        <ajax href="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
-                                            Send Waiver
-                                        </ajax>
+                                    <ul class="list-unstyled mb-0" style="font-size:85%" v-else>
+                                        <li class="mb-1">
+                                            <ajax href="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
+                                                Send Waiver
+                                            </ajax>
+                                        </li>
 
                                         @if (auth()->user()->isSuperAdmin())
-                                            <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="btn btn-sm btn-outline-secondary ml-2" @success="success">
-                                                Complete
-                                            </ajax>
+                                            <li>
+                                                <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" confirm="Are you sure you want to mark this waiver completed?" class="text-muted" @success="success">
+                                                    complete
+                                                </ajax>
+                                            </li>
                                         @endif
                                     </div>
                                 </ticket-waiver>
