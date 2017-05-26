@@ -72,10 +72,15 @@
                                     </ajax>
                                 </li>
                                 <li>
-                                    <a href="{{ action('RoomController@edit', $room) }}">edit</a>
+                                    <ajax href="{{ action('RoomLabelController@printnode', $room) }}" method="POST" v-cloak>
+                                        print
+                                        <span slot="success">
+                                            @icon('checkmark', 'text-success') printing...
+                                        </span>
+                                    </ajax>
                                 </li>
                                 <li>
-                                    <a href="{{ action('RoomController@label', $room) }}">print</a>
+                                    <a href="{{ action('RoomController@edit', $room) }}">edit</a>
                                 </li>
                             </ul>
                         </td>

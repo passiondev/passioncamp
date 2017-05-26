@@ -73,33 +73,4 @@ class RoomController extends Controller
             ? response()->json($room, 204)
             : redirect()->back();
     }
-
-    public function label(Room $room)
-    {
-        return view('room/label', compact('room'));
-        $pdf = new Dompdf;
-        $pdf->loadHtml(view('room/label', compact('room'))->render());
-        $pdf->setPaper('c7', 'portrait');
-        $pdf->render();
-        $pdf->stream("dompdf_out.pdf", array("Attachment" => false));
-        exit;
-
-        // $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
-        // $pdf->writeHTML(view('room/label', compact('room'))->render());
-        // $pdf->output();
-
-        // if (request()->expectsJson()) {
-        //     $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
-        //     $pdf->writeHTML(view('roominglist/partials/label', compact('room'))->render());
-
-        //     $handler = new PrintJobHandler(RoominglistPrintNodeClient::init());
-        //     $handler->withPrinter(session('printer'))
-        //         ->setTitle($room->name)
-        //         ->output($pdf);
-
-        //     return response('Created', 201);
-        // } else {
-        //     return redirect()->back()->withSuccess('Printing job queued.');
-        // }
-    }
 }

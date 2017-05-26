@@ -137,4 +137,16 @@ class Room extends Model
             'key_received_at' => $this->freshTimestamp(),
         ]);
     }
+
+    public function toRouteSignatureArray()
+    {
+        $payload = [
+            'id' => $this->id,
+        ];
+
+        return [
+            'payload' => base64_encode(json_encode($payload)),
+            'signature' => RoutePayloadSignature::create($payload),
+        ];
+    }
 }
