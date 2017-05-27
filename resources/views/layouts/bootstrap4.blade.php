@@ -54,6 +54,15 @@
                     @if (Session::has('spark:impersonator'))
                         <li class="nav-item"><a class="nav-link" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
                     @endif
+                    @if (Session::has('printer'))
+                        <li class="nav-item mr-3">
+                            <a class="nav-link" href="{{ action('PrintersController@index') }}">@icon('printer') {{ Session::get('printer.name') }}</a>
+                        </li>
+                    @elseif (str_contains(Request::route()->getActionName(), 'RoomController'))
+                        <li class="nav-item mr-3">
+                            <a class="btn btn-outline-primary" href="{{ action('PrintersController@index') }}">Select a printer...</a>
+                        </li>
+                    @endif
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>

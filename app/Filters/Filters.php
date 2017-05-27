@@ -63,4 +63,9 @@ abstract class Filters
     {
         return $this->request->intersect($this->filters);
     }
+
+    public function hasFilters()
+    {
+        return !! $this->getFilters();
+    }
 }

@@ -13,14 +13,14 @@ class VerifyUserHasSelectedPrinter
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
         if (! $request->session()->has('printer')) {
-            $request->session()->put('url.intended', $request->fullUrl());
-            $request->session()->flash('prefix', $guard);
-            return redirect()->route("{$guard}.printer.index");
+            $request->intended(url()->previous());
+
+            return redirect()->action('PrintersController@index');
         }
-        
+
         return $next($request);
     }
 }
