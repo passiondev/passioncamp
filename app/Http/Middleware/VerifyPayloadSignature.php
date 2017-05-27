@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\RoutePayloadSignature;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class VerifyUserHasSelectedPrinter
+class VerifyPayloadSignature
 {
     /**
      * Handle an incoming request.
@@ -15,10 +17,8 @@ class VerifyUserHasSelectedPrinter
      */
     public function handle($request, Closure $next)
     {
-        if (! $request->session()->has('printer')) {
-            $request->intended(url()->previous());
-
-            return redirect()->action('PrintersController@index');
+        if ($request['signature'] !== RoutePayloadSignature::create($request->route('payload'))) {
+            throw new ResourceNotFoundException;
         }
 
         return $next($request);

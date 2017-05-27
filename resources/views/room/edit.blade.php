@@ -40,6 +40,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="roomnumber" class="col-md-3 col-form-label text-md-right">Hotel</label>
+                            <div class="col-md-6">
+                                <p class="form-control-static"><strong>{{ $room->hotelName }}</strong></p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="roomnumber" class="col-md-3 col-form-label text-md-right">Room #</label>
                             <div class="col-md-6">
                                 <input type="text" name="roomnumber" id="roomnumber" class="form-control" value="{{ old('roomnumber', $room->roomnumber) }}">

@@ -23,7 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::bind('payload', function ($payload) {
+            return tap(json_decode(base64_decode($payload), true), function ($value) {
+                abort_if(JSON_ERROR_NONE !== json_last_error(), 400, 'Invalid payload.');
+            });
+        });
 
         parent::boot();
     }

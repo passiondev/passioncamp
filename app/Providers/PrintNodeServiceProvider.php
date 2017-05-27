@@ -3,8 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\PrintNode\CheckinPrintNodeClient;
-use App\PrintNode\RoominglistPrintNodeClient;
 
 class PrintNodeServiceProvider extends ServiceProvider
 {
@@ -15,17 +13,11 @@ class PrintNodeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->when(\App\Http\ViewComposers\CheckInPrinterIndexComposer::class)
-                    ->needs(\PrintNode\Client::class)
-                    ->give(function () {
-                        return CheckinPrintNodeClient::init();
-                    });
-
-        $this->app->when(\App\Http\ViewComposers\RoominglistPrinterIndexComposer::class)
-                    ->needs(\PrintNode\Client::class)
-                    ->give(function () {
-                        return RoominglistPrintNodeClient::init();
-                    });
+        $this->app->when(\PrintNode\Client::class)
+            ->needs(\PrintNode\Credentials::class)
+            ->give(function () {
+                return new \PrintNode\Credentials\ApiKey(config('services.printnode.key'));
+            });
     }
 
     /**

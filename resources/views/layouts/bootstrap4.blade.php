@@ -54,6 +54,15 @@
                     @if (Session::has('spark:impersonator'))
                         <li class="nav-item"><a class="nav-link" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
                     @endif
+                    @if (Session::has('printer'))
+                        <li class="nav-item mr-3">
+                            <a class="nav-link" href="{{ action('PrintersController@index') }}">@icon('printer') {{ Session::get('printer.name') }}</a>
+                        </li>
+                    @elseif (str_contains(Request::route()->getActionName(), 'RoomController'))
+                        <li class="nav-item mr-3">
+                            <a class="btn btn-outline-primary" href="{{ action('PrintersController@index') }}">Select a printer...</a>
+                        </li>
+                    @endif
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
@@ -78,11 +87,11 @@
         <div class="container-fluid">
             @if (Auth::check() && Auth::user()->isAdmin())
                 <div class="row">
-                    <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
+                    <div class="col-md-2 py-3 bg-faded sidebar">
                         @if (Auth::user()->isChurchAdmin())
                             <h4 class="px-sm-3 mb-3">{{ auth()->user()->organization->church->name }}</h4>
                         @endunless
-                        <ul class="nav nav-pills flex-sm-column">
+                        <ul class="nav nav-pills flex-md-column">
                             @if (Auth::user()->isSuperAdmin())
                                 <li class="nav-item">
                                     <a href="{{ action('Super\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\DashboardController') ? 'active' :'' }}">
@@ -112,6 +121,11 @@
                                 <li class="nav-item">
                                     <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                         Hotels
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('RoomController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoomController') ? 'active' :'' }}">
+                                        Rooms
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -154,7 +168,7 @@
                             @endif
                         </ul>
                     </div>
-                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5">
+                    <div class="col-md-10 offset-md-2 pt-3 pb-5">
                         @yield('content')
                     </div>
                 </div>

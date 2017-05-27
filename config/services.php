@@ -54,7 +54,7 @@ return [
     ],
 
     'printnode' => [
-        'key' => env('PRINTNODE_API_KEY'),
+        'key' => env('PRINTNODE_KEY'),
     ],
 
     'google' => [
