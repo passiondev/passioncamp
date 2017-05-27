@@ -14,6 +14,10 @@ class Hotel extends Item
         'remaining_count'
     ];
 
+    protected $attributes = [
+        'type' => 'hotel',
+    ];
+
     protected static function boot()
     {
         parent::boot();

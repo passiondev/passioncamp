@@ -53,4 +53,13 @@ abstract class TestCase extends BaseTestCase
 
         return $method->invokeArgs($object, $parameters);
     }
+
+    public function signIn()
+    {
+        $user = factory('App\User')->create();
+
+        $this->actingAs($user);
+
+        return $user;
+    }
 }

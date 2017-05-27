@@ -10,6 +10,14 @@ Route::get('admin/roominglists/{version}/download', 'RoominglistExportController
 Route::get('admin/organizations/search', 'OrganizationController@search');
 Route::resource('admin/organizations', 'OrganizationController');
 
+Route::get('admin/rooms', 'RoomController@index');
+Route::post('rooms/{room}/check-in', 'RoomController@checkin');
+Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
+
+Route::get('rooms/{room}/label', 'RoomLabelController@show');
+Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
+Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
+
 Route::get('admin/hotels', 'HotelController@index');
 Route::get('admin/hotels/{hotel}', 'HotelController@show');
 
@@ -124,3 +132,8 @@ Route::get('payments', 'User\PaymentsController@index');
 Route::post('payments', 'User\PaymentsController@store');
 
 Route::get('ticket-items', 'TicketItemsController@index');
+
+Route::get('printers', 'PrintersController@index');
+Route::delete('printers', 'PrintersController@destroy');
+Route::post('selected-printer', 'PrinterSelectionController@store');
+Route::delete('selected-printer', 'PrinterSelectionController@destroy');

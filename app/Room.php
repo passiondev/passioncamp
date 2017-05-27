@@ -66,6 +66,19 @@ class Room extends Model
         return $query->where('organization_id', $user->organization_id);
     }
 
+    public function scopeOrderByChurchName($query)
+    {
+        return $query->select('rooms.*')
+            ->join('organizations', 'organizations.id', '=', 'rooms.organization_id')
+            ->join('churches', 'churches.id', '=', 'organizations.church_id')
+            ->orderBy('churches.name');
+    }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
     public function getAssignedAttribute()
     {
         return $this->tickets->count();
@@ -103,12 +116,12 @@ class Room extends Model
 
     public function setIsCheckedInAttribute($is_checked_in)
     {
-        $this->checked_in_at = $is_checked_in ? \Carbon\Carbon::now() : null;
+        $this->checked_in_at = $is_checked_in ? $this->freshTimestamp() : null;
     }
 
     public function setIsKeyReceivedAttribute($is_key_received)
     {
-        $this->key_received_at = $is_key_received ? \Carbon\Carbon::now() : null;
+        $this->key_received_at = $is_key_received ? $this->freshTimestamp() : null;
     }
 
     public function checkIn()
@@ -121,7 +134,19 @@ class Room extends Model
     public function keyReceived()
     {
         $this->update([
-            'key_received_at' => \Carbon\Carbon::now(),
+            'key_received_at' => $this->freshTimestamp(),
         ]);
+    }
+
+    public function toRouteSignatureArray()
+    {
+        $payload = [
+            'id' => $this->id,
+        ];
+
+        return [
+            'payload' => base64_encode(json_encode($payload)),
+            'signature' => RoutePayloadSignature::create($payload),
+        ];
     }
 }
