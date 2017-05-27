@@ -157,7 +157,7 @@ body {
 .sidebar {
     overflow-x: scroll;
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
         position: fixed;
         top: 51px;
         bottom: 0;

@@ -78,11 +78,11 @@
         <div class="container-fluid">
             @if (Auth::check() && Auth::user()->isAdmin())
                 <div class="row">
-                    <div class="col-sm-3 col-md-2 py-3 bg-faded sidebar">
+                    <div class="col-md-2 py-3 bg-faded sidebar">
                         @if (Auth::user()->isChurchAdmin())
                             <h4 class="px-sm-3 mb-3">{{ auth()->user()->organization->church->name }}</h4>
                         @endunless
-                        <ul class="nav nav-pills flex-sm-column">
+                        <ul class="nav nav-pills flex-md-column">
                             @if (Auth::user()->isSuperAdmin())
                                 <li class="nav-item">
                                     <a href="{{ action('Super\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\DashboardController') ? 'active' :'' }}">
@@ -159,7 +159,7 @@
                             @endif
                         </ul>
                     </div>
-                    <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3 pb-5">
+                    <div class="col-md-10 offset-md-2 pt-3 pb-5">
                         @yield('content')
                     </div>
                 </div>
