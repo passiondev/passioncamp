@@ -25,10 +25,6 @@ class Hotel extends Item
         static::addGlobalScope('type', function (Builder $builder) {
             $builder->where('type', '=', 'hotel');
         });
-
-        static::addGlobalScope('registeredSum', function ($builder) {
-            $builder->withRegisteredSum();
-        });
     }
 
     public function items()
@@ -43,7 +39,7 @@ class Hotel extends Item
 
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'order_items', 'item_id', 'organization_id')->withoutGlobalScopes();
+        return $this->belongsToMany(Organization::class, 'order_items', 'item_id')->withPivot('quantity')->where('quantity', '>', '0');
     }
 
     public function scopeWithRegisteredSum($query)

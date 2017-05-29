@@ -14,7 +14,12 @@
                 </tr>
             </thead>
             <tbody>
-
+                @foreach ($hotel->organizations->sortBy('church.name')->groupBy('id') as $organization)
+                    <tr>
+                        <td>{{ $organization->first()->church->name }}</td>
+                        <td>{{ $organization->sum('pivot.quantity') }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
