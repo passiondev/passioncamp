@@ -16,16 +16,19 @@ class HotelController extends Controller
 
     public function index()
     {
-        $hotels = Hotel::withCount(['organizations' => function ($q) {
-            $q->withoutGlobalScopes();
-        }])->get();
+        $hotels = Hotel::select('items.*')->withRegisteredSum()->with('organizations')->get();
 
         return view('admin.hotel.index')->withHotels($hotels);
     }
 
     public function show(Hotel $hotel)
     {
-        $hotel->load('organizations.church');
+        $hotel->load([
+            'organizations' => function ($q) {
+                $q->withoutGlobalScopes();
+            },
+            'organizations.church',
+        ]);
 
         return view('admin.hotel.show')->withHotel($hotel);
     }
