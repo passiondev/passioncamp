@@ -18,6 +18,7 @@ import RoominglistRoom from './components/RoominglistRoom'
 import sendWaiver from './components/waivers/send-waiver'
 import Ajax from './components/Ajax.vue'
 import TicketWaiver from './components/TicketWaiver'
+import Flash from './components/Flash'
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
@@ -35,6 +36,7 @@ const app = new Vue({
         sendWaiver,
         Ajax,
         TicketWaiver,
+        Flash,
     },
     data: store,
     mounted() {
