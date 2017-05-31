@@ -161,6 +161,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ action('CheckinController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'CheckinController') ? 'active' :'' }}">
+                                        Check In
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ action('Account\SettingsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
                                         Settings
                                     </a>

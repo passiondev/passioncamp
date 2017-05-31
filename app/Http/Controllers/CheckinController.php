@@ -11,17 +11,42 @@ use App\PrintNode\CheckinPrintNodeClient;
 
 class CheckinController extends Controller
 {
-    public function index(UrlGenerator $generator, Request $request)
+    public function index()
     {
-        \Session::put('url.intended', $generator->full());
-        
-        $tickets = $request->search ? Ticket::forUser()
-                   ->search($request->search)
-                   ->active()
-                   ->with('person', 'order.transactions', 'order.items', 'waiver')
-                   ->get() : [];
+        if (request('search')) {
+            $keys = Ticket::search(request('search'))
+                ->where('organization_id', auth()->user()->organization_id)
+                ->keys();
+
+            $tickets = Ticket::whereIn('id', $keys)
+                ->where([
+                    'canceled_at' => null,
+                    'agegroup' => 'student',
+                ])
+                ->get();
+        } else {
+            $tickets = [];
+        }
 
         return view('checkin.index', compact('tickets'));
+    }
+
+    public function create(Ticket $ticket)
+    {
+        $ticket->checkin();
+
+        session()->flash('checked_in', $ticket);
+
+        return redirect()->action('CheckinController@index');
+    }
+
+    public function destroy(Ticket $ticket)
+    {
+        $ticket->uncheckin();
+
+        session()->flash('unchecked_in', $ticket);
+
+        return redirect()->action('CheckinController@index');
     }
 
     public function doCheckin(Request $request, Ticket $ticket)
