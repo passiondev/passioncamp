@@ -8,6 +8,7 @@ use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Http\Middleware\VerifyPayloadSignature;
 use App\Http\Middleware\VerifyUserHasSelectedPrinter;
+use Facades\App\Contracts\Printing\Factory as Printer;
 
 class RoomLabelController extends Controller
 {
@@ -18,16 +19,16 @@ class RoomLabelController extends Controller
         $this->middleware(VerifyUserHasSelectedPrinter::class)->only('printnode');
     }
 
-    public function printnode(Room $room, PrintNode\Client $client)
+    public function printnode(Room $room)
     {
-        $printJob = new PrintNode\Entity\PrintJob($client);
-        $printJob->printer = session('printer');
-        $printJob->title = $room->name;
-        $printJob->source = $room->organization->church->name;
-        $printJob->contentType = 'pdf_uri';
-        $printJob->content = action('RoomLabelController@signedShow', $room->toRouteSignatureArray());
-
-        return $client->createPrintJob($printJob);
+        Printer::print(
+            session('printer'),
+            action('RoomLabelController@signedShow', $room->toRouteSignatureArray()),
+            [
+                'title' => $room->name,
+                'source' => $room->organization->church->name
+            ]
+        );
     }
 
     public function show(Room $room)

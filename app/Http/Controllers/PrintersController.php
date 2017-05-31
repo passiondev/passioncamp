@@ -4,33 +4,37 @@ namespace App\Http\Controllers;
 
 use PrintNode;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session;
+use Facades\App\Contracts\Printing\Factory as Printer;
 
 class PrintersController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('super');
     }
 
-    public function index(PrintNode\Client $client)
+    public function index()
     {
         request()->intended(url()->previous());
 
-        $printers = Cache::remember('printers', 10, function () use ($client) {
-            return $client->viewPrinters();
-        });
+        return view('printers.index', [
+            'printers' => $this->printDriver()->printers(),
+            'jobs' => session('printer.id') ? $this->printDriver()->jobs(session('printer.id')) : []
+        ]);
+    }
 
-        $jobs = Session::has('printer') ? $client->viewPrintJobs(0, 500, null, Session::get('printer.id')) : [];
-
-        return view('printers.index', compact('printers', 'jobs'));
+    private function printDriver()
+    {
+        return Printer::driver(
+            data_get(auth()->user(), 'organization.slug') == 'pcc'
+            ? 'pcc'
+            : null
+        );
     }
 
     public function destroy()
     {
-        Cache::forget('printers');
+        $this->printDriver()->refreshPrinters();
 
         return redirect()->back();
     }
