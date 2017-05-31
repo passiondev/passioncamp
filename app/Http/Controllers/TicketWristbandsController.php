@@ -6,18 +6,19 @@ use App\Ticket;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 
-class TicketWristbandController extends Controller
+class TicketWristbandsController extends Controller
 {
-    public function show(Ticket $ticket)
+    public function __construct()
     {
-        return $this->generatePdf($ticket)->stream('dompdf.pdf', ['Attachment' => 0]);
+        $this->middleware('auth');
+        $this->middleware(VerifyPayloadSignature::class);
     }
 
     public function signedShow($payload)
     {
         $ticket = Ticket::findOrFail($payload['id']);
 
-        return $this->show($ticket);
+        return $this->generatePdf($ticket)->stream('wristband.pdf', ['Attachment' => 0]);
     }
 
     private function generatePdf($ticket)

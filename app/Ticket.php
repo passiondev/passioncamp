@@ -216,4 +216,17 @@ class Ticket extends OrderItem
 
         return $waiver;
     }
+
+
+    public function toRouteSignatureArray()
+    {
+        $payload = [
+            'id' => $this->id,
+        ];
+
+        return [
+            'payload' => base64_encode(json_encode($payload)),
+            'signature' => RoutePayloadSignature::create($payload),
+        ];
+    }
 }

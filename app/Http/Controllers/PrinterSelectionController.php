@@ -23,7 +23,7 @@ class PrinterSelectionController extends Controller
 
         session(['printer' => [
             'id' => $printer->id,
-            'name' => $printer->computer->name,
+            'name' => $printer->computer->name . ' :: ' . $printer->name,
         ]]);
 
         return redirect()->intended(url()->previous());
