@@ -11,6 +11,7 @@ class PrinterSelectionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:print');
     }
 
     public function store()
@@ -38,10 +39,6 @@ class PrinterSelectionController extends Controller
 
     private function printDriver()
     {
-        return Printer::driver(
-            data_get(auth()->user(), 'organization.slug') == 'pcc'
-            ? 'pcc'
-            : null
-        );
+        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
     }
 }

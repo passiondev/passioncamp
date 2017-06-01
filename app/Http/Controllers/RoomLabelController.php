@@ -15,6 +15,7 @@ class RoomLabelController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('signedShow');
+        $this->middleware('can:print');
         $this->middleware(VerifyPayloadSignature::class)->only('signedShow');
         $this->middleware(VerifyUserHasSelectedPrinter::class)->only('printnode');
     }

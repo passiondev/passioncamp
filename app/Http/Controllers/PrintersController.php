@@ -11,6 +11,7 @@ class PrintersController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('can:print');
     }
 
     public function index()
@@ -25,11 +26,7 @@ class PrintersController extends Controller
 
     private function printDriver()
     {
-        return Printer::driver(
-            data_get(auth()->user(), 'organization.slug') == 'pcc'
-            ? 'pcc'
-            : null
-        );
+        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
     }
 
     public function destroy()

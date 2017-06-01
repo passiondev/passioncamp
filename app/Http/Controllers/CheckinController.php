@@ -7,6 +7,16 @@ use Facades\App\Contracts\Printing\Factory as Printer;
 
 class CheckinController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            abort_unless(data_get($request->user(), 'organization.slug') == 'pcc', 401);
+
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         if (request('search')) {
