@@ -3,6 +3,7 @@
 namespace App\Services\Printing;
 
 use PrintNode;
+use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Cache;
 
 class PrintNodePrinter extends Printer
@@ -29,6 +30,23 @@ class PrintNodePrinter extends Printer
         $job->content = $url;
 
         $this->mapJobPayload($job, $payload);
+
+        return $this->client()->createPrintJob($job);
+    }
+
+    public function testPrint($printer)
+    {
+        $pdf = tap(new Dompdf, function ($dompdf) use ($printer) {
+            $dompdf->loadHtml('Test: ' . $printer);
+            $dompdf->render();
+        })->output();
+
+        $job = new PrintNode\Entity\PrintJob($this->client());
+        $job->printer = $printer;
+        $job->title = 'Test';
+        $job->source = 'Test';
+        $job->contentType = 'pdf_base64';
+        $job->content = base64_encode($pdf);
 
         return $this->client()->createPrintJob($job);
     }

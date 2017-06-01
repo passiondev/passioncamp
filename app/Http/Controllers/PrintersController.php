@@ -24,9 +24,11 @@ class PrintersController extends Controller
         ]);
     }
 
-    private function printDriver()
+    public function test($printer)
     {
-        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
+        $this->printDriver()->testPrint($printer);
+
+        return redirect()->back();
     }
 
     public function destroy()
@@ -34,5 +36,10 @@ class PrintersController extends Controller
         $this->printDriver()->refreshPrinters();
 
         return redirect()->back();
+    }
+
+    private function printDriver()
+    {
+        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
     }
 }

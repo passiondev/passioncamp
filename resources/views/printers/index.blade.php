@@ -24,7 +24,15 @@
                         @foreach ($printers ?? [] as $printer)
                             <tr>
                                 <td>{{ $printer->computer->name }}</td>
-                                <td>{{ $printer->name }}</td>
+                                <td>
+                                    {{ $printer->name }}
+                                    <ajax href="{{ action('PrintersController@test', $printer->id) }}" method="POST" class="text-muted ml-3" v-cloak>
+                                        test
+                                        <span slot="success">
+                                            @icon('checkmark', 'text-success')
+                                        </span>
+                                    </ajax>
+                                </td>
                                 <td>
                                     @unless(session('printer.id') == $printer->id)
                                         <button class="btn btn-primary" name="printer" value="{{ $printer->id }}">Select</button>
