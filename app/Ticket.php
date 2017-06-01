@@ -174,9 +174,14 @@ class Ticket extends OrderItem
         $this->checked_in_at = $is_checked_in ? \Carbon\Carbon::now() : null;
     }
 
-    public function checkIn()
+    public function checkin()
     {
         $this->update(['is_checked_in' => true]);
+    }
+
+    public function uncheckin()
+    {
+        $this->update(['is_checked_in' => false]);
     }
 
     public function cancel(User $user = null)
@@ -210,5 +215,18 @@ class Ticket extends OrderItem
         dispatch(new RequestWaiverSignature($waiver));
 
         return $waiver;
+    }
+
+
+    public function toRouteSignatureArray()
+    {
+        $payload = [
+            'id' => $this->id,
+        ];
+
+        return [
+            'payload' => base64_encode(json_encode($payload)),
+            'signature' => RoutePayloadSignature::create($payload),
+        ];
     }
 }

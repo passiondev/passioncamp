@@ -1,19 +1,68 @@
-<style>
-<!--
-    ul, li {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
--->
-</style>
-<page>
-    <strong>{{ $ticket->person->name }}</strong> <br>
-    {{ number_ordinal($ticket->person->grade) }} Grade <br>
-    {{ $ticket->leader }} <br>
-    {{ $ticket->squad }} <br>
-    {{ $ticket->bus }}
-    <page_header style="text-align:center">
-        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:100%">
-    </page_header>
-</page>
+<!doctype html>
+<html>
+<head>
+    <style>
+        @page {
+            size: 12in 1.5in;
+            margin: .25in;
+            margin-bottom: 0;
+        }
+        * {
+            -webkit-box-sizing: border-box;
+                  box-sizing: border-box;
+        }
+        body {
+            font-size: 12pt;
+            font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
+        .container {
+        }
+        table {
+            margin: 0;
+            border-collapse: collapse;
+            border: 0;
+        }
+        td {
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table style="height:.45in;">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 .25in;vertical-align: bottom">
+                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.75in;margin-bottom:.125in">
+                    </td>
+                    <td>
+                        <strong>{{ $ticket->person->name }}</strong> <br>
+                        {{ number_ordinal($ticket->person->grade) }} Grade <br>
+                        {{ $ticket->leader }} <br>
+                        {{ $ticket->squad }} <br>
+                        {{ $ticket->bus }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <table style="height:.45in;">
+            <tbody>
+                <tr>
+                    <td style="padding: 0 .25in;vertical-align: bottom">
+                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.75in;margin-bottom:.125in">
+                    </td>
+                    <td>
+                        <strong>{{ $ticket->person->name }}</strong> <br>
+                        {{ number_ordinal($ticket->person->grade) }} Grade <br>
+                        {{ $ticket->leader }} <br>
+                        {{ $ticket->squad }} <br>
+                        {{ $ticket->bus }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

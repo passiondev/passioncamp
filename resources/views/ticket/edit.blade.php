@@ -12,6 +12,9 @@
     <div class="container">
         <header>
             <h1>Update Attendee</h1>
+            @if ($ticket->order->organization->slug == 'pcc')
+                <a href="{{ action('OrderController@show', $ticket->order) }}">Order #{{ $ticket->order->id }}</a>
+            @endif
         </header>
 
         @include('errors.validation')

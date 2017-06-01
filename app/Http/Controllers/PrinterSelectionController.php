@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use PrintNode;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Facades\App\Contracts\Printing\Factory as Printer;
 
 class PrinterSelectionController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('super');
+        $this->middleware('can:print');
     }
 
     public function store()
@@ -20,11 +20,11 @@ class PrinterSelectionController extends Controller
             'printer' => 'required'
         ]);
 
-        $printer = Cache::get('printers')[request('printer')];
+        $printer = $this->printDriver()->printers()[request('printer')];
 
         session(['printer' => [
             'id' => $printer->id,
-            'name' => $printer->computer->name,
+            'name' => $printer->computer->name . ' :: ' . $printer->name,
         ]]);
 
         return redirect()->intended(url()->previous());
@@ -35,5 +35,10 @@ class PrinterSelectionController extends Controller
         session()->forget('printer');
 
         return redirect()->back();
+    }
+
+    private function printDriver()
+    {
+        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
     }
 }

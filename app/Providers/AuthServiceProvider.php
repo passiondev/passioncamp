@@ -37,5 +37,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('makeStripePayments', function (App\User $user, App\Organization $organization) {
             return (bool) $organization->setting('stripe_access_token');
         });
+
+        Gate::define('print', function ($user) {
+            return $user->isSuperAdmin() || data_get($user, 'organization.slug') == 'pcc';
+        });
     }
 }

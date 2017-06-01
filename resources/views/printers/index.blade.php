@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($printers as $printer)
+                        @foreach ($printers ?? [] as $printer)
                             <tr>
                                 <td>{{ $printer->computer->name }}</td>
                                 <td>{{ $printer->name }}</td>
@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jobs as $job)
+                    @foreach ($jobs ?? [] as $job)
                         <tr>
                             <td>{{ $job->source }}</td>
                             <td>{{ $job->title }}</td>
