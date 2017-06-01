@@ -1,87 +1,91 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
-        @if (session('uncheck'))
-            <div class="ui yellow message" style="display:flex;justify-content:space-between;align-items:center">
-                {{ session('ticket_name') }} has been un-checked in.
+    <div class="container mt-3">
+        @if (session()->has('checked_in'))
+            <div class="alert alert-success d-flex align-items-center justify-content-between">
+                <span>{{ session('checked_in.name') }} checked in!</span>
+                <a href="{{ action('CheckinController@create', session('checked_in.id')) }}"
+                    class="btn btn-outline-success"
+                    onclick="event.preventDefault(); document.getElementById('uncheckin-{{ session('checked_in.id') }}-form').submit()">Undo check in?</a>
             </div>
-        @endif
-        @if (session('ticket_id'))
-            <div class="ui success message" style="display:flex;justify-content:space-between;align-items:center">
-                {{ session('ticket_name') }} has been checked in.
-                <form action="/checkin/{{ session('ticket_id') }}/undo" method="POST">
-                    {{ csrf_field() }}
-                    <button type="submit" class="ui green basic button">Undo?</button>
-                </form>
-            </div>
-        @endif
-
-        .
-        <div class="ui top attached header" style="display:flex;justify-content:space-between;align-items:center">
-            <h2 style="flex:1">Check In</h2>
-            <div style="flex:1;margin-left:1em;margin-right:1em" class="ui purple progress" data-value="{{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->checkedIn()->count() }}" data-total="{{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->count() }}">
-                <div class="bar">
-                    <div class="progress"></div>
-                </div>
-                <div class="label">{{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->checkedIn()->count() }} of {{ auth()->user()->organization->attendees->active()->ofAgegroup('student')->count() }} Students</div>
-            </div>
-            <div style="flex:1;margin-left:1em;margin-right:1em" class="ui teal progress" data-value="{{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->checkedIn()->count() }}" data-total="{{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->count() }}">
-                <div class="bar">
-                    <div class="progress"></div>
-                </div>
-                <div class="label">{{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->checkedIn()->count() }} of {{ auth()->user()->organization->attendees->active()->ofAgegroup('leader')->count() }} Leaders</div>
-            </div>
-        </div>
-
-        <div class="ui attached segment">
-            <form action="/checkin" method="GET" class="ui form">
-                <div class="ui big fluid action input">
-                    <input autofocus type="search" name="search" class="form-control input-group-field" placeholder="Search..." value="{{ request('search') }}">
-                    <button class="ui icon button" type="submit"><i class="search icon"></i></button>
-                </div>
+            <form action="{{ action('CheckinController@create', session('checked_in.id')) }}" method="POST" id="uncheckin-{{ session('checked_in.id') }}-form">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
             </form>
-        </div>
+        @endif
 
-        <table class="ui attached striped fixed table">
-            @foreach ($tickets as $ticket)
-                <tr>
-                    <td>
-                        <h4 class="ui header">
-                            <a href="{{ route('ticket.edit', $ticket) }}">{{ $ticket->person->name }}</a>
-                        </h4>
-                    </td>
-                    <td>
-                        @include('ticket/partials/label')
-                    </td>
-                    <td>
-                        {{ $ticket->squad }}
-                    </td>
-                    <td class="ui list">
-                        {!! $ticket->waiver && $ticket->waiver->is_complete ? '' : '<div class="item"><i class="red warning sign icon"></i>Camp Waiver</div>' !!}
-                        {!! $ticket->has_pcc_waiver ? '' : '<div class="item"><i class="red warning sign icon"></i>PCC Waiver</div>' !!}
-                        {!! $ticket->order->balance == 0 ? '' : '<div class="item"><i class="red warning sign icon"></i>Balance Due</div>' !!}
-                    </td>
-                    <td class="right aligned">
-                        @unless ($ticket->is_checked_in)
-                            <form action="/checkin/{{ $ticket->id }}" method="POST">
-                                {{ csrf_field() }}
-                                <button type="submit" class="ui primary button">Check In</button>
-                            </form>
-                        @else
-                            <i class="large green check icon"></i> {{ $ticket->checked_in_at->diffForHumans() }}
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-        </table>
+        @if (session()->has('unchecked_in'))
+            <div class="alert alert-warning">{{ session('unchecked_in.name') }} un-checked.</div>
+        @endif
+
+        <div class="card mb-5">
+            <header class="card-header">
+                <h1>Check In</h1>
+            </header>
+            @unless(session('printer'))
+                <div class="card-block">
+                    <a href="{{ action('PrintersController@index') }}">Select a printer...</a>
+                </div>
+            @else
+                <div class="card-block">
+                    <form action="{{ action('CheckinController@index') }}" method="GET" class="d-flex">
+                        <input name="search" type="search" class="form-control form-control-lg mr-2" autofocus autocomplete="off" placeholder="Search..." value="{{ request('search') }}" onfocus="this.value = this.value">
+                        <button type="submit" class="btn btn-lg btn-secondary">
+                            <span style="display:inline-block;transform: rotate(-45deg)">&#9906;</span>
+                        </button>
+                    </form>
+                </div>
+                @if ($tickets)
+                    <table class="table table-striped mb-0"  style="vertical-align: middle; table-layout: fixed">
+                        @foreach ($tickets as $ticket)
+                            <tr>
+                                <td style="vertical-align: middle">
+                                    <a href="{{ action('TicketController@edit', $ticket) }}">
+                                        {{ $ticket->name }}
+                                    </a>
+                                </td>
+                                <td style="vertical-align: middle">
+                                    @include('ticket/partials/label')
+                                </td>
+                                <td style="vertical-align: middle">
+                                    <ul class="list-unstyled mb-0">
+                                        @unless ($ticket->waiver && $ticket->waiver->isComplete())
+                                            <li class="text-danger">@icon('exclamation-outline') Camp Waiver</li>
+                                        @endunless
+                                        @unless ($ticket->pcc_waiver)
+                                            <li class="text-danger">@icon('exclamation-outline') PCC Waiver</li>
+                                        @endunless
+                                        @if ($ticket->order->user->balance > 0)
+                                            <li class="text-danger">@icon('exclamation-outline') Balance Due</li>
+                                        @endif
+                                    </ul>
+                                </td>
+                                <td class="text-center" style="vertical-align: middle">
+                                    @unless ($ticket->is_checked_in)
+                                        <a href="{{ action('CheckinController@create', $ticket) }}"
+                                            class="btn btn-outline-primary"
+                                            onclick="event.preventDefault(); document.getElementById('checkin-{{ $ticket->id }}-form').submit()">Check In</a>
+
+                                        <form action="{{ action('CheckinController@create', $ticket) }}" method="POST" id="checkin-{{ $ticket->id }}-form">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    @else
+                                        <a href="{{ action('CheckinController@create', $ticket) }}"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            onclick="event.preventDefault(); document.getElementById('uncheckin-{{ $ticket->id }}-form').submit()">Un-Check</a>
+
+                                        <form action="{{ action('CheckinController@create', $ticket) }}" method="POST" id="uncheckin-{{ $ticket->id }}-form">
+                                            {{ method_field('DELETE') }}
+                                            {{ csrf_field() }}
+                                        </form>
+                                    @endunless
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @endif
+            @endunless
+        </div>
     </div>
 @stop
-
-@push ('scripts')
-<script>
-    $(document).ready(function(){
-        $('.ui.progress').progress();
-    });
-</script>
-@endpush

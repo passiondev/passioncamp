@@ -160,6 +160,13 @@
                                         Waivers
                                     </a>
                                 </li>
+                                @if (data_get(auth()->user(), 'organization.slug') == 'pcc')
+                                    <li class="nav-item">
+                                        <a href="{{ action('CheckinController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'CheckinController') ? 'active' :'' }}">
+                                            Check In
+                                        </a>
+                                    </li>
+                                @endif
                                 <li class="nav-item">
                                     <a href="{{ action('Account\SettingsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
                                         Settings
