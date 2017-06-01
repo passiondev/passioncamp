@@ -17,18 +17,22 @@
         .fn {
             float: footnote;
         }
+        p {
+            margin: 0 0 6pt 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <p>
-            <img src="{{ public_path('img/room/label/icon.png') }}" style="width:60%;max-width:200px;">
-        </p>
+        <p><img src="{{ public_path('img/room/label/icon.png') }}" style="width:60%;max-width:200px;"></p>
 
         <p>{{ $room->organization->church->name }}</p>
 
-
-        <br>
+        @if ($room->roomnumber)
+            <p style="font-size:12pt;">#<strong>{{ $room->roomnumber }}</strong></p>
+        @else
+            <p style="font-size:12pt;width:40%;margin:0 auto 4pt;border-bottom: 1px solid black">&nbsp;</p>
+        @endif
 
         <div style="font-size:8pt;">
             @foreach ($room->tickets->assigendSort() as $ticket)
