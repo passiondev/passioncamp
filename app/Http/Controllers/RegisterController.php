@@ -46,6 +46,8 @@ class RegisterController extends Controller
 
     public function create()
     {
+        return view('register.closed');
+
         return view('register.create')->withTicketPrice($this->ticket_price);
     }
 
