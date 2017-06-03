@@ -14,6 +14,8 @@ class TicketExportController extends Controller
 
     public function store()
     {
+        set_time_limit(0);
+
         $tickets = Ticket::forUser(auth()->user())
                    ->active()
                    ->with('person', 'order.user.person', 'order.organization.church', 'roomAssignment.room.hotel')
