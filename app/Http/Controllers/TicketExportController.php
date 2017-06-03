@@ -18,7 +18,7 @@ class TicketExportController extends Controller
 
         $tickets = Ticket::forUser(auth()->user())
                    ->active()
-                   ->with('person', 'order.user.person', 'order.organization.church', 'roomAssignment.room.hotel')
+                   ->with('person', 'order.user.person', 'order.organization.church', 'roomAssignment.room.hotel', 'waiver')
                    ->get();
 
         $includeAdditionalFields = auth()->user()->isSuperAdmin() || auth()->user()->organization->slug == 'pcc';
