@@ -27,7 +27,6 @@ class CheckinController extends Controller
             $tickets = Ticket::whereIn('id', $keys)
                 ->where([
                     'canceled_at' => null,
-                    'agegroup' => 'student',
                 ])
                 ->with('person', 'order.user.items', 'order.user.transactions', 'waiver')
                 ->get();
