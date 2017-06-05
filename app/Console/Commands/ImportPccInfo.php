@@ -51,7 +51,7 @@ class ImportPccInfo extends Command
 
             try {
                 $ticket = Ticket::findOrFail($id);
-                $ticket->fill([
+                $ticket->update([
                     'ticket_data' => collect($ticket->ticket_data)->merge($row)
                 ]);
             } catch (\Exception $e) {
