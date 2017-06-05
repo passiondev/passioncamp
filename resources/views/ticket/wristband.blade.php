@@ -37,10 +37,10 @@
                     </td>
                     <td>
                         <strong>{{ $ticket->person->name }}</strong> <br>
-                        {{ number_ordinal($ticket->person->grade) }} Grade <br>
-                        {{ $ticket->leader }} <br>
-                        {{ $ticket->squad }} <br>
-                        {{ $ticket->bus }}
+                        @if(!!$ticket->person->grade) {{ number_ordinal($ticket->person->grade) }} Grade <br> @endif
+                        @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
+                        @if(!!$ticket->leader) {{ $ticket->leader }} <br> @endif
+                        @if(!!$ticket->bus) Bus #{{ $ticket->bus }} @endif
                     </td>
                 </tr>
             </tbody>
@@ -55,10 +55,10 @@
                     </td>
                     <td>
                         <strong>{{ $ticket->person->name }}</strong> <br>
-                        {{ number_ordinal($ticket->person->grade) }} Grade <br>
-                        {{ $ticket->leader }} <br>
-                        {{ $ticket->squad }} <br>
-                        {{ $ticket->bus }}
+                        @if(!!$ticket->person->grade) {{ number_ordinal($ticket->person->grade) }} Grade <br> @endif
+                        @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
+                        @if(!!$ticket->leader) {{ $ticket->leader }} <br> @endif
+                        @if(!!$ticket->bus) Bus #{{ $ticket->bus }} @endif
                     </td>
                 </tr>
             </tbody>
