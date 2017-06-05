@@ -18,7 +18,7 @@ class OrganizationController extends Controller
     {
         $organizations = Organization::join('churches', 'organizations.church_id', '=', 'churches.id')
             ->with('church', 'transactions.transaction', 'items')
-            ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers'])
+            ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers', 'checkedInRooms'])
             ->withTicketsSum()
             ->withHotelsSum()
             ->orderBy('name')

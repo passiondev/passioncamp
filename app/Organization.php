@@ -168,6 +168,11 @@ class Organization extends Model
         return $this->hasMany(Room::class);
     }
 
+    public function checkedInRooms()
+    {
+        return $this->rooms()->whereNotNull('checked_in_at');
+    }
+
     public function getRoomsNeededAttribute()
     {
         return $this->hotel_items_count - $this->rooms->count();
@@ -301,5 +306,10 @@ class Organization extends Model
     public function completedWaivers()
     {
         return $this->activeAttendees()->has('completedWaivers');
+    }
+
+    public function getIsCheckedInAttribute()
+    {
+        return !! $this->checked_in_rooms_count;
     }
 }
