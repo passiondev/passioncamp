@@ -128,9 +128,19 @@ class Organization extends Model
         return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'student')->active();
     }
 
+    public function checkedInStudents()
+    {
+        return $this->students()->whereNotNull('checked_in_at');
+    }
+
     public function leaders()
     {
         return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'leader')->active();
+    }
+
+    public function checkedInLeaders()
+    {
+        return $this->leaders()->whereNotNull('checked_in_at');
     }
 
     public function activeAttendees()

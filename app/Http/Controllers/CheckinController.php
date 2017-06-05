@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
+use App\Jobs\Ticket\PrintWristbandJob;
 use Facades\App\Contracts\Printing\Factory as Printer;
 
 class CheckinController extends Controller
@@ -34,21 +35,24 @@ class CheckinController extends Controller
             $tickets = [];
         }
 
-        return view('checkin.index', compact('tickets'));
+        $organization = auth()->user()->organization()->withCount('students', 'leaders', 'checkedInStudents', 'checkedInLeaders', 'activeAttendees')->first();
+
+        return view('checkin.index', [
+            'tickets' => $tickets,
+            'students_progress' => round($organization->checked_in_students_count / $organization->students_count, 4),
+            'leaders_progress' => round($organization->checked_in_leaders_count / $organization->leaders_count, 4),
+            'students_percentage' => round($organization->students_count / $organization->active_attendees_count, 4),
+            'leaders_percentage' => round($organization->leaders_count / $organization->active_attendees_count, 4),
+            'students_remaining' => $organization->students_count - $organization->checked_in_students_count,
+            'leaders_remaining' => $organization->leaders_count - $organization->checked_in_leaders_count,
+        ]);
     }
 
     public function create(Ticket $ticket)
     {
         $ticket->checkin();
 
-        Printer::driver(data_get(auth()->user(), 'organization.slug'))->print(
-            session('printer'),
-            action('TicketWristbandsController@signedShow', $ticket->toRouteSignatureArray()),
-            [
-                'title' => $ticket->name,
-                'source' => 'PCC Check In'
-            ]
-        );
+        $ticket->printWristband(session('printer.id'), data_get(auth()->user(), 'organization.slug'));
 
         session()->flash('checked_in', $ticket);
 
@@ -60,6 +64,16 @@ class CheckinController extends Controller
         $ticket->uncheckin();
 
         session()->flash('unchecked_in', $ticket);
+
+        return redirect()->action('CheckinController@index');
+    }
+
+    public function allLeaders()
+    {
+        auth()->user()->organization->leaders->each(function ($ticket) {
+            $ticket->checkin();
+            dispatch(new PrintWristbandJob($ticket, session('printer.id'), data_get(auth()->user(), 'organization.slug')));
+        });
 
         return redirect()->action('CheckinController@index');
     }

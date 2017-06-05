@@ -140,6 +140,7 @@ Route::post('selected-printer', 'PrinterSelectionController@store');
 Route::delete('selected-printer', 'PrinterSelectionController@destroy');
 
 Route::get('checkin', 'CheckinController@index');
+Route::get('checkin/all-leaders', 'CheckinController@allLeaders');
 Route::post('checkin/{ticket}', 'CheckinController@create');
 Route::delete('checkin/{ticket}', 'CheckinController@destroy');
 

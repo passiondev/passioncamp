@@ -14,6 +14,7 @@ class DashboardController extends Controller
     public function __invoke()
     {
         $organization = auth()->user()->organization()
+            ->with('items.item')
             ->withCount('students', 'leaders')
             ->first();
 

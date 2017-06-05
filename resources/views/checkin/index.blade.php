@@ -20,9 +20,17 @@
         @endif
 
         <div class="card mb-5">
-            <header class="card-header">
+            <header class="card-header d-flex align-items-center justify-content-between">
                 <h1>Check In</h1>
+                <div class="text-right">
+                    <strong class="color-student">Students</strong> {{ 100 * $students_progress }}% <small>({{ $students_remaining }} remaining)</small><br>
+                    <strong class="color-leader">Leaders</strong> {{ 100* $leaders_progress }}% <small>({{ $leaders_remaining }} remaining)</small>
+                </div>
             </header>
+                <div class="progress" style="border-radius: 0;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="height:3px;width:{{ 100 * $students_progress * $students_percentage }}%"></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="height:3px;width:{{ 100* $leaders_progress * $leaders_percentage }}%"></div>
+                </div>
             @unless(session('printer'))
                 <div class="card-block">
                     <a href="{{ action('PrintersController@index') }}">Select a printer...</a>
@@ -36,7 +44,11 @@
                         </button>
                     </form>
                 </div>
-                @if ($tickets)
+                @if (starts_with(request()->query('search'), 'leader'))
+                    <div class="card-footer text-center">
+                        <a href="{{ action('CheckinController@allLeaders') }}" class="btn btn-primary">Check In All Leaders</a>
+                    </div>
+                @elseif ($tickets)
                     <table class="table table-striped mb-0"  style="vertical-align: middle; table-layout: fixed">
                         @foreach ($tickets as $ticket)
                             <tr>

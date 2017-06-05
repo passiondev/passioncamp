@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Jobs\Waiver\RequestWaiverSignature;
 use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Facades\App\Contracts\Printing\Factory as Printer;
 
 class Ticket extends OrderItem
 {
@@ -228,5 +229,17 @@ class Ticket extends OrderItem
             'payload' => base64_encode(json_encode($payload)),
             'signature' => RoutePayloadSignature::create($payload),
         ];
+    }
+
+    public function printWristband($printer, $driver = null)
+    {
+        Printer::driver($driver)->print(
+            $printer,
+            action('TicketWristbandsController@signedShow', $this->toRouteSignatureArray()),
+            [
+                'title' => $this->name,
+                'source' => 'PCC Check In'
+            ]
+        );
     }
 }
