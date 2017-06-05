@@ -19,6 +19,8 @@
                     <th class="pb-0 text-center">Room Assigned</th>
                     <th class="pb-0 text-center">Waiver Complete</th>
                     <th class="pb-0 text-center border-left">Rooms</th>
+                    <th class="pb-0 text-center border-left">@icon('key')</th>
+                    <th class="pb-0 text-center border-left">@icon('checkmark', 'text-success')</th>
                 </tr>
                 <tr class="table-sm" style="font-size:90%;">
                     <th class="text-info pt-0 text-right thead-default"></th>
@@ -28,6 +30,8 @@
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('assigned_to_room_count')) }}</th>
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('completed_waivers_count')) }}</th>
                     <th class="text-info pt-0 text-center border-left">{{ number_format($organizations->sum('rooms_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('key_received_rooms_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('checked_in_rooms_count')) }}</th>
                 </tr>
                 <tr class="text-info table-sm">
                     <td colspan="7"></td>
@@ -57,8 +61,15 @@
                         </td>
                         <td class="text-center border-left {{ $organization->hotels_sum != $organization->rooms_count ? 'table-danger' : '' }}">
                             {{ $organization->rooms_count ?: '--' }}
+                        </td>
+                        <td class="text-center">
+                            @if ($organization->key_received_rooms_count)
+                                {{ $organization->key_received_rooms_count }}
+                            @endif
+                        </td>
+                        <td class="text-center">
                             @if ($organization->is_checked_in)
-                                <br>@icon('checkmark', 'text-success') {{ $organization->checked_in_rooms_count }}
+                                {{ $organization->checked_in_rooms_count }}
                             @endif
                         </td>
                     </tr>

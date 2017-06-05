@@ -173,6 +173,11 @@ class Organization extends Model
         return $this->rooms()->whereNotNull('checked_in_at');
     }
 
+    public function keyReceivedRooms()
+    {
+        return $this->rooms()->whereNotNull('key_received_at');
+    }
+
     public function getRoomsNeededAttribute()
     {
         return $this->hotel_items_count - $this->rooms->count();
