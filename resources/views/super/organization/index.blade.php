@@ -31,7 +31,7 @@
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('completed_waivers_count')) }}</th>
                     <th class="text-info pt-0 text-center border-left">{{ number_format($organizations->sum('rooms_count')) }}</th>
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('key_received_rooms_count')) }}</th>
-                    <th class="text-info pt-0 text-center">{{ number_format($organizations->where('checked_in_rooms_count', '>', 0)->count()) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->where('is_checked_in', true)->count()) }}</th>
                 </tr>
                 <tr class="text-info table-sm">
                     <td colspan="7"></td>

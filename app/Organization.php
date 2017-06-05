@@ -315,6 +315,6 @@ class Organization extends Model
 
     public function getIsCheckedInAttribute()
     {
-        return !! $this->checked_in_rooms_count;
+        return !! $this->checked_in_rooms_count || !! $this->setting('checked_in');
     }
 }

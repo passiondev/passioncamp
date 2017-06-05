@@ -12,6 +12,13 @@
 
             @include('organization.partials.form')
 
+            <hr>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="checked_in" @if ($organization->setting('checked_in')) checked @endif>
+                    Checked In
+                </label>
+            </div>
             <button class="btn btn-primary">Update Church</button>
         </form>
     </div>

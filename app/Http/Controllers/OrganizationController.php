@@ -76,6 +76,10 @@ class OrganizationController extends Controller
         $organization->contact->fill(request('contact'))->save();
         $organization->studentPastor->fill(request('student_pastor'))->save();
 
+        if (!! $organization->setting('checked_in') != !! request('checked_in')) {
+            $organization->setting('checked_in', !! request('checked_in') ? time() : '');
+        }
+
         return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church updated.');
     }
 }
