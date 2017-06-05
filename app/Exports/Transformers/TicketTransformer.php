@@ -46,6 +46,7 @@ class TicketTransformer extends TransformerAbstract
                 'travel plans' => $ticket->travel_plans,
                 'pcc waiver?' => $ticket->pcc_waiver,
                 'price' => $ticket->price / 100,
+                'checked_in_at' => $ticket->checked_in_at,
             ];
         }
 
