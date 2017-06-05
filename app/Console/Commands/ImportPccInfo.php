@@ -16,7 +16,7 @@ class ImportPccInfo extends Command
      *
      * @var string
      */
-    protected $signature = 'import:pcc';
+    protected $signature = 'pcc:import';
 
     /**
      * The console command description.
@@ -24,17 +24,6 @@ class ImportPccInfo extends Command
      * @var string
      */
     protected $description = 'Import PCC info';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(TicketRepository $tickets)
-    {
-        parent::__construct();
-        $this->tickets = $tickets;
-    }
 
     /**
      * Execute the console command.
@@ -47,27 +36,29 @@ class ImportPccInfo extends Command
         // Skip the header
         $all = $reader->setOffset(1)->fetchAll();
 
-        $ids = collect($all)->pluck('0');
-
-        $data = collect($all)->map(function ($row) {
+        collect($all)->mapWithKeys(function ($row) {
             return [
-                'id' => $row[0],
-                'pcc_waiver' => $row[1],
-                'description' => $row[2],
-                'leader' => $row[3],
-                'squad' => $row[4],
-                'bus' => $row[5],
+                $row[0] => [
+                    'squad' => $row[1],
+                    'leader' => $row[2],
+                    'bus' => $row[3],
+                ]
             ];
-        })->keyBy('id');
+        })
+        // ->dd()
+        ->each(function ($row, $id) {
+            if (! $id) return;
 
-        $tickets = Ticket::whereIn('id', $ids)->with('room')->get()->keyBy('id');
-
-        $tickets->each(function ($ticket, $i) use ($data) {
-            $room = $ticket->room;
-            $room->description = $data[$i]['description'];
-            $room->save();
-
-            $this->tickets->update($ticket, $data[$i]);
+            try {
+                $ticket = Ticket::findOrFail($id);
+                $ticket->fill([
+                    'ticket_data' => collect($ticket->ticket_data)->merge($row)
+                ]);
+            } catch (\Exception $e) {
+                $this->line($id);
+                $this->error($e->getMessage());
+            }
         });
+        $this->info('Done!');
     }
 }
