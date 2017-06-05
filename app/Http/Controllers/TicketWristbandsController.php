@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Ticket;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use App\Http\Middleware\VerifyPayloadSignature;
 
 class TicketWristbandsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware(VerifyPayloadSignature::class);
     }
 
