@@ -4,7 +4,7 @@ namespace App\Interactions\Echosign;
 
 use App\Ticket;
 use Echosign\Agreements;
-use Echosign\Creators\Agreement;
+use Echosign\Creators\Agreement as BaseEchosignInteraction;
 use Echosign\Transports\GuzzleTransport;
 use Echosign\RequestBuilders\Agreement\FileInfo;
 use Echosign\RequestBuilders\Agreement\MergefieldInfo;

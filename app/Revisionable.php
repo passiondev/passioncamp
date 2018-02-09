@@ -31,5 +31,4 @@ trait Revisionable
     {
         return strtolower((new \ReflectionClass($this))->getShortName());
     }
-
 }

@@ -47,7 +47,9 @@ class ImportPccInfo extends Command
         })
         // ->dd()
         ->each(function ($row, $id) {
-            if (! $id) return;
+            if (! $id) {
+                return;
+            }
 
             try {
                 $ticket = Ticket::findOrFail($id);

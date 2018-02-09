@@ -38,7 +38,7 @@ class TicketTest extends TestCase
     /** @test */
     function it_stores_activity_when_revisioned()
     {
-        $ticket = factory('App\Ticket')->create();
+        $ticket = factory(\App\Ticket::class)->create();
         Carbon::setTestNow('+5 minutes');
 
         $ticket->person->update([
@@ -49,7 +49,7 @@ class TicketTest extends TestCase
         Carbon::setTestNow('+5 minutes');
 
         $ticket->rooms()->save(
-            factory('App\Room')->make()
+            factory(\App\Room::class)->make()
         );
         $ticket->fresh()->revision();
 
@@ -68,7 +68,7 @@ class TicketTest extends TestCase
     {
         Event::fake();
 
-        $ticket = factory('App\Ticket')->create();
+        $ticket = factory(\App\Ticket::class)->create();
         $ticket->cancel();
 
         Event::assertDispatched('eloquent.created: App\Ticket');
@@ -78,10 +78,10 @@ class TicketTest extends TestCase
     /** @test */
     function it_cancels_waiver_request_when_being_canceled()
     {
-        $waiver = factory('App\Waiver')->create([
+        $waiver = factory(\App\Waiver::class)->create([
             'provider' => 'adobesign'
         ]);
-        $this->assertInstanceOf('App\Ticket', $ticket = $waiver->fresh()->ticket);
+        $this->assertInstanceOf(\App\Ticket::class, $ticket = $waiver->fresh()->ticket);
 
         $esign = Mockery::mock(EsignProvider::class);
 
@@ -100,10 +100,10 @@ class TicketTest extends TestCase
     /** @test */
     function it_cancels_waiver_request_when_being_deleted()
     {
-        $waiver = factory('App\Waiver')->create([
+        $waiver = factory(\App\Waiver::class)->create([
             'provider' => 'adobesign'
         ]);
-        $this->assertInstanceOf('App\Ticket', $ticket = $waiver->fresh()->ticket);
+        $this->assertInstanceOf(\App\Ticket::class, $ticket = $waiver->fresh()->ticket);
 
         $esign = Mockery::mock(EsignProvider::class);
 

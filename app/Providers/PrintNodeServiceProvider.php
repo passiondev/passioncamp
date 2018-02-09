@@ -28,7 +28,8 @@ class PrintNodeServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(
-            PrintManager::class, PrintingFactory::class
+            PrintManager::class,
+            PrintingFactory::class
         );
     }
 
@@ -40,5 +41,4 @@ class PrintNodeServiceProvider extends ServiceProvider
             PrinterContract::class,
         ];
     }
-
 }

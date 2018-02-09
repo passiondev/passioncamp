@@ -38,7 +38,7 @@ class OrderTicketController extends Controller
             'ticket.grade' => 'required_if:ticket.agegroup,student',
         ]);
 
-        $ticket = new Ticket(array_only(request('ticket'), ['agegroup']));
+        $ticket = new Ticket(request()->input('ticket.agegroup');
         $ticket->organization()->associate(auth()->user()->organization);
         $ticket->person()->associate(
             Person::create(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies']))

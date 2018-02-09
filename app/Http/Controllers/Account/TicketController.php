@@ -41,7 +41,7 @@ class TicketController extends Controller
 
         if (auth()->user()->organization->slug == 'pcc') {
             $user = User::firstOrCreate([
-                'email' => request('contact.email')
+                'email' => request()->input('contact.email')
             ]);
         } else {
             $user = User::create([]);
@@ -61,7 +61,7 @@ class TicketController extends Controller
 
         $order->tickets()->save(
             (new Ticket(
-                array_only(request('ticket'), ['agegroup'])
+                request()->input('ticket.agegroup')
             ))->person()->associate(
                 Person::create(
                     request(['considerations'])

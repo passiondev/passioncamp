@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOrganizationsTable extends Migration {
+class CreateOrganizationsTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateOrganizationsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('organizations', function(Blueprint $table)
-        {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug')->nullable()->unique();
             $table->unsignedInteger('church_id')->nullable()->index();
@@ -35,5 +35,4 @@ class CreateOrganizationsTable extends Migration {
     {
         Schema::drop('organizations');
     }
-
 }
