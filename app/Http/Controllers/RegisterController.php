@@ -39,7 +39,7 @@ class RegisterController extends Controller
             '410' => Carbon::parse('2017-05-07'),
         ];
 
-        return collect($prices)->filter(function($date) {
+        return collect($prices)->filter(function ($date) {
             return Carbon::now()->gte($date);
         })->keys()->sort()->last();
     }

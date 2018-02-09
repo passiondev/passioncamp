@@ -49,8 +49,7 @@ class Organization extends Model
                 SELECT SUM(quantity)
                 FROM order_items
                 WHERE order_items.organization_id = organizations.id and org_type = 'ticket'
-            ", 'tickets_sum'
-        );
+            ", 'tickets_sum');
     }
 
     public function scopeWithHotelsSum($query)
@@ -59,8 +58,7 @@ class Organization extends Model
                 SELECT SUM(quantity)
                 FROM order_items
                 WHERE order_items.organization_id = organizations.id and org_type = 'hotel'
-            ", 'hotels_sum'
-        );
+            ", 'hotels_sum');
     }
 
     public function church()

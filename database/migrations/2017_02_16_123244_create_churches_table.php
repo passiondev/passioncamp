@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateChurchesTable extends Migration {
+class CreateChurchesTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateChurchesTable extends Migration {
      */
     public function up()
     {
-        Schema::create('churches', function(Blueprint $table)
-        {
+        Schema::create('churches', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
             $table->string('street')->nullable();
@@ -42,5 +42,4 @@ class CreateChurchesTable extends Migration {
     {
         Schema::drop('churches');
     }
-
 }

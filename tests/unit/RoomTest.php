@@ -39,7 +39,9 @@ class RoomTest extends TestCase
         $room->fresh()->revision();
         $room->fresh()->revision();
 
-        dd(collect(['name', 'description', 'notes', 'hotelName'])->flip()->transform(function ($item) {return null;})->merge($room->activity()->latest()->first()->changes['old']));
+        dd(collect(['name', 'description', 'notes', 'hotelName'])->flip()->transform(function ($item) {
+            return null;
+        })->merge($room->activity()->latest()->first()->changes['old']));
 
         dd($room->activity->toArray());
 

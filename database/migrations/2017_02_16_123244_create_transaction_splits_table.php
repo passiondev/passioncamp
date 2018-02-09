@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateTransactionSplitsTable extends Migration {
+class CreateTransactionSplitsTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateTransactionSplitsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('transaction_splits', function(Blueprint $table)
-        {
+        Schema::create('transaction_splits', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('organization_id')->nullable()->index();
             $table->unsignedInteger('order_id')->nullable()->index();
@@ -36,5 +36,4 @@ class CreateTransactionSplitsTable extends Migration {
     {
         Schema::drop('transaction_splits');
     }
-
 }

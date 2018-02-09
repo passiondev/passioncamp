@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateItemsTable extends Migration {
+class CreateItemsTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateItemsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('items', function(Blueprint $table)
-        {
+        Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type')->nullable();
             $table->string('name')->nullable();
@@ -36,5 +36,4 @@ class CreateItemsTable extends Migration {
     {
         Schema::drop('items');
     }
-
 }

@@ -20,8 +20,7 @@ class EsignServiceProvider extends ServiceProvider
             });
 
             $this->app->bind(EsignProvider::class, AdobeSignEsignProvider::class);
-        }
-        else {
+        } else {
             $this->app->bind(EsignProvider::class, AdobeSignEsignProvider::class);
             $this->app->bind(AdobeSignEsignProvider::class, LogEsignProvider::class);
         }

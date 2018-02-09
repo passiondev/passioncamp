@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRoomsTable extends Migration {
+class CreateRoomsTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateRoomsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('rooms', function(Blueprint $table)
-        {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('organization_id')->nullable()->index();
             $table->string('name')->nullable();
@@ -24,7 +24,8 @@ class CreateRoomsTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
             $table->integer('hotel_id')->nullable();
-            $table->string('confirmation_number')->nullable();;
+            $table->string('confirmation_number')->nullable();
+            ;
             $table->dateTime('key_received_at')->nullable();
             $table->dateTime('checked_in_at')->nullable();
         });
@@ -40,5 +41,4 @@ class CreateRoomsTable extends Migration {
     {
         Schema::drop('rooms');
     }
-
 }

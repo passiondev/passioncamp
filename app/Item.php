@@ -17,8 +17,6 @@ class Item extends Model
                 SELECT SUM(quantity)
                 FROM order_items
                 WHERE order_items.item_id = items.id and order_items.deleted_at IS NULL
-            ", 'purchased_sum'
-        );
+            ", 'purchased_sum');
     }
-
 }

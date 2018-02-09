@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRevisionsTable extends Migration {
+class CreateRevisionsTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateRevisionsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('revisions', function(Blueprint $table)
-        {
+        Schema::create('revisions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action');
             $table->string('table_name');
@@ -27,7 +27,7 @@ class CreateRevisionsTable extends Migration {
 
             $table->index('action');
             $table->index(['table_name', 'row_id']);
-          });
+        });
     }
 
 
@@ -40,5 +40,4 @@ class CreateRevisionsTable extends Migration {
     {
         Schema::drop('revisions');
     }
-
 }

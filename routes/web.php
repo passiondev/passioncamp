@@ -146,4 +146,3 @@ Route::delete('checkin/{ticket}', 'CheckinController@destroy');
 
 // Route::get('tickets/{ticket}/wristband', 'TicketWristbandsController@show');
 Route::get('tickets/{payload}/wristband', 'TicketWristbandsController@signedShow');
-

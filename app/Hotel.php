@@ -48,8 +48,7 @@ class Hotel extends Item
                 SELECT SUM(quantity)
                 FROM order_items
                 WHERE order_items.item_id = items.id
-            ", 'registered_sum'
-        );
+            ", 'registered_sum');
     }
 
     public function getRemainingCountAttribute()
