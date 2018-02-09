@@ -15,7 +15,7 @@ class RoomTest extends TestCase
     /** @test */
     function it_stores_activity_when_revisioned()
     {
-        $room = factory('App\Room')->create([
+        $room = factory(\App\Room::class)->create([
             'description' => 'description',
             'notes' => 'notes',
         ]);
@@ -23,7 +23,7 @@ class RoomTest extends TestCase
         Carbon::setTestNow('+5 minutes');
 
         $room
-            ->hotel()->associate(factory('App\Hotel')->create())
+            ->hotel()->associate(factory(\App\Hotel::class)->create())
             ->update([
                 'name' => 'Room 2'
             ]);

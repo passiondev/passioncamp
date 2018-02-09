@@ -33,7 +33,7 @@ class WaiversTest extends TestCase
     /** @test */
     function a_waiver_request_can_be_created()
     {
-        $ticket = factory('App\Ticket')->create();
+        $ticket = factory(\App\Ticket::class)->create();
 
         $this->esign->shouldReceive('createSignatureRequest')
             ->with(Mockery::hasKey('documentCreationInfo'))
@@ -52,7 +52,7 @@ class WaiversTest extends TestCase
     /** @test */
     function it_can_send_a_reminder_for_an_existing_request()
     {
-        $waiver = factory('App\Waiver')->create([
+        $waiver = factory(\App\Waiver::class)->create([
             'provider' => 'adobesign'
         ]);
 
@@ -71,7 +71,7 @@ class WaiversTest extends TestCase
     /** @test */
     function it_can_delete_an_existing_request()
     {
-        $waiver = factory('App\Waiver')->create([
+        $waiver = factory(\App\Waiver::class)->create([
             'provider' => 'adobesign'
         ]);
 
@@ -92,7 +92,7 @@ class WaiversTest extends TestCase
     {
         Queue::fake();
 
-        $waiver = factory('App\Waiver')->create();
+        $waiver = factory(\App\Waiver::class)->create();
 
         $response = $this->put("/webhooks/adobesign?documentKey={$waiver->provider_agreement_id}&eventType=ESIGNED");
 
@@ -105,8 +105,8 @@ class WaiversTest extends TestCase
     {
         Storage::fake('dropbox');
 
-        $waiver = factory('App\Waiver')->create();
-        $admin = factory('App\User')->create([
+        $waiver = factory(\App\Waiver::class)->create();
+        $admin = factory(\App\User::class)->create([
             'access' => 100
         ]);
 
