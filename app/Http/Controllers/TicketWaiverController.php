@@ -6,7 +6,7 @@ use App\Ticket;
 use App\WaiverStatus;
 use Illuminate\Http\Request;
 
-class TicketWaiversController extends Controller
+class TicketWaiverController extends Controller
 {
     public function __construct()
     {

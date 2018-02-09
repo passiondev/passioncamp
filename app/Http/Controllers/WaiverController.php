@@ -10,7 +10,7 @@ use App\Filters\TicketFilters;
 use App\Jobs\Waiver\SendReminder;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
 
-class WaiversController extends Controller
+class WaiverController extends Controller
 {
     public function __construct()
     {

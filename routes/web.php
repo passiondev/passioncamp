@@ -16,15 +16,37 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::get('admin', 'Super\DashboardController')->middleware(['auth', 'super']);
-Route::get('admin/roominglists', 'Super\RoominglistsController@index');
-Route::post('admin/roominglists/export', 'RoominglistExportController@create');
-Route::get('admin/roominglists/{version}/download', 'RoominglistExportController@download');
+Route::prefix('admin')->as('admin.')->group(function () {
+    Route::get('/', 'Super\DashboardController')->middleware(['auth', 'super']);
 
-Route::get('admin/organizations/search', 'OrganizationController@search');
-Route::resource('admin/organizations', 'OrganizationController');
+    Route::get('roominglists', 'Super\RoominglistsController@index');
+    Route::post('roominglists/export', 'RoominglistExportController@create');
+    Route::get('roominglists/{version}/download', 'RoominglistExportController@download');
 
-Route::get('admin/rooms', 'RoomController@index');
+    Route::resource('organizations', 'OrganizationController');
+    Route::get('organizations/search', 'OrganizationController@search');
+    Route::resource('organizations.users', 'OrganizationUserController')->only('create', 'store');
+    Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update');
+    Route::resource('organizations.payments', 'OrganizationPaymentController')->only('index', 'store');
+
+    Route::resource('hotels', 'HotelController')->only('index', 'show');
+    Route::resource('tickets', 'Super\TicketController')->only('index');
+    Route::resource('users', 'Super\UserController')->only('index', 'create', 'store', 'edit', 'update');
+    Route::get('rooms', 'RoomController@index')->name('rooms.index');
+});
+
+Route::prefix('account')->as('account.')->group(function () {
+    Route::get('dashboard', 'Account\DashboardController')->name('dashboard');
+    Route::get('settings', 'Account\SettingsController')->name('settings');
+    Route::resource('payments', 'Account\PaymentController')->only('index', 'store');
+    Route::resource('users', 'Account\UserController')->only('create', 'store');
+});
+
+Route::get('roominglist', 'RoomingListController@index');
+
+Route::resource('rooms', 'RoomController')->only('edit', 'update');
+Route::resource('rooms.assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
+
 Route::post('rooms/{room}/check-in', 'RoomController@checkin');
 Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
 
@@ -32,69 +54,17 @@ Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
 Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
 Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
 
-Route::get('admin/hotels', 'HotelController@index');
-Route::get('admin/hotels/{hotel}', 'HotelController@show');
-
-Route::get('admin/tickets', 'Super\TicketController@index');
-
-Route::get('admin/users', 'Super\UserController@index');
-Route::get('admin/users/create', 'Super\UserController@create');
-Route::post('admin/users', 'Super\UserController@store');
-Route::get('admin/users/{user}/edit', 'Super\UserController@edit');
-Route::put('admin/users/{user}/update', 'Super\UserController@update');
-
-Route::get('admin/organizations/{organization}/item/create', 'OrganizationItemController@create');
-Route::post('admin/organizations/{organization}/item/store', 'OrganizationItemController@store');
-Route::get('admin/organizations/{organization}/item/{item}/edit', 'OrganizationItemController@edit');
-Route::match(['put', 'patch'], 'admin/organizations/{organization}/item/{item}/update', 'OrganizationItemController@update');
-
-Route::get('admin/organizations/{organization}/users/create', 'OrganizationUserController@create');
-Route::post('admin/organizations/{organization}/users', 'OrganizationUserController@store');
-
-Route::get('admin/organizations/{organization}/payments', 'OrganizationPaymentController@index');
-Route::post('admin/organizations/{organization}/payments/store', 'OrganizationPaymentController@store');
-
-Route::get('account/dashboard', 'Account\DashboardController');
-
-Route::get('account/payments', 'Account\PaymentController@index');
-Route::post('account/payments', 'Account\PaymentController@store');
-
-Route::get('account/settings', 'Account\SettingsController@index');
-
-Route::get('account/users/create', 'Account\UserController@create');
-Route::post('account/users', 'Account\UserController@store');
-
-Route::get('roominglist', 'RoomingListController@index');
-Route::get('rooms/{room}/edit', 'RoomController@edit');
-Route::patch('rooms/{room}', 'RoomController@update');
-Route::post('rooms/{room}/assignments', 'RoomAssignmentController@store');
-Route::patch('rooms/{room}/assignments', 'RoomAssignmentController@update');
-Route::delete('rooms/{room}/assignments', 'RoomAssignmentController@delete');
-
-Route::get('orders', 'OrderController@index');
+Route::resource('orders', 'OrderController')->only('index', 'show');
 Route::post('orders/export', 'OrderExportsController@store');
-Route::get('orders/{order}', 'OrderController@show');
-
-Route::get('orders/{order}/tickets/create', 'OrderTicketController@create');
-Route::post('orders/{order}/tickets', 'OrderTicketController@store');
-
-Route::get('orders/{order}/transactions/create', 'OrderTransactionController@create');
-Route::post('orders/{order}/transactions', 'OrderTransactionController@store');
-
+Route::resource('orders.tickets', 'OrderTicketController')->only('create', 'store');
+Route::resource('orders.transactions', 'OrderTransactionController')->only('create', 'store');
 Route::post('orders/{order}/notes', 'OrderNoteController@store');
 
-Route::get('tickets', 'TicketController@index');
+Route::resource('tickets', 'TicketController')->only('index', 'create', 'store', 'edit', 'update', 'delete');
 Route::get('tickets/search', 'TicketController@search');
-Route::get('tickets/create', 'Account\TicketController@create');
-Route::post('tickets', 'Account\TicketController@store');
-Route::get('tickets/{ticket}/edit', 'TicketController@edit');
-Route::patch('tickets/{ticket}', 'TicketController@update');
-Route::delete('tickets/{ticket}', 'TicketController@delete');
-Route::patch('tickets/{ticket}/cancel', 'TicketController@cancel');
-
+Route::match(['put', 'patch'], 'tickets/{ticket}/cancel', 'TicketController@cancel');
 Route::post('tickets/export', 'TicketExportController@store');
-
-Route::post('tickets/{ticket}/waivers', 'TicketWaiversController@store');
+Route::post('tickets/{ticket}/waivers', 'TicketWaiverController@store');
 
 Route::get('transactions/{split}/refund', 'TransactionRefundController@create');
 Route::post('transactions/{split}/refund', 'TransactionRefundController@store');
@@ -120,10 +90,10 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
 Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
-Route::get('waivers', 'WaiversController@index');
-Route::post('waivers/{waiver}/reminder', 'WaiversController@reminder');
-Route::post('waivers/{waiver}/refresh', 'WaiversController@refresh');
-Route::delete('waivers/{waiver}', 'WaiversController@destroy');
+Route::get('waivers', 'WaiverController@index');
+Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
+Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
+Route::delete('waivers/{waiver}', 'WaiverController@destroy');
 
 Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 
