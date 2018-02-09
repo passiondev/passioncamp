@@ -14,9 +14,6 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('auth', function ($expression) {
-            return "<?php if (Gate::check{$expression}): ?>";
-        });
         Blade::directive('currency', function ($expression) {
             return "<?php echo money_format('%.2n', $expression); ?>";
         });
