@@ -28,8 +28,6 @@ class UserRepository
             'access' => $access
         ])->person()->associate($person)->save();
 
-        // event(new UserCreated($user));
-
         return $user;
     }
 

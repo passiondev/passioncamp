@@ -2,34 +2,17 @@
 
 namespace App\Events\Waivers;
 
-use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
 
-class EmailBounced extends Event
+class EmailBounced
 {
+    use Dispatchable, SerializesModels;
+
     public $waiver;
 
-    use SerializesModels;
-
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
     public function __construct($waiver)
     {
-        //
         $this->waiver = $waiver;
-    }
-
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
     }
 }

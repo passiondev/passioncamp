@@ -8,15 +8,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 
 class RoomDeleted
 {
-    public $room;
-
     use Dispatchable, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
+    public $room;
+
     public function __construct(Room $room)
     {
         $this->room = $room;

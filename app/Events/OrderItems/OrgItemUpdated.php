@@ -2,10 +2,13 @@
 
 namespace App\Events\OrderItems;
 
-use App\Events\Event;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
 
-class OrgItemUpdated extends Event
+class OrgItemUpdated
 {
+    use Dispatchable, SerializesModels;
+
     public $item;
 
     public function __construct($item)

@@ -21,11 +21,6 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\Waivers\EmailBounced\CancelWaiverRecord::class,
             \App\Listeners\Waivers\EmailBounced\SendNotification::class,
         ],
-        \App\Events\UserCreated::class => [
-            \App\Listeners\User\SometimesUpdateEmail::class,
-            \App\Listeners\User\SometimesUpdateAccess::class,
-            \App\Listeners\User\SendRegistrationEmail::class,
-        ],
         \App\Events\OrgItemSaved::class => [
             \App\Listeners\DispatchDeployRoomsForOrganization::class,
         ],

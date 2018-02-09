@@ -10,7 +10,6 @@ use App\OrderItem;
 use Carbon\Carbon;
 use App\Organization;
 use App\Http\Requests;
-use App\Events\UserCreated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Order\SendConfirmationEmail;
@@ -103,10 +102,6 @@ class RegisterController extends Controller
                 'billing.zip',
             ])))->save();
         }
-
-        // if ($user->wasRecentlyCreated) {
-        //     event(new UserCreated($user));
-        // }
 
         $order = $user->orders()->create([
             'organization_id' => $this->organization->id,
