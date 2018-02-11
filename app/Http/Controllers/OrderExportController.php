@@ -6,7 +6,7 @@ use App\Order;
 use App\Exports\OrderExport;
 use Illuminate\Http\Request;
 
-class OrderExportsController extends Controller
+class OrderExportController extends Controller
 {
     public function __construct()
     {

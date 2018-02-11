@@ -55,7 +55,7 @@ Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
 Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
 
 Route::resource('orders', 'OrderController')->only('index', 'show');
-Route::post('orders/export', 'OrderExportsController@store');
+Route::post('orders/exports', 'OrderExportController@store')->name('orders.exports.store');
 Route::resource('orders.tickets', 'OrderTicketController')->only('create', 'store');
 Route::resource('orders.transactions', 'OrderTransactionController')->only('create', 'store');
 Route::post('orders/{order}/notes', 'OrderNoteController@store');

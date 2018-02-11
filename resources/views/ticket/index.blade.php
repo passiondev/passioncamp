@@ -17,7 +17,7 @@
                     <a href="{{ action('Account\TicketController@create') }}" class="btn btn-outline-primary">Add Attendee</a>
                 @endunless
                 @if (auth()->user()->isChurchAdmin() && auth()->user()->organization->slug == 'pcc')
-                    <a href="{{ action('OrderExportsController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('order-export-form').submit();">Export Orders</a>
+                    <a href="{{ route('orders.exports.store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('order-export-form').submit();">Export Orders</a>
                 @endif
                 <a href="{{ action('TicketExportController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('export-form').submit();">Export Attendees</a>
             </div>
@@ -70,7 +70,7 @@
     <form action="{{ action('TicketExportController@store') }}" method="POST" id="export-form">
         {{ csrf_field() }}
     </form>
-    <form action="{{ action('OrderExportsController@store') }}" method="POST" id="order-export-form">
+    <form action="{{ route('orders.exports.store') }}" method="POST" id="order-export-form">
         {{ csrf_field() }}
     </form>
 @stop
