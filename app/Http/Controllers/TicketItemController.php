@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Item;
 use Illuminate\Http\Request;
 
-class TicketItemsController extends Controller
+class TicketItemController extends Controller
 {
     public function __construct()
     {

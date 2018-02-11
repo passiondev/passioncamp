@@ -101,7 +101,7 @@ Route::get('dashboard', 'User\DashboardController');
 Route::get('payments', 'User\PaymentsController@index');
 Route::post('payments', 'User\PaymentsController@store');
 
-Route::get('ticket-items', 'TicketItemsController@index');
+Route::get('ticket-items', 'TicketItemController@index')->name('ticket-items.index');
 
 Route::resource('printers', 'PrinterController')->only('index', 'destroy');
 Route::post('printers/{printer}/test', 'PrinterController@test')->name('printers.test');

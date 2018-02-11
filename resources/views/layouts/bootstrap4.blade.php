@@ -129,7 +129,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('TicketItemsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketItemsController') ? 'active' :'' }}">
+                                    <a href="{{ route('ticket-items.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketItemController') ? 'active' :'' }}">
                                         Tickets
                                     </a>
                                 </li>
