@@ -56,11 +56,11 @@
                     @endif
                     @if (Session::has('printer'))
                         <li class="nav-item mr-3">
-                            <a class="nav-link" href="{{ action('PrintersController@index') }}">@icon('printer') {{ Session::get('printer.name') }}</a>
+                            <a class="nav-link" href="{{ route('printers.index') }}">@icon('printer') {{ Session::get('printer.name') }}</a>
                         </li>
                     @elseif (str_contains(Request::route()->getActionName(), 'RoomController'))
                         <li class="nav-item mr-3">
-                            <a class="btn btn-outline-primary" href="{{ action('PrintersController@index') }}">Select a printer...</a>
+                            <a class="btn btn-outline-primary" href="{{ route('printers.index') }}">Select a printer...</a>
                         </li>
                     @endif
                     <!-- Authentication Links -->

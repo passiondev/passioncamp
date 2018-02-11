@@ -103,9 +103,8 @@ Route::post('payments', 'User\PaymentsController@store');
 
 Route::get('ticket-items', 'TicketItemsController@index');
 
-Route::get('printers', 'PrintersController@index');
-Route::post('printers/{printer}/test', 'PrintersController@test');
-Route::delete('printers', 'PrintersController@destroy');
+Route::resource('printers', 'PrinterController')->only('index', 'destroy');
+Route::post('printers/{printer}/test', 'PrinterController@test')->name('printers.test');
 Route::post('selected-printer', 'PrinterSelectionController@store');
 Route::delete('selected-printer', 'PrinterSelectionController@destroy');
 

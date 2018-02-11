@@ -33,7 +33,7 @@
                 </div>
             @unless(session('printer'))
                 <div class="card-block">
-                    <a href="{{ action('PrintersController@index') }}">Select a printer...</a>
+                    <a href="{{ route('printers.index') }}">Select a printer...</a>
                 </div>
             @else
                 <div class="card-block">
