@@ -6,7 +6,7 @@ use PrintNode;
 use Illuminate\Http\Request;
 use Facades\App\Contracts\Printing\Factory as Printer;
 
-class PrinterSelectionController extends Controller
+class SelectedPrinterController extends Controller
 {
     public function __construct()
     {
