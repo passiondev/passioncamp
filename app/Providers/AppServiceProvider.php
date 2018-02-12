@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,14 +26,14 @@ class AppServiceProvider extends ServiceProvider
             return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
         });
 
-        Collection::macro('dd', function () {
-            dd($this);
-        });
-
         Request::macro('intended', function ($url) {
             if ($url != $this->fullUrl()) {
                 $this->session()->put('url.intended', $url);
             }
+        });
+
+        Builder::macro('orderBySub', function ($query, $direction = 'asc') {
+            return $this->orderByRaw("({$query->limit(1)->toSql()}) {$direction}");
         });
 
         view()->composer(['ticket.partials.form', 'ticket.partials.form-horizontal'], function ($view) {

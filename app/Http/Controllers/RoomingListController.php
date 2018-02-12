@@ -22,18 +22,14 @@ class RoomingListController extends Controller
 
     public function index()
     {
-        $unassigned = Ticket::active()->forUser()->unassigned()->with('person')->orderBy('agegroup')->get()->unassigendSort()->mapWithKeys(function ($ticket) use (&$i) {
-            return [++$i => [
-                'id' => $ticket->id,
-                'name' => $ticket->name,
-                'gender' => $ticket->person->gender,
-                'type' => $ticket->agegroup,
-                'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
-            ]];
-        });
-
-        $rooms = Room::forUser(auth()->user())->with('tickets.person', 'organization.church')->get()->map(function ($room) {
-            $room['ticket_map'] = $room->tickets->assigendSort()->mapWithKeys(function ($ticket) use (&$i) {
+        $unassigned = Ticket::active()
+            ->forUser()
+            ->unassigned()
+            ->with('person')
+            ->orderBy('agegroup')
+            ->get()
+            ->unassigendSort()
+            ->mapWithKeys(function ($ticket) use (&$i) {
                 return [++$i => [
                     'id' => $ticket->id,
                     'name' => $ticket->name,
@@ -43,19 +39,33 @@ class RoomingListController extends Controller
                 ]];
             });
 
-            return $room;
-        });
+        $rooms = Room::forUser()
+            ->with('tickets.person', 'organization.church')
+            ->get()
+            ->map(function ($room) {
+                $room['ticket_map'] = $room->tickets->assigendSort()->mapWithKeys(function ($ticket) use (&$i) {
+                    return [++$i => [
+                        'id' => $ticket->id,
+                        'name' => $ticket->name,
+                        'gender' => $ticket->person->gender,
+                        'type' => $ticket->agegroup,
+                        'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
+                    ]];
+                });
+
+                return $room;
+            });
 
         return view('roominglist.index', compact('unassigned', 'rooms'));
     }
 
-    public function show(Request $request, Room $room)
+    public function show(Room $room)
     {
         $this->authorize('owner', $room);
 
-        return $request->ajax() || $request->wantsJson()
+        return request()->expectsJson()
             ? response()->json([
-                'view' => view('roominglist.partials.room')->withRoom($room->fresh('tickets'))->render()
+                'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render()
             ])
             : redirect()->route('roominglist.index');
     }
@@ -68,17 +78,17 @@ class RoomingListController extends Controller
         try {
             $this->rooms->assign($room, $ticket);
         } catch (\Exception $e) {
-            return $request->ajax() || $request->wantsJson()
+            return request()->expectsJson()
                 ? response()->json([
                     'message' => $e->getMessage(),
-                    'view' => view('roominglist.partials.room')->withRoom($room->fresh('tickets'))->render()
+                    'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render()
                 ], 400)
                 : abort(400, $e->getMessage());
         }
 
-        return $request->ajax() || $request->wantsJson()
+        return request()->expectsJson()
             ? response()->json([
-                'view' => view('roominglist.partials.room')->withRoom($room->fresh('tickets'))->render()
+                'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render()
             ])
             : redirect()->route('roominglist.index');
     }
@@ -94,9 +104,8 @@ class RoomingListController extends Controller
     public function edit(Room $room)
     {
         $this->authorize('owner', $room);
-        $hotelOptions = Hotel::all()->sortBy('name')->keyBy('id')->map(function ($hotel) {
-            return $hotel->name;
-        });
+
+        $hotelOptions = Hotel::all()->sortBy('name')->keyBy('id')->pluck('name');
 
         return view('roominglist.edit', compact('room', 'hotelOptions'));
     }
@@ -112,10 +121,18 @@ class RoomingListController extends Controller
 
     public function overview()
     {
-        \Session::put('url.intended', route('roominglist.overview'));
+        session('url.intended', route('roominglist.overview'));
 
-        $rooms = Room::forUser()->with('tickets.person', 'organization.church', 'hotel')->orderBy('organization_id')->orderBy('id')->get();
-        $organizations = Organization::has('rooms')->with('church')->join('church', 'organization.church_id', '=', 'church.id')->orderBy('church.name')->get();
+        $rooms = Room::forUser()
+            ->with('tickets.person', 'organization.church', 'hotel')
+            ->orderBy('organization_id')
+            ->orderBy('id')
+            ->get();
+
+        $organizations = Organization::has('rooms')
+            ->with('church')
+            ->orderBySub(App\Church::select('name')->whereRaw('church_id = churches.id'))
+            ->get();
 
         return view('roominglist.overview', compact('rooms', 'organizations'));
     }
@@ -123,6 +140,7 @@ class RoomingListController extends Controller
     public function issues()
     {
         $organizations = Organization::has('hotelItems')->with('hotelItems', 'rooms')->get();
+
         $rooms = Room::all();
 
         $organizations->map(function ($organization) {
@@ -164,7 +182,9 @@ class RoomingListController extends Controller
             $ticket->room_id = null;
             $ticket->save();
         });
+
         $room->delete();
+
         return redirect()->intended(route('roominglist.overview'));
     }
 
@@ -187,21 +207,17 @@ class RoomingListController extends Controller
     {
         $room->checkin();
 
-        if ($request->ajax() || $request->wantsJson()) {
-            return response('<i class="checkmark green icon"></i> checked in', 200);
-        } else {
-            return redirect()->back()->withSuccess('Room checked in.');
-        }
+        request()->expectsJson()
+            ? response('<i class="checkmark green icon"></i> checked in', 200)
+            : redirect()->back()->withSuccess('Room checked in.');
     }
 
     public function keyReceived(Request $request, Room $room)
     {
         $room->keyReceived();
 
-        if ($request->ajax() || $request->wantsJson()) {
-            return response('<i class="checkmark green icon"></i> key', 200);
-        } else {
-            return redirect()->back()->withSuccess('Room key received.');
-        }
+        return request()->expectsJson()
+            ? response('<i class="checkmark green icon"></i> key', 200)
+            : redirect()->back()->withSuccess('Room key received.');
     }
 }

@@ -24,14 +24,13 @@ class OrderItemCollection extends Collection
     public function unassigendSort()
     {
         return $this->sortBy(function ($ticket, $key) {
-            return sprintf(
-                "%02d__%s__%d__%s__%s",
+            return vsprintf( "%02d__%s__%d__%s__%s", [
                 $ticket->person->grade == 0 ? 99 : $ticket->person->grade,
                 $ticket->person->gender == 'M' ? 1 : -1,
                 $ticket->agegroup == 'leader' ? 1 : -1,
                 $ticket->person->first_name,
-                $ticket->person->last_name
-            );
+                $ticket->person->last_name,
+            ]);
         });
     }
 

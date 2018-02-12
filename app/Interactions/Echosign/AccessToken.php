@@ -11,10 +11,8 @@ class AccessToken extends BaseAccessToken
     public function __construct(array $options = [])
     {
         parent::__construct($options);
-        
-        if (!empty($options['api_access_point'])) {
-            $this->apiBaseUri = $options['api_access_point'];
-        }
+
+        $this->apiBaseUri = $options['api_access_point'] ?? null;
     }
 
     public function getApiBaseUri()
