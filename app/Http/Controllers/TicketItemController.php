@@ -15,7 +15,9 @@ class TicketItemController extends Controller
 
     public function index()
     {
-        $items = Item::whereType('ticket')->select('items.*')->withPurchasedSum()->get();
+        $items = Item::whereType('ticket')
+            ->withPurchasedSum()
+            ->get();
 
         return view('ticket-items.index', compact('items'));
     }

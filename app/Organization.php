@@ -15,15 +15,19 @@ class Organization extends Model
         'hotels_sum' => 'integer',
     ];
 
+    protected $with = [
+        // 'settings',
+    ];
+
     protected static function boot()
     {
-        static::addGlobalScope('activeAttendeesCount', function ($builder) {
-            $builder->withCount('activeAttendees');
-        });
+        // static::addGlobalScope('activeAttendeesCount', function ($builder) {
+        //     $builder->withCount('activeAttendees');
+        // });
 
-        static::addGlobalScope('ticketsSum', function ($builder) {
-            $builder->withTicketsSum();
-        });
+        // static::addGlobalScope('ticketsSum', function ($builder) {
+        //     $builder->withTicketsSum();
+        // });
     }
 
     public function newCollection(array $models = [])
@@ -36,6 +40,13 @@ class Organization extends Model
         return $query->whereHas('items', function ($q) {
             $q->whereIn('org_type', ['ticket', 'hotel'])->where('quantity', '>', '0');
         });
+    }
+
+    public function scopeOrderByChurchName($query)
+    {
+        $query->orderBySub(
+            Church::select('name')->whereRaw('church_id = churches.id')
+        );
     }
 
     public function scopeWithTicketsSum($query)

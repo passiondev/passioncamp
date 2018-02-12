@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Hotel;
 use App\Http\Controllers\Controller;
 use App\Scopes\OrganizationCountsScope;
+use App\OrderItem;
+use App\Organization;
 
 class HotelController extends Controller
 {
@@ -16,7 +18,7 @@ class HotelController extends Controller
 
     public function index()
     {
-        $hotels = Hotel::select('items.*')->withRegisteredSum()->with('organizations')->get();
+        $hotels = Hotel::withPurchasedSum()->withDistinctOrganizationsCount()->get();
 
         return view('admin.hotel.index')->withHotels($hotels);
     }

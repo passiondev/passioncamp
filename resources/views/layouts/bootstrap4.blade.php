@@ -39,7 +39,7 @@
                 <ul class="navbar-nav mr-auto">
                     @if (Auth::check() && Auth::user()->isSuperAdmin())
                         <li class="nav-item">
-                            <church-search></church-search>
+                            {{-- <church-search></church-search> --}}
                         </li>
                     @endif
                     @if (Auth::check() && ! Auth::user()->isAdmin())
@@ -114,7 +114,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('WaiversController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiversController') ? 'active' :'' }}">
+                                    <a href="{{ action('WaiverController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
                                         Waivers
                                     </a>
                                 </li>
@@ -156,7 +156,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('WaiversController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiversController') ? 'active' :'' }}">
+                                    <a href="{{ action('WaiverController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
                                         Waivers
                                     </a>
                                 </li>

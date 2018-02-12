@@ -131,7 +131,7 @@ class RoomingListController extends Controller
 
         $organizations = Organization::has('rooms')
             ->with('church')
-            ->orderBySub(App\Church::select('name')->whereRaw('church_id = churches.id'))
+            ->orderByChurchName()
             ->get();
 
         return view('roominglist.overview', compact('rooms', 'organizations'));

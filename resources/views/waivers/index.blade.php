@@ -7,7 +7,7 @@
         </header>
 
         @if (auth()->user()->isSuperAdmin())
-            <form action="{{ action('WaiversController@index') }}" method="GET" class="form-inline mb-3">
+            <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mb-3">
                 <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
                     <option selected disabled>Church...</option>
                     <option value="">- All -</option>
@@ -67,13 +67,13 @@
                                             </li>
 
                                             <li v-if="! updated">
-                                                <ajax href="{{ action('WaiversController@refresh', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
+                                                <ajax href="{{ action('WaiverController@refresh', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
                                                     refresh
                                                 </ajax>
                                             </li>
 
                                             <li v-if="! updated">
-                                                <ajax href="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="DELETE" class="text-danger" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'canceled'};updated = true;" v-cloak>
+                                                <ajax href="{{ action('WaiverController@destroy', $ticket->waiver) }}" method="DELETE" class="text-danger" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'canceled'};updated = true;" v-cloak>
                                                     cancel
                                                 </ajax>
                                             </li>
