@@ -90,7 +90,7 @@ class TicketController extends Controller
     {
         $this->authorize('cancel', $ticket);
 
-        $ticket->cancel(auth()->user());
+        $ticket->cancel();
 
         return redirect()->action('TicketController@index')->withSuccess('Ticket canceled');
     }

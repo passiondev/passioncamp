@@ -22,17 +22,6 @@ class User extends Authenticatable
         'flags' => 'collection',
     ];
 
-    public static function make(array $attributes = [])
-    {
-        $model = new static($attributes);
-
-        $model->person()->associate(
-            Person::create($attributes)
-        );
-
-        return $model;
-    }
-
     public function person()
     {
         return $this->belongsTo(Person::class);

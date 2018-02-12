@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Note;
 use Illuminate\Support\Facades\Auth;
 
 trait Notated
