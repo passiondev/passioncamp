@@ -62,10 +62,10 @@
                                 <a class="btn btn-sm btn-link ml-2" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?
                                 </a>
-                                <hr>
+                                {{-- <hr>
                                 <a class="btn btn-sm btn-google" href="{{ action('SocialAuthController@redirect', 'google') }}" onclick="event.preventDefault(); document.getElementById('google-form').submit();">
                                     @icon('google') Sign in with Google
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </form>
@@ -76,7 +76,7 @@
 </div>
 
 
-<form action="{{ action('SocialAuthController@redirect', 'google') }}" method="POST" id="google-form">
+{{-- <form action="{{ action('SocialAuthController@redirect', 'google') }}" method="POST" id="google-form">
     {{ csrf_field() }}
-</form>
+</form> --}}
 @endsection
