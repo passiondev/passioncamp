@@ -29,17 +29,30 @@ class OrganizationController extends Controller
 
     public function search()
     {
-        return Organization::join('churches', 'organizations.church_id', '=', 'churches.id')->with('church')->where('name', 'LIKE', request('query') . '%')->orderBy('name')->get()->map(function ($organization) {
-            return [
-                'id' => $organization->id,
-                'name' => $organization->church->name,
-            ];
-        });
+        return Organization::searchByChurchName(request('query'))
+            ->orderByChurchName()
+            ->with('church')
+            ->get()
+            ->map(function ($organization) {
+                return [
+                    'id' => $organization->id,
+                    'name' => $organization->church->name,
+                ];
+            });
     }
 
     public function show(Organization $organization)
     {
-        $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes', 'attendees.waiver');
+        $organization->load([
+            'church',
+            'studentPastor',
+            'contact',
+            'items.item',
+            'transactions.transaction',
+            'authUsers.person',
+            'notes',
+            'attendees.waiver'
+        ]);
 
         return view('super.organization.show', compact('organization'));
     }

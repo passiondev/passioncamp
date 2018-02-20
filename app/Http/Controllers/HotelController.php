@@ -20,7 +20,7 @@ class HotelController extends Controller
     {
         $hotels = Hotel::withPurchasedSum()->withDistinctOrganizationsCount()->get();
 
-        return view('admin.hotel.index')->withHotels($hotels);
+        return view('admin.hotel.index', compact('hotels'));
     }
 
     public function show(Hotel $hotel)
@@ -32,6 +32,6 @@ class HotelController extends Controller
             'organizations.church',
         ]);
 
-        return view('admin.hotel.show')->withHotel($hotel);
+        return view('admin.hotel.show', compact('hotel'));
     }
 }

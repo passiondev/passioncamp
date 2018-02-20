@@ -64,7 +64,7 @@ class Order extends Model
 
     public function activeTickets()
     {
-        return $this->tickets()->whereNull('canceled_at');
+        return $this->tickets()->active();
     }
 
     public function donations()

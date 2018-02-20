@@ -22,7 +22,7 @@
                 <div class="row">
                     @foreach ($rooms as $room)
                         <div class="col-xl-4 col-6 mb-3">
-                            <roominglist-room :room="{{ json_encode($room) }}" url="{{ action('RoomAssignmentController@update', $room) }}">
+                            <roominglist-room :room="{{ json_encode($room) }}" url="{{ route('room-assignments.update', $room) }}">
                                 @if (Auth::user()->isSuperAdmin())
                                     <template slot="organization">
                                         <small class="text-muted">{{ $room->organization->church->name }}</small><br>

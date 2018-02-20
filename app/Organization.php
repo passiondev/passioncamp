@@ -49,6 +49,13 @@ class Organization extends Model
         );
     }
 
+    public function scopeSearchByChurchName($query, $name)
+    {
+        $query->whereHas('church', function ($q) use ($name) {
+            $q->where('name', 'LIKE', $name . '%');
+        });
+    }
+
     public function scopeWithTicketsSum($query)
     {
         return $query->selectSub("

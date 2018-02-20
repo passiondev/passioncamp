@@ -1,5 +1,17 @@
 <?php
 
+Route::get('test', function () {
+    $organizations = App\Organization::searchByChurchName('pine')->with('church')->get();
+    $organizations = App\Organization::join('churches', 'organizations.church_id', '=', 'churches.id')
+        ->with('church')
+        ->where('name', 'LIKE', 'pine' . '%')
+        ->orderBy('name')
+        ->get();
+
+    return 'test';
+    return $organizations->toArray();
+});
+
 Route::get('/', 'RedirectController@home');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -45,7 +57,7 @@ Route::prefix('account')->as('account.')->group(function () {
 Route::get('roominglist', 'RoomingListController@index');
 
 Route::resource('rooms', 'RoomController')->only('edit', 'update');
-Route::resource('rooms.assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
+Route::resource('room-assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
 
 Route::post('rooms/{room}/check-in', 'RoomController@checkin');
 Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
@@ -64,7 +76,7 @@ Route::resource('tickets', 'TicketController')->only('index', 'create', 'store',
 Route::get('tickets/search', 'TicketController@search');
 Route::match(['put', 'patch'], 'tickets/{ticket}/cancel', 'TicketController@cancel');
 Route::post('tickets/export', 'TicketExportController@store');
-Route::post('tickets/{ticket}/waivers', 'TicketWaiverController@store');
+Route::post('tickets/{ticket}/waivers', 'TicketWaiverController@store')->name('tickets.waivers.store');
 
 Route::get('transactions/{split}/refund', 'TransactionRefundController@create');
 Route::post('transactions/{split}/refund', 'TransactionRefundController@store');
@@ -90,7 +102,7 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
 Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
-Route::get('waivers', 'WaiverController@index');
+Route::get('waivers', 'WaiverController@index')->name('waivers.index');
 Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
 Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
 Route::delete('waivers/{waiver}', 'WaiverController@destroy');

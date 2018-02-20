@@ -117,7 +117,7 @@
                             {!! nl2br($note->body) !!}
                             <footer class="blockquote-footer">{{ $note->author ? $note->author->email :'' }}, <time datetime="{{ $note->created_at->toAtomString() }}" title="{{ $note->created_at->toAtomString() }}"><i>{{ $note->created_at->diffForHumans() }}</i></time></footer>
                         </p>
-                    </div>
+                    </blockquote>
                 @endforeach
                 <form action="{{ action('OrganizationNoteController@store', $organization) }}" method="POST">
                     {{ csrf_field() }}
