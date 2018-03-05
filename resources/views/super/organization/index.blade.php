@@ -60,7 +60,7 @@
                             {{ number_format($organization->completed_waivers_count) }}
                         </td>
                         <td class="text-center border-left {{ $organization->hotels_sum != $organization->rooms_count ? 'table-danger' : '' }}">
-                            {{ $organization->rooms_count ?: '--' }}
+                            {{ $organization->rooms_count }}
                         </td>
                         <td class="text-center">
                             @if ($organization->key_received_rooms_count)

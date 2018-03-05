@@ -11,15 +11,17 @@ class DashboardController extends Controller
     {
         $data = [
             'num_churches' => Organization::active()->count(),
-            'num_tickets' => Organization::all()->sum('tickets_sum'),
-            'total_cost' => Organization::totalCost() / 100,
-            'total_paid' => Organization::totalPaid() / 100,
-            'stripe' => Organization::totalPaid('stripe') / 100,
-            'other' => Organization::totalPaid('other') / 100,
+            'num_tickets' => Organization::withTicketsSum()->get()->sum('tickets_sum'),
+            'total_cost' => Organization::withCostSum()->get()->sum('cost_sum') / 100,
+            'total_paid' => Organization::withPaidSum()->get()->sum('paid_sum') / 100,
+            'stripe' => Organization::withPaidSum('stripe')->get()->sum('stripe_paid_sum') / 100,
+            'other' => Organization::withPaidSum('other')->get()->sum('other_paid_sum') / 100,
         ];
 
         $data['balance'] = $data['total_cost'] - $data['total_paid'];
 
-        return request()->wantsJson() ? response()->json($data) : view('admin.dashboard', compact('data'));
+        return request()->wantsJson()
+            ? response()->json($data)
+            : view('admin.dashboard', compact('data'));
     }
 }

@@ -21,13 +21,13 @@ class Organization extends Model
 
     protected static function boot()
     {
-        // static::addGlobalScope('activeAttendeesCount', function ($builder) {
-        //     $builder->withCount('activeAttendees');
-        // });
+        static::addGlobalScope('activeAttendeesCount', function ($builder) {
+            $builder->withCount('activeAttendees');
+        });
 
-        // static::addGlobalScope('ticketsSum', function ($builder) {
-        //     $builder->withTicketsSum();
-        // });
+        static::addGlobalScope('ticketsSum', function ($builder) {
+            $builder->withTicketsSum();
+        });
     }
 
     public function newCollection(array $models = [])
@@ -58,20 +58,44 @@ class Organization extends Model
 
     public function scopeWithTicketsSum($query)
     {
-        return $query->selectSub("
-                SELECT SUM(quantity)
-                FROM order_items
-                WHERE order_items.organization_id = organizations.id and org_type = 'ticket'
-            ", 'tickets_sum');
+        return $query->selectSub(function ($q) {
+            $q->selectRaw('SUM(quantity)')
+                ->from('order_items')
+                ->where('org_type', 'ticket')
+                ->whereRaw('order_items.organization_id = organizations.id');
+        }, 'tickets_sum');
     }
 
     public function scopeWithHotelsSum($query)
     {
-        return $query->selectSub("
-                SELECT SUM(quantity)
-                FROM order_items
-                WHERE order_items.organization_id = organizations.id and org_type = 'hotel'
-            ", 'hotels_sum');
+        return $query->selectSub(function ($q) {
+            $q->selectRaw('SUM(quantity)')
+                ->from('order_items')
+                ->where('org_type', 'hotel')
+                ->whereRaw('order_items.organization_id = organizations.id');
+        }, 'hotels_sum');
+    }
+
+    public function scopeWithCostSum($query)
+    {
+        return $query->selectSub(function ($q) {
+            $q->selectRaw('SUM(quantity * cost)')
+                ->from('order_items')
+                ->whereRaw('order_items.organization_id = organizations.id');
+        }, 'cost_sum');
+    }
+
+    public function scopeWithPaidSum($query, $source = null)
+    {
+        return $query->selectSub(function ($q) use ($source) {
+            $q->selectRaw('SUM(transaction_splits.amount)')
+                ->from('transaction_splits')
+                ->when($source, function ($q) use ($source) {
+                    $q->join('transactions', 'transaction_id', 'transactions.id')
+                        ->where('source', $source);
+                })
+                ->whereRaw('transaction_splits.organization_id = organizations.id');
+        }, $source ? $source . '_paid_sum' : 'paid_sum');
     }
 
     public function church()
@@ -247,7 +271,7 @@ class Organization extends Model
 
     public function getBalanceAttribute()
     {
-        return $this->total_cost - $this->total_paid;
+        return $this->cost_sum - $this->paid_sum;
     }
 
     public function getCanReceivePaymentAttribute()
@@ -287,26 +311,6 @@ class Organization extends Model
         return $this->attendees->active()->filter(function ($attendee) {
             return $attendee->waiver && $attendee->waiver->status == 'signed';
         })->count();
-    }
-
-    public static function totalPaid($source = null)
-    {
-        if ($source == null) {
-            return static::withoutGlobalScopes()->with('transactions')->get()->sum('total_paid');
-        }
-
-        return static::withoutGlobalScopes()->with('transactions.transaction')->get()
-            ->pluck('transactions')
-            ->collapse()
-            ->filter(function ($transaction) use ($source) {
-                return $transaction->transaction->source == $source;
-            })
-            ->sum('transaction.amount');
-    }
-
-    public static function totalCost()
-    {
-        return static::withoutGlobalScopes()->with('items')->get()->sum('total_cost');
     }
 
     public function addTransaction($data = [])
