@@ -52,7 +52,7 @@
                 <option value="{{ $key }}" @if (old('ticket.grade', $ticket->grade) == $key) selected @endif>{{ $value }}</option>
             @endforeach
         </select>
-        <p class="form-text text-muted mb-0">Completed as of June 2017</p>
+        <p class="form-text text-muted mb-0">Completed as of June 2018</p>
     </div>
 </div>
 

@@ -52,6 +52,7 @@ Route::prefix('account')->as('account.')->group(function () {
     Route::get('settings', 'Account\SettingsController')->name('settings');
     Route::resource('payments', 'Account\PaymentController')->only('index', 'store');
     Route::resource('users', 'Account\UserController')->only('create', 'store');
+    Route::resource('tickets', 'Account\TicketController')->only('create', 'store');
 });
 
 Route::get('roominglist', 'RoomingListController@index');
