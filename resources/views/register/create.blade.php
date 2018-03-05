@@ -2,7 +2,7 @@
 
 @section('head')
     <script>
-        window.ticket_price = {{ $ticket_price }};
+        window.ticket_price = {{ $ticketPrice }};
         window.vuex = {!! json_encode([
             'num_tickets' => old('num_tickets', 1),
             'ticketData' => old('tickets', []),
