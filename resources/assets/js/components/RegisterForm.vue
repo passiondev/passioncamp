@@ -8,6 +8,7 @@
 
     export default {
         mixins: [payment],
+        props: ['stripeElements'],
         components: {
             ticket
         },
@@ -53,7 +54,7 @@
         },
         methods: {
             submitHandler(e) {
-                return this.stripeSubmitHandler(e);
+                return this.elementsSubmitHandler(e);
             }
         }
     }

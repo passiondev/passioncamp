@@ -19,7 +19,7 @@
 
         @include('errors.validation')
 
-        <form action="{{ action('TicketController@update', $ticket) }}" method="POST">
+        <form action="{{ route('tickets.update', $ticket) }}" method="POST">
             {{ method_field('PATCH') }}
             {{ csrf_field() }}
 
@@ -77,16 +77,16 @@
         @if (auth()->user()->isAdmin())
             <footer class="text-right">
                 @can('cancel', $ticket)
-                    <a href="{{ action('TicketController@delete', $ticket) }}" class="btn btn-outline-warning btn-sm" onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">Cancel</a>
+                    <a href="{{ route('tickets.destroy', $ticket) }}" class="btn btn-outline-warning btn-sm" onclick="event.preventDefault(); document.getElementById('cancel-form').submit();">Cancel</a>
                 @endcan
-                <a href="{{ action('TicketController@delete', $ticket) }}" class="btn btn-outline-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">Delete</a>
+                <a href="{{ route('tickets.destroy', $ticket) }}" class="btn btn-outline-danger btn-sm" onclick="event.preventDefault(); document.getElementById('delete-form').submit();">Delete</a>
             </footer>
 
-            <form action="{{ action('TicketController@cancel', $ticket) }}" method="POST" id="cancel-form">
+            <form action="{{ route('tickets.cancel', $ticket) }}" method="POST" id="cancel-form">
                 {{ method_field('PATCH') }}
                 {{ csrf_field() }}
             </form>
-            <form action="{{ action('TicketController@delete', $ticket) }}" method="POST" id="delete-form">
+            <form action="{{ route('tickets.destroy', $ticket) }}" method="POST" id="delete-form">
                 {{ method_field('DELETE') }}
                 {{ csrf_field() }}
             </form>

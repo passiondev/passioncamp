@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <header class="d-lg-flex justify-content-between align-items-center mb-lg-2">
             <h1 class="mb-2 mb-lg-0">Attendees</h1>
-            <form class="mb-2 mb-lg-0 ml-lg-4" action="{{ action('TicketController@search') }}" method="GET">
+            <form class="mb-2 mb-lg-0 ml-lg-4" action="{{ route('tickets.search') }}" method="GET">
                 <div class="input-group">
                     <input type="search" name="query" class="form-control input-go" placeholder="Search..." value="{{ request('query') }}">
                     <span class="input-group-btn">
@@ -56,7 +56,7 @@
                                 @include('ticket/partials/label')
                             </td>
                             <td>
-                                <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                                <a href="{{ route('tickets.edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
                             </td>
                         </tr>
                     @endforeach

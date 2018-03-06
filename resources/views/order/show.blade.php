@@ -43,7 +43,7 @@
                             <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
                             <td>
                                 @can ('update', $ticket)
-                                    <a class="btn btn-outline-secondary btn-sm" href="{{ action('TicketController@edit', $ticket) }}">edit</a>
+                                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('tickets.edit', $ticket) }}">edit</a>
                                 @endcan
                             </td>
                         </tr>

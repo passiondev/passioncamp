@@ -104,7 +104,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
+                                    <a href="{{ route('tickets.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
                                         Attendees
                                     </a>
                                 </li>
@@ -146,7 +146,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('TicketController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
+                                    <a href="{{ route('tickets.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
                                         Attendees
                                     </a>
                                 </li>
