@@ -27,6 +27,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('passioncamp:update-waivers')
                  ->hourly();
+
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
     /**
      * Register the Closure based commands for the application.

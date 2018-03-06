@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Horizon\Horizon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
         setlocale(LC_MONETARY, 'en_US.UTF-8');
 
         Schema::defaultStringLength(191);
+
+        Horizon::auth(function ($request) {
+            return $request->user()->email == 'matt.floyd@268generation.com';
+        });
 
         Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
             return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
