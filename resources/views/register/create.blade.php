@@ -92,7 +92,7 @@
                     <section>
                         <div class="card card--registration">
                             <header class="card-header">
-                                <h2>Student Infromation</h2>
+                                <h2>Student Information</h2>
                             </header>
                             <div class="card-block">
                                 <div class="row">
