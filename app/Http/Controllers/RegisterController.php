@@ -76,7 +76,7 @@ class RegisterController extends Controller
         \DB::beginTransaction();
 
         $user = User::firstOrCreate(['email' => request('contact.email')]);
-        if (! count($user->person)) {
+        if (! optional($user->person)->exists) {
             $user->person()->associate(
                 Person::create(array_collapse(request([
                     'contact.first_name',
