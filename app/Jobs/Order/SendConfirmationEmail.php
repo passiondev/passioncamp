@@ -8,11 +8,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Order;
 
 class SendConfirmationEmail implements ShouldQueue
 {
     private $order;
-    private $template = 'pcc-students-smmr-cmp-2017';
+    private $template = 'pcc-students-passion-camp-2018';
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -21,7 +22,7 @@ class SendConfirmationEmail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct(Order $order)
     {
         $this->order = $order;
     }

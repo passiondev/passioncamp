@@ -73,9 +73,9 @@ Route::resource('orders.tickets', 'OrderTicketController')->only('create', 'stor
 Route::resource('orders.transactions', 'OrderTransactionController')->only('create', 'store');
 Route::post('orders/{order}/notes', 'OrderNoteController@store');
 
-Route::resource('tickets', 'TicketController')->only('index', 'create', 'store', 'edit', 'update', 'delete');
-Route::get('tickets/search', 'TicketController@search');
-Route::match(['put', 'patch'], 'tickets/{ticket}/cancel', 'TicketController@cancel');
+Route::resource('tickets', 'TicketController')->only('index', 'create', 'store', 'edit', 'update', 'destroy');
+Route::get('tickets/search', 'TicketController@search')->name('tickets.search');
+Route::match(['put', 'patch'], 'tickets/{ticket}/cancel', 'TicketController@cancel')->name('tickets.cancel');
 Route::post('tickets/export', 'TicketExportController@store');
 Route::post('tickets/{ticket}/waivers', 'TicketWaiverController@store')->name('tickets.waivers.store');
 

@@ -32,20 +32,19 @@ class RegisterController extends Controller
         }
 
         $prices = [
-            // '370' => Carbon::parse('2017-01-01'),
-            '360' => Carbon::parse('2017-04-03'),
-            '390' => Carbon::parse('2017-04-27'),
-            '410' => Carbon::parse('2017-05-07'),
+            '370' => Carbon::parse('2018-01-01'),
+            '390' => Carbon::parse('2018-04-27'),
+            '410' => Carbon::parse('2018-05-07'),
         ];
 
         return collect($prices)->filter(function ($date) {
-            return Carbon::now()->gte($date);
+            return now()->gte($date);
         })->keys()->sort()->last();
     }
 
     public function create()
     {
-        return view('register.closed');
+        // return view('register.closed');
 
         return view('register.create')->withTicketPrice($this->ticket_price);
     }

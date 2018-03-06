@@ -65,7 +65,7 @@
                         <option value="11">11th</option>
                         <option value="12">12th</option>
                     </select>
-                    <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of Spring 2017.</small></p>
+                    <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of Spring 2018.</small></p>
                 </div>
                 <div class="form-group col-lg-8">
                     <label class="control-label" :for="`tickets_${index}__school`">School</label>
