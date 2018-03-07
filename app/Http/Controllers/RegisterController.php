@@ -125,7 +125,7 @@ class RegisterController extends Controller
         collect(request('tickets'))->each(function ($data) use ($order) {
             $order->tickets()->create([
                 'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['school', 'roommate_requested']),
+                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => request('code')],
                 'price' => $this->ticket_price * 100,
                 'organization_id' => $this->organization->id,
                 'person_id' => Person::create(array_only($data, [
