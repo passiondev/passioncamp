@@ -46,6 +46,7 @@
         "spatie/laravel-activitylog": "^2.4",
         "spatie/laravel-fractal": "^5.3",
         "spatie/laravel-mailable-test": "^2.0",
+        "spatie/laravel-newsletter": "^4.2",
         "spipu/html2pdf": "~4.6",
         "stripe/stripe-php": "~3.5",
         "wildbit/postmark-php": "~2.2",

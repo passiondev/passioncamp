@@ -13,6 +13,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Order\SendConfirmationEmail;
+use App\Jobs\Order\AddToMailChimp;
 
 class RegisterController extends Controller
 {
@@ -179,7 +180,8 @@ class RegisterController extends Controller
 
         \DB::commit();
 
-        dispatch(new SendConfirmationEmail($order));
+        SendConfirmationEmail::dispatch($order);
+        AddToMailChimp::dispatch($order);
 
         return request()->expectsJson()
                ? $order->toArray()

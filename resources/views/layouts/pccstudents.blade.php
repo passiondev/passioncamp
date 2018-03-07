@@ -24,11 +24,11 @@
 </head>
 <body style="padding-top:0">
     <header id="page-header" class="text-center pt-xl-5">
-        <img src="/img/header-content.png" alt="Passion Camp" class="img-fluid">
+        <h1 style="display:none">Passion Camp</h1>
     </header>
-    <div id="page-header-banner">
+    <div id="page-header-banner" class="py-2">
         <div class="container d-flex flex-column align-items-center justify-content-between flex-sm-row">
-            <img src="/img/logo.png" alt="PCC Students" style="height: 40px;width:252px;">
+            <img src="/img/logo.png" alt="PCC Students" style="width:252px;">
             <h1>Passion Camp</h1>
         </div>
     </div>

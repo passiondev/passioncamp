@@ -116,7 +116,7 @@
                     <div class="card card--registration">
                         <div class="card-block">
                             <h4>Help Make Camp Possible!</h4>
-                            <p>Taking hundreds of students to camp is not a cheap endeavor, but we strongly believe it is going to be a life-changing week for our students and our church. We have aimed to keep the cost as low as possible so more students can afford to go, but there is still  a sizeable gap between what students are paying and our costs as a church. If you are able or if you know of anyone who wants to invest in this week for our students, you can add a gift to your payment, and we would be massively grateful!</p>
+                            <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a students from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
 
                             <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
                             <ul>
