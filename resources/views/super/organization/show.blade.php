@@ -99,6 +99,22 @@
                                     @can ('impersonate', $user)
                                         <a href="{{ action('Auth\ImpersonationController@impersonate', $user) }}" class="btn btn-sm btn-outline-secondary">impersonate</a>
                                     @endcan
+
+                                    @can ('destroy', new App\AccountUser($user->organization, $user))
+                                        <a
+                                            title="Remove user"
+                                            class="btn btn-sm btn-outline-secondary ml-2"
+                                            href="{{ route('admin.organizations.users.destroy', [$user->organization, $user]) }}"
+                                            onclick="event.preventDefault(); if (confirm('Remove this user?')) document.getElementById('account-users-destroy-form-{{ $user->id }}').submit(); else return;"
+                                        >
+                                            &times;
+                                        </a>
+
+                                        <form action="{{ route('admin.organizations.users.destroy', [$user->organization, $user]) }}" method="POST" id="account-users-destroy-form-{{ $user->id }}">
+                                            @method('DELETE')
+                                            @csrf
+                                        </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

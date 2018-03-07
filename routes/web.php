@@ -37,7 +37,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
     Route::resource('organizations', 'OrganizationController');
     Route::get('organizations/search', 'OrganizationController@search');
-    Route::resource('organizations.users', 'OrganizationUserController')->only('create', 'store');
+    Route::resource('organizations.users', 'OrganizationUserController')->only('create', 'store', 'destroy');
     Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update');
     Route::resource('organizations.payments', 'OrganizationPaymentController')->only('index', 'store');
 
@@ -51,7 +51,7 @@ Route::prefix('account')->as('account.')->group(function () {
     Route::get('dashboard', 'Account\DashboardController')->name('dashboard');
     Route::get('settings', 'Account\SettingsController')->name('settings');
     Route::resource('payments', 'Account\PaymentController')->only('index', 'store');
-    Route::resource('users', 'Account\UserController')->only('create', 'store');
+    Route::resource('users', 'Account\UserController')->only('create', 'store', 'destroy');
     Route::resource('tickets', 'Account\TicketController')->only('create', 'store');
 });
 
