@@ -35,7 +35,7 @@ class SendConfirmationEmail implements ShouldQueue
     public function handle(Mandrill $mandrill)
     {
         $message = [
-            'subject' => 'SMMR CMP Registration Confirmation',
+            'subject' => 'Passion Camp Registration Confirmation',
             'to' => [
                 [
                     'name' => $this->order->user->person->name,

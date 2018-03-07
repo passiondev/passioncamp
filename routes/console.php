@@ -4,6 +4,8 @@ use App\Waiver;
 use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
+use App\Jobs\Order\SendConfirmationEmail;
+use App\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +66,8 @@ Artisan::command('passioncamp:update-waivers', function ($organizationIds = []) 
         });
 
     $this->info($count);
+});
+
+Artisan::command('pcc:confirmation {order}', function ($order) {
+    SendConfirmationEmail::dispatch(Order::find($order));
 });

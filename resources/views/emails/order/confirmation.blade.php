@@ -1,10 +1,10 @@
-<p>We just wanted to confirm that your student is signed up for Passion Camp 2018! It is going to be an amazing week that your student will never forget. We will be in touch with more details at the end of May. Please remember that your final payment is due May 3rd.</p>
-
-<p>ALL Summer Camp forms are due two weeks after you register your student.</p>
-
-<p>Space is limited, so please encourage any other students you want to join to sign up quickly!</p>
+<p>We are excited your {{ str_plural('student', $order->num_tickets) }} {{ $order->num_tickets == 1 ? 'is' : 'are' }} planning to join PCC Students at Passion Camp 2018! We are looking forward to all that Jesus is going to do in students' lives during our time together in Daytona Beach!</p>
 
 <p>If you have any questions, feel free to email our team at students@passioncitychurch.com.</p>
 
 <p>We look forward to seeing everyone in Daytona!<br />
 The Passion Students Team</p>
+
+<hr>
+
+@include('order.receipt')
