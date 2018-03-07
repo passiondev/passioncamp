@@ -116,7 +116,7 @@
                     <div class="card card--registration">
                         <div class="card-block">
                             <h4>Help Make Camp Possible!</h4>
-                            <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a students from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
+                            <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
 
                             <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
                             <ul>
