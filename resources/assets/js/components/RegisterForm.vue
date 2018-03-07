@@ -8,22 +8,30 @@
 
     export default {
         mixins: [payment],
-        props: ['stripeElements', 'canPayDeposit'],
+        props: ['stripeElements', 'canPayDeposit', 'initialCode'],
         components: {
             ticket
         },
         data() {
-            let local = {};
+            let local = {
+                discountCode: this.$props.initialCode,
+                localTicketPrice: ticket_price
+            };
 
             return Object.assign(vuex, local);
         },
+        created() {
+            if (this.discountCode) {
+                this.applyDiscountCode()
+            }
+        },
         computed: {
             ticket_price() {
-                if (ticket_price == 375) {
-                    return ticket_price;
+                if (this.localTicketPrice <= 375) {
+                    return this.localTicketPrice;
                 }
 
-                return this.num_tickets >= 2 ? (ticket_price - 20) : ticket_price;
+                return this.num_tickets >= 2 ? (this.localTicketPrice - 20) : this.localTicketPrice;
             },
             ticket_total() {
                 return this.num_tickets * this.ticket_price;
@@ -59,6 +67,13 @@
         methods: {
             submitHandler(e) {
                 return this.elementsSubmitHandler(e);
+            },
+            applyDiscountCode() {
+                console.log('test')
+                console.log(this.discountCode)
+                if (this.discountCode == 'rising') {
+                    this.localTicketPrice = 365;
+                }
             }
         }
     }
