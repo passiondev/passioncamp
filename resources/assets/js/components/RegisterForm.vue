@@ -8,7 +8,7 @@
 
     export default {
         mixins: [payment],
-        props: ['stripeElements'],
+        props: ['stripeElements', 'canPayDeposit'],
         components: {
             ticket
         },
@@ -19,6 +19,10 @@
         },
         computed: {
             ticket_price() {
+                if (ticket_price == 375) {
+                    return ticket_price;
+                }
+
                 return this.num_tickets >= 2 ? (ticket_price - 20) : ticket_price;
             },
             ticket_total() {
@@ -28,13 +32,13 @@
                 return parseInt(this.fund_amount == 'other' ? this.fund_amount_other : this.fund_amount) || 0;
             },
             deposit_amount() {
-                return this.num_tickets * 60 + this.donation_total;
+                return this.num_tickets * 75 + this.donation_total;
             },
             full_amount() {
                 return this.ticket_total + this.donation_total;
             },
             payment_amount() {
-                return this.payment_type == 'deposit' ? this.deposit_amount : this.full_amount;
+                return this.canPayDeposit && this.payment_type == 'deposit' ? this.deposit_amount : this.full_amount;
             },
             tickets() {
                 let tickets = this.ticketData;

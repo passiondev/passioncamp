@@ -26,10 +26,6 @@
             </div>
             <div class="row">
                 <div class="form-group col-lg-4">
-                    <label class="control-label" :for="`tickets_${index}__birthdate`">Birthdate</label>
-                    <input class="form-control js-form-input-date" placeholder="mm/dd/yyyy" type="text" :id="`tickets_${index}__birthdate`" :name="`tickets[${index}][birthdate]`" v-model="ticket.birthdate">
-                </div>
-                <div class="form-group col-lg-4">
                     <label class="control-label" :for="`tickets_${index}__gender`">Gender</label>
                     <div class="form-controls form-controls--radio">
                         <label class="radio-inline">
@@ -39,17 +35,6 @@
                             <input type="radio" value="F" :name="`tickets[${index}][gender]`" v-model="ticket.gender" :id="`tickets_${index}__gender`"> Female
                         </label>
                     </div>
-                </div>
-                <div class="form-group col-lg-4">
-                    <label class="control-label" :for="`tickets_${index}__shirtsize`">Shirt Size</label>
-                    <select class="form-control" :id="`tickets_${index}__shirtsize`" :name="`tickets[${index}][shirtsize]`" v-model="ticket.shirtsize">
-                        <option></option>
-                        <option value="XS">XS</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                    </select>
                 </div>
             </div>
             <div class="row">
@@ -75,13 +60,9 @@
             <div class="form-group">
                 <label class="control-label" :for="`tickets_${index}__roommate_requested`">Roommate Requested <small class="text-muted">(optional)</small></label>
                 <input class="form-control" type="text" :name="`tickets[${index}][roommate_requested]`" v-model="ticket.roommate_requested" :id="`tickets_${index}__roommate_requested`">
+                <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Roommate requests will be considered but are not guaranteed.</small></p>
             </div>
             <div class="form-group">
-                <label class="control-label" :for="`tickets_${index}__travel_plans`">Alternate Arrival/Departure Plans <small class="text-muted">(optional)</small></label>
-                <input class="form-control" type="text" :name="`tickets[${index}][travel_plans]`" v-model="ticket.travel_plans" :id="`tickets_${index}__travel_plans`">
-            </div>
-            <div class="form-group">
-
                 <fieldset class="form-group">
                     <div class="form-check">
                         <label class="form-check-label">

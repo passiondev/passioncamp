@@ -8,15 +8,15 @@
             'ticketData' => old('tickets', []),
             'fund_amount' => old('fund_amount'),
             'fund_amount_other' => old('fund_amount_other'),
-            'payment_type' => old('payment_type', 'full')
+            'payment_type' => old('payment_type', $can_pay_deposit ? 'deposit' : 'full')
         ]) !!}
     </script>
 @endsection
 @section('content')
 <div class="container">
-    <register-form inline-template stripe-elements="card-element">
-        <form class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
-            {{ csrf_field() }}
+    <register-form inline-template stripe-elements="card-element" :can-pay-deposit="@json($can_pay_deposit)">
+        <form ref="form" class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
+            @csrf
             @if (request('code'))
                 <input type="hidden" name="code" value="{{ request('code') }}">
             @endif
@@ -182,7 +182,7 @@
                                         <ul class="order-summary list-unstyled mb-0">
                                             <li class="row order-summary__item py-1">
                                                 <div class="col">
-                                                    <p class="mb-0">SMMR CMP Ticket x@{{ num_tickets }}</p>
+                                                    <p class="mb-0">Passion Camp Ticket x@{{ num_tickets }}</p>
                                                     <span class="text-muted">@{{ ticket_price | currency }}</span>
                                                 </div>
                                                 <div class="col text-right">
@@ -205,35 +205,41 @@
                                                     <strong>@{{ full_amount | currency }}</strong>
                                                 </div>
                                             </li>
-                                            <li class="row order-summary__item">
-                                                <div class="col">
-                                                    Deposit Amount
-                                                </div>
-                                                <div class="col text-right">
-                                                    @{{ deposit_amount | currency }}
-                                                </div>
-                                            </li>
+                                            @if ($can_pay_deposit)
+                                                <li class="row order-summary__item">
+                                                    <div class="col">
+                                                        Deposit Amount
+                                                    </div>
+                                                    <div class="col text-right">
+                                                        @{{ deposit_amount | currency }}
+                                                    </div>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="card-block">
-                                <h4>Payment Options</h4>
-                                <div class="form-check-pill">
-                                    <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_type">
-                                    <label for="payment_type--full">
-                                        @icon('checkmark') Pay Full Amount
-                                    </label>
+                            @if ($can_pay_deposit)
+                                <div class="card-block">
+                                    <h4>Payment Options</h4>
+                                        <div class="form-check-pill">
+                                            <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_type">
+                                            <label for="payment_type--deposit">
+                                                @icon('checkmark') Pay Deposit
+                                            </label>
+                                        </div>
+                                    <div class="form-check-pill">
+                                        <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_type">
+                                        <label for="payment_type--full">
+                                            @icon('checkmark') Pay Full Amount
+                                        </label>
+                                    </div>
+                                    <p class="form-text"><em>**Deposits are non-refundable.</em></p>
                                 </div>
-                                <div class="form-check-pill">
-                                    <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_type">
-                                    <label for="payment_type--deposit">
-                                        @icon('checkmark') Pay Deposit
-                                    </label>
-                                </div>
-                                <p class="form-text"><em>**Deposits are non-refundable.</em></p>
-                            </div>
+                            @else
+                                <input type="hidden" name="payment_type" value="full">
+                            @endif
 
                             <div class="card-block">
                                 <h4>Credit or debit card</h4>
@@ -255,7 +261,7 @@
 
 
                     <section>
-                        <p class="lead">Full payment is due by May 1st. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
+                        <p class="lead">Full payment is due by May 3rd. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
 
                         <p><i>Upon clicking submit, your credit card will be charged <strong>@{{ payment_amount | currency }}</strong> for your Passion Camp registration.</i></p>
 
@@ -273,7 +279,7 @@
                                 <ul class="order-summary list-unstyled mb-0">
                                     <li class="row order-summary__item py-1">
                                         <div class="col">
-                                            <p class="mb-0">SMMR CMP Ticket x@{{ num_tickets }}</p>
+                                            <p class="mb-0">Passion Camp Ticket x@{{ num_tickets }}</p>
                                             <span class="text-muted">@{{ ticket_price | currency }}</span>
                                         </div>
                                         <div class="col text-right">
@@ -296,14 +302,16 @@
                                             <strong>@{{ full_amount | currency }}</strong>
                                         </div>
                                     </li>
-                                    <li class="row order-summary__item px-4">
-                                        <div class="col">
-                                            Deposit Amount
-                                        </div>
-                                        <div class="col text-right">
-                                            @{{ deposit_amount | currency }}
-                                        </div>
-                                    </li>
+                                    @if ($can_pay_deposit)
+                                        <li class="row order-summary__item px-4">
+                                            <div class="col">
+                                                Deposit Amount
+                                            </div>
+                                            <div class="col text-right">
+                                                @{{ deposit_amount | currency }}
+                                            </div>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>

@@ -116,7 +116,7 @@ class Order extends Model
     {
         return array_sum([
             $this->donation_total,
-            $this->ticket_count * 6000
+            $this->ticket_count * 7500
         ]);
     }
 

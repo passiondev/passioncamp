@@ -17,12 +17,14 @@ use App\Jobs\Order\SendConfirmationEmail;
 class RegisterController extends Controller
 {
     protected $organization;
-    protected $ticket_price = 370;
+    protected $ticket_price;
+    protected $can_pay_deposit;
 
     public function __construct()
     {
         $this->organization = Organization::whereSlug('pcc')->firstOrFail();
         $this->ticket_price = $this->getCurrentTicketPrice();
+        $this->can_pay_deposit = now()->lte(Carbon::parse('2018-05-03')->endOfDay());
     }
 
     public function getCurrentTicketPrice()
@@ -32,9 +34,9 @@ class RegisterController extends Controller
         }
 
         $prices = [
-            '370' => Carbon::parse('2018-01-01'),
-            '390' => Carbon::parse('2018-04-27'),
-            '410' => Carbon::parse('2018-05-07'),
+            '375' => Carbon::parse('2018-01-01'),
+            '400' => Carbon::parse('2018-04-08'),
+            '420' => Carbon::parse('2018-05-06'),
         ];
 
         return collect($prices)->filter(function ($date) {
@@ -46,13 +48,16 @@ class RegisterController extends Controller
     {
         // return view('register.closed');
 
-        return view('register.create')->withTicketPrice($this->ticket_price);
+        return view('register.create', [
+            'ticketPrice' => $this->ticket_price,
+            'can_pay_deposit' => $this->can_pay_deposit,
+        ]);
     }
 
     public function store()
     {
-        if (request('num_tickets') >= 2) {
-            $this->ticket_price -= 20;
+        if ($this->ticket_price == 400 && request('num_tickets') >= 2) {
+            $this->ticket_price = 375;
         }
 
         $this->validate(request(), [
@@ -67,10 +72,8 @@ class RegisterController extends Controller
             'num_tickets' => 'required|numeric|min:1',
             'tickets.*.first_name' => 'required',
             'tickets.*.last_name' => 'required',
-            'tickets.*.shirtsize' => 'required',
             'tickets.*.gender' => 'required',
             'tickets.*.grade' => 'required',
-            'tickets.*.birthdate' => 'required',
             'payment_type' => 'required',
         ]);
 
@@ -121,12 +124,12 @@ class RegisterController extends Controller
         collect(request('tickets'))->each(function ($data) use ($order) {
             $order->tickets()->create([
                 'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['shirtsize', 'school', 'roommate_requested', 'travel_plans']),
+                'ticket_data' => array_only($data, ['school', 'roommate_requested']),
                 'price' => $this->ticket_price * 100,
                 'organization_id' => $this->organization->id,
                 'person_id' => Person::create(array_only($data, [
                     'first_name', 'last_name', 'email', 'phone',
-                    'birthdate', 'gender', 'grade', 'allergies',
+                    'gender', 'grade', 'allergies',
                     'considerations',
                 ]))->id,
             ]);
@@ -144,7 +147,7 @@ class RegisterController extends Controller
         try {
             $charge = \Stripe\Charge::create(
                 [
-                    'amount' => request('payment_type') == 'deposit' ? $order->deposit_total : $order->grand_total,
+                    'amount' => $this->can_pay_deposit && request('payment_type') == 'deposit' ? $order->deposit_total : $order->grand_total,
                     'currency' => 'usd',
                     'source' => request('stripeToken'),
                     'description' => 'Passion Camp',
