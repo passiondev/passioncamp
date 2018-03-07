@@ -8,7 +8,7 @@
 
                 <p>A confirmation email has been sent to <strong>{{ $order->user->person->email }}</strong>.</p>
 
-                <p>If you have any questions, please feel free to check out the FAQ on the SMMR CMP website or contact our team at <a href="mailto:students@passioncitychurch.com">students@passioncitychurch.com</a> or 678.366.9192.</p>
+                <p>If you have any questions, please feel free to check out the FAQ on the Passion Camp website or contact our team at <a href="mailto:students@passioncitychurch.com">students@passioncitychurch.com</a> or 678.366.9192.</p>
 
                 @include('order.receipt')
             </div>
