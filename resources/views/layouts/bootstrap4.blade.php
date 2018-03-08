@@ -113,11 +113,13 @@
                                         Rooming&nbsp;Lists
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{ action('WaiverController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
-                                        Waivers
-                                    </a>
-                                </li>
+                                @if (Route::has('waivers.index'))
+                                    <li class="nav-item">
+                                        <a href="{{ action('WaiverController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
+                                            Waivers
+                                        </a>
+                                    </li>
+                                @endif
                                 <li class="nav-item">
                                     <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                         Hotels
