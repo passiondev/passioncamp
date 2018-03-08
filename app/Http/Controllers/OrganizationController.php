@@ -74,9 +74,11 @@ class OrganizationController extends Controller
             ->church()->associate(Church::create(request('church')))
             ->contact()->associate(Person::create(request('contact')))
             ->studentPastor()->associate(Person::create(request('student_pastor')))
-        ->save();
+        ;
 
-        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church created.');
+        $organization->save();
+
+        return redirect()->route('admin.organizations.show', $organization)->with('success', 'Church created.');
     }
 
     public function edit(Organization $organization)
