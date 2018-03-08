@@ -30,7 +30,7 @@ class RegisterController extends Controller
 
     public function getCurrentTicketPrice()
     {
-        if (request('code') == 'rising') {
+        if (strtolower(request('code')) == 'rising') {
             return 365;
         }
 
