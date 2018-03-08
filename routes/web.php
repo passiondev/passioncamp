@@ -55,17 +55,20 @@ Route::prefix('account')->as('account.')->group(function () {
     Route::resource('tickets', 'Account\TicketController')->only('create', 'store');
 });
 
-Route::get('roominglist', 'RoomingListController@index');
 
-Route::resource('rooms', 'RoomController')->only('edit', 'update');
-Route::resource('room-assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
+if (config('passioncamp.enable_rooms')) {
+    Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
 
-Route::post('rooms/{room}/check-in', 'RoomController@checkin');
-Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
+    Route::resource('rooms', 'RoomController')->only('edit', 'update');
+    Route::resource('room-assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
 
-// Route::get('rooms/{room}/label', 'RoomLabelController@show');
-Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
-Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
+    Route::post('rooms/{room}/check-in', 'RoomController@checkin');
+    Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
+
+    // Route::get('rooms/{room}/label', 'RoomLabelController@show');
+    Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
+    Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
+}
 
 Route::resource('orders', 'OrderController')->only('index', 'show');
 Route::post('orders/exports', 'OrderExportController@store')->name('orders.exports.store');
@@ -103,10 +106,11 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
 Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
-Route::get('waivers', 'WaiverController@index')->name('waivers.index');
-Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
-Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
-Route::delete('waivers/{waiver}', 'WaiverController@destroy');
+if (config('passioncamp.enable_waivers')) {
+    Route::resource('waivers', 'WaiverController')->only('index', 'destroy');
+    Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
+    Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
+}
 
 Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 
