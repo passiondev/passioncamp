@@ -24,9 +24,20 @@
             </div>
 
 
-            <button class="btn btn-primary">Update Item</button>
-
+            <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-primary">Update Item</button>
+                <button
+                    class="btn btn-sm btn-outline-danger"
+                    onclick="event.preventDefault(); if (confirm('Remove item?')) document.getElementById('delete-item-form').submit(); else return;"
+                >
+                    Delete
+                </button>
+            </div>
         </form>
 
+        <form action="{{ route('admin.organizations.items.destroy', [$organization, $item]) }}" method="POST" id="delete-item-form">
+            @method('DELETE')
+            @csrf
+        </form>
     </div>
 @stop

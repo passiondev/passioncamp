@@ -38,7 +38,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::resource('organizations', 'OrganizationController');
     Route::get('organizations/search', 'OrganizationController@search');
     Route::resource('organizations.users', 'OrganizationUserController')->only('create', 'store', 'destroy');
-    Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update');
+    Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update', 'destroy');
     Route::resource('organizations.payments', 'OrganizationPaymentController')->only('index', 'store');
 
     Route::resource('hotels', 'HotelController')->only('index', 'show');

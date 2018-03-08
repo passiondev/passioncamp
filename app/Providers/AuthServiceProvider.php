@@ -23,7 +23,8 @@ class AuthServiceProvider extends ServiceProvider
         App\Room::class         => Policies\RoomPolicy::class,
         App\Person::class       => Policies\PersonPolicy::class,
         App\Waiver::class       => Policies\WaiverPolicy::class,
-        App\AccountUser::class  => Policies\AccountUserPolicy::class
+        App\AccountUser::class  => Policies\AccountUserPolicy::class,
+        App\OrgItem::class      => Policies\OrgItemPolicy::class,
     ];
 
     /**
