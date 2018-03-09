@@ -100,17 +100,17 @@ class Organization extends Model
 
     public function church()
     {
-        return $this->belongsTo(Church::class);
+        return $this->belongsTo(Church::class)->withDefault();
     }
 
     public function contact()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withDefault();
     }
 
     public function studentPastor()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withDefault();
     }
 
     public function items()
