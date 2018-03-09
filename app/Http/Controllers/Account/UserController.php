@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Mail\AccountUserCreated;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use App\User;
+use App\AccountUser;
 
 class UserController extends Controller
 {
@@ -33,5 +35,14 @@ class UserController extends Controller
         Mail::to($user)->send(new AccountUserCreated($user));
 
         return redirect()->action('Account\SettingsController@index');
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', new AccountUser(auth()->user()->organization, $user));
+
+        $user->organization()->dissociate()->save();
+
+        return redirect()->back();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Person;
+use App\AccountUser;
 use App\Organization;
 use App\Mail\AccountUserCreated;
 use Illuminate\Support\Facades\Mail;
@@ -37,5 +38,14 @@ class OrganizationUserController extends Controller
         Mail::to($user)->send(new AccountUserCreated($user));
 
         return redirect()->action('OrganizationController@show', $organization);
+    }
+
+    public function destroy(Organization $organization, User $user)
+    {
+        $this->authorize('destroy', new AccountUser($organization, $user));
+
+        $user->organization()->dissociate()->save();
+
+        return redirect()->back();
     }
 }

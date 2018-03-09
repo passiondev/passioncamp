@@ -41,6 +41,50 @@ class ChurchImport extends Command
      */
     public function handle()
     {
+        $csv = Reader::createFromPath(storage_path('app/import2018.csv'));
+        $csv->setHeaderOffset(0);
+
+        $keys = collect($csv->getRecords())
+            ->map(function ($row) {
+                $organization = Organization::findOrNew($row['ORG ID']);
+
+                if (! $organization->exists) {
+                    $organization->save();
+                }
+
+                $organization->church->fill([
+                    'name' => $row['Church Name'],
+                    'street' => $row['Address'],
+                    'city' => $row['City'],
+                    'state' => $row['State'],
+                    'zip' => $row['Zip'],
+                    'website' => $row['Website'],
+                    'pastor_name' => $row['Pastor'],
+                ])->save();
+
+                $organization->studentPastor->fill([
+                    'first_name' => $row['Student Pastor First'],
+                    'last_name' => $row['Student Pastor Last'],
+                    'email' => $row['SP Email'],
+                    'phone' => $row['SP Mobile'],
+                    'phone2' => $row['SP Office'],
+                ])->save();
+
+                $organization->contact->fill([
+                    'first_name' => $row['Contact First'],
+                    'last_name' => $row['Contact Last'],
+                    'email' => $row['Contact Email'],
+                    'phone' => $row['Contact Mobile'],
+                    'phone2' => $row['Contact Office'],
+                ])->save();
+
+                return $organization->id;
+            })
+            ->dd()
+        ;
+
+        die();
+
         $tickets = [
             'full' => 1,
             'meals' => 3,

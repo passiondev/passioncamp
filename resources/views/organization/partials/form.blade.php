@@ -42,8 +42,12 @@
     <input type="email" name="student_pastor[email]" id="student_pastor__email" value="{{ old('student_pastor[email]', $organization->studentPastor->email) }}" class="form-control">
 </div>
 <div class="form-group">
-    <label for="student_pastor__phone">Phone Number</label>
+    <label for="student_pastor__phone">Mobile Number</label>
     <input type="text" name="student_pastor[phone]" id="student_pastor__phone" value="{{ old('student_pastor[phone]', $organization->studentPastor->phone) }}" class="form-control">
+</div>
+<div class="form-group">
+    <label for="student_pastor__phone2">Office Number</label>
+    <input type="text" name="student_pastor[phone2]" id="student_pastor__phone2" value="{{ old('student_pastor[phone2]', $organization->studentPastor->phone2) }}" class="form-control">
 </div>
 
 <h3>Contact</h3>
@@ -60,8 +64,12 @@
     <input type="email" name="contact[email]" id="contact__email" value="{{ old('contact[email]', $organization->contact->email) }}" class="form-control">
 </div>
 <div class="form-group">
-    <label for="contact__phone">Phone Number</label>
+    <label for="contact__phone">Mobile Number</label>
     <input type="text" name="contact[phone]" id="contact__phone" value="{{ old('contact[phone]', $organization->contact->phone) }}" class="form-control">
+</div>
+<div class="form-group">
+    <label for="contact__phone2">Office Number</label>
+    <input type="text" name="contact[phone2]" id="contact__phone2" value="{{ old('contact[phone2]', $organization->contact->phone2) }}" class="form-control">
 </div>
 
 {{--

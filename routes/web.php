@@ -37,8 +37,8 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
     Route::resource('organizations', 'OrganizationController');
     Route::get('organizations/search', 'OrganizationController@search');
-    Route::resource('organizations.users', 'OrganizationUserController')->only('create', 'store');
-    Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update');
+    Route::resource('organizations.users', 'OrganizationUserController')->only('create', 'store', 'destroy');
+    Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update', 'destroy');
     Route::resource('organizations.payments', 'OrganizationPaymentController')->only('index', 'store');
 
     Route::resource('hotels', 'HotelController')->only('index', 'show');
@@ -51,21 +51,24 @@ Route::prefix('account')->as('account.')->group(function () {
     Route::get('dashboard', 'Account\DashboardController')->name('dashboard');
     Route::get('settings', 'Account\SettingsController')->name('settings');
     Route::resource('payments', 'Account\PaymentController')->only('index', 'store');
-    Route::resource('users', 'Account\UserController')->only('create', 'store');
+    Route::resource('users', 'Account\UserController')->only('create', 'store', 'destroy');
     Route::resource('tickets', 'Account\TicketController')->only('create', 'store');
 });
 
-Route::get('roominglist', 'RoomingListController@index');
 
-Route::resource('rooms', 'RoomController')->only('edit', 'update');
-Route::resource('room-assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
+if (config('passioncamp.enable_rooms')) {
+    Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
 
-Route::post('rooms/{room}/check-in', 'RoomController@checkin');
-Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
+    Route::resource('rooms', 'RoomController')->only('edit', 'update');
+    Route::resource('room-assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
 
-// Route::get('rooms/{room}/label', 'RoomLabelController@show');
-Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
-Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
+    Route::post('rooms/{room}/check-in', 'RoomController@checkin');
+    Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
+
+    // Route::get('rooms/{room}/label', 'RoomLabelController@show');
+    Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
+    Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
+}
 
 Route::resource('orders', 'OrderController')->only('index', 'show');
 Route::post('orders/exports', 'OrderExportController@store')->name('orders.exports.store');
@@ -103,10 +106,11 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
 Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
-Route::get('waivers', 'WaiverController@index')->name('waivers.index');
-Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
-Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
-Route::delete('waivers/{waiver}', 'WaiverController@destroy');
+if (config('passioncamp.enable_waivers')) {
+    Route::resource('waivers', 'WaiverController')->only('index', 'destroy');
+    Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
+    Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
+}
 
 Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 
