@@ -48,11 +48,7 @@ class ChurchImport extends Command
             ->map(function ($row) {
                 $organization = Organization::findOrNew($row['ORG ID']);
 
-                if (! $organization->exists) {
-                    $organization->save();
-                }
-
-                $organization->church->fill([
+                $church = tap($organization->church->fill([
                     'name' => $row['Church Name'],
                     'street' => $row['Address'],
                     'city' => $row['City'],
@@ -60,23 +56,34 @@ class ChurchImport extends Command
                     'zip' => $row['Zip'],
                     'website' => $row['Website'],
                     'pastor_name' => $row['Pastor'],
-                ])->save();
+                ]), function ($church) {
+                    $church->save();
+                });
+                $organization->church()->associate($church);
 
-                $organization->studentPastor->fill([
+                $studentPastor = tap($organization->studentPastor->fill([
                     'first_name' => $row['Student Pastor First'],
                     'last_name' => $row['Student Pastor Last'],
                     'email' => $row['SP Email'],
                     'phone' => $row['SP Mobile'],
                     'phone2' => $row['SP Office'],
-                ])->save();
+                ]), function ($studentPastor) {
+                    $studentPastor->save();
+                });
+                $organization->studentPastor()->associate($studentPastor);
 
-                $organization->contact->fill([
+                $contact = tap($organization->contact->fill([
                     'first_name' => $row['Contact First'],
                     'last_name' => $row['Contact Last'],
                     'email' => $row['Contact Email'],
                     'phone' => $row['Contact Mobile'],
                     'phone2' => $row['Contact Office'],
-                ])->save();
+                ]), function ($contact) {
+                    $contact->save();
+                });
+                $organization->contact()->associate($contact);
+
+                $organization->save();
 
                 return $organization->id;
             })
