@@ -19,10 +19,6 @@ class VerifyUserIsChurchAdmin
             return $next($request);
         }
 
-        if ($request->user() && $request->user()->isSuperAdmin()) {
-            return redirect()->route('/');
-        }
-
-        return abort(401, 'Unauthorized.');
+        return abort(403, 'Unauthorized.');
     }
 }

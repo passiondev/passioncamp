@@ -16,7 +16,7 @@ class VerifyUserIsAdmin
      */
     public function handle($request, Closure $next)
     {
-        abort_unless(Auth::user() && (Auth::user()->isAdmin()), 401, 'Unauthorized.');
+        abort_unless(Auth::user() && (Auth::user()->isAdmin()), 403, 'Unauthorized.');
 
         return $next($request);
     }
