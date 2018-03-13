@@ -19,6 +19,11 @@ class Organization extends Model
         // 'settings',
     ];
 
+    protected $alias = [
+        'total_cost' => 'cost_sum',
+        'total_paid' => 'paid_sum',
+    ];
+
     protected static function boot()
     {
         static::addGlobalScope('activeAttendeesCount', function ($builder) {
@@ -66,6 +71,20 @@ class Organization extends Model
         }, 'tickets_sum');
     }
 
+    // public function getTicketsSumAttribute($tickets_sum)
+    // {
+    //     if (! array_key_exists('tickets_sum', $this->attributes)) {
+    //         $tickets_sum = static::newQueryWithoutScopes()
+    //             ->scopes(['withTicketsSum'])
+    //             ->find($this->id)
+    //             ->tickets_sum;
+
+    //         $this->setAttribute('tickets_sum', $tickets_sum);
+    //     }
+
+    //     return $tickets_sum;
+    // }
+
     public function scopeWithHotelsSum($query)
     {
         return $query->selectSub(function ($q) {
@@ -85,6 +104,20 @@ class Organization extends Model
         }, 'cost_sum');
     }
 
+    public function getCostSumAttribute($cost_sum)
+    {
+        if (! array_key_exists('cost_sum', $this->attributes)) {
+            $cost_sum = static::newQueryWithoutScopes()
+                ->scopes(['withCostSum'])
+                ->find($this->id)
+                ->cost_sum;
+
+            $this->setAttribute('cost_sum', $cost_sum);
+        }
+
+        return $cost_sum;
+    }
+
     public function scopeWithPaidSum($query, $source = null)
     {
         return $query->selectSub(function ($q) use ($source) {
@@ -96,6 +129,20 @@ class Organization extends Model
                 })
                 ->whereRaw('transaction_splits.organization_id = organizations.id');
         }, $source ? $source . '_paid_sum' : 'paid_sum');
+    }
+
+    public function getPaidSumAttribute($paid_sum)
+    {
+        if (! array_key_exists('paid_sum', $this->attributes)) {
+            $paid_sum = static::newQueryWithoutScopes()
+                ->scopes(['withPaidSum'])
+                ->find($this->id)
+                ->paid_sum;
+
+            $this->setAttribute('paid_sum', $paid_sum);
+        }
+
+        return $paid_sum;
     }
 
     public function church()
@@ -250,18 +297,6 @@ class Organization extends Model
         $setting->value = $value;
 
         $setting->save();
-    }
-
-    public function getTotalCostAttribute()
-    {
-        return $this->items->sum(function ($item) {
-            return $item->cost * $item->quantity;
-        });
-    }
-
-    public function getTotalPaidAttribute()
-    {
-        return $this->transactions->sum('amount');
     }
 
     public function getDepositBalanceAttribute()

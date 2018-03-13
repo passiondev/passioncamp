@@ -32,8 +32,9 @@ class ImportProducts extends Command
                 $organization->items()->create([
                     'org_type' => in_array($row['item_id'], [1,3,4,5,19]) ? 'ticket' : 'hotel',
                     'item_id' => $row['item_id'],
-                    'cost' => $row['price'] * 100,
+                    'cost' => (int) $row['price'] * 100,
                     'quantity' => $row['quantity'],
+                    'name' => $row['name'],
                 ]);
             });
     }

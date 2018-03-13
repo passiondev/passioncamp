@@ -45,6 +45,9 @@ class ChurchImport extends Command
         $csv->setHeaderOffset(0);
 
         $keys = collect($csv->getRecords())
+            ->reject(function ($row) {
+                return ! empty($row['new id']);
+            })
             ->map(function ($row) {
                 $organization = Organization::findOrNew($row['ORG ID']);
 

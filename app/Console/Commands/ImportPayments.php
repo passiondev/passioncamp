@@ -22,7 +22,7 @@ class ImportPayments extends Command
      */
     public function handle()
     {
-        $csv = Reader::createFromPath(storage_path('app/import2018-products.csv'));
+        $csv = Reader::createFromPath(storage_path('app/import2018-payments.csv'));
         $csv->setHeaderOffset(0);
 
         collect($csv->getRecords())
