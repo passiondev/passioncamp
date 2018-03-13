@@ -8,6 +8,9 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RegisterController;
+use App\User;
 
 class RegisterTest extends TestCase
 {
@@ -22,7 +25,7 @@ class RegisterTest extends TestCase
 
     private function register($params = [])
     {
-        return $this->json('POST', '/register', array_merge([
+        return $this->json('POST', route('register.create'), array_merge([
             'contact' => [
                 'first_name' => 'Matt',
                 'last_name' => 'Floyd',
@@ -59,20 +62,46 @@ class RegisterTest extends TestCase
             ],
             'num_tickets' => 2,
             'stripeToken' => $this->generateToken(),
-            'payment_type' => 'deposit',
+            'payment_type' => 'full',
             'fund_amount' => 50
         ], $params));
+    }
+
+    private function orderTotal()
+    {
+        return 100 * (app(RegisterController::class)->getCurrentTicketPrice() * 2 + 50);
     }
 
     /** @test */
     public function can_register()
     {
-        $response = $this->register();
+        // $this->withoutExceptionHandling();
+        // \App\User::create([
+        //     'email' => 'matt.floyd@268generation.com',
+        //     'person' => ['first_name' => 'John']
+        // ]);
 
-        // dd($response->getContent());
-        // $response->assertRedirect(route('register.confirmation'));
+        $response = $this->register([
+            // 'contact' => ['email' => 'matt@example.com']
+        ]);
+
+        $response->assertRedirect(route('register.confirmation'));
+
         $this->assertEquals(1, Order::count());
-        $this->assertEquals(82000, Order::first()->transactions_total);
+        $this->assertEquals(1, User::count());
+        $this->assertEquals(2, Ticket::count());
+
+        $order = Order::first();
+        $this->assertCount(2, $order->tickets);
+        $this->assertCount(1, $order->donations);
+        $this->assertCount(1, $order->transactions);
+        $this->assertEquals(0, $order->balance);
+        $this->assertEquals(37500, $order->tickets->first()->price);
+        $this->assertEquals('matt.floyd@268generation.com', $order->user->email);
+        $this->assertEquals('Matt Floyd', $order->user->person->name);
+        $this->assertEquals('One', $order->tickets->first()->person->first_name);
+        $this->assertEmpty($order->tickets->first()->person->street);
+        $this->assertEquals($this->orderTotal(), Order::first()->transactions_total);
     }
 
     /** @test */

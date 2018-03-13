@@ -236,4 +236,20 @@ class Ticket extends OrderItem
             ]
         );
     }
+
+    public function setPersonAttribute($person)
+    {
+        if (is_array($person)) {
+            $person = $this->person->exists
+                ? tap($this->person->fill($person))->save()
+                : Person::create($person);
+        }
+
+        $this->person()->associate($person);
+    }
+
+    public function setPriceInDollarsAttribute($price)
+    {
+        $this->price = $price * 100;
+    }
 }

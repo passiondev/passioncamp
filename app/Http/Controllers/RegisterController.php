@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Order\SendConfirmationEmail;
 use App\Jobs\Order\AddToMailChimp;
+use App\Http\Requests\RegisterCreateRequest;
 
 class RegisterController extends Controller
 {
@@ -55,95 +56,18 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(RegisterCreateRequest $request)
     {
         if ($this->ticket_price > 375 && request('num_tickets') >= 2) {
             $this->ticket_price = 375;
         }
 
-        $this->validate(request(), [
-            'contact.first_name' => 'required',
-            'contact.last_name' => 'required',
-            'contact.email' => 'required|email',
-            'contact.phone' => 'required',
-            'billing.street' => 'required',
-            'billing.city' => 'required',
-            'billing.state' => 'required',
-            'billing.zip' => 'required',
-            'num_tickets' => 'required|numeric|min:1',
-            'tickets.*.first_name' => 'required',
-            'tickets.*.last_name' => 'required',
-            'tickets.*.gender' => 'required',
-            'tickets.*.grade' => 'required',
-            'payment_type' => 'required',
-        ]);
-
         \DB::beginTransaction();
 
-        $user = User::firstOrCreate(['email' => request('contact.email')]);
-        if (! optional($user->person)->exists) {
-            $user->person()->associate(
-                Person::create(array_collapse(request([
-                    'contact.first_name',
-                    'contact.last_name',
-                    'contact.email',
-                    'contact.phone',
-                    'billing.street',
-                    'billing.city',
-                    'billing.state',
-                    'billing.zip',
-                ])))
-            )->save();
-        } else {
-            $user->person->fill(array_collapse(request([
-                'contact.first_name',
-                'contact.last_name',
-                'contact.email',
-                'contact.phone',
-                'billing.street',
-                'billing.city',
-                'billing.state',
-                'billing.zip',
-            ])))->save();
-        }
-
-        $order = $user->orders()->create([
-            'organization_id' => $this->organization->id,
-        ]);
-
-        // record donation
-        $donation_total = request('fund_amount') == 'other' ? request('fund_amount_other') : request('fund_amount');
-        if ($donation_total > 0) {
-            $order->items()->create([
-                'type' => 'donation',
-                'organization_id' => $this->organization->id,
-                'price' => $donation_total * 100,
-            ]);
-        }
-
-        // record tickets
-        collect(request('tickets'))->each(function ($data) use ($order) {
-            $order->tickets()->create([
-                'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => request('code')],
-                'price' => $this->ticket_price * 100,
-                'organization_id' => $this->organization->id,
-                'person_id' => Person::create(array_only($data, [
-                    'first_name', 'last_name', 'email', 'phone',
-                    'gender', 'grade', 'allergies',
-                    'considerations',
-                ]))->id,
-            ]);
-        });
-
-        while ($order->tickets()->count() < request('num_tickets')) {
-            $order->tickets()->create([
-                'agegroup' => 'student',
-                'price' => $this->ticket_price * 100,
-                'organization_id' => $this->organization->id,
-                'person_id' => Person::create()->id,
-            ]);
-        }
+        $order = $request
+            ->forOrganization($this->organization)
+            ->withTicketPrice($this->ticket_price)
+            ->persist();
 
         try {
             $charge = \Stripe\Charge::create(
@@ -152,11 +76,11 @@ class RegisterController extends Controller
                     'currency' => 'usd',
                     'source' => request('stripeToken'),
                     'description' => 'Passion Camp',
-                    'statement_descriptor' => 'PCC SMMR CMP',
+                    'statement_descriptor' => 'PCC Students',
                     'metadata' => [
                         'order_id' => $order->id,
-                        'email' => $user->person->email,
-                        'name' => $user->person->name
+                        'email' => $order->user->person->email,
+                        'name' => $order->user->person->name
                     ]
                 ],
                 [
@@ -183,9 +107,7 @@ class RegisterController extends Controller
         SendConfirmationEmail::dispatch($order);
         AddToMailChimp::dispatch($order);
 
-        return request()->expectsJson()
-               ? $order->toArray()
-               : redirect()->route('register.confirmation')->with('order_id', $order->id);
+        return redirect()->route('register.confirmation')->with('order_id', $order->id);
     }
 
     public function confirmation()
