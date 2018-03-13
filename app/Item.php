@@ -13,12 +13,9 @@ class Item extends Model
 
     public function scopeWithPurchasedSum($query)
     {
-        $query->selectSub("
-                SELECT SUM(quantity)
-                FROM order_items
-                WHERE order_items.item_id = items.id and order_items.deleted_at IS NULL
-            ", 'purchased_sum'
+        $query->addSubSelect(
+            'purchased_sum',
+            OrderItem::selectRaw('ifnull(sum(quantity), 0)')->whereRaw('order_items.item_id = items.id')
         );
     }
-
 }

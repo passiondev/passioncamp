@@ -2,19 +2,17 @@
 
 namespace App;
 
-use Auth;
-use App\Waiver;
 use Laravel\Scout\Searchable;
 use App\Observers\TicketObserver;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Jobs\Waiver\RequestWaiverSignature;
-use Collective\Html\Eloquent\FormAccessible;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Facades\App\Contracts\Printing\Factory as Printer;
 
 class Ticket extends OrderItem
 {
-    use FormAccessible, SoftDeletes, Searchable, Revisionable;
+    use SoftDeletes, Searchable, Revisionable;
 
     protected $table = 'order_items';
 
@@ -27,11 +25,8 @@ class Ticket extends OrderItem
     ];
 
     protected $casts = [
-        'ticket_data' => 'collection'
-    ];
-
-    protected $dates = [
-        'checked_in_at'
+        'ticket_data' => 'collection',
+        'checked_in_at' => 'datetime',
     ];
 
     protected static $logAttributes = [
@@ -123,7 +118,6 @@ class Ticket extends OrderItem
         return $this->belongsToMany(Room::class, 'room_assignments')->withTimestamps();
     }
 
-    /*-------------- getters -----------------*/
     public function getNameAttribute()
     {
         return $this->person && strlen($this->person->first_name)
@@ -185,11 +179,11 @@ class Ticket extends OrderItem
         $this->update(['is_checked_in' => false]);
     }
 
-    public function cancel(User $user = null)
+    public function cancel()
     {
         $this->update([
             'canceled_at' => $this->freshTimestamp(),
-            'canceled_by_id' => $user->id ?? null
+            'canceled_by_id' => auth()->id()
         ]);
 
         $this->fireModelEvent('canceled', false);
@@ -241,5 +235,21 @@ class Ticket extends OrderItem
                 'source' => 'PCC Check In'
             ]
         );
+    }
+
+    public function setPersonAttribute($person)
+    {
+        if (is_array($person)) {
+            $person = $this->person->exists
+                ? tap($this->person->fill($person))->save()
+                : Person::create($person);
+        }
+
+        $this->person()->associate($person);
+    }
+
+    public function setPriceInDollarsAttribute($price)
+    {
+        $this->price = $price * 100;
     }
 }

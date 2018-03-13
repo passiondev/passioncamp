@@ -13,6 +13,8 @@ class OrganizationItemController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('super');
+
+        $this->authorizeResource(OrgItem::class, 'item');
     }
 
     public function create(Organization $organization)
@@ -49,5 +51,12 @@ class OrganizationItemController extends Controller
         ]);
 
         return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item updated.');
+    }
+
+    public function destroy(Organization $organization, OrgItem $item)
+    {
+        $item->delete();
+
+        return redirect()->route('admin.organizations.show', $organization);
     }
 }

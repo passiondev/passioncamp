@@ -19,7 +19,7 @@ class WaiverTest extends TestCase
     {
         Queue::fake();
 
-        $waiver = factory('App\Waiver')->create([
+        $waiver = factory(\App\Waiver::class)->create([
             'provider' => 'adobesign'
         ]);
 
@@ -29,7 +29,7 @@ class WaiverTest extends TestCase
     /** @test */
     function it_has_a_dropbox_file_path()
     {
-        $waiver = factory('App\Waiver')->create();
+        $waiver = factory(\App\Waiver::class)->create();
 
         $this->assertNotEmpty($waiver->dropboxFilePath());
     }
@@ -39,7 +39,7 @@ class WaiverTest extends TestCase
     {
         Queue::fake();
 
-        $ticket = factory('App\Ticket')->create();
+        $ticket = factory(\App\Ticket::class)->create();
 
         $waiver = $ticket->createWaiver();
 
@@ -54,7 +54,7 @@ class WaiverTest extends TestCase
     {
         Queue::fake();
 
-        $ticket = factory('App\Ticket')->create();
+        $ticket = factory(\App\Ticket::class)->create();
 
         $ticket->createWaiver();
         $ticket->createWaiver();

@@ -63,6 +63,22 @@
                                     @unless ($user->password)
                                         <small><i>pending</i></small>
                                     @endif
+
+                                    @can ('destroy', new App\AccountUser($user->organization, $user))
+                                        <a
+                                            title="Remove user"
+                                            class="btn btn-sm btn-outline-secondary ml-2"
+                                            href="{{ route('account.users.destroy', $user) }}"
+                                            onclick="event.preventDefault(); if (confirm('Remove this user?')) document.getElementById('account-users-destroy-form-{{ $user->id }}').submit(); else return;"
+                                        >
+                                            &times;
+                                        </a>
+
+                                        <form action="{{ route('account.users.destroy', $user) }}" method="POST" id="account-users-destroy-form-{{ $user->id }}">
+                                            @method('DELETE')
+                                            @csrf
+                                        </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

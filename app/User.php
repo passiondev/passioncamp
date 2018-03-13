@@ -22,20 +22,9 @@ class User extends Authenticatable
         'flags' => 'collection',
     ];
 
-    public static function make(array $attributes = [])
-    {
-        $model = new static($attributes);
-
-        $model->person()->associate(
-            Person::create($attributes)
-        );
-
-        return $model;
-    }
-
     public function person()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withDefault();
     }
 
     public function organization()
@@ -115,10 +104,22 @@ class User extends Authenticatable
         return;
     }
 
-    public function setEmailAttribute($value)
+    public function setPersonAttribute($person)
     {
-        $this->person && $this->person->setAttribute('email', $value);
-        $this->attributes['email'] = $value;
+        if (is_array($person)) {
+            $person = $this->person->exists
+                ? tap($this->person->fill($person))->save()
+                : Person::create($person);
+        }
+
+        $this->person()->associate($person);
+    }
+
+    public function setEmailAttribute($email)
+    {
+        $this->person->email = $email;
+
+        $this->attributes['email'] = $email;
 
         return $this;
     }

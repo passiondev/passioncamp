@@ -39,16 +39,17 @@ class Hotel extends Item
 
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'order_items', 'item_id')->withPivot('quantity')->where('quantity', '>', '0');
+        return $this->belongsToMany(Organization::class, 'order_items', 'item_id')
+            ->withPivot('quantity')
+            ->where('quantity', '>', '0')
+            ->distinct();
     }
 
-    public function scopeWithRegisteredSum($query)
+    public function scopeWithDistinctOrganizationsCount($query)
     {
-        $query->selectSub("
-                SELECT SUM(quantity)
-                FROM order_items
-                WHERE order_items.item_id = items.id
-            ", 'registered_sum'
+        $query->addSubSelect(
+            'organizations_count',
+            Organization::selectRaw('count(distinct organizations.id)')->join('order_items', 'organizations.id', 'organization_id')->where('quantity', '>', '0')->whereRaw('items.id = item_id')
         );
     }
 

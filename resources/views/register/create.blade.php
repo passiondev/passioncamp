@@ -2,21 +2,21 @@
 
 @section('head')
     <script>
-        window.ticket_price = {{ $ticket_price }};
+        window.ticket_price = {{ $ticketPrice }};
         window.vuex = {!! json_encode([
             'num_tickets' => old('num_tickets', 1),
             'ticketData' => old('tickets', []),
             'fund_amount' => old('fund_amount'),
             'fund_amount_other' => old('fund_amount_other'),
-            'payment_type' => 'full'
+            'payment_type' => old('payment_type', $can_pay_deposit ? 'deposit' : 'full')
         ]) !!}
     </script>
 @endsection
 @section('content')
 <div class="container">
-    <register-form inline-template>
-        <form class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
-            {{ csrf_field() }}
+    <register-form inline-template stripe-elements="card-element" :can-pay-deposit="@json($can_pay_deposit)" initial-code="{{ old('code') }}">
+        <form ref="form" class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
+            @csrf
             @if (request('code'))
                 <input type="hidden" name="code" value="{{ request('code') }}">
             @endif
@@ -61,13 +61,38 @@
                                 </div>
                                 <p class="form-text text-muted" style="margin-top:-.25rem; font-size:80%; font-style: italic;">Please provide a parent's email address to ensure your registration confirmation is received.</p>
                             </div>
+                            <div class="card-block">
+                                <h4>Address</h4>
+                                <div class="row">
+                                    <div class="col-lg-10 col-xl-8">
+                                        <div class="form-group">
+                                            <label for="billing__street">Street</label>
+                                            <input type="text" name="billing[street]" id="billing__street" class="form-control" value="{{ old('billing.street') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="billing__city">City</label>
+                                            <input type="text" name="billing[city]" id="billing__city" class="form-control" value="{{ old('billing.city') }}">
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-6">
+                                                <label for="billing__state">State</label>
+                                                <input type="text" name="billing[state]" id="billing__state" class="form-control" value="{{ old('billing.state') }}">
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <label for="billing__zip">Zip Code</label>
+                                                <input type="text" name="billing[zip]" id="billing__zip" class="form-control" value="{{ old('billing.zip') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
                     <section>
                         <div class="card card--registration">
                             <header class="card-header">
-                                <h2>Student Infromation</h2>
+                                <h2>Student Information</h2>
                             </header>
                             <div class="card-block">
                                 <div class="row">
@@ -91,7 +116,7 @@
                     <div class="card card--registration">
                         <div class="card-block">
                             <h4>Help Make Camp Possible!</h4>
-                            <p>Taking hundreds of students to camp is not a cheap endeavor, but we strongly believe it is going to be a life-changing week for our students and our church. We have aimed to keep the cost as low as possible so more students can afford to go, but there is still  a sizeable gap between what students are paying and our costs as a church. If you are able or if you know of anyone who wants to invest in this week for our students, you can add a gift to your payment, and we would be massively grateful!</p>
+                            <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
 
                             <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
                             <ul>
@@ -147,31 +172,6 @@
                             <header class="card-header">
                                 <h2>Payment Information</h2>
                             </header>
-                            <div class="card-block">
-                                <h4>Billing Address</h4>
-                                <div class="row">
-                                    <div class="col-lg-10 col-xl-8">
-                                        <div class="form-group">
-                                            <label for="billing__street">Street</label>
-                                            <input type="text" name="billing[street]" id="billing__street" class="form-control" value="{{ old('billing.street') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="billing__city">City</label>
-                                            <input type="text" name="billing[city]" id="billing__city" class="form-control" value="{{ old('billing.city') }}">
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-sm-6">
-                                                <label for="billing__state">State</label>
-                                                <input type="text" name="billing[state]" id="billing__state" class="form-control" value="{{ old('billing.state') }}">
-                                            </div>
-                                            <div class="form-group col-sm-6">
-                                                <label for="billing__zip">Zip Code</label>
-                                                <input type="text" name="billing[zip]" id="billing__zip" class="form-control" value="{{ old('billing.zip') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="card-block mb-3 hidden-lg-up">
                                 <div class="card">
@@ -182,7 +182,7 @@
                                         <ul class="order-summary list-unstyled mb-0">
                                             <li class="row order-summary__item py-1">
                                                 <div class="col">
-                                                    <p class="mb-0">SMMR CMP Ticket x@{{ num_tickets }}</p>
+                                                    <p class="mb-0">Passion Camp Ticket x@{{ num_tickets }}</p>
                                                     <span class="text-muted">@{{ ticket_price | currency }}</span>
                                                 </div>
                                                 <div class="col text-right">
@@ -197,6 +197,12 @@
                                                     <strong>@{{ donation_total | currency }}</strong>
                                                 </div>
                                             </li>
+                                            <li style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0" class="d-none">
+                                                <div class="flex form-inline">
+                                                    <input type="text" name="code" id="" class="form-control" placeholder="Discount Code" style="flex: 1" v-model="discountCode">
+                                                    <button class="btn btn-secondary ml-3" @click.prevent="applyDiscountCode">Apply</button>
+                                                </div>
+                                            </li>
                                             <li class="row order-summary__item order-summary__total">
                                                 <div class="col">
                                                     <p class="mb-0"><strong>Total</strong></p>
@@ -205,30 +211,55 @@
                                                     <strong>@{{ full_amount | currency }}</strong>
                                                 </div>
                                             </li>
+                                            @if ($can_pay_deposit)
+                                                <li class="row order-summary__item">
+                                                    <div class="col">
+                                                        Deposit Amount
+                                                    </div>
+                                                    <div class="col text-right">
+                                                        @{{ deposit_amount | currency }}
+                                                    </div>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
+                            @if ($can_pay_deposit)
+                                <div class="card-block">
+                                    <h4>Payment Options</h4>
+                                        <div class="form-check-pill">
+                                            <input id="payment_type--deposit" type="radio" name="payment_type" value="deposit" v-model="payment_type">
+                                            <label for="payment_type--deposit">
+                                                @icon('checkmark') Pay Deposit
+                                            </label>
+                                        </div>
+                                    <div class="form-check-pill">
+                                        <input id="payment_type--full" type="radio" name="payment_type" value="full" v-model="payment_type">
+                                        <label for="payment_type--full">
+                                            @icon('checkmark') Pay Full Amount
+                                        </label>
+                                    </div>
+                                    <p class="form-text"><em>**Deposits are non-refundable.</em></p>
+                                </div>
+                            @else
+                                <input type="hidden" name="payment_type" value="full">
+                            @endif
+
                             <div class="card-block">
-                                <h4>Credit Card</h4>
+                                <h4>Credit or debit card</h4>
                                 <div class="row">
                                     <div class="col-lg-10 col-xl-8">
-                                        <div class="form-group">
-                                            <label for="cc_number">Card Number</label>
-                                            <input type="text" id="cc_number" class="form-control js-form-input-card-number" required v-model="Payment.card_number">
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col">
-                                                <label for="cc_exp_month">Expiration</label>
-                                                <input type="text" id="cc_expiry" class="form-control js-form-input-card-expiry" placeholder="mm / yy" required v-model="Payment.card_exp">
-                                            </div>
-                                            <div class="form-group col">
-                                                <label for="cc_cvc">CVC</label>
-                                                <input id="cc_cvc" type="text" size="8" class="form-control js-form-input-card-cvc" v-model="Payment.card_cvc">
-                                            </div>
-                                        </div>
+                                        <div id="card-element" class="form-control"></div>
                                     </div>
+                                </div>
+                                <div class="text-danger mt-2" v-if="Payment.errors.length">
+                                    <ul class="list-unstyled mb-0">
+                                        <li v-for="error in Payment.errors">
+                                            @{{ error }}
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -236,17 +267,9 @@
 
 
                     <section>
-                        <p class="lead">Full payment is due by May 1st. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
+                        <p class="lead">Full payment is due by May 3rd. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
 
                         <p><i>Upon clicking submit, your credit card will be charged <strong>@{{ payment_amount | currency }}</strong> for your Passion Camp registration.</i></p>
-
-                        <div class="alert alert-danger" v-if="Payment.errors.length">
-                            <ul class="mb-0">
-                                <li v-for="error in Payment.errors">
-                                    @{{ error }}
-                                </li>
-                            </ul>
-                        </div>
 
                         <button :disabled="Payment.occupied" class="btn btn-primary btn-lg">Submit Registration</button>
                     </section>
@@ -262,7 +285,7 @@
                                 <ul class="order-summary list-unstyled mb-0">
                                     <li class="row order-summary__item py-1">
                                         <div class="col">
-                                            <p class="mb-0">SMMR CMP Ticket x@{{ num_tickets }}</p>
+                                            <p class="mb-0">Passion Camp Ticket x@{{ num_tickets }}</p>
                                             <span class="text-muted">@{{ ticket_price | currency }}</span>
                                         </div>
                                         <div class="col text-right">
@@ -277,6 +300,12 @@
                                             <strong>@{{ donation_total | currency }}</strong>
                                         </div>
                                     </li>
+                                    <li style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0" class="d-none">
+                                        <div class="flex form-inline">
+                                            <input type="text" name="code" id="" class="form-control" placeholder="Discount Code" style="flex: 1" v-model="discountCode">
+                                            <button class="btn btn-secondary ml-3" @click.prevent="applyDiscountCode">Apply</button>
+                                        </div>
+                                    </li>
                                     <li class="row order-summary__item order-summary__total">
                                         <div class="col">
                                             <p class="mb-0"><strong>Total</strong></p>
@@ -285,6 +314,16 @@
                                             <strong>@{{ full_amount | currency }}</strong>
                                         </div>
                                     </li>
+                                    @if ($can_pay_deposit)
+                                        <li class="row order-summary__item px-4">
+                                            <div class="col">
+                                                Deposit Amount
+                                            </div>
+                                            <div class="col text-right">
+                                                @{{ deposit_amount | currency }}
+                                            </div>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -297,8 +336,7 @@
 @endsection
 
 @section('foot')
-    <script src="https://js.stripe.com/v2/"></script>
     <script>
-        Stripe.setPublishableKey('{{ config('services.stripe.key') }}');
+        const stripe = Stripe('{{ config('services.stripe.key') }}');
     </script>
 @endsection

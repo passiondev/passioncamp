@@ -2,11 +2,6 @@
 
 namespace App;
 
-use App\Room;
-use App\Notated;
-use App\Transaction;
-use Omnipay\Omnipay;
-use App\TransactionSplit;
 use Illuminate\Database\Eloquent\Builder;
 use App\Collections\OrganizationCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +13,15 @@ class Organization extends Model
     protected $casts = [
         'tickets_sum' => 'integer',
         'hotels_sum' => 'integer',
+    ];
+
+    protected $with = [
+        // 'settings',
+    ];
+
+    protected $alias = [
+        'total_cost' => 'cost_sum',
+        'total_paid' => 'paid_sum',
     ];
 
     protected static function boot()
@@ -43,39 +47,117 @@ class Organization extends Model
         });
     }
 
-    public function scopeWithTicketsSum($query)
+    public function scopeOrderByChurchName($query)
     {
-        return $query->selectSub("
-                SELECT SUM(quantity)
-                FROM order_items
-                WHERE order_items.organization_id = organizations.id and org_type = 'ticket'
-            ", 'tickets_sum'
+        $query->orderBySub(
+            Church::select('name')->whereRaw('church_id = churches.id')
         );
     }
 
+    public function scopeSearchByChurchName($query, $name)
+    {
+        $query->whereHas('church', function ($q) use ($name) {
+            $q->where('name', 'LIKE', $name . '%');
+        });
+    }
+
+    public function scopeWithTicketsSum($query)
+    {
+        return $query->selectSub(function ($q) {
+            $q->selectRaw('SUM(quantity)')
+                ->from('order_items')
+                ->where('org_type', 'ticket')
+                ->whereRaw('order_items.organization_id = organizations.id');
+        }, 'tickets_sum');
+    }
+
+    // public function getTicketsSumAttribute($tickets_sum)
+    // {
+    //     if (! array_key_exists('tickets_sum', $this->attributes)) {
+    //         $tickets_sum = static::newQueryWithoutScopes()
+    //             ->scopes(['withTicketsSum'])
+    //             ->find($this->id)
+    //             ->tickets_sum;
+
+    //         $this->setAttribute('tickets_sum', $tickets_sum);
+    //     }
+
+    //     return $tickets_sum;
+    // }
+
     public function scopeWithHotelsSum($query)
     {
-        return $query->selectSub("
-                SELECT SUM(quantity)
-                FROM order_items
-                WHERE order_items.organization_id = organizations.id and org_type = 'hotel'
-            ", 'hotels_sum'
-        );
+        return $query->selectSub(function ($q) {
+            $q->selectRaw('SUM(quantity)')
+                ->from('order_items')
+                ->where('org_type', 'hotel')
+                ->whereRaw('order_items.organization_id = organizations.id');
+        }, 'hotels_sum');
+    }
+
+    public function scopeWithCostSum($query)
+    {
+        return $query->selectSub(function ($q) {
+            $q->selectRaw('SUM(quantity * cost)')
+                ->from('order_items')
+                ->whereRaw('order_items.organization_id = organizations.id');
+        }, 'cost_sum');
+    }
+
+    public function getCostSumAttribute($cost_sum)
+    {
+        if (! array_key_exists('cost_sum', $this->attributes)) {
+            $cost_sum = static::newQueryWithoutScopes()
+                ->scopes(['withCostSum'])
+                ->find($this->id)
+                ->cost_sum;
+
+            $this->setAttribute('cost_sum', $cost_sum);
+        }
+
+        return $cost_sum;
+    }
+
+    public function scopeWithPaidSum($query, $source = null)
+    {
+        return $query->selectSub(function ($q) use ($source) {
+            $q->selectRaw('SUM(transaction_splits.amount)')
+                ->from('transaction_splits')
+                ->when($source, function ($q) use ($source) {
+                    $q->join('transactions', 'transaction_id', 'transactions.id')
+                        ->where('source', $source);
+                })
+                ->whereRaw('transaction_splits.organization_id = organizations.id');
+        }, $source ? $source . '_paid_sum' : 'paid_sum');
+    }
+
+    public function getPaidSumAttribute($paid_sum)
+    {
+        if (! array_key_exists('paid_sum', $this->attributes)) {
+            $paid_sum = static::newQueryWithoutScopes()
+                ->scopes(['withPaidSum'])
+                ->find($this->id)
+                ->paid_sum;
+
+            $this->setAttribute('paid_sum', $paid_sum);
+        }
+
+        return $paid_sum;
     }
 
     public function church()
     {
-        return $this->belongsTo(Church::class);
+        return $this->belongsTo(Church::class)->withDefault();
     }
 
     public function contact()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withDefault();
     }
 
     public function studentPastor()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withDefault();
     }
 
     public function items()
@@ -217,18 +299,6 @@ class Organization extends Model
         $setting->save();
     }
 
-    public function getTotalCostAttribute()
-    {
-        return $this->items->sum(function ($item) {
-            return $item->cost * $item->quantity;
-        });
-    }
-
-    public function getTotalPaidAttribute()
-    {
-        return $this->transactions->sum('amount');
-    }
-
     public function getDepositBalanceAttribute()
     {
         return 0;
@@ -236,7 +306,7 @@ class Organization extends Model
 
     public function getBalanceAttribute()
     {
-        return $this->total_cost - $this->total_paid;
+        return $this->cost_sum - $this->paid_sum;
     }
 
     public function getCanReceivePaymentAttribute()
@@ -276,26 +346,6 @@ class Organization extends Model
         return $this->attendees->active()->filter(function ($attendee) {
             return $attendee->waiver && $attendee->waiver->status == 'signed';
         })->count();
-    }
-
-    public static function totalPaid($source = null)
-    {
-        if ($source == null) {
-            return static::withoutGlobalScopes()->with('transactions')->get()->sum('total_paid');
-        }
-
-        return static::withoutGlobalScopes()->with('transactions.transaction')->get()
-            ->pluck('transactions')
-            ->collapse()
-            ->filter(function ($transaction) use ($source) {
-                return $transaction->transaction->source == $source;
-            })
-            ->sum('transaction.amount');
-    }
-
-    public static function totalCost()
-    {
-        return static::withoutGlobalScopes()->with('items')->get()->sum('total_cost');
     }
 
     public function addTransaction($data = [])

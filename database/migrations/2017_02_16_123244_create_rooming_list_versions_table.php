@@ -3,7 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRoomingListVersionsTable extends Migration {
+class CreateRoomingListVersionsTable extends Migration
+{
 
     /**
      * Run the migrations.
@@ -12,8 +13,7 @@ class CreateRoomingListVersionsTable extends Migration {
      */
     public function up()
     {
-        Schema::create('rooming_list_versions', function(Blueprint $table)
-        {
+        Schema::create('rooming_list_versions', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->integer('user_id');
@@ -33,5 +33,4 @@ class CreateRoomingListVersionsTable extends Migration {
     {
         Schema::drop('rooming_list_versions');
     }
-
 }

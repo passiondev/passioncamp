@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>PCC Students SMMR CMP</title>
+    <title>PCC Students - Passion Camp</title>
 
     <!-- Styles -->
     <link href="{{ mix('/css/bootstrap4.css') }}" rel="stylesheet">
@@ -24,12 +24,12 @@
 </head>
 <body style="padding-top:0">
     <header id="page-header" class="text-center pt-xl-5">
-        <img src="{{ request('code') ? '/img/header-content-special.png' : '/img/header-content.png' }}" alt="SMMR CMP" class="img-fluid">
+        <h1 style="display:none">Passion Camp</h1>
     </header>
-    <div id="page-header-banner">
+    <div id="page-header-banner" class="py-2">
         <div class="container d-flex flex-column align-items-center justify-content-between flex-sm-row">
-            <img src="/img/logo.png" alt="PCC Students" style="height: 40px;width:252px;">
-            <h1>SMMR CMP</h1>
+            <img src="/img/logo.png" alt="PCC Students" style="width:252px;">
+            <h1>Passion Camp</h1>
         </div>
     </div>
     <div id="app">
@@ -88,6 +88,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://js.stripe.com/v3/"></script>
     @yield('foot')
     <script src="{{ mix('/js/app.js') }}"></script>
     {{ svg_spritesheet() }}

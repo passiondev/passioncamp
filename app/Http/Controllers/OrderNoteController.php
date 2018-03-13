@@ -16,7 +16,7 @@ class OrderNoteController extends Controller
     {
         $this->authorize('update', $order);
 
-        $this->validate(request(), [
+        request()->validate([
             'body' => 'required',
         ]);
 

@@ -19,6 +19,6 @@ class VerifyUserIsSuperAdmin
             return $next($request);
         }
 
-        return abort(401, 'Unauthorized.');
+        return abort(403, 'Unauthorized.');
     }
 }

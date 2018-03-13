@@ -36,7 +36,7 @@ class Room extends Model
         'hotel',
     ];
 
-    protected $events = [
+    protected $dispatchesEvents = [
         'deleted' => RoomDeleted::class,
     ];
 

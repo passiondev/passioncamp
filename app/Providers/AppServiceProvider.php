@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Horizon\Horizon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,18 +23,30 @@ class AppServiceProvider extends ServiceProvider
 
         Schema::defaultStringLength(191);
 
-        Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
-            return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
+        Horizon::auth(function ($request) {
+            return $request->user()->email == 'matt.floyd@268generation.com';
         });
 
-        Collection::macro('dd', function () {
-            dd($this);
+        Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
+            return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
         });
 
         Request::macro('intended', function ($url) {
             if ($url != $this->fullUrl()) {
                 $this->session()->put('url.intended', $url);
             }
+        });
+
+        Builder::macro('addSubSelect', function ($column, $query) {
+            if (is_null($this->getQuery()->columns)) {
+                $this->select($this->getQuery()->from.'.*');
+            }
+
+            return $this->selectSub($query->limit(1)->getQuery(), $column);
+        });
+
+        Builder::macro('orderBySub', function ($query, $direction = 'asc') {
+            return $this->orderByRaw("({$query->limit(1)->toSql()}) {$direction}");
         });
 
         view()->composer(['ticket.partials.form', 'ticket.partials.form-horizontal'], function ($view) {

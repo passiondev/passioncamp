@@ -3,11 +3,11 @@
 @section('content')
     <div class="container-fluid">
         <nav class="nav mb-3">
-            <a class="nav-link" href="{{ action('PrinterSelectionController@destroy') }}" onclick="event.preventDefault(); document.getElementById('printer-selection-destroy-form').submit();">Clear Selection</a>
-            <a class="nav-link" href="{{ action('PrintersController@destroy') }}" onclick="event.preventDefault(); document.getElementById('printers-destroy-form').submit();">Refresh Printers</a>
+            <a class="nav-link" href="{{ route('selected-printer.destroy') }}" onclick="event.preventDefault(); document.getElementById('printer-selection-destroy-form').submit();">Clear Selection</a>
+            <a class="nav-link" href="{{ route('printers.destroy') }}" onclick="event.preventDefault(); document.getElementById('printers-destroy-form').submit();">Refresh Printers</a>
         </nav>
 
-        <form action="{{ action('PrinterSelectionController@store') }}" method="POST">
+        <form action="{{ route('selected-printer.store') }}" method="POST">
             {{ csrf_field() }}
             <div class="card mb-5">
                 <h3 class="card-header">Printers</h3>
@@ -26,7 +26,7 @@
                                 <td>{{ $printer->computer->name }}</td>
                                 <td>
                                     {{ $printer->name }}
-                                    <ajax href="{{ action('PrintersController@test', $printer->id) }}" method="POST" class="text-muted ml-3" v-cloak>
+                                    <ajax href="{{ route('printers.test', $printer->id) }}" method="POST" class="text-muted ml-3" v-cloak>
                                         test
                                         <span slot="success">
                                             @icon('checkmark', 'text-success')
@@ -71,11 +71,11 @@
             </table>
         </div>
 
-        <form action="{{ action('PrinterSelectionController@destroy') }}" method="POST" id="printer-selection-destroy-form" style="display:none;">
+        <form action="{{ route('selected-printer.destroy') }}" method="POST" id="printer-selection-destroy-form" style="display:none;">
             {{ method_field('DELETE') }}
             {{ csrf_field() }}
         </form>
-        <form action="{{ action('PrintersController@destroy') }}" method="POST" id="printers-destroy-form" style="display:none;">
+        <form action="{{ route('printers.destroy') }}" method="POST" id="printers-destroy-form" style="display:none;">
             {{ method_field('DELETE') }}
             {{ csrf_field() }}
         </form>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\TransactionSplit;
 use Illuminate\Http\Request;
-use App\Repositories\TransactionRepository;
 
 class TransactionController extends Controller
 {

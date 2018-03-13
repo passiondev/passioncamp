@@ -19,17 +19,17 @@ class RoomsTest extends TestCase
     {
         $user = $this->signIn();
 
-        $room = factory('App\Room')->create([
-            'organization_id' => factory('App\Organization')->create([
-                'church_id' => factory('App\Church')->create([
+        $room = factory(\App\Room::class)->create([
+            'organization_id' => factory(\App\Organization::class)->create([
+                'church_id' => factory(\App\Church::class)->create([
                     'name' => 'my-church'
                 ])->id
             ])->id,
         ]);
 
-        factory('App\Room')->create([
-            'organization_id' => factory('App\Organization')->create([
-                'church_id' => factory('App\Church')->create([
+        factory(\App\Room::class)->create([
+            'organization_id' => factory(\App\Organization::class)->create([
+                'church_id' => factory(\App\Church::class)->create([
                     'name' => 'not-my-church'
                 ])->id
             ])->id,
@@ -47,14 +47,14 @@ class RoomsTest extends TestCase
     {
         $user = $this->signIn();
 
-        $room = factory('App\Room')->create([
-            'hotel_id' => factory('App\Hotel')->create([
+        $room = factory(\App\Room::class)->create([
+            'hotel_id' => factory(\App\Hotel::class)->create([
                 'name' => 'my-hotel'
             ])->id,
         ]);
 
-        factory('App\Room')->create([
-            'hotel_id' => factory('App\Hotel')->create([
+        factory(\App\Room::class)->create([
+            'hotel_id' => factory(\App\Hotel::class)->create([
                 'name' => 'not-my-hotel'
             ])->id,
         ]);
@@ -71,7 +71,7 @@ class RoomsTest extends TestCase
     {
         $this->signIn();
 
-        $room = factory('App\Room')->create();
+        $room = factory(\App\Room::class)->create();
 
         $response = $this->json('POST', "/rooms/{$room->id}/check-in");
 
@@ -83,7 +83,7 @@ class RoomsTest extends TestCase
     {
         $this->signIn();
 
-        $room = factory('App\Room')->create();
+        $room = factory(\App\Room::class)->create();
 
         $response = $this->json('POST', "/rooms/{$room->id}/key-received");
 

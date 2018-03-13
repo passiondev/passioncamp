@@ -30,7 +30,7 @@ class OrderTicketController extends Controller
     {
         $this->authorize('update', $order);
 
-        $this->validate(request(), [
+        request()->validate([
             'ticket.agegroup' => 'required',
             'ticket.first_name' => 'required',
             'ticket.last_name' => 'required',
@@ -38,10 +38,20 @@ class OrderTicketController extends Controller
             'ticket.grade' => 'required_if:ticket.agegroup,student',
         ]);
 
-        $ticket = new Ticket(array_only(request('ticket'), ['agegroup']));
+        $ticket = new Ticket(request()->input('ticket.agegroup'));
+
         $ticket->organization()->associate(auth()->user()->organization);
+
         $ticket->person()->associate(
-            Person::create(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies']))
+            Person::create(
+                request(['considerations']) + array_only(request('ticket'), [
+                    'first_name',
+                    'last_name',
+                    'gender',
+                    'grade',
+                    'allergies',
+                ])
+            )
         );
 
         $order->tickets()->save($ticket);

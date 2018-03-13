@@ -38,10 +38,9 @@ class TicketController extends Controller
             'contact.phone' => 'required',
         ]);
 
-
         if (auth()->user()->organization->slug == 'pcc') {
             $user = User::firstOrCreate([
-                'email' => request('contact.email')
+                'email' => request()->input('contact.email')
             ]);
         } else {
             $user = User::create([]);

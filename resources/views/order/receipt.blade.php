@@ -12,7 +12,7 @@
             <table class="invoice-table" width="100%" cellpadding="0" cellspacing="0" style="width: 100%;margin: 0;padding: 25px 0 0 0;">
 
                 <tr>
-                    <td width="80%" style="padding: 10px 0;font-size:14px;border-top: 1px solid #EDEFF2;">SMMR CMP Ticket x {{ $order->activeTickets->count() }}</td>
+                    <td width="80%" style="padding: 10px 0;font-size:14px;border-top: 1px solid #EDEFF2;">Passion Camp Ticket x {{ $order->activeTickets->count() }}</td>
                     <td class="align-right" width="20%" style="text-align: right;padding: 10px 0;font-size:14px;border-top: 1px solid #EDEFF2;">{{ money_format('%.2n', $order->ticket_total / 100) }}</td>
                 </tr>
 

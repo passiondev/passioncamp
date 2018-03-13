@@ -9,7 +9,7 @@ return [
     |
     | By default App\User.
     */
-    'usermodel' => 'App\User',
+    'usermodel' => App\User::class,
 
     /*
     |--------------------------------------------------------------------------

@@ -12,7 +12,7 @@ class SettingsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function __invoke()
     {
         $organization = auth()->user()->organization;
         $organization->load('authUsers.person');

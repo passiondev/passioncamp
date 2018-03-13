@@ -14,7 +14,7 @@ class AdminDashboardTest extends TestCase
     /** @test */
     function it_can_be_reached_by_super_admin()
     {
-        $user = factory('App\User')->states('superAdmin')->create()->load('person');
+        $user = factory(\App\User::class)->states('superAdmin')->create()->load('person');
 
         $response = $this->actingAs($user)->get('/admin');
 
@@ -24,7 +24,7 @@ class AdminDashboardTest extends TestCase
     /** @test */
     function it_cant_be_reached_by_church_admin()
     {
-        $user = factory('App\User')->states('churchAdmin')->create();
+        $user = factory(\App\User::class)->states('churchAdmin')->create();
 
         $response = $this->actingAs($user)->get('/admin');
 

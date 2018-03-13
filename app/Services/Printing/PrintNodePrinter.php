@@ -75,7 +75,7 @@ class PrintNodePrinter extends Printer
 
     private function mapJobPayload($job, $payload)
     {
-        collect($payload)->filter(function ($value, $property)  {
+        collect($payload)->filter(function ($value, $property) {
             return property_exists(PrintNode\Entity\PrintJob::class, $property);
         })->each(function ($value, $property) use (&$job) {
             $job->{$property} = $value;

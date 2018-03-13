@@ -83,24 +83,24 @@ class TicketController extends Controller
             $ticket->order->user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
         }
 
-        return redirect()->intended(action('TicketController@index'))->withSuccess('Attendee updated.');
+        return redirect()->intended(route('tickets.index'))->withSuccess('Attendee updated.');
     }
 
     public function cancel(Ticket $ticket)
     {
         $this->authorize('cancel', $ticket);
 
-        $ticket->cancel(auth()->user());
+        $ticket->cancel();
 
-        return redirect()->action('TicketController@index')->withSuccess('Ticket canceled');
+        return redirect()->route('tickets.index')->withSuccess('Ticket canceled');
     }
 
-    public function delete(Ticket $ticket)
+    public function destroy(Ticket $ticket)
     {
         $this->authorize($ticket);
 
         $ticket->delete();
 
-        return redirect()->action('TicketController@index')->withSuccess('Ticket deleted');
+        return redirect()->route('tickets.index')->withSuccess('Ticket deleted');
     }
 }

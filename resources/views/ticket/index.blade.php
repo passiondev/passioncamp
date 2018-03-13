@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <header class="d-lg-flex justify-content-between align-items-center mb-lg-2">
             <h1 class="mb-2 mb-lg-0">Attendees</h1>
-            <form class="mb-2 mb-lg-0 ml-lg-4" action="{{ action('TicketController@search') }}" method="GET">
+            <form class="mb-2 mb-lg-0 ml-lg-4" action="{{ route('tickets.search') }}" method="GET">
                 <div class="input-group">
                     <input type="search" name="query" class="form-control input-go" placeholder="Search..." value="{{ request('query') }}">
                     <span class="input-group-btn">
@@ -14,10 +14,10 @@
             </form>
             <div class="mb-2 mb-lg-0 ml-auto">
                 @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
-                    <a href="{{ action('Account\TicketController@create') }}" class="btn btn-outline-primary">Add Attendee</a>
+                    <a href="{{ route('account.tickets.create') }}" class="btn btn-outline-primary">Add Attendee</a>
                 @endunless
                 @if (auth()->user()->isChurchAdmin() && auth()->user()->organization->slug == 'pcc')
-                    <a href="{{ action('OrderExportsController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('order-export-form').submit();">Export Orders</a>
+                    <a href="{{ route('orders.exports.store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('order-export-form').submit();">Export Orders</a>
                 @endif
                 <a href="{{ action('TicketExportController@store') }}" class="btn btn-secondary" onclick="event.preventDefault(); document.getElementById('export-form').submit();">Export Attendees</a>
             </div>
@@ -56,7 +56,7 @@
                                 @include('ticket/partials/label')
                             </td>
                             <td>
-                                <a href="{{ action('TicketController@edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
+                                <a href="{{ route('tickets.edit', $ticket) }}" class="btn btn-outline-secondary btn-sm">edit</a>
                             </td>
                         </tr>
                     @endforeach
@@ -70,7 +70,7 @@
     <form action="{{ action('TicketExportController@store') }}" method="POST" id="export-form">
         {{ csrf_field() }}
     </form>
-    <form action="{{ action('OrderExportsController@store') }}" method="POST" id="order-export-form">
+    <form action="{{ route('orders.exports.store') }}" method="POST" id="order-export-form">
         {{ csrf_field() }}
     </form>
 @stop

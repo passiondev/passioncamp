@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Collections\OrderCollection;
-use App\Repositories\TicketRepository;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -65,7 +64,7 @@ class Order extends Model
 
     public function activeTickets()
     {
-        return $this->tickets()->whereNull('canceled_at');
+        return $this->tickets()->active();
     }
 
     public function donations()
@@ -117,7 +116,7 @@ class Order extends Model
     {
         return array_sum([
             $this->donation_total,
-            $this->ticket_count * 6000
+            $this->ticket_count * 7500
         ]);
     }
 

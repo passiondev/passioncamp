@@ -41,8 +41,12 @@ class UserController extends Controller
         $user->update(request(['email']));
         $user->person->update(request(['first_name', 'last_name']));
 
-        return auth()->user()->isSuperAdmin()
-             ? redirect()->action('OrganizationController@show', $user->organization)
-             : redirect()->action('Account\SettingsController@index');
+        if (auth()->user()->isSuperAdmin()) {
+            return $user->organization
+                ? redirect()->action('OrganizationController@show', $user->organization)
+                : redirect()->route('admin.users.index');
+        }
+
+        return redirect()->action('Account\SettingsController@index');
     }
 }

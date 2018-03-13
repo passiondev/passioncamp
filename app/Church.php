@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Room;
-use App\Organization;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Church extends Model

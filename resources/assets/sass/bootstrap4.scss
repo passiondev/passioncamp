@@ -31,7 +31,7 @@ html, body {
     min-height: 100%;
 }
 #page-header {
-    background-image: url(../img/header-bg.jpg);
+    background-image: url(../img/header.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -39,6 +39,7 @@ html, body {
     justify-content: flex-end;
     align-items: center;
     flex-direction: column;
+    min-height: 400px;
 
     @media (min-aspect-ratio: 1/1) {
         height: calc(100% - 80px);

@@ -27,6 +27,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('passioncamp:update-waivers')
                  ->hourly();
+
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
     /**
      * Register the Closure based commands for the application.
@@ -35,6 +37,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
+        $this->load(__DIR__.'/Commands');
         require base_path('routes/console.php');
     }
 }

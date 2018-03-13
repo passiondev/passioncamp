@@ -7,7 +7,7 @@
         </header>
 
         @if (auth()->user()->isSuperAdmin())
-            <form action="{{ action('WaiversController@index') }}" method="GET" class="form-inline mb-3">
+            <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mb-3">
                 <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
                     <option selected disabled>Church...</option>
                     <option value="">- All -</option>
@@ -56,7 +56,7 @@
                                         <ul class="list-unstyled mb-0" style="font-size:85%">
 
                                             <li v-show="status == 'canceled' && updated" class="mb-2">
-                                                <ajax href="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
+                                                <ajax href="{{ route('tickets.waivers.store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
                                                     Send Waiver
                                                 </ajax>
                                             </li>
@@ -67,20 +67,20 @@
                                             </li>
 
                                             <li v-if="! updated">
-                                                <ajax href="{{ action('WaiversController@refresh', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
+                                                <ajax href="{{ action('WaiverController@refresh', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
                                                     refresh
                                                 </ajax>
                                             </li>
 
                                             <li v-if="! updated">
-                                                <ajax href="{{ action('WaiversController@destroy', $ticket->waiver) }}" method="DELETE" class="text-danger" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'canceled'};updated = true;" v-cloak>
+                                                <ajax href="{{ action('WaiverController@destroy', $ticket->waiver) }}" method="DELETE" class="text-danger" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'canceled'};updated = true;" v-cloak>
                                                     cancel
                                                 </ajax>
                                             </li>
 
                                             @if (auth()->user()->isSuperAdmin() && ! $ticket->waiver->isComplete())
                                                 <li v-if="! updated">
-                                                    <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="text-muted" confirm="Are you sure you want to mark this waiver completed?" @success="waiver = {status: 'Complete'};updated = true;" v-cloak>
+                                                    <ajax href="{{ route('tickets.waivers.store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" class="text-muted" confirm="Are you sure you want to mark this waiver completed?" @success="waiver = {status: 'Complete'};updated = true;" v-cloak>
                                                         complete
                                                     </ajax>
                                                 </li>
@@ -97,14 +97,14 @@
 
                                     <ul class="list-unstyled mb-0" style="font-size:85%" v-else>
                                         <li class="mb-1">
-                                            <ajax href="{{ action('TicketWaiversController@store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
+                                            <ajax href="{{ route('tickets.waivers.store', $ticket) }}" method="POST" class="btn btn-sm btn-outline-primary" @success="success">
                                                 Send Waiver
                                             </ajax>
                                         </li>
 
                                         @if (auth()->user()->isSuperAdmin())
                                             <li>
-                                                <ajax href="{{ action('TicketWaiversController@store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" confirm="Are you sure you want to mark this waiver completed?" class="text-muted" @success="success">
+                                                <ajax href="{{ route('tickets.waivers.store', ['ticket' => $ticket, 'completed' => 1]) }}" method="POST" confirm="Are you sure you want to mark this waiver completed?" class="text-muted" @success="success">
                                                     complete
                                                 </ajax>
                                             </li>

@@ -16,12 +16,13 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        $organizations = Organization::join('churches', 'organizations.church_id', '=', 'churches.id')
-            ->with('church', 'transactions.transaction', 'items')
-            ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers', 'checkedInRooms', 'keyReceivedRooms'])
+        $organizations = Organization::orderByChurchName()
+            ->with('church', 'settings')
+            ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers', 'checkedInRooms', 'keyReceivedRooms', 'settings'])
             ->withTicketsSum()
             ->withHotelsSum()
-            ->orderBy('name')
+            ->withCostSum()
+            ->withPaidSum()
             ->get();
 
         return view('super.organization.index', compact('organizations'));
@@ -29,17 +30,30 @@ class OrganizationController extends Controller
 
     public function search()
     {
-        return Organization::join('churches', 'organizations.church_id', '=', 'churches.id')->with('church')->where('name', 'LIKE', request('query') . '%')->orderBy('name')->get()->map(function ($organization) {
-            return [
-                'id' => $organization->id,
-                'name' => $organization->church->name,
-            ];
-        });
+        return Organization::searchByChurchName(request('query'))
+            ->orderByChurchName()
+            ->with('church')
+            ->get()
+            ->map(function ($organization) {
+                return [
+                    'id' => $organization->id,
+                    'name' => $organization->church->name,
+                ];
+            });
     }
 
     public function show(Organization $organization)
     {
-        $organization->load('church', 'studentPastor', 'contact', 'items.item', 'transactions.transaction', 'authUsers', 'notes', 'attendees.waiver');
+        $organization->load([
+            'church',
+            'studentPastor',
+            'contact',
+            'items.item',
+            'transactions.transaction',
+            'authUsers.person',
+            'notes',
+            'attendees.waiver'
+        ]);
 
         return view('super.organization.show', compact('organization'));
     }
@@ -60,9 +74,11 @@ class OrganizationController extends Controller
             ->church()->associate(Church::create(request('church')))
             ->contact()->associate(Person::create(request('contact')))
             ->studentPastor()->associate(Person::create(request('student_pastor')))
-        ->save();
+        ;
 
-        return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church created.');
+        $organization->save();
+
+        return redirect()->route('admin.organizations.show', $organization)->with('success', 'Church created.');
     }
 
     public function edit(Organization $organization)
