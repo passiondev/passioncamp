@@ -240,7 +240,7 @@ class Ticket extends OrderItem
     public function setPersonAttribute($person)
     {
         if (is_array($person)) {
-            $person = $this->person->exists
+            $person = optional($this->person)->exists
                 ? tap($this->person->fill($person))->save()
                 : Person::create($person);
         }
