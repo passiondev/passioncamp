@@ -6,14 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Hotel extends Item
 {
-    protected $casts = [
-        'registered_sum' => 'int',
-    ];
-
-    protected $appends = [
-        'remaining_count'
-    ];
-
     protected $attributes = [
         'type' => 'hotel',
     ];
@@ -49,12 +41,10 @@ class Hotel extends Item
     {
         $query->addSubSelect(
             'organizations_count',
-            Organization::selectRaw('count(distinct organizations.id)')->join('order_items', 'organizations.id', 'organization_id')->where('quantity', '>', '0')->whereRaw('items.id = item_id')
+            Organization::selectRaw('count(distinct organizations.id)')
+                ->join('order_items', 'organizations.id', 'organization_id')
+                ->where('quantity', '>', '0')
+                ->whereRaw('items.id = item_id')
         );
-    }
-
-    public function getRemainingCountAttribute()
-    {
-        return $this->capacity - $this->registered_sum;
     }
 }
