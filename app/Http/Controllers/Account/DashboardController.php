@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $organization = auth()->user()->organization()
             ->with('items.item')
             ->withCount('students', 'leaders', 'activeAttendees')
-            ->withTicketsSum()
+            ->scopes(['withTicketsSum', 'withCostSum', 'withPaidSum'])
             ->first();
 
         return view('account.dashboard')->withOrganization($organization);

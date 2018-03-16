@@ -19,7 +19,6 @@ class AddOwnerMorphToOrderItemsTable extends Migration
             $table->unsignedBigInteger("owner_id")->nullable();
 
             $table->index(["owner_type", "owner_id"]);
-
         });
 
         // where organization id is not null
@@ -40,6 +39,11 @@ class AddOwnerMorphToOrderItemsTable extends Migration
                 'owner_type' => 'App\Order',
                 'owner_id'   => $item->order_id,
             ]);
+        });
+
+        Schema::table('order_items', function (Blueprint $table) {
+            $table->renameColumn('order_id', 'old_order_id');
+            $table->renameColumn('organization_id', 'old_organization_id');
         });
     }
 

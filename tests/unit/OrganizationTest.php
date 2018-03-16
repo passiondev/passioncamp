@@ -1,13 +1,14 @@
 <?php
 
+use Tests\TestCase;
 use App\Organization;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Order;
+use App\Ticket;
 
-class OrganizationTest extends BrowserKitTestCase
+class OrganizationTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     protected $organization;
 
@@ -42,4 +43,41 @@ class OrganizationTest extends BrowserKitTestCase
 
     //     $this->assertEquals('111', $setting);
     // }
+
+    /** @test */
+    function it_gets_relations()
+    {
+        $organization = factory(Organization::class)->create();
+
+        $orders = $organization->orders()->saveMany(
+            factory(Order::class, 10)->make(['organization_id' => null])
+        );
+
+        $orders->first()->tickets()->saveMany(
+            factory(Ticket::class, 10)->make()
+        );
+
+        $organization2 = factory(Organization::class)->create();
+
+        $orders2 = $organization2->orders()->saveMany(
+            factory(Order::class, 8)->make(['organization_id' => null])
+        );
+
+        $orders2->first()->tickets()->saveMany(
+            factory(Ticket::class, 8)->make()
+        );
+
+        \App\OrderItem::create([
+            'owner_type' => Organization::class,
+            'owner_id' => 1,
+            // 'type' => 'ticket'
+        ]);
+
+        $this->assertCount(2, Organization::all());
+        $this->assertCount(18, Order::all());
+        $this->assertCount(18, Ticket::all());
+        $this->assertCount(10, $orders->first()->tickets()->get());
+        $this->assertCount(10, Ticket::forOrganization($organization)->get());
+        $this->assertCount(10, $organization->attendees()->get());
+    }
 }

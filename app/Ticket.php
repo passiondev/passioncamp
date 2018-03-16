@@ -39,11 +39,11 @@ class Ticket extends OrderItem
         'name',
         'first_name',
         'last_name',
-        'roomId',
+        // 'roomId',
     ];
 
     protected $with = [
-        'roomAssignment',
+        // 'roomAssignment',
     ];
 
     protected $observables = [
@@ -70,12 +70,20 @@ class Ticket extends OrderItem
         }
 
         if ($user->isChurchAdmin()) {
-            return $query->whereHas('order.organization', function ($q) use ($user) {
-                $q->where('id', $user->organization_id);
-            });
+            return $query->forOrganization($user->organization);
         }
 
         return $query->where('user_id', $user->id);
+    }
+
+    public function scopeForOrganization($query, $organization)
+    {
+        return $query->whereExists(function ($q) use ($organization) {
+            $q->select(\DB::raw(1))
+                ->from('orders')
+                ->whereRaw('orders.id = owner_id')
+                ->where('orders.organization_id', $organization->id);
+        });
     }
 
     public function scopeUnassigned($query)
@@ -193,7 +201,7 @@ class Ticket extends OrderItem
     {
         return [
             'name' => $this->person->name,
-            'organization_id' => $this->order->organization_id,
+            'organization_id' => $this->owner->organization_id,
         ];
     }
 

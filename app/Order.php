@@ -11,7 +11,11 @@ class Order extends Model
 
     protected $guarded = [];
 
-    protected $searchableColumns = ['id', 'tickets.person.first_name', 'tickets.person.last_name'];
+    protected $searchableColumns = [
+        'id',
+        'tickets.person.first_name',
+        'tickets.person.last_name'
+    ];
 
     public function newCollection(array $models = [])
     {
@@ -32,6 +36,7 @@ class Order extends Model
 
         return $query->where('user_id', $user->id);
     }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

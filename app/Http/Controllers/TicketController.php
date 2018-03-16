@@ -22,6 +22,10 @@ class TicketController extends Controller
             ->with('person', 'order.organization.church')
             ->paginate();
 
+        if (request()->query('page') == 'last') {
+            return redirect()->route('tickets.index', ['page' => $tickets->lastPage()]);
+        }
+
         return view('ticket.index', compact('tickets'));
     }
 

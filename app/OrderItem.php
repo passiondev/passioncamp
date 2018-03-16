@@ -12,6 +12,11 @@ class OrderItem extends Model
 
     protected $guarded = [];
 
+        protected $alias = [
+            'order' => 'owner',
+            'organization' => 'owner',
+        ];
+
     protected static function boot()
     {
         parent::boot();
@@ -29,6 +34,11 @@ class OrderItem extends Model
     public function scopeActive($query)
     {
         return $query->whereNull('canceled_at');
+    }
+
+    public function owner()
+    {
+        return $this->morphTo();
     }
 
     public function organization()
@@ -53,7 +63,7 @@ class OrderItem extends Model
 
     public function person()
     {
-        return $this->belongsTo(Person::class);
+        return $this->belongsTo(Person::class)->withDefault();
     }
 
     public function room()

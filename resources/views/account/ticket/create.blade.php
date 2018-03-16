@@ -16,7 +16,7 @@
 
         @include('errors.validation')
 
-        <form action="{{ action('Account\TicketController@store') }}" method="POST">
+        <form action="{{ action('Account\TicketController@store') }}" method="POST" onsubmit="document.getElementById('submit').disabled = true">
             {{ csrf_field() }}
 
             <div class="card mb-3">
@@ -64,7 +64,7 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col offset-md-3">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                         </div>
                     </div>
                 </div>

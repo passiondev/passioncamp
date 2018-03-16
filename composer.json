@@ -20,6 +20,7 @@
         "barryvdh/laravel-debugbar": "~3.1",
         "bugsnag/bugsnag-laravel": "^2.14",
         "codedge/laravel-fpdf": "~1.0",
+        "doctrine/dbal": "^2.6",
         "dompdf/dompdf": "^0.8.0",
         "fideloper/proxy": "~4.0",
         "guzzlehttp/guzzle": "~6.0",

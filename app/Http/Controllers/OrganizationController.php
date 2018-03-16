@@ -18,11 +18,9 @@ class OrganizationController extends Controller
     {
         $organizations = Organization::orderByChurchName()
             ->with('church', 'settings')
+            ->has('tickets')
             ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers', 'checkedInRooms', 'keyReceivedRooms', 'settings'])
-            ->withTicketsSum()
-            ->withHotelsSum()
-            ->withCostSum()
-            ->withPaidSum()
+            ->scopes(['withTicketsSum', 'withHotelsSum', 'withCostSum', 'withPaidSum'])
             ->get();
 
         return view('super.organization.index', compact('organizations'));
