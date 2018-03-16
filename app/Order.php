@@ -54,12 +54,12 @@ class Order extends Model
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->morphMany(OrderItem::class, 'owner');
     }
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->morphMany(Ticket::class, 'owner');
     }
 
     public function activeTickets()
@@ -69,7 +69,7 @@ class Order extends Model
 
     public function donations()
     {
-        return $this->hasMany(OrderItem::class)->where('type', 'donation');
+        return $this->items()->where('type', 'donation');
     }
 
     public function transactions()

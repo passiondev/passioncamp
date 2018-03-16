@@ -162,7 +162,7 @@ class Organization extends Model
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class)->whereNotNull('org_type');
+        return $this->morphMany(OrderItem::class, 'owner');
     }
 
     public function hotelItems()
@@ -177,7 +177,7 @@ class Organization extends Model
 
     public function hotels()
     {
-        return $this->belongsToMany(Hotel::class, 'order_items', 'organization_id', 'item_id');
+        return $this->morphToMany(Hotel::class, 'owner', 'order_items', 'owner_id', 'item_id');
     }
 
     public function tickets()

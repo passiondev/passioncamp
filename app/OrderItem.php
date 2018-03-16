@@ -33,12 +33,12 @@ class OrderItem extends Model
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->morphTo('owner');
     }
 
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->morphTo('owner');
     }
 
     public function item()
@@ -72,7 +72,7 @@ class OrderItem extends Model
 
     public function isOrganizationItem()
     {
-        return ! is_null($this->org_type);
+        return $this->owner_type == 'App\Organization';
     }
 
     public function getIsCanceledAttribute()
