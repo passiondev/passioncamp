@@ -96,6 +96,15 @@ class Ticket extends OrderItem
         return $filters->apply($query);
     }
 
+    public function scopeOrderByPersonName($query)
+    {
+        $query->orderBySub(
+            Person::select('last_name')->whereRaw('person_id = people.id')
+        )->orderBySub(
+            Person::select('first_name')->whereRaw('person_id = people.id')
+        )->with('person');
+    }
+
     public function waiver()
     {
         return $this->hasOne(Waiver::class)->latest();

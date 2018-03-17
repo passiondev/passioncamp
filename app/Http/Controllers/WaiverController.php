@@ -25,20 +25,22 @@ class WaiverController extends Controller
                 $q->filter($filters);
             })
             ->with('person', 'waiver', 'order.organization.church', 'order.user.person')
-            ->join('people', 'order_items.person_id', '=', 'people.id')
-            ->select('order_items.*')
-            ->orderBy('people.last_name')
-            ->orderBy('people.first_name');
-        $tickets = $filters->hasFilters() || auth()->user()->isChurchAdmin() ? $tickets->get() : $tickets->paginate();
+            ->orderByPersonName();
 
-        $organizations = Organization::select('organizations.*')->with('church')->join('churches', 'church_id', '=', 'churches.id')->orderBy('churches.name')->withoutGlobalScopes()->get();
+        $tickets = $filters->hasFilters() || auth()->user()->isChurchAdmin()
+            ? $tickets->get()
+            : $tickets->paginate();
+
+        $organizations = Organization::orderByChurchName()->with('church')->get();
 
         return view('waivers.index', compact('tickets', 'organizations'));
     }
 
     public function refresh(Waiver $waiver)
     {
-        dispatch(new FetchAndUpdateStatus($waiver));
+        $this->authorize('view', $waiver);
+
+        FetchAndUpdateStatus::dispatch($waiver);
 
         return request()->expectsJson()
             ? $waiver
@@ -53,7 +55,7 @@ class WaiverController extends Controller
             abort(403, 'This waiver cannot be reminded.');
         }
 
-        dispatch(new SendReminder($waiver));
+        SendReminder::dispatch($waiver);
 
         return request()->expectsJson()
             ? response($waiver, 201)
@@ -62,6 +64,8 @@ class WaiverController extends Controller
 
     public function destroy(Waiver $waiver)
     {
+        $this->authorize($waiver);
+
         $waiver->delete();
 
         return request()->expectsJson()
