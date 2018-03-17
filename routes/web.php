@@ -117,5 +117,4 @@ Route::get('checkin/all-leaders', 'CheckinController@allLeaders');
 Route::post('checkin/{ticket}', 'CheckinController@create');
 Route::delete('checkin/{ticket}', 'CheckinController@destroy');
 
-// Route::get('tickets/{ticket}/wristband', 'TicketWristbandsController@show');
-Route::get('tickets/{payload}/wristband', 'TicketWristbandsController@signedShow');
+Route::get('tickets/{ticket}/wristband', 'TicketWristbandsController@show');
