@@ -1,19 +1,5 @@
 <?php
 
-Route::get('test', function () {
-    $organizations = App\Organization::searchByChurchName('pine')->with('church')->get();
-    $organizations = App\Organization::join('churches', 'organizations.church_id', '=', 'churches.id')
-        ->with('church')
-        ->where('name', 'LIKE', 'pine' . '%')
-        ->orderBy('name')
-        ->get();
-
-    return 'test';
-    return $organizations->toArray();
-});
-
-Route::get('/', 'RedirectController@home');
-
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('logout');
@@ -27,6 +13,10 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
+
+Route::get('/', 'RedirectController@home');
 
 Route::prefix('admin')->as('admin.')->group(function () {
     Route::get('/', 'Super\DashboardController')->middleware(['auth', 'super']);
@@ -55,7 +45,6 @@ Route::prefix('account')->as('account.')->group(function () {
     Route::resource('tickets', 'Account\TicketController')->only('create', 'store');
 });
 
-
 if (config('passioncamp.enable_rooms')) {
     Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
 
@@ -70,7 +59,7 @@ if (config('passioncamp.enable_rooms')) {
     Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
 }
 
-Route::resource('orders', 'OrderController')->only('index', 'show');
+Route::resource('orders', 'OrderController')->only('show');
 Route::post('orders/exports', 'OrderExportController@store')->name('orders.exports.store');
 Route::resource('orders.tickets', 'OrderTicketController')->only('create', 'store');
 Route::resource('orders.transactions', 'OrderTransactionController')->only('create', 'store');
@@ -111,8 +100,6 @@ if (config('passioncamp.enable_waivers')) {
     Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
     Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
 }
-
-Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 
 Route::get('dashboard', 'User\DashboardController');
 Route::get('payments', 'User\PaymentsController@index');

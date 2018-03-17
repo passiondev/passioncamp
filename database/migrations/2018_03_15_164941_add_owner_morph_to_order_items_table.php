@@ -43,6 +43,9 @@ class AddOwnerMorphToOrderItemsTable extends Migration
 
         Schema::table('order_items', function (Blueprint $table) {
             $table->renameColumn('order_id', 'old_order_id');
+        });
+
+        Schema::table('order_items', function (Blueprint $table) {
             $table->renameColumn('organization_id', 'old_organization_id');
         });
     }

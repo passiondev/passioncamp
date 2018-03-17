@@ -12,6 +12,11 @@ use App\AccountUser;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function create()
     {
         return view('account.user.create', [

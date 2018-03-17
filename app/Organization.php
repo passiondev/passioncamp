@@ -24,17 +24,6 @@ class Organization extends Model
         'total_paid' => 'paid_sum',
     ];
 
-    // protected static function boot()
-    // {
-    //     static::addGlobalScope('activeAttendeesCount', function ($builder) {
-    //         $builder->withCount('activeAttendees');
-    //     });
-
-    //     static::addGlobalScope('ticketsSum', function ($builder) {
-    //         $builder->withTicketsSum();
-    //     });
-    // }
-
     public function newCollection(array $models = [])
     {
         return new OrganizationCollection($models);
@@ -319,9 +308,27 @@ class Organization extends Model
         return $this->tickets->sum('quantity');
     }
 
+    public function getActiveAttendeesCountAttribute($active_attendees_count)
+    {
+        if (! array_key_exists('active_attendees_count', $this->attributes)) {
+            $active_attendees_count = $this->activeAttendees()->count();
+        }
+
+        return $active_attendees_count;
+    }
+
     public function getTicketsRemainingCountAttribute()
     {
         return $this->tickets_sum - $this->active_attendees_count;
+    }
+
+    public function canAddTickets()
+    {
+        if ($this->slug == 'pcc') {
+            return true;
+        }
+
+        return $this->tickets_remaining_count > 0;
     }
 
     public function getCanMakeStripePaymentsAttribute()

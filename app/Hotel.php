@@ -42,7 +42,7 @@ class Hotel extends Item
         $query->addSubSelect(
             'organizations_count',
             Organization::selectRaw('count(distinct organizations.id)')
-                ->join('order_items', 'organizations.id', 'organization_id')
+                ->join('order_items', 'organizations.id', 'owner_id')
                 ->where('quantity', '>', '0')
                 ->whereRaw('items.id = item_id')
         );

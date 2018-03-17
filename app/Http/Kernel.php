@@ -66,7 +66,5 @@ class Kernel extends HttpKernel
         'redirect.to.order' => \App\Http\Middleware\RedirectToSingleOrder::class,
         'printer' => \App\Http\Middleware\VerifyUserHasSelectedPrinter::class,
         'closed' => \App\Http\Middleware\Closed::class,
-
-        'hasEnoughTickets' => \App\Http\Middleware\VerifyTicketCanBeAddedToOrganization::class,
     ];
 }
