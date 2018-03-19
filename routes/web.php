@@ -18,6 +18,20 @@ Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 
 Route::get('/', 'RedirectController@home');
 
+
+Route::namespace('User')->as('user.')->group(function () {
+    Route::get('dashboard', 'DashboardController')->name('dashboard');
+    Route::resource('payments', 'PaymentController')->only('index', 'store');
+});
+
+Route::prefix('account')->namespace('Account')->as('account.')->group(function () {
+    Route::get('dashboard', 'DashboardController')->name('dashboard');
+    Route::get('settings', 'SettingsController')->name('settings');
+    Route::resource('payments', 'PaymentController')->only('index', 'store');
+    Route::resource('users', 'UserController')->only('create', 'store', 'destroy');
+    Route::resource('tickets', 'TicketController')->only('create', 'store');
+});
+
 Route::prefix('admin')->as('admin.')->group(function () {
     Route::get('/', 'Super\DashboardController')->middleware(['auth', 'super']);
 
@@ -35,14 +49,6 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::resource('tickets', 'Super\TicketController')->only('index');
     Route::resource('users', 'Super\UserController')->only('index', 'create', 'store', 'edit', 'update');
     Route::get('rooms', 'RoomController@index')->name('rooms.index');
-});
-
-Route::prefix('account')->as('account.')->group(function () {
-    Route::get('dashboard', 'Account\DashboardController')->name('dashboard');
-    Route::get('settings', 'Account\SettingsController')->name('settings');
-    Route::resource('payments', 'Account\PaymentController')->only('index', 'store');
-    Route::resource('users', 'Account\UserController')->only('create', 'store', 'destroy');
-    Route::resource('tickets', 'Account\TicketController')->only('create', 'store');
 });
 
 if (config('passioncamp.enable_rooms')) {
@@ -85,25 +91,17 @@ Route::patch('person/{person}', 'PersonController@update');
 
 Route::post('organization/{organization}/notes', 'OrganizationNoteController@store');
 
-Route::get('profile', 'ProfileController@show');
-Route::patch('profile', 'ProfileController@update');
-Route::delete('profile/oauth/{provider}', 'SocialAuthController@disconnect');
+Route::get('profile', 'ProfileController@show')->name('profile.show');
+Route::patch('profile', 'ProfileController@update')->name('profile.update');
 
 Route::get('impersonate/{user}', 'Auth\ImpersonationController@impersonate');
 Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating');
-
-Route::get('oauth/{provider}/callback', 'SocialAuthController@callback');
-Route::post('oauth/{provider}', 'SocialAuthController@redirect');
 
 if (config('passioncamp.enable_waivers')) {
     Route::resource('waivers', 'WaiverController')->only('index', 'destroy');
     Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
     Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
 }
-
-Route::get('dashboard', 'User\DashboardController');
-Route::get('payments', 'User\PaymentsController@index');
-Route::post('payments', 'User\PaymentsController@store');
 
 Route::get('ticket-items', 'TicketItemController@index')->name('ticket-items.index');
 

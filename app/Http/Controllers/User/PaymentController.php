@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PaymentsController extends Controller
+class PaymentController extends Controller
 {
     public function __construct()
     {
@@ -14,7 +13,7 @@ class PaymentsController extends Controller
 
     public function index()
     {
-        $transactions = auth()->user()->transactions()->get();
+        $transactions = auth()->user()->transactions()->latest()->get();
         $balance = auth()->user()->balance;
 
         return view('user.payments.index', compact('transactions', 'balance'));
@@ -22,7 +21,7 @@ class PaymentsController extends Controller
 
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'amount' => 'required|integer|min:1',
             'stripeToken' => 'required',
         ]);
@@ -47,7 +46,8 @@ class PaymentsController extends Controller
                 'stripe_account' => 'acct_16y17LI1xefq0oDy',
             ]);
         } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', $e->getMessage());
+            return redirect()->back()->withInput()
+                ->with('error', $e->getMessage());
         }
 
         $order->addTransaction([
@@ -58,6 +58,7 @@ class PaymentsController extends Controller
             'cc_last4' => $charge->source->last4,
         ]);
 
-        return redirect()->action('User\PaymentsController@index')->withSuccess('Payment received.');
+        return redirect()->route('user.payments.index')
+            ->withSuccess('Payment received.');
     }
 }

@@ -16,7 +16,7 @@ class SelectedPrinterController extends Controller
 
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'printer' => 'required'
         ]);
 
@@ -39,6 +39,6 @@ class SelectedPrinterController extends Controller
 
     private function printDriver()
     {
-        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
+        return Printer::driver(auth()->user()->organization->slug);
     }
 }
