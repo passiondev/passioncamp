@@ -13,6 +13,6 @@ class DispatchDeployRoomsForOrganization
             return;
         }
 
-        return dispatch(new DeployRooms($event->orgItem->organization));
+        return DeployRooms::dispatch($event->orgItem->organization);
     }
 }
