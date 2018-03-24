@@ -4,27 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use Dompdf\Dompdf;
-use Illuminate\Http\Request;
-use App\Http\Middleware\VerifyPayloadSignature;
+use Illuminate\Routing\Middleware\ValidateSignature;
 
 class TicketWristbandsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(VerifyPayloadSignature::class);
+        $this->middleware(ValidateSignature::class)->only('show');
     }
 
-    public function signedShow($payload)
+    public function show(Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($payload['id']);
-
-        return $this->generatePdf($ticket)->stream('wristband.pdf', ['Attachment' => 0]);
+        return $this->generatePdf($ticket)
+            ->stream('wristband.pdf', ['Attachment' => 0]);
     }
 
     private function generatePdf($ticket)
     {
         return tap(new Dompdf, function ($dompdf) use ($ticket) {
-            $dompdf->loadHtml(view('ticket/wristband', compact('ticket'))->render());
+            $dompdf->loadHtml(view('ticket.wristband', compact('ticket'))->render());
             $dompdf->render();
         });
     }

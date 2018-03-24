@@ -25,7 +25,7 @@ class PersonController extends Controller
 
     public function update(Person $person)
     {
-        $this->validate(request(), [
+        request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => "required|email",

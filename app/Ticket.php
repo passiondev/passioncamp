@@ -39,11 +39,11 @@ class Ticket extends OrderItem
         'name',
         'first_name',
         'last_name',
-        'roomId',
+        // 'roomId',
     ];
 
     protected $with = [
-        'roomAssignment',
+        // 'roomAssignment',
     ];
 
     protected $observables = [
@@ -70,12 +70,20 @@ class Ticket extends OrderItem
         }
 
         if ($user->isChurchAdmin()) {
-            return $query->whereHas('order.organization', function ($q) use ($user) {
-                $q->where('id', $user->organization_id);
-            });
+            return $query->forOrganization($user->organization);
         }
 
         return $query->where('user_id', $user->id);
+    }
+
+    public function scopeForOrganization($query, $organization)
+    {
+        return $query->whereExists(function ($q) use ($organization) {
+            $q->select(\DB::raw(1))
+                ->from('orders')
+                ->whereRaw('orders.id = owner_id')
+                ->where('orders.organization_id', $organization->id);
+        });
     }
 
     public function scopeUnassigned($query)
@@ -86,6 +94,15 @@ class Ticket extends OrderItem
     public function scopeFilter($query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function scopeOrderByPersonName($query)
+    {
+        $query->orderBySub(
+            Person::select('last_name')->whereRaw('person_id = people.id')
+        )->orderBySub(
+            Person::select('first_name')->whereRaw('person_id = people.id')
+        )->with('person');
     }
 
     public function waiver()
@@ -116,6 +133,19 @@ class Ticket extends OrderItem
     public function rooms()
     {
         return $this->belongsToMany(Room::class, 'room_assignments')->withTimestamps();
+    }
+
+    public function room()
+    {
+        return $this->hasOne(Room::class, 'id', 'last_room_id');
+    }
+
+    public function scopeWithRoom($query)
+    {
+        $query->addSubSelect('last_room_id', RoomAssignment::select('room_id')
+            ->whereRaw('ticket_id = order_items.id')
+            ->latest()
+        )->with('room');
     }
 
     public function getNameAttribute()
@@ -193,7 +223,7 @@ class Ticket extends OrderItem
     {
         return [
             'name' => $this->person->name,
-            'organization_id' => $this->order->organization_id,
+            'organization_id' => $this->owner->organization_id,
         ];
     }
 
@@ -251,5 +281,29 @@ class Ticket extends OrderItem
     public function setPriceInDollarsAttribute($price)
     {
         $this->price = $price * 100;
+    }
+
+    public function getUnassignedSortAttribute()
+    {
+        return vsprintf("%02d__%s__%s__%s__%s", [
+            $this->person->grade == 0 ? 99 : $this->person->grade,
+            $this->person->gender == 'M' ? 'z' : 'a',
+            $this->agegroup == 'leader' ? 'z' : 'a',
+            $this->person->first_name,
+            $this->person->last_name,
+        ]);
+
+    }
+
+    public function getAssignedSortAttribute()
+    {
+        return vsprintf("%s__%02d__%s__%s__%s", [
+            $this->agegroup == 'leader' ? 'a' : 'z',
+            $this->person->grade == 0 ? 99 : $this->person->grade,
+            $this->person->gender == 'M' ? 'z' : 'a',
+            $this->person->first_name,
+            $this->person->last_name
+        ]);
+
     }
 }

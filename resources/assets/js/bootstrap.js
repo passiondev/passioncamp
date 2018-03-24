@@ -11,7 +11,6 @@ window.Tether = require('tether');
 window.$ = window.jQuery = require('jquery');
 
 require('bootstrap');
-require('jquery.payment');
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces

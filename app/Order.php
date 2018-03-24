@@ -11,7 +11,11 @@ class Order extends Model
 
     protected $guarded = [];
 
-    protected $searchableColumns = ['id', 'tickets.person.first_name', 'tickets.person.last_name'];
+    protected $searchableColumns = [
+        'id',
+        'tickets.person.first_name',
+        'tickets.person.last_name'
+    ];
 
     public function newCollection(array $models = [])
     {
@@ -32,6 +36,7 @@ class Order extends Model
 
         return $query->where('user_id', $user->id);
     }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
@@ -54,12 +59,12 @@ class Order extends Model
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->morphMany(OrderItem::class, 'owner');
     }
 
     public function tickets()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->morphMany(Ticket::class, 'owner');
     }
 
     public function activeTickets()
@@ -69,7 +74,7 @@ class Order extends Model
 
     public function donations()
     {
-        return $this->hasMany(OrderItem::class)->where('type', 'donation');
+        return $this->items()->where('type', 'donation');
     }
 
     public function transactions()

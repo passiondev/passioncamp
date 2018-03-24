@@ -24,18 +24,18 @@ class CheckinController extends Controller
 
         if (request('search')) {
             $keys = Ticket::search(request('search'))
-                ->where('organization_id', auth()->user()->organization_id)
+                ->forOrganization(auth()->user()->organization)
                 ->keys();
 
             $tickets = Ticket::whereIn('id', $keys)
-                ->where([
-                    'canceled_at' => null,
-                ])
                 ->with('person', 'order.user.items', 'order.user.transactions', 'waiver')
+                ->active()
                 ->get();
         }
 
-        $organization = auth()->user()->organization()->withCount('students', 'leaders', 'checkedInStudents', 'checkedInLeaders', 'activeAttendees')->first();
+        $organization = auth()->user()->organization()
+            ->withCount('students', 'leaders', 'checkedInStudents', 'checkedInLeaders', 'activeAttendees')
+            ->first();
 
         return view('checkin.index', [
             'tickets' => $tickets,
@@ -52,7 +52,7 @@ class CheckinController extends Controller
     {
         $ticket->checkin();
 
-        $ticket->printWristband(session('printer.id'), data_get(auth()->user(), 'organization.slug'));
+        $ticket->printWristband(session('printer.id'), auth()->user()->organization->slug);
 
         session()->flash('checked_in', $ticket);
 
@@ -72,7 +72,8 @@ class CheckinController extends Controller
     {
         auth()->user()->organization->leaders->each(function ($ticket) {
             $ticket->checkin();
-            dispatch(new PrintWristbandJob($ticket, session('printer.id'), data_get(auth()->user(), 'organization.slug')));
+
+            PrintWristbandJob::dispatch($ticket, session('printer.id'), auth()->user()->organization->slug);
         });
 
         return redirect()->action('CheckinController@index');

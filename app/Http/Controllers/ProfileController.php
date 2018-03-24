@@ -17,10 +17,6 @@ class ProfileController extends Controller
     {
         $user = request()->user();
 
-        if (is_null($user->person)) {
-            $user->person()->associate(Person::create())->save();
-        }
-
         return view('profile.show', compact('user'));
     }
 
@@ -28,19 +24,20 @@ class ProfileController extends Controller
     {
         $user = request()->user();
 
-        $this->validate(request(), [
+        request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|unique:users,email,'.$user->id,
         ]);
 
-        $user->update(request(['email']));
-
-        $user->person()->update(request([
-            'first_name',
-            'last_name',
-            'email',
-        ]));
+        $user->update([
+            'email' => request()->input('email'),
+            'person' => [
+                'first_name' => request()->input('first_name'),
+                'last_name' => request()->input('last_name'),
+                'email' => request()->input('email'),
+            ],
+        ]);
 
         return redirect('/')->withSuccess('Your profile has been updated.');
     }

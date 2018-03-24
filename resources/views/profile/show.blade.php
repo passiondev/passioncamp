@@ -6,7 +6,7 @@
         <div class="card mb-3">
             <h4 class="card-header">Update Profile</h4>
             <div class="card-block">
-                <form action="{{ action('ProfileController@update') }}" method="POST" novalidate>
+                <form action="{{ route('profile.update') }}" method="POST" novalidate>
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     <div class="form-group row">
@@ -35,32 +35,5 @@
                 </form>
             </div>
         </div>
-        <div class="card">
-            <h4 class="card-header">Connected Accounts</h4>
-            <div class="card-block">
-
-            @if ($user->hasSocialAccountFor('google'))
-                <div class="input-group">
-                    <span class="input-group-addon bg-google">@icon('google')</span>
-                    <span class="input-group-btn">
-                        <a href="{{ action('SocialAuthController@disconnect', 'google') }}" class="btn btn-outline-google" onclick="event.preventDefault(); document.getElementById('google-disconnect-form').submit();">Disconnect</a>
-                    </span>
-                </div>
-            @else
-                <a class="btn btn-google" href="{{ action('SocialAuthController@redirect', ['google']) }}" onclick="event.preventDefault(); document.getElementById('google-connect-form').submit();">
-                    @icon('google') Connect
-                </a>
-            @endif
-
-            </div>
-        </div>
     </div>
-
-    <form action="{{ action('SocialAuthController@disconnect', 'google') }}" method="POST" id="google-disconnect-form" style="display: none">
-        {{ method_field('DELETE') }}
-        {{ csrf_field() }}
-    </form>
-    <form action="{{ action('SocialAuthController@redirect', 'google') }}" method="POST" id="google-connect-form" style="display: none">
-        {{ csrf_field() }}
-    </form>
 @stop

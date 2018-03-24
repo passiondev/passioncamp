@@ -13,7 +13,7 @@
                 </div>
             </form>
             <div class="mb-2 mb-lg-0 ml-auto">
-                @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->tickets_remaining_count <= 0)
+                @unless (auth()->user()->isSuperAdmin() || auth()->user()->organization->canAddTickets())
                     <a href="{{ route('account.tickets.create') }}" class="btn btn-outline-primary">Add Attendee</a>
                 @endunless
                 @if (auth()->user()->isChurchAdmin() && auth()->user()->organization->slug == 'pcc')

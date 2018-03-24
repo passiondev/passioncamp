@@ -40,6 +40,6 @@ class PrinterController extends Controller
 
     private function printDriver()
     {
-        return Printer::driver(data_get(auth()->user(), 'organization.slug'));
+        return Printer::driver(auth()->user()->organization->slug);
     }
 }

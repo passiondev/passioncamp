@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\TransactionSplit;
-use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -26,7 +24,7 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $split->order);
 
-        $this->validate(request(), [
+        request()->validate([
             'amount' => 'required',
             'identifier' => 'required',
         ]);
@@ -34,12 +32,14 @@ class TransactionController extends Controller
         $split->update([
             'amount' => request('amount') * 100
         ]);
+
         $split->transaction->update([
             'amount' => request('amount') * 100,
             'identifier' => request('identifier'),
         ]);
 
-        return redirect()->intended(action('OrderController@show', $split->order))->withSucess('Transaction updated.');
+        return redirect()->intended(action('OrderController@show', $split->order))
+            ->withSucess('Transaction updated.');
     }
 
     public function delete(TransactionSplit $split)

@@ -61,17 +61,6 @@ $factory->define(App\Order::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Ticket::class, function (Faker\Generator $faker) {
-    return [
-        'person_id' => function () {
-            return factory(App\Person::class)->create()->id;
-        },
-        'order_id' => function () {
-            return factory(App\Order::class)->create()->id;
-        }
-    ];
-});
-
 $factory->define(App\OrderItem::class, function (Faker\Generator $faker) {
     return [
     ];
@@ -85,23 +74,6 @@ $factory->define(App\OrgItem::class, function (Faker\Generator $faker) {
 $factory->define(App\Item::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->words(3, true)
-    ];
-});
-
-$factory->define(App\Church::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->company,
-        'city' => $faker->city,
-        'state' => $faker->state,
-    ];
-});
-
-$factory->define(App\Organization::class, function (Faker\Generator $faker) {
-    return [
-        'slug' => $faker->unique()->slug,
-        'church_id' => function () {
-            return factory(App\Church::class)->create()->id;
-        },
     ];
 });
 

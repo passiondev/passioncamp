@@ -71,29 +71,6 @@ class RegisterCreateRequest extends FormRequest
 
     public function persist()
     {
-        $user = $this->createUser();
-
-        $order = $user->orders()->create([
-            'organization_id' => $this->organization(),
-        ]);
-
-        if ($this->getFundAmount() > 0) {
-            $order->donations()->create([
-                'type' => 'donation',
-                'organization_id' => $this->organization(),
-                'price' => 100 * $this->getFundAmount(),
-            ]);
-        }
-
-        $order->tickets()->saveMany(
-            $this->buildTickets()
-        );
-
-        return $order;
-    }
-
-    private function createUser()
-    {
         $user = User::firstOrNew([
             'email' => $this->input('contact.email'),
         ]);
@@ -111,7 +88,22 @@ class RegisterCreateRequest extends FormRequest
             ])),
         ])->save();
 
-        return $user;
+        $order = $user->orders()->create([
+            'organization_id' => $this->organization(),
+        ]);
+
+        if ($this->getFundAmount() > 0) {
+            $order->donations()->create([
+                'type' => 'donation',
+                'price' => 100 * $this->getFundAmount(),
+            ]);
+        }
+
+        $order->tickets()->saveMany(
+            $this->buildTickets()
+        );
+
+        return $order;
     }
 
     private function getFundAmount()
@@ -123,28 +115,29 @@ class RegisterCreateRequest extends FormRequest
 
     public function buildTickets()
     {
-        $tickets = collect($this->input('tickets'))
-            ->map(function ($data) {
-                return new Ticket([
-                    'agegroup' => 'student',
-                    'ticket_data' => collect($data)->only(['school', 'roommate_requested'])->merge(['code' => request('code')])->toArray(),
-                    'price_in_dollars' => $this->ticketPrice(),
-                    'organization_id' => $this->organization(),
-                    'person' => array_only($data, [
-                        'first_name', 'last_name', 'email', 'phone',
-                        'gender', 'grade', 'allergies',
-                        'considerations',
-                    ]),
-                ]);
-            })
-        ;
+        $tickets = collect($this->input('tickets'))->map(function ($data) {
+            return new Ticket([
+                'agegroup' => 'student',
+                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => request('code')],
+                'price_in_dollars' => $this->ticketPrice(),
+                'person' => array_only($data, [
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'phone',
+                    'gender',
+                    'grade',
+                    'allergies',
+                    'considerations',
+                ]),
+            ]);
+        });
 
         for ($i = $tickets->count(); $i < $this->input('num_tickets'); $i++) {
             $tickets->push(
                 new Ticket([
                     'agegroup' => 'student',
                     'price_in_dollars' => $this->ticketPrice(),
-                    'organization_id' => $this->organization(),
                     'person' => [],
                 ])
             );

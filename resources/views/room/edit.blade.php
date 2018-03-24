@@ -23,13 +23,13 @@
                     <div class="form-group row">
                         <label for="description" class="col-md-3 col-form-label text-md-right">Description</label>
                         <div class="col-md-6">
-                            <input type="text" name="description" id="description" class="form-control" placeholder="ie 6th Grade Girls" value="{{ old('description', $room->description) }}">
+                            <input type="text" name="description" id="description" class="form-control" placeholder="6th Grade Girls" value="{{ old('description', $room->description) }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="notes" class="col-md-3 col-form-label text-md-right">Notes</label>
                         <div class="col-md-6">
-                            <input type="text" name="notes" id="notes" class="form-control" placeholder="ie King Bed OK" value="{{ old('notes', $room->notes) }}">
+                            <input type="text" name="notes" id="notes" class="form-control" placeholder="King Bed OK" value="{{ old('notes', $room->notes) }}">
                         </div>
                     </div>
                     @if (Auth::user()->isSuperAdmin())

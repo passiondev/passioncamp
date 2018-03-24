@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
-use Illuminate\Http\Request;
 
 class OrganizationNoteController extends Controller
 {
@@ -16,12 +15,13 @@ class OrganizationNoteController extends Controller
     {
         $this->authorize('update', $organization);
 
-        $this->validate(request(), [
+        request()->validate([
             'body' => 'required',
         ]);
 
         $organization->addNote(request('body'));
 
-        return redirect()->back()->withSuccess('Note added.');
+        return redirect()->back()
+            ->withSuccess('Note added.');
     }
 }

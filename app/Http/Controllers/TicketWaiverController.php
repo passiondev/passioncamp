@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use App\WaiverStatus;
-use Illuminate\Http\Request;
 
 class TicketWaiverController extends Controller
 {

@@ -24,17 +24,6 @@ class Organization extends Model
         'total_paid' => 'paid_sum',
     ];
 
-    protected static function boot()
-    {
-        static::addGlobalScope('activeAttendeesCount', function ($builder) {
-            $builder->withCount('activeAttendees');
-        });
-
-        static::addGlobalScope('ticketsSum', function ($builder) {
-            $builder->withTicketsSum();
-        });
-    }
-
     public function newCollection(array $models = [])
     {
         return new OrganizationCollection($models);
@@ -67,23 +56,23 @@ class Organization extends Model
             $q->selectRaw('SUM(quantity)')
                 ->from('order_items')
                 ->where('org_type', 'ticket')
-                ->whereRaw('order_items.organization_id = organizations.id');
+                ->whereRaw('order_items.owner_id = organizations.id');
         }, 'tickets_sum');
     }
 
-    // public function getTicketsSumAttribute($tickets_sum)
-    // {
-    //     if (! array_key_exists('tickets_sum', $this->attributes)) {
-    //         $tickets_sum = static::newQueryWithoutScopes()
-    //             ->scopes(['withTicketsSum'])
-    //             ->find($this->id)
-    //             ->tickets_sum;
+    public function getTicketsSumAttribute($tickets_sum)
+    {
+        if (! array_key_exists('tickets_sum', $this->attributes)) {
+            $tickets_sum = static::newQueryWithoutScopes()
+                ->scopes(['withTicketsSum'])
+                ->find($this->id)
+                ->tickets_sum;
 
-    //         $this->setAttribute('tickets_sum', $tickets_sum);
-    //     }
+            $this->setAttribute('tickets_sum', $tickets_sum);
+        }
 
-    //     return $tickets_sum;
-    // }
+        return $tickets_sum;
+    }
 
     public function scopeWithHotelsSum($query)
     {
@@ -91,7 +80,7 @@ class Organization extends Model
             $q->selectRaw('SUM(quantity)')
                 ->from('order_items')
                 ->where('org_type', 'hotel')
-                ->whereRaw('order_items.organization_id = organizations.id');
+                ->whereRaw('order_items.owner_id = organizations.id');
         }, 'hotels_sum');
     }
 
@@ -100,7 +89,7 @@ class Organization extends Model
         return $query->selectSub(function ($q) {
             $q->selectRaw('SUM(quantity * cost)')
                 ->from('order_items')
-                ->whereRaw('order_items.organization_id = organizations.id');
+                ->whereRaw('order_items.owner_id = organizations.id');
         }, 'cost_sum');
     }
 
@@ -162,7 +151,7 @@ class Organization extends Model
 
     public function items()
     {
-        return $this->hasMany(OrderItem::class)->whereNotNull('org_type');
+        return $this->morphMany(OrderItem::class, 'owner');
     }
 
     public function hotelItems()
@@ -177,7 +166,7 @@ class Organization extends Model
 
     public function hotels()
     {
-        return $this->belongsToMany(Hotel::class, 'order_items', 'organization_id', 'item_id');
+        return $this->morphToMany(Hotel::class, 'owner', 'order_items', 'owner_id', 'item_id');
     }
 
     public function tickets()
@@ -202,12 +191,12 @@ class Organization extends Model
 
     public function attendees()
     {
-        return $this->hasManyThrough(Ticket::class, Order::class);
+        return $this->hasManyThrough(Ticket::class, Order::class, 'organization_id', 'owner_id');
     }
 
     public function students()
     {
-        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'student')->active();
+        return $this->attendees()->where('agegroup', 'student')->active();
     }
 
     public function checkedInStudents()
@@ -217,7 +206,7 @@ class Organization extends Model
 
     public function leaders()
     {
-        return $this->hasManyThrough(Ticket::class, Order::class)->where('agegroup', 'leader')->active();
+        return $this->attendees()->where('agegroup', 'leader')->active();
     }
 
     public function checkedInLeaders()
@@ -319,9 +308,27 @@ class Organization extends Model
         return $this->tickets->sum('quantity');
     }
 
+    public function getActiveAttendeesCountAttribute($active_attendees_count)
+    {
+        if (! array_key_exists('active_attendees_count', $this->attributes)) {
+            $active_attendees_count = $this->activeAttendees()->count();
+        }
+
+        return $active_attendees_count;
+    }
+
     public function getTicketsRemainingCountAttribute()
     {
         return $this->tickets_sum - $this->active_attendees_count;
+    }
+
+    public function canAddTickets()
+    {
+        if ($this->slug == 'pcc') {
+            return true;
+        }
+
+        return $this->tickets_remaining_count > 0;
     }
 
     public function getCanMakeStripePaymentsAttribute()

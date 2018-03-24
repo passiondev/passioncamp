@@ -9,7 +9,7 @@
             <h4 class="card-header">Make A Payment</h4>
             <div class="card-block">
                 <account-payment-form inline-template stripe-elements="card-element">
-                    <form action="{{ action('User\PaymentsController@store') }}" method="POST" v-on:submit.prevent="elementsSubmitHandler">
+                    <form action="{{ route('user.payments.store') }}" method="POST" v-on:submit.prevent="elementsSubmitHandler">
                         {{ csrf_field() }}
 
                         <div class="form-group row">
@@ -55,7 +55,7 @@
                             <th>Date</th>
                         </tr>
                     </thead>
-                    @foreach ($transactions->reverse() as $split)
+                    @foreach ($transactions as $split)
                         <tr>
                             <td>{{ $split->name }}</td>
                             <td>{{ money_format('%.2n', $split->amount / 100) }}</td>

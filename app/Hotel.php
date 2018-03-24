@@ -6,14 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Hotel extends Item
 {
-    protected $casts = [
-        'registered_sum' => 'int',
-    ];
-
-    protected $appends = [
-        'remaining_count'
-    ];
-
     protected $attributes = [
         'type' => 'hotel',
     ];
@@ -23,7 +15,7 @@ class Hotel extends Item
         parent::boot();
 
         static::addGlobalScope('type', function (Builder $builder) {
-            $builder->where('type', '=', 'hotel');
+            $builder->where('items.type', '=', 'hotel');
         });
     }
 
@@ -39,7 +31,7 @@ class Hotel extends Item
 
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'order_items', 'item_id')
+        return $this->morphedByMany(Organization::class, 'owner', 'order_items', 'item_id')
             ->withPivot('quantity')
             ->where('quantity', '>', '0')
             ->distinct();
@@ -49,12 +41,10 @@ class Hotel extends Item
     {
         $query->addSubSelect(
             'organizations_count',
-            Organization::selectRaw('count(distinct organizations.id)')->join('order_items', 'organizations.id', 'organization_id')->where('quantity', '>', '0')->whereRaw('items.id = item_id')
+            Organization::selectRaw('count(distinct organizations.id)')
+                ->join('order_items', 'organizations.id', 'owner_id')
+                ->where('quantity', '>', '0')
+                ->whereRaw('items.id = item_id')
         );
-    }
-
-    public function getRemainingCountAttribute()
-    {
-        return $this->capacity - $this->registered_sum;
     }
 }

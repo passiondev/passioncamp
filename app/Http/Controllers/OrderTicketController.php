@@ -12,7 +12,7 @@ class OrderTicketController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('hasEnoughTickets');
+        $this->middleware(VerifyTicketCanBeAddedToOrganization::class);
     }
 
     public function create(Order $order)
@@ -21,7 +21,7 @@ class OrderTicketController extends Controller
 
         request()->intended(url()->previous());
 
-        $ticket = (new Ticket)->setRelation('order', $order);
+        $ticket = (new Ticket)->order()->associate($order);
 
         return view('order-ticket.create', compact('ticket'));
     }
@@ -38,21 +38,19 @@ class OrderTicketController extends Controller
             'ticket.grade' => 'required_if:ticket.agegroup,student',
         ]);
 
-        $ticket = new Ticket(request()->input('ticket.agegroup'));
+        $ticket = new Ticket([
+            'agegroup' => request()->input('ticket.agegroup'),
+            'person' => [
+                'considerations' => request()->input('considerations'),
+                'first_name' => request()->input('ticket.first_name'),
+                'last_name' => request()->input('ticket.last_name'),
+                'gender' => request()->input('ticket.gender'),
+                'grade' => request()->input('ticket.grade'),
+                'allergies' => request()->input('ticket.allergies'),
+            ]
+        ]);
 
         $ticket->organization()->associate(auth()->user()->organization);
-
-        $ticket->person()->associate(
-            Person::create(
-                request(['considerations']) + array_only(request('ticket'), [
-                    'first_name',
-                    'last_name',
-                    'gender',
-                    'grade',
-                    'allergies',
-                ])
-            )
-        );
 
         $order->tickets()->save($ticket);
 

@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Order;
-use App\Person;
 use App\Ticket;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TicketController extends Controller
 {
@@ -21,6 +16,10 @@ class TicketController extends Controller
         $tickets = Ticket::forUser(auth()->user())
             ->with('person', 'order.organization.church')
             ->paginate();
+
+        if (request()->query('page') == 'last') {
+            return redirect()->route('tickets.index', ['page' => $tickets->lastPage()]);
+        }
 
         return view('ticket.index', compact('tickets'));
     }
@@ -70,17 +69,30 @@ class TicketController extends Controller
             'contact.phone' => 'sometimes|required',
         ]);
 
-        $ticket->update(
-            array_only(request('ticket'), ['agegroup', 'squad'])
-            + [
-                'ticket_data' => request('ticket_data'),
-                'price' => array_has(request('ticket'), 'price') ? array_get(request('ticket'), 'price') * 100 : null
+        $ticket->update([
+            'agegroup' => request()->input('ticket.agegroup'),
+            'squad' => request()->input('ticket.squad'),
+            'ticket_data' => request('ticket_data'),
+            'price' => request()->has('ticket.price') ? request()->input('ticket.price') * 100 : null,
+            'person' => [
+                'considerations' => request('considerations'),
+                'first_name' => request()->input('ticket.first_name'),
+                'last_name' => request()->input('ticket.last_name'),
+                'gender' => request()->input('ticket.gender'),
+                'grade' => request()->input('ticket.grade'),
+                'allergies' => request()->input('ticket.allergies'),
+                'email' => request()->input('ticket.email'),
+                'phone' => request()->input('ticket.phone'),
+                'birthdate' => request()->input('ticket.birthdate'),
             ]
-        );
-        $ticket->person->update(request(['considerations']) + array_only(request('ticket'), ['first_name', 'last_name', 'gender', 'grade', 'allergies', 'email', 'phone', 'birthdate']));
+        ]);
 
         if (request()->has('contact')) {
-            $ticket->order->user->person->update(array_only(request('contact'), ['name', 'email', 'phone']));
+            $ticket->order->user->person->update([
+                'name' => request()->input('contact.name'),
+                'email' => request()->input('contact.email'),
+                'phone' => request()->input('contact.phone'),
+            ]);
         }
 
         return redirect()->intended(route('tickets.index'))->withSuccess('Attendee updated.');

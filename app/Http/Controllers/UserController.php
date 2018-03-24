@@ -15,14 +15,14 @@ class UserController extends Controller
     {
         $this->authorize($user);
 
-        return view('user.edit')->withUser($user);
+        return view('user.edit', compact('user'));
     }
 
     public function update(User $user)
     {
         $this->authorize($user);
 
-        $this->validate(request(), [
+        request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|unique:users,email,'.$user->id,
@@ -38,8 +38,13 @@ class UserController extends Controller
             }
         }
 
-        $user->update(request(['email']));
-        $user->person->update(request(['first_name', 'last_name']));
+        $user->update([
+            'email' => request()->input('email'),
+            'person'=> [
+                'first_name' => request()->input('first_name'),
+                'last_name' => request()->input('last_name'),
+            ],
+        ]);
 
         if (auth()->user()->isSuperAdmin()) {
             return $user->organization
