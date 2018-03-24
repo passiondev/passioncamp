@@ -3,7 +3,7 @@ import room from './room'
 import unassigned from './unassigned'
 
 export default {
-    props: ['initialTickets', 'rooms'],
+    props: ['initialTickets'],
     components: {
         room,
         unassigned

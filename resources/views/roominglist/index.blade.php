@@ -4,7 +4,6 @@
     <roominglists
 
         :initial-tickets="{{ json_encode($tickets) }}"
-        :rooms="{{ json_encode($rooms) }}"
         inline-template
     >
         <div class="row d-flex align-items-stretch h-100">
