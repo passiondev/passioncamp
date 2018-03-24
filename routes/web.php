@@ -55,7 +55,9 @@ if (config('passioncamp.enable_rooms')) {
     Route::get('roominglist', 'RoomingListController@index')->name('roominglist.index');
 
     Route::resource('rooms', 'RoomController')->only('edit', 'update');
-    Route::resource('room-assignments', 'RoomAssignmentController')->only('store', 'update', 'delete');
+
+    Route::post('rooms/{room}/assignments', 'RoomAssignmentController@store')->name('rooms.assignments.store');
+    Route::delete('tickets/{ticket}/assignments', 'TicketAssignmentController@destroy');
 
     Route::post('rooms/{room}/check-in', 'RoomController@checkin');
     Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');

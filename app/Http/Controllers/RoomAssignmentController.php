@@ -19,32 +19,14 @@ class RoomAssignmentController extends Controller
             }
         })->validate();
 
-        Ticket::find(request('ticket'))->rooms()->detach();
+        $ticket = Ticket::findOrFail(request('ticket'));
+
+        throw_if($ticket->order->organization->isnot($room->organization), \Exception::class);
+
+        $ticket->rooms()->detach();
 
         $room->tickets()->attach(request('ticket'));
 
         return response('Created.', 201);
-    }
-
-    public function update(Room $room)
-    {
-        $this->validate(request(), [
-            'tickets' => "present|max:{$room->capacity}",
-        ]);
-
-        $room->tickets()->sync(request('tickets'));
-
-        return response('Updated.', 204);
-    }
-
-    public function delete(Room $room)
-    {
-        $this->validate(request(), [
-            'ticket' => "required",
-        ]);
-
-        $room->tickets()->detach(request('ticket'));
-
-        return response('Deleted.', 204);
     }
 }

@@ -12,13 +12,11 @@ import AccountPaymentForm from './components/AccountPaymentForm'
 import TransactionForm from './components/TransactionForm'
 import TicketConsiderations from './components/TicketConsiderations'
 import ChurchSearch from './components/ChurchSearch'
-import RoominglistUnassigned from './components/RoominglistUnassigned'
-import autoscroll from 'dom-autoscroller'
-import RoominglistRoom from './components/RoominglistRoom'
 import sendWaiver from './components/waivers/send-waiver'
 import Ajax from './components/Ajax.vue'
 import TicketWaiver from './components/TicketWaiver'
 import Flash from './components/Flash'
+import roominglists from './components/roominglists'
 
 Vue.filter('currency', currency);
 Vue.component('register-form', require('./components/RegisterForm.vue'));
@@ -31,12 +29,11 @@ const app = new Vue({
         TransactionForm,
         TicketConsiderations,
         ChurchSearch,
-        RoominglistUnassigned,
-        RoominglistRoom,
         sendWaiver,
         Ajax,
         TicketWaiver,
         Flash,
+        roominglists
     },
     data: store,
     mounted() {
@@ -52,10 +49,3 @@ const app = new Vue({
         });
     }
 });
-
-$(function() {
-    $('.js-form-input-card-number').payment('formatCardNumber');
-    $('.js-form-input-card-cvc').payment('formatCardCVC');
-    $('.js-form-input-card-expiry').payment('formatCardExpiry');
-});
-

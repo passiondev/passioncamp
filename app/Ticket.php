@@ -135,6 +135,19 @@ class Ticket extends OrderItem
         return $this->belongsToMany(Room::class, 'room_assignments')->withTimestamps();
     }
 
+    public function room()
+    {
+        return $this->hasOne(Room::class, 'id', 'last_room_id');
+    }
+
+    public function scopeWithRoom($query)
+    {
+        $query->addSubSelect('last_room_id', RoomAssignment::select('room_id')
+            ->whereRaw('ticket_id = order_items.id')
+            ->latest()
+        )->with('room');
+    }
+
     public function getNameAttribute()
     {
         return $this->person && strlen($this->person->first_name)
@@ -268,5 +281,29 @@ class Ticket extends OrderItem
     public function setPriceInDollarsAttribute($price)
     {
         $this->price = $price * 100;
+    }
+
+    public function getUnassignedSortAttribute()
+    {
+        return vsprintf("%02d__%s__%s__%s__%s", [
+            $this->person->grade == 0 ? 99 : $this->person->grade,
+            $this->person->gender == 'M' ? 'z' : 'a',
+            $this->agegroup == 'leader' ? 'z' : 'a',
+            $this->person->first_name,
+            $this->person->last_name,
+        ]);
+
+    }
+
+    public function getAssignedSortAttribute()
+    {
+        return vsprintf("%s__%02d__%s__%s__%s", [
+            $this->agegroup == 'leader' ? 'a' : 'z',
+            $this->person->grade == 0 ? 99 : $this->person->grade,
+            $this->person->gender == 'M' ? 'z' : 'a',
+            $this->person->first_name,
+            $this->person->last_name
+        ]);
+
     }
 }

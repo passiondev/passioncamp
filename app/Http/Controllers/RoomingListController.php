@@ -22,41 +22,34 @@ class RoomingListController extends Controller
 
     public function index()
     {
-        $unassigned = Ticket::active()
-            ->forUser()
-            ->unassigned()
-            ->with('person')
+        $tickets = Ticket::forUser()
+            ->active()
+            ->with('person', 'order')
+            ->scopes(['withRoom'])
             ->orderBy('agegroup')
             ->get()
-            ->unassigendSort()
-            ->mapWithKeys(function ($ticket) use (&$i) {
-                return [++$i => [
+            ->map(function ($ticket) use (&$i) {
+                return [
                     'id' => $ticket->id,
                     'name' => $ticket->name,
                     'gender' => $ticket->person->gender,
                     'type' => $ticket->agegroup,
                     'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
-                ]];
+                    'room_id' => optional($ticket->room)->id,
+                    'organization_id' => $ticket->order->organization_id,
+                    'assigned_sort' => $ticket->assigned_sort,
+                    'unassigned_sort' => $ticket->unassigned_sort,
+                ];
             });
 
         $rooms = Room::forUser()
-            ->with('tickets.person', 'organization.church')
-            ->get()
-            ->map(function ($room) {
-                $room['ticket_map'] = $room->tickets->assigendSort()->mapWithKeys(function ($ticket) use (&$i) {
-                    return [++$i => [
-                        'id' => $ticket->id,
-                        'name' => $ticket->name,
-                        'gender' => $ticket->person->gender,
-                        'type' => $ticket->agegroup,
-                        'grade' => $ticket->person->grade ? number_ordinal($ticket->person->grade) : null,
-                    ]];
-                });
+            ->with('tickets.person')
+            ->when(auth()->user()->isSuperAdmin(), function ($q) {
+                $q->with('organization.church');
+            })
+            ->get();
 
-                return $room;
-            });
-
-        return view('roominglist.index', compact('unassigned', 'rooms'));
+        return view('roominglist.index', compact('tickets', 'rooms'));
     }
 
     public function show(Room $room)
