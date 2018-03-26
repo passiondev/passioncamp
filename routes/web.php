@@ -79,19 +79,19 @@ Route::match(['put', 'patch'], 'tickets/{ticket}/cancel', 'TicketController@canc
 Route::post('tickets/export', 'TicketExportController@store');
 Route::post('tickets/{ticket}/waivers', 'TicketWaiverController@store')->name('tickets.waivers.store');
 
-Route::get('transactions/{split}/refund', 'TransactionRefundController@create');
-Route::post('transactions/{split}/refund', 'TransactionRefundController@store');
-Route::get('transactions/{split}/edit', 'TransactionController@edit');
-Route::patch('transactions/{split}', 'TransactionController@update');
-Route::delete('transactions/{split}', 'TransactionController@delete');
+Route::get('transactions/{split}/refund', 'TransactionRefundController@create')->name('transactions.refunds.create');
+Route::post('transactions/{split}/refund', 'TransactionRefundController@store')->name('transactions.refunds.store');
+Route::get('transactions/{split}/edit', 'TransactionController@edit')->name('transactions.edit');
+Route::patch('transactions/{split}', 'TransactionController@update')->name('transactions.update');
+Route::delete('transactions/{split}', 'TransactionController@destroy')->name('transactions.delete');
 
-Route::get('users/{user}/edit', 'UserController@edit');
-Route::patch('users/{user}', 'UserController@update');
+Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
+Route::patch('users/{user}', 'UserController@update')->name('users.update');
 
-Route::get('person/{person}/edit', 'PersonController@edit');
-Route::patch('person/{person}', 'PersonController@update');
+Route::get('person/{person}/edit', 'PersonController@edit')->name('people.edit');
+Route::patch('person/{person}', 'PersonController@update')->name('people.update');
 
-Route::post('organization/{organization}/notes', 'OrganizationNoteController@store');
+Route::post('organization/{organization}/notes', 'OrganizationNoteController@store')->name('organizations.notes.store');
 
 Route::get('profile', 'ProfileController@show')->name('profile.show');
 Route::patch('profile', 'ProfileController@update')->name('profile.update');

@@ -6,69 +6,96 @@
         <ul class="block-list price-list">
             <li>
                 <div class="transaction">
-                    <div class="item left">Attendees <span class="badge badge-pill badge-success">{{ $order->user->ticket_count }}</span></div>
-                    <div class="item right">{{ money_format('%(.2n', $order->user->ticket_total / 100) }}</div>
+                    <div class="item left">
+                        Attendees <span class="badge badge-pill badge-success">{{ $user->tickets->count() }}</span>
+                    </div>
+                    <div class="item right">
+                        {{ money_format('%0.2n', $user->ticket_total / 100) }}
+                    </div>
                 </div>
             </li>
-            @if ($order->user->donation_total > 0)
+            @if ($user->donation_total > 0)
                 <li>
                     <div class="transaction">
-                        <div class="item left">Donation</div>
-                        <div class="item right">{{ money_format('%(.2n', $order->user->donation_total / 100) }}</div>
+                        <div class="item left">
+                            Donation
+                        </div>
+                        <div class="item right">
+                            {{ money_format('%0.2n', $user->donation_total / 100) }}
+                        </div>
                     </div>
                 </li>
             @endif
             <li class="callout total">
                 <div class="transaction">
-                    <div class="item left">Total</div>
-                    <div class="item right">{{ money_format('%(.2n', $order->user->grand_total / 100) }}</div>
+                    <div class="item left">
+                        Total
+                    </div>
+                    <div class="item right">
+                        {{ money_format('%0.2n', $user->grand_total / 100) }}
+                    </div>
                 </div>
             </li>
             <li class="callout total">
                 <div class="transaction">
-                    <div class="item left">Payments</div>
-                    <div class="item right">{{ money_format('%(.2n', $order->user->transactions_total / 100) }}</div>
+                    <div class="item left">
+                        Payments
+                    </div>
+                    <div class="item right">
+                        {{ money_format('%0.2n', $user->transactions_total / 100) }}
+                    </div>
                 </div>
             </li>
             <li class="callout balance">
                 <div class="transaction">
-                    <div class="item left">Balance</div>
-                    <div class="item right">{{ money_format('%(.2n', $order->user->balance / 100) }}</div>
+                    <div class="item left">
+                        Balance
+                    </div>
+                    <div class="item right">
+                        {{ money_format('%0.2n', $user->balance / 100) }}
+                    </div>
                 </div>
             </li>
         </ul>
     </div>
-    @if ($order->user->transactions->count() > 0)
+    @if ($user->transactions->count() > 0)
         <div class="info-box__title">
             <h5>Transactions</h5>
         </div>
         <div class="info-box__content">
             <ul class="block-list price-list">
-            @foreach ($order->user->transactions as $split)
-                <li>
-                    <div class="transaction">
-                        <div class="item left">
-                            {{ $split->name }}
-                            @unless (auth()->user()->isOrderOwner())
+                @foreach ($user->transactions as $split)
+                    <li>
+                        <div class="transaction">
+                            <div class="item left">
+                                {{ $split->name }}
 
-                                @if ($split->transaction->source == 'stripe' && $split->amount > 0)
-                                    <small><a href="{{ action('TransactionRefundController@create', $split) }}">refund</a></small>
-                                @endif
+                                @unless (auth()->user()->isOrderOwner())
 
-                                @if ($split->transaction->source != 'stripe')
-                                    <small><a href="{{ action('TransactionController@edit', $split) }}">edit</a></small>
-                                @endif
+                                    @if ($split->transaction->source == 'stripe' && $split->amount > 0)
+                                        <a href="{{ route('transactions.refunds.create', $split) }}">
+                                            <small>refund</small>
+                                        </a>
+                                    @endif
 
-                            @endunless
+                                    @if ($split->transaction->source != 'stripe')
+                                        <a href="{{ route('transactions.edit', $split) }}">
+                                            <small>edit</small>
+                                        </a>
+                                    @endif
+
+                                @endunless
+                            </div>
+                            <div class="item right item--{{ $split->amount > 0 ? 'success' : 'warning' }}">
+                                {{ money_format('%0.2n', $split->amount / 100) }}
+                            </div>
                         </div>
-                        <div class="item right item--{{ $split->amount>0?'success':'warning' }}">{{ money_format('%(.2n', $split->amount / 100) }}</div>
-                    </div>
-                    @if ($split->transaction->source == 'stripe')
-                        <small class="caption">{{ $split->transaction->identifier }}</small>
-                    @endif
-                    <small class="caption">@daydatetime($split->created_at)</small>
-                </li>
-            @endforeach
+                        @if ($split->transaction->source == 'stripe')
+                            <small class="caption">{{ $split->transaction->identifier }}</small>
+                        @endif
+                        <small class="caption">@daydatetime($split->created_at)</small>
+                    </li>
+                @endforeach
             </ul>
         </div>
     @endif

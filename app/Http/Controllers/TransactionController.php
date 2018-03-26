@@ -42,7 +42,7 @@ class TransactionController extends Controller
             ->withSucess('Transaction updated.');
     }
 
-    public function delete(TransactionSplit $split)
+    public function destroy(TransactionSplit $split)
     {
         $this->authorize('update', $split->order);
 

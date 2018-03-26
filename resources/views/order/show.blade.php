@@ -76,7 +76,7 @@
             </div>
             @if ($order->organization->can_record_transactions)
                 <div class="col-lg-8">
-                    {{-- @include('order/partials/registration_summary') --}}
+                    @include('order/partials/registration_summary', ['user' => $order->user])
                 </div>
             @endif
         </div>

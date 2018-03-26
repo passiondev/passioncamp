@@ -15,6 +15,8 @@ class OrderController extends Controller
     {
         $this->authorize($order);
 
+        $order->load('tickets.person', 'user.transactions.transaction', 'user.tickets');
+
         return view('order.show', compact('order'));
     }
 }

@@ -16,7 +16,7 @@ class DashboardController extends Controller
 
     public function __invoke()
     {
-        $tickets = Ticket::forUser(auth()->user())
+        $tickets = auth()->user()->tickets()
             ->active()
             ->get();
 

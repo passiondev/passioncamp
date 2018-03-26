@@ -44,12 +44,12 @@ class User extends Authenticatable
 
     public function items()
     {
-        return $this->hasManyThrough(OrderItem::class, Order::class);
+        return $this->hasManyThrough(OrderItem::class, Order::class, 'user_id', 'owner_id');
     }
 
     public function tickets()
     {
-        return $this->hasManyThrough(Ticket::class, Order::class);
+        return $this->hasManyThrough(Ticket::class, Order::class, 'user_id', 'owner_id');
     }
 
     public function donations()
@@ -84,7 +84,7 @@ class User extends Authenticatable
 
     public function isOrderOwner()
     {
-        return $this->access == 1 && $this->organization_id === null;
+        return ($this->access == 1 || $this->access == null) && $this->organization_id === null;
     }
 
     public function getAuthOrganizationAttribute()
