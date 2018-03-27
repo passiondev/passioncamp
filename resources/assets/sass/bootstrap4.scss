@@ -244,7 +244,7 @@ body {
   }
   .transaction {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     // @include clearfix;
     position: relative;
@@ -267,6 +267,7 @@ body {
     &.right {
       padding-left: .4rem;
       padding-right: .3rem;
+      font-variant-numeric: tabular-nums;
     }
   }
   .item--success {

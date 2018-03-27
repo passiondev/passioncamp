@@ -3,7 +3,7 @@
         <div class="form-check">
             <label class="form-check-label">
                 <input type="checkbox" class="form-check-input" v-model="food_toggle">
-                Food Allergies
+                Food Allergies / Dietary Restrictions
             </label>
         </div>
         <div class="pl-4 mb-2" v-if="food_toggle">
@@ -16,7 +16,13 @@
             <div class="form-check">
                 <label class="form-check-label">
                     <input type="checkbox" name="considerations[vegetarian]" value="vegetarian" class="form-check-input" v-model="vegetarian">
-                    Vegetarian/Vegan
+                    Vegetarian
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" name="considerations[vegan]" value="vegan" class="form-check-input" v-model="vegan">
+                    Vegan
                 </label>
             </div>
             <div class="form-check">
@@ -83,13 +89,14 @@
         },
         data() {
             return {
-                food_toggle: Object.keys(_.pick(this.considerations, ['nut', 'vegetarian', 'gluten', 'dairy', 'other'])).length,
+                food_toggle: Object.keys(_.pick(this.considerations, ['nut', 'vegetarian', 'vegan', 'gluten', 'dairy', 'other'])).length,
                 accessibility_toggle: Object.keys(_.pick(this.considerations, ['drug', 'physical', 'visual', 'hearing'])).length,
                 other_toggle: Object.keys(_.pick(this.considerations, ['other'])).length,
                 drug_toggle: Object.keys(_.pick(this.considerations, ['drug'])).length,
                 physical_toggle: Object.keys(_.pick(this.considerations, ['physical'])).length,
                 nut: this.considerations.nut,
                 vegetarian: this.considerations.vegetarian,
+                vegan: this.considerations.vegan,
                 gluten: this.considerations.gluten,
                 dairy: this.considerations.dairy,
                 other: this.considerations.other,

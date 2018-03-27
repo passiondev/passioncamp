@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Item;
 use App\OrgItem;
 use App\Organization;
-use App\Jobs\DeployRoomsAndAssignToHotels;
 
 class OrganizationItemController extends Controller
 {
@@ -19,7 +18,7 @@ class OrganizationItemController extends Controller
 
     public function create(Organization $organization)
     {
-        $items = Item::orderBy('type')->orderBy('name')->get()->groupBy('type')->reverse();
+        $items = Item::orderBy('type')->orderBy('name')->get()->groupBy('type');
 
         return view('admin.organization.item.create', compact(['organization', 'items']));
     }
@@ -28,15 +27,14 @@ class OrganizationItemController extends Controller
     {
         $item = Item::find(request('item'));
 
-        $OrgItem = new OrgItem(request(['quantity']) + [
-            'cost' => request('cost') * 100
-        ]);
-        $OrgItem->item()->associate($item);
-        $OrgItem->organization()->associate($organization);
-        $OrgItem->org_type = $item->type;
-        $OrgItem->save();
+        $organization->items()->make([
+            'quantity' => request()->input('quantity'),
+            'cost' => request()->input('cost') * 100,
+            'notes' => request()->input('notes'),
+            'org_type' => $item->type,
+        ])->item()->associate($item)->save();
 
-        return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item added.');
+        return redirect()->route('admin.organizations.show', $organization)->withSuccess('Item added.');
     }
 
     public function edit(Organization $organization, OrgItem $item)
@@ -46,11 +44,13 @@ class OrganizationItemController extends Controller
 
     public function update(Organization $organization, OrgItem $item)
     {
-        $item->update(request(['quantity']) + [
+        $item->update([
+            'notes' => request('notes'),
+            'quantity' => request('quantity'),
             'cost' => request('cost') * 100
         ]);
 
-        return redirect()->action('OrganizationController@show', $organization)->withSuccess('Item updated.');
+        return redirect()->route('admin.organizations.show', $organization)->withSuccess('Item updated.');
     }
 
     public function destroy(Organization $organization, OrgItem $item)

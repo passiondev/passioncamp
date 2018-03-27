@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Person extends Model
 {
@@ -33,7 +34,7 @@ class Person extends Model
 
     public function getFormattedConsiderationsAttribute()
     {
-        return collect(['nut', 'vegetarian', 'gluten', 'dairy', 'other', 'drug', 'physical', 'visual', 'hearing'])->mapWithKeys(function ($consideration) {
+        return collect(['nut', 'vegetarian', 'vegan', 'gluten', 'dairy', 'other', 'drug', 'physical', 'visual', 'hearing'])->mapWithKeys(function ($consideration) {
             $value = $this->considerations->get($consideration, '');
 
             return [$consideration => $value == $consideration ? 'X' : $value];
@@ -53,23 +54,9 @@ class Person extends Model
         $birthdate = str_replace(['.', '-'], '/', $birthdate);
 
         try {
-            $this->attributes['birthdate'] = new \Carbon\Carbon($birthdate);
+            $this->attributes['birthdate'] = new Carbon($birthdate);
         } catch (\Exception $e) {
             \Log::error("Couldn't set birthdate " . $birthdate);
         }
     }
-
-    // public function getConsiderationsAttribute($considerations)
-    // {
-    //     $considerations = collect(json_decode($considerations, true));
-
-    //     $considerations['food_toggle'] = (bool) $considerations->only(['nut', 'vegetarian', 'gluten', 'dairy', 'other'])->count();
-    //     $considerations['accessibility_toggle'] = (bool) $considerations->only(['drug', 'physical', 'visual', 'hearing'])->count();
-
-    //     $considerations['other_toggle'] = (bool) $considerations->has('other');
-    //     $considerations['drug_toggle'] = (bool) $considerations->has('drug');
-    //     $considerations['physical_toggle'] = (bool) $considerations->has('physical');
-
-    //     return collect($considerations);
-    // }
 }

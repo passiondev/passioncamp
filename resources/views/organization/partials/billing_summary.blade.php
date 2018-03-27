@@ -11,10 +11,17 @@
                 <li>
                     <div class="transaction">
                         <div class="item left">
-                            {{ $item->name }} <small>({{ number_format($item->quantity) }} @ {{ money_format('%.2n', $item->cost / 100) }})</small>
-                            @can('update', $item)
-                                <a class="btn btn-link btn-sm text-muted" href="{{ action('OrganizationItemController@edit', [$organization, $item]) }}">edit</a>
-                            @endcan
+                            <div>
+                                {{ $item->name }} <small>({{ number_format($item->quantity) }} @ {{ money_format('%.2n', $item->cost / 100) }})</small>
+                                @can('update', $item)
+                                    <a class="btn btn-link btn-sm text-muted" href="{{ action('OrganizationItemController@edit', [$organization, $item]) }}">edit</a>
+                                @endcan
+                            </div>
+                            @if ($item->notes)
+                                <div style="font-size: .875rem; color: #8795a1; line-height: 1">
+                                    {{ $item->notes }}
+                                </div>
+                            @endif
                         </div>
                         <div class="item right">{{ money_format('%.2n', $item->quantity * $item->cost / 100) }}</div>
                     </div>

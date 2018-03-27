@@ -151,7 +151,7 @@ class Organization extends Model
 
     public function items()
     {
-        return $this->morphMany(OrderItem::class, 'owner');
+        return $this->morphMany(OrgItem::class, 'owner');
     }
 
     public function hotelItems()

@@ -6,6 +6,8 @@ class Item extends Model
 {
     protected $table = 'items';
 
+    protected $guarded = [];
+
     public function getFullNameAttribute()
     {
         return sprintf('%s %s', $this->name, ucfirst($this->type));

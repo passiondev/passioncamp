@@ -23,6 +23,10 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="notes">Notes</label>
+                <input type="text" name="notes" id="notes" class="form-control" value="{{ old('notes') }}">
+            </div>
+            <div class="form-group">
                 <label for="quantity">Quantity</label>
                 <input type="number" name="quantity" id="quantity" class="form-control" value="{{ old('quantity') }}">
             </div>

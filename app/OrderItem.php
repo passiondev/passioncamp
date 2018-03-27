@@ -98,4 +98,16 @@ class OrderItem extends Model
 
         return $this;
     }
+
+    public function setNotesAttribute($notes)
+    {
+        $this->attributes['name'] = $notes;
+
+        return $this;
+    }
+
+    public function getNotesAttribute()
+    {
+        return $this->attributes['name'];
+    }
 }

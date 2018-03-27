@@ -10,10 +10,18 @@
             {{ method_field('PATCH') }}
             {{ csrf_field() }}
 
+            <h4>{{ $item->name }}</h4>
+
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <input type="text" name="notes" id="notes" class="form-control" value="{{ old('notes', $item->notes) }}">
+            </div>
+
             <div class="form-group">
                 <label for="quantity">Quantity</label>
                 <input type="number" name="quantity" id="quantity" class="form-control" value="{{ old('quantity', $item->quantity) }}">
             </div>
+
             <div class="form-group">
                 <label for="cost">Cost/ea</label>
                 <div class="input-group">
