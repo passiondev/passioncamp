@@ -29,11 +29,11 @@ class Room extends Model
     ];
 
     protected $appends = [
-        // 'hotelName',
+        'hotelName',
     ];
 
     protected $with = [
-        // 'hotel',
+        'hotel',
     ];
 
     protected $dispatchesEvents = [

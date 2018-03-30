@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\RoomingListVersion;
 use Illuminate\Http\Request;
 use App\Jobs\GenerateRoomingListVersion;
+use App\Exports\RoomingListVersionExport;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\NotifyUserOfCompletedExport;
+use App\Jobs\GenerateRoomingListVersionExport;
 
 class RoominglistExportController extends Controller
 {
@@ -16,7 +20,13 @@ class RoominglistExportController extends Controller
 
     public function create()
     {
-        dispatch(new GenerateRoomingListVersion);
+        $version = RoomingListVersion::create([
+            'user_id' => request()->user()->id,
+        ]);
+
+        GenerateRoomingListVersionExport::withChain([
+            new NotifyUserOfCompletedExport(request()->user(), $version),
+        ])->dispatch($version);
 
         return redirect()->back()->withLoading('A new export is being generated. Stay on this page and once the export is complete, it will download automatically. Or, come back to this page in a few minutes and download it from the list below.');
     }
@@ -24,6 +34,6 @@ class RoominglistExportController extends Controller
 
     public function download(RoomingListVersion $version)
     {
-        return response()->download($version->file_path);
+        return Storage::disk('exports')->download($version->file_name);
     }
 }

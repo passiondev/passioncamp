@@ -18,14 +18,14 @@
                         <div class="card-block dividing">
                             <h4 class="card-title">Version #{{ $version->id }}</h4>
                             <h6 class="card-subtitle mb-3 text-muted">{{ $version->created_at->diffForHumans() }}</h6>
-                            <div class="d-lg-flex align-items-center">
-                                @if ($version->file_path)
-                                    <a class="btn {{ $loop->first ? 'btn-primary' : 'btn-secondary' }}" href="{{ action('RoominglistExportController@download', $version) }}">Download</a>
-                                @endif
-                                <div class="ml-lg-auto mt-2 mt-lg-0 text-muted">
-                                    {{ $version->revised_tickets }} Tickets, {{ $version->revised_rooms }} Rooms
+                            @if ($version->revised_rooms !== null)
+                                <div class="d-lg-flex align-items-center">
+                                        <a class="btn {{ $loop->first ? 'btn-primary' : 'btn-secondary' }}" href="{{ action('RoominglistExportController@download', $version) }}">Download</a>
+                                    <div class="ml-lg-auto mt-2 mt-lg-0 text-muted">
+                                        {{ $version->revised_tickets }} Tickets, {{ $version->revised_rooms }} Rooms
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -39,17 +39,12 @@
 @endsection
 
 @push ('scripts')
-    <script src="https://js.pusher.com/3.1/pusher.min.js"></script>
     <script>
-        Pusher.logToConsole = true;
-
-        var pusher = new Pusher('{{ config('pusher.connections.main.auth_key') }}', {
-            encrypted: true
-        });
-
-        var channel = pusher.subscribe('roominglist.export');
-        channel.bind('generated', function(data) {
-            window.location = '{{ url('/roominglist/export') }}/' + data.version + '/download';
-        });
+        Echo.private('App.User.' + {{ request()->user()->id }})
+            .notification(({type, version_id}) => {
+                if (type == "App\\Notifications\\ExportCompleted") {
+                    window.location = `/admin/roominglists/${version_id}/download`;
+                }
+            })
     </script>
 @endpush
