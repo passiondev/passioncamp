@@ -10,4 +10,9 @@ class RoomingListVersion extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getFileNameAttribute()
+    {
+        return 'Rooming List Export - Version #' . $this->id . '.xlsx';
+    }
 }

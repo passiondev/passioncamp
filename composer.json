@@ -11,6 +11,10 @@
         {
             "type": "git",
             "url": "https://github.com/mattdfloyd/echosign"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/mattdfloyd/Laravel-Excel"
         }
     ],
     "require": {
@@ -34,12 +38,13 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.6.*",
         "league/csv": "^9.0",
-        "maatwebsite/excel": "~2.1",
+        "maatwebsite/excel": "dev-issue-1584",
         "mandrill/mandrill": "~1.0",
         "nothingworks/blade-svg": "^0.1.0",
         "nsbucky/echosignv3": "dev-master",
         "predis/predis": "^1.1",
         "printnode/printnode-php": "2.0.0-rc1",
+        "pusher/pusher-php-server": "~3.0",
         "sameer-shelavale/php-countries-array": "*",
         "sentry/sentry-laravel": "^0.6.1",
         "sofa/revisionable": "5.4.*",

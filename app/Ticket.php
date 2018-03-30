@@ -39,11 +39,11 @@ class Ticket extends OrderItem
         'name',
         'first_name',
         'last_name',
-        // 'roomId',
+        'roomId',
     ];
 
     protected $with = [
-        // 'roomAssignment',
+        'roomAssignment',
     ];
 
     protected $observables = [

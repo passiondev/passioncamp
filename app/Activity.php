@@ -6,7 +6,7 @@ use Spatie\Activitylog\Models\Activity as BaseActivity;
 
 class Activity extends BaseActivity
 {
-    public function hasChanges()
+    public function propertiesHaveChanged()
     {
         return (bool) count($this->properties['changed']);
     }

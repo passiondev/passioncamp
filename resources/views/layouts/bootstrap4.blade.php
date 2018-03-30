@@ -201,6 +201,7 @@
     <!-- Scripts -->
     @yield('foot')
     <script src="{{ mix('/js/app.js') }}"></script>
+    @stack('scripts')
     {{ svg_spritesheet() }}
 </body>
 </html>
