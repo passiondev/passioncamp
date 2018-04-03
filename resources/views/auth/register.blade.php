@@ -56,10 +56,6 @@
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
-                                <hr>
-                                <a class="btn btn-sm btn-google" href="{{ action('Auth\RegisterController@registerWithSocial', ['google', $user, $user->hash]) }}" onclick="event.preventDefault(); document.getElementById('google-form').submit();">
-                                    @icon('google') Register with Google
-                                </a>
                             </div>
                         </div>
                     </form>
@@ -68,8 +64,4 @@
         </div>
     </div>
 </div>
-
-<form action="{{ action('Auth\RegisterController@registerWithSocial', ['google', $user, $user->hash]) }}" method="POST" id="google-form">
-    {{ csrf_field() }}
-</form>
 @endsection
