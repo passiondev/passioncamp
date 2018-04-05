@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountTicketCreateRequest;
 use App\Http\Middleware\VerifyTicketCanBeAddedToOrganization;
+use App\Http\Middleware\VerifyUserIsChurchAdmin;
 
 class TicketController extends Controller
 {
@@ -17,6 +18,7 @@ class TicketController extends Controller
     {
         $this->middleware([
             'auth',
+            VerifyUserIsChurchAdmin::class,
             VerifyTicketCanBeAddedToOrganization::class
         ]);
     }

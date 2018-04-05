@@ -9,12 +9,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\User;
 use App\AccountUser;
+use App\Http\Middleware\VerifyUserIsChurchAdmin;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(VerifyUserIsChurchAdmin::class);
     }
 
     public function create()
@@ -26,20 +28,24 @@ class UserController extends Controller
 
     public function store()
     {
-        $this->validate(request(), [
+        request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|unique:users,email',
         ]);
 
-        $user = auth()->user()->organization->users()->create(request(['email']) + [
+        $user = auth()->user()->organization->users()->create([
+            'email' => request('email'),
             'access' => 1,
-            'person_id' => Person::create(request(['first_name', 'last_name']))->id,
+            'person' => request()->only([
+                'first_name',
+                'last_name'
+            ])
         ]);
 
         Mail::to($user)->send(new AccountUserCreated($user));
 
-        return redirect()->action('Account\SettingsController@index');
+        return redirect()->route('account.settings');
     }
 
     public function destroy(User $user)

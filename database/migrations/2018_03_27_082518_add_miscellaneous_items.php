@@ -14,7 +14,7 @@ class AddMiscellaneousItems extends Migration
      */
     public function up()
     {
-        Item::where('type', 'deposit')->first()->update([
+        optional(Item::where('type', 'deposit')->first())->update([
             'type' => 'other',
             'name' => 'Non-refundable deposit',
         ]);
