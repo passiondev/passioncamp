@@ -52,12 +52,10 @@ class Organization extends Model
 
     public function scopeWithTicketsSum($query)
     {
-        return $query->selectSub(function ($q) {
-            $q->selectRaw('SUM(quantity)')
-                ->from('order_items')
-                ->where('org_type', 'ticket')
-                ->whereRaw('order_items.owner_id = organizations.id');
-        }, 'tickets_sum');
+        return $query->addSubSelect(
+            'tickets_sum',
+            OrgItem::withoutTrashed()->selectRaw('SUM(quantity)')->where('org_type', 'ticket')->whereRaw('order_items.owner_id = organizations.id')
+        );
     }
 
     public function getTicketsSumAttribute($tickets_sum)
@@ -76,21 +74,18 @@ class Organization extends Model
 
     public function scopeWithHotelsSum($query)
     {
-        return $query->selectSub(function ($q) {
-            $q->selectRaw('SUM(quantity)')
-                ->from('order_items')
-                ->where('org_type', 'hotel')
-                ->whereRaw('order_items.owner_id = organizations.id');
-        }, 'hotels_sum');
+        return $query->addSubSelect(
+            'hotels_sum',
+            OrgItem::withoutTrashed()->selectRaw('SUM(quantity)')->where('org_type', 'hotel')->whereRaw('order_items.owner_id = organizations.id')
+        );
     }
 
     public function scopeWithCostSum($query)
     {
-        return $query->selectSub(function ($q) {
-            $q->selectRaw('SUM(quantity * cost)')
-                ->from('order_items')
-                ->whereRaw('order_items.owner_id = organizations.id');
-        }, 'cost_sum');
+        return $query->addSubSelect(
+            'cost_sum',
+            OrgItem::withoutTrashed()->selectRaw('SUM(quantity * cost)')->whereRaw('order_items.owner_id = organizations.id')
+        );
     }
 
     public function getCostSumAttribute($cost_sum)
@@ -109,15 +104,16 @@ class Organization extends Model
 
     public function scopeWithPaidSum($query, $source = null)
     {
-        return $query->selectSub(function ($q) use ($source) {
-            $q->selectRaw('SUM(transaction_splits.amount)')
-                ->from('transaction_splits')
+        return $query->addSubSelect(
+            $source ? $source . '_paid_sum' : 'paid_sum',
+            TransactionSplit::withoutTrashed()
+                ->selectRaw('SUM(transaction_splits.amount)')
                 ->when($source, function ($q) use ($source) {
                     $q->join('transactions', 'transaction_id', 'transactions.id')
                         ->where('source', $source);
                 })
-                ->whereRaw('transaction_splits.organization_id = organizations.id');
-        }, $source ? $source . '_paid_sum' : 'paid_sum');
+                ->whereRaw('transaction_splits.organization_id = organizations.id')
+        );
     }
 
     public function getPaidSumAttribute($paid_sum)
