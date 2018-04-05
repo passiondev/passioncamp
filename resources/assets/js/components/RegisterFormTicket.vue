@@ -80,7 +80,13 @@
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input type="checkbox" :name="`tickets[${index}][considerations][vegetarian]`" value="vegetarian" class="form-check-input" v-model="vegetarian">
-                                Vegetarian/Vegan
+                                Vegetarian
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" :name="`tickets[${index}][considerations][vegan]`" value="vegan" class="form-check-input" v-model="vegan">
+                                Vegan
                             </label>
                         </div>
                         <div class="form-check">
@@ -159,6 +165,7 @@
                 physical_toggle: Object.keys(_.pick(this.ticket.considerations, ['physical'])).length,
                 nut: this.getConsideration('nut'),
                 vegetarian: this.getConsideration('vegetarian'),
+                vegan: this.getConsideration('vegan'),
                 gluten: this.getConsideration('gluten'),
                 dairy: this.getConsideration('dairy'),
                 other: this.getConsideration('other'),
