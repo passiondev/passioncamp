@@ -18,7 +18,7 @@ trait Revisionable
         $properties['attributes'] = static::logChanges($this);
         $properties['old'] = $lastActivity->changes['attributes'] ?? [];
         $properties['old'] = array_diff_assoc($properties['old'], $properties['attributes']);
-        $properties['changed'] = count($lastActivity) ? array_keys($properties['old']) : static::attributesToBeLogged();
+        $properties['changed'] = $lastActivity ? array_keys($properties['old']) : static::attributesToBeLogged();
 
         return app(ActivityLogger::class)
             ->useLog($this->getLogNameToUse())
