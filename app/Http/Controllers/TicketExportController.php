@@ -21,6 +21,10 @@ class TicketExportController extends Controller
                    ->with('person', 'order.user.person', 'order.organization.church', 'roomAssignment.room.hotel', 'waiver')
                    ->get();
 
+        if (! $tickets->count()) {
+            return redirect()->back();
+        }
+
         $includeAdditionalFields = auth()->user()->isSuperAdmin() || auth()->user()->organization->slug == 'pcc';
 
         (new TicketExport($tickets, $includeAdditionalFields))->download();
