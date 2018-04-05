@@ -18,7 +18,7 @@ class OrganizationController extends Controller
     {
         $organizations = Organization::orderByChurchName()
             ->with('church', 'settings')
-            ->has('tickets')
+            // ->has('tickets')
             ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers', 'checkedInRooms', 'keyReceivedRooms', 'settings'])
             ->scopes(['withTicketsSum', 'withHotelsSum', 'withCostSum', 'withPaidSum'])
             ->get();
