@@ -17,13 +17,13 @@ export default {
 
     computed: {
         unassigned() {
-            return this.tickets.filter(ticket => ticket.room_id == null).sort((a,b) => a.unassigned_sort > b.unassigned_sort)
+            return this.tickets.filter(ticket => ticket.room_id == null).sort((a,b) => a.unassigned_sort > b.unassigned_sort ? 1 : -1)
         }
     },
 
     methods: {
         getTicketsForRoom(room_id) {
-            return this.tickets.filter(ticket => ticket.room_id == room_id).sort((a,b) => a.assigned_sort < b.assigned_sort)
+            return this.tickets.filter(ticket => ticket.room_id == room_id).sort((a,b) => a.assigned_sort > b.assigned_sort ? 1 : -1)
         }
     }
 }
