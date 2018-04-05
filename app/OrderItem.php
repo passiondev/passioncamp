@@ -13,8 +13,8 @@ class OrderItem extends Model
     protected $guarded = [];
 
         protected $alias = [
-            'order' => 'owner',
-            'organization' => 'owner',
+            // 'order' => 'owner',
+            // 'organization' => 'owner',
         ];
 
     protected static function boot()
@@ -49,6 +49,11 @@ class OrderItem extends Model
     public function order()
     {
         return $this->morphTo('owner');
+    }
+
+    public function getOrderAttribute()
+    {
+        return $this->owner;
     }
 
     public function item()
