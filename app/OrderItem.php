@@ -12,11 +12,6 @@ class OrderItem extends Model
 
     protected $guarded = [];
 
-        protected $alias = [
-            // 'order' => 'owner',
-            // 'organization' => 'owner',
-        ];
-
     protected static function boot()
     {
         parent::boot();

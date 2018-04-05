@@ -152,7 +152,7 @@
                                         Attendees
                                     </a>
                                 </li>
-                                @if (Route::has('roominglist.index'))
+                                @if (Route::has('roominglist.index') && auth()->user()->organization->hotelItems->count())
                                     <li class="nav-item">
                                         <a href="{{ action('RoomingListController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoomingListController') ? 'active' :'' }}">
                                             Rooming List
