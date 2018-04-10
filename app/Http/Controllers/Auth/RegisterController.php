@@ -74,14 +74,7 @@ class RegisterController extends Controller
             abort(403, 'Not authorized.');
         }
 
-        $validator = $this->validator($request->all());
-
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                $request,
-                $validator
-            );
-        }
+        $this->validator($request->all())->validate();
 
         $user->password = bcrypt($request->password);
         $user->save();
