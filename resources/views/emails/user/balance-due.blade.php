@@ -4,7 +4,7 @@
 
 <p>Create your account from the link below and it will direct you to your account summary. From there you'll be able to pay your remaining balance.</p>
 
-<a href="{{ route('complete.registration', [$user, $user->hash]) }}">Create Your Account</a>
+<a href="{{ url()->signedRoute('auth.register.create', $user) }}">Create Your Account</a>
 
 <p>We're looking forward to a great week at camp! Please let us know if there is anything we can do.</p>
 

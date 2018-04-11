@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">Create Your Account</div>
                 <div class="card-block">
-                    <form action="{{ url("/register/{$user->id}/{$user->hash}") }}" method="POST">
+                    <form action="{{ url()->signedRoute('auth.register.store', $user) }}" method="POST">
                         {{ csrf_field() }}
 
                         <div class="form-group row {{ $errors->has('email') ? 'has-danger' : '' }}">

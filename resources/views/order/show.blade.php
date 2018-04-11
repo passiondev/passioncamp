@@ -86,8 +86,8 @@
                 <td>{!! $order->user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
                 <td>{{ $order->user->person->name or '' }}</td>
                 <td style="line-height: 1">
-                    @if (! $order->user->is_registered)
-                        <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$order->user, $order->user->hash]) }}">
+                    @if (! $order->user->isRegistered())
+                        <input type="text" style="margin-bottom:0" readonly value="{{ url()->signedRoute('auth.register.create', $order->user) }}">
                     @elseif ($order->user->access == 100)
                         PASSION CAMP ADMIN
                     @else

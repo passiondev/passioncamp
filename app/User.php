@@ -133,9 +133,9 @@ class User extends Authenticatable
         return hash_hmac('sha256', $this->email, env('APP_KEY'));
     }
 
-    public function getIsRegisteredAttribute()
+    public function isRegistered()
     {
-        return $this->password || $this->socialAccounts->count();
+        return $this->password;
     }
 
     public function hasSocialAccountFor($provider)

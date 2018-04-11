@@ -92,7 +92,7 @@
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @unless ($user->password)
-                                        <input type="text" style="margin-bottom:0" readonly value="{{ route('complete.registration', [$user, $user->hash]) }}">
+                                        <input type="text" style="margin-bottom:0" readonly value="{{ url()->signedRoute('auth.register.create', $user) }}">
                                     @endunless
                                 </td>
                                 <td>

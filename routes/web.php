@@ -4,8 +4,9 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('register/{user}/{hash}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
-Route::post('register/{user}/{hash}', 'Auth\RegisterController@register');
+Route::get('register/{user}/{hash?}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
+Route::get('register/{user}', 'Auth\RegisterController@showRegistrationForm')->name('auth.register.create');
+Route::post('register/{user}', 'Auth\RegisterController@register')->name('auth.register.store');
 Route::post('register/{provider}/{user}/{hash}', 'Auth\RegisterController@registerWithSocial');
 
 // Password Reset Routes...

@@ -14,7 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>*|SUBJECT|*</title>
-        
+
     <style type="text/css">
         p{
             margin:10px 0;
@@ -409,11 +409,11 @@
                     <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" class="mcnImageContentContainer" style="min-width:100%;">
                         <tbody><tr>
                             <td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;">
-                                
-                                    
+
+
                                         <img align="center" alt="" src="https://gallery.mailchimp.com/ef9d09373d936e01bac4250d9/images/d0c69958-d4b3-4953-99f4-52e4a3496156.png" width="150" style="max-width:300px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
-                                    
-                                
+
+
                             </td>
                         </tr>
                     </tbody></table>
@@ -447,16 +447,16 @@
                 <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
                 <tr>
                 <![endif]-->
-                
+
                 <!--[if mso]>
                 <td valign="top" width="600" style="width:600px;">
                 <![endif]-->
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
-                        
+
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
 
-                            <h1>Hey {{ $user->person->first_name }}!</h1>                            
+                            <h1>Hey {{ $user->person->first_name }}!</h1>
                             <p>Click the link below to create your account and sign in to the Passion Camp Portal.</p>
 
                         </td>
@@ -465,7 +465,7 @@
                 <!--[if mso]>
                 </td>
                 <![endif]-->
-                
+
                 <!--[if mso]>
                 </tr>
                 </table>
@@ -481,7 +481,7 @@
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 16px; padding: 15px;">
-                                <a class="mcnButton " title="Create Your Account" href="{{ route('complete.registration', [$user, $user->hash]) }}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Create Your Account</a>
+                                <a class="mcnButton " title="Create Your Account" href="{{ url()->signedRoute('auth.register.create', $user) }}" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">Create Your Account</a>
                             </td>
                         </tr>
                     </tbody>
