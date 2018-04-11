@@ -1,0 +1,30 @@
+<?php
+
+// Rules for Laravel Code Standard
+$rules = [
+    '@PSR2' => true,
+    'array_syntax' => ['syntax' => 'short'],
+    'binary_operator_spaces' => ['align_double_arrow' => false],
+    'concat_space' => ['spacing' => 'one'],
+    'linebreak_after_opening_tag' => true,
+    'not_operator_with_successor_space' => true,
+    'ordered_imports' => ['sortAlgorithm' => 'length'],
+    'trailing_comma_in_multiline_array' => true,
+    'no_unused_imports' => true,
+];
+
+$finder = PhpCsFixer\Finder::create()
+    ->notPath('bootstrap/cache')
+    ->notPath('storage')
+    ->notPath('vendor')
+    ->in(__DIR__)
+    ->name('*.php')
+    ->notName('*.blade.php')
+    ->ignoreDotFiles(true)
+    ->ignoreVCS(true);
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules($rules)
+    ->setUsingCache(false)
+    ->setFinder($finder);
