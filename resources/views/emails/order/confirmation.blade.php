@@ -3,7 +3,7 @@
 <p>If you have any questions, please contact our team at <a href="mailto:students@passioncitychurch.com">students@passioncitychurch.com</a>.</p>
 
 <p>We look forward to seeing everyone in Daytona!<br />
-The Passion Students Team</p>
+<strong>The Passion Students Team</strong></p>
 
 <hr>
 
