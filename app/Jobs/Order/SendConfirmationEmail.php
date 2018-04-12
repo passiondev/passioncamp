@@ -3,12 +3,12 @@
 namespace App\Jobs\Order;
 
 use Mandrill;
+use App\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Order;
 
 class SendConfirmationEmail implements ShouldQueue
 {
@@ -40,14 +40,14 @@ class SendConfirmationEmail implements ShouldQueue
                 [
                     'name' => $this->order->user->person->name,
                     'email' => $this->order->user->person->email,
-                ]
+                ],
             ],
             'global_merge_vars' => [
                 [
                     'name' => 'BODY',
-                    'content' => view('emails.order.confirmation', ['order' => $this->order])->render()
+                    'content' => view('emails.order.confirmation', ['order' => $this->order])->render(),
                 ],
-            ]
+            ],
         ];
 
         $mandrill->messages->sendTemplate($this->template, null, $message);

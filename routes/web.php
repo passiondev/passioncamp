@@ -19,7 +19,6 @@ Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 
 Route::get('/', 'RedirectController@home');
 
-
 Route::namespace('User')->as('user.')->group(function () {
     Route::get('dashboard', 'DashboardController')->name('dashboard');
     Route::resource('payments', 'PaymentController')->only('index', 'store');
