@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Order;
-use App\Person;
-use App\Ticket;
-use App\OrderItem;
 use Carbon\Carbon;
 use App\Organization;
-use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Jobs\Order\SendConfirmationEmail;
 use App\Jobs\Order\AddToMailChimp;
+use App\Jobs\Order\SendConfirmationEmail;
 use App\Http\Requests\RegisterCreateRequest;
 
 class RegisterController extends Controller
@@ -80,8 +74,8 @@ class RegisterController extends Controller
                     'metadata' => [
                         'order_id' => $order->id,
                         'email' => $order->user->person->email,
-                        'name' => $order->user->person->name
-                    ]
+                        'name' => $order->user->person->name,
+                    ],
                 ],
                 [
                     'api_key' => config('services.stripe.secret'),
@@ -90,6 +84,7 @@ class RegisterController extends Controller
             );
         } catch (\Exception $e) {
             \DB::rollback();
+
             return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
         }
 
