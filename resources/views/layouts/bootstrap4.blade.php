@@ -174,6 +174,11 @@
                                     </li>
                                 @endif
                                 <li class="nav-item">
+                                    <a href="https://passion-forms.formstack.com/forms/passion_camp_2018_hotel_room_request" class="nav-link" target="_blank">
+                                        Registration &amp; Hotel Requests
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ route('account.settings') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
                                         Settings
                                     </a>
