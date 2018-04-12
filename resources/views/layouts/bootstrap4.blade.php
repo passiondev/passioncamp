@@ -30,8 +30,8 @@
             </button>
 
             <!-- Branding Image -->
-            <a class="navbar-brand py-0" href="{{ url('/') }}">
-                <img src="{{ url('img/camp-logo.png') }}" alt="Passion Camp" height="40">
+            <a class="navbar-brand py-0 align-self-start align-self-md-auto" href="{{ url('/') }}">
+                <img src="{{ url('img/camp-logo.svg') }}" alt="Passion Camp" height="40">
             </a>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">

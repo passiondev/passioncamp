@@ -30,7 +30,7 @@
 
         <!-- Branding Image -->
         <a class="navbar-brand py-0" href="{{ url('/') }}">
-            <img src="{{ url('img/camp-logo.png') }}" alt="Passion Camp" height="40">
+            <img src="{{ url('img/camp-logo.svg') }}" alt="Passion Camp" height="40">
         </a>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
