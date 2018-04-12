@@ -41,8 +41,9 @@
                 @foreach ($organizations as $organization)
                     <tr>
                         <td class="">
-                                <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
-                                <small>{{ $organization->church->location }}</small>
+                            <a href="{{ action('OrganizationController@show', $organization) }}">{{ $organization->church->name }}</a>
+                            <small>{{ $organization->contact->name }} &middot;
+                            {{ $organization->church->location }}</small>
                         </td>
                         <td class="text-center {{ $organization->balance > 0 ? 'table-warning' : '' }}">
                             {{ $organization->balance == 0 ? '--' : money_format('%.0n', $organization->balance / 100) }}
