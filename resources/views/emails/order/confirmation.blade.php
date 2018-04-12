@@ -8,3 +8,21 @@ The Passion Students Team</p>
 <hr>
 
 @include('order.receipt')
+
+@if ($order->user->balance)
+    <div style="margin:1.5rem auto; background-color: #F8FAFC; padding: 1rem; text-align:center">
+        @if ($order->user->isRegistered())
+            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;"><tr><td align="center" bgcolor="#6574CD" role="presentation" style="border:none;border-radius:3px;color:#ffffff;cursor:auto;padding:10px 25px;" valign="middle"><a href="{{ route('login') }}" style="background: #6574CD; font-family: system-ui, Helvetica Neue, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; line-height: 120%; Margin: 0; text-transform: none; text-decoration: none; color: inherit;" target="_blank">Sign In</a></td></tr></table>
+        @else
+            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;"><tr><td align="center" bgcolor="#6574CD" role="presentation" style="border:none;border-radius:3px;color:#ffffff;cursor:auto;padding:10px 25px;" valign="middle"><a href="{{ url()->signedRoute('auth.register.create', $order->user) }}" style="background: #6574CD; font-family: system-ui, Helvetica Neue, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; line-height: 120%; Margin: 0; text-transform: none; text-decoration: none; color: inherit;" target="_blank">Create Your Account</a></td></tr></table>
+        @endif
+
+        <p style="font-size:14px; font-style: italic; color: #8795A1; margin-bottom: 0">
+            @if ($order->user->isRegistered())
+                Sign in to your Passion Camp account to pay your remaining balance.
+            @else
+                Create your Passion Camp account to pay your remaining balance.
+            @endif
+        </p>
+    </div>
+@endif
