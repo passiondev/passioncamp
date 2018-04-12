@@ -5,7 +5,7 @@
 <p>We look forward to seeing everyone in Daytona!<br />
 <strong>The Passion Students Team</strong></p>
 
-<hr>
+<p style="border-top:solid 1px #B8C2CC;font-size:1;margin:20px auto;width:100%;"></p>
 
 @include('order.receipt')
 
