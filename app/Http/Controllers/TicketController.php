@@ -84,7 +84,7 @@ class TicketController extends Controller
                 'email' => request()->input('ticket.email'),
                 'phone' => request()->input('ticket.phone'),
                 'birthdate' => request()->input('ticket.birthdate'),
-            ]
+            ],
         ]);
 
         if (request()->has('contact')) {

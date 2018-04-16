@@ -18,13 +18,13 @@
                 <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;"><tr><td align="center" bgcolor="#6574CD" role="presentation" style="border:none;border-radius:3px;color:#ffffff;cursor:auto;padding:10px 25px;" valign="middle"><a href="{{ url()->signedRoute('auth.register.create', $order->user) }}" style="background: #6574CD; font-family: system-ui, Helvetica Neue, Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; line-height: 120%; Margin: 0; text-transform: none; text-decoration: none; color: inherit;" target="_blank">Create Your Account</a></td></tr></table>
             @endif
 
-            <p style="font-size:14px; font-style: italic; color: #8795A1; margin-bottom: 0">
+            <div style="font-size:14px; font-style: italic; color: #8795A1; margin-bottom: 0">
                 @if ($order->user->isRegistered())
                     Sign in to your Passion Camp account to pay your remaining balance.
                 @else
                     Create your Passion Camp account to pay your remaining balance.
                 @endif
-            </p>
+            </div>
         </div>
     @endif
 </div>
