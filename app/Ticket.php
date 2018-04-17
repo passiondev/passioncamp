@@ -32,7 +32,7 @@ class Ticket extends OrderItem
     protected static $logAttributes = [
         'first_name',
         'last_name',
-        'roomId'
+        'roomId',
     ];
 
     protected $appends = [
@@ -213,7 +213,7 @@ class Ticket extends OrderItem
     {
         $this->update([
             'canceled_at' => $this->freshTimestamp(),
-            'canceled_by_id' => auth()->id()
+            'canceled_by_id' => auth()->id(),
         ]);
 
         $this->fireModelEvent('canceled', false);
@@ -224,6 +224,8 @@ class Ticket extends OrderItem
         return [
             'name' => $this->person->name,
             'organization_id' => $this->owner->organization_id,
+            'parent_email' => $this->owner->user->email,
+            'parent_name' => $this->owner->user->person->name,
         ];
     }
 
@@ -241,7 +243,6 @@ class Ticket extends OrderItem
 
         return $waiver;
     }
-
 
     public function toRouteSignatureArray()
     {
@@ -262,7 +263,7 @@ class Ticket extends OrderItem
             action('TicketWristbandsController@signedShow', $this->toRouteSignatureArray()),
             [
                 'title' => $this->name,
-                'source' => 'PCC Check In'
+                'source' => 'PCC Check In',
             ]
         );
     }
@@ -285,25 +286,23 @@ class Ticket extends OrderItem
 
     public function getUnassignedSortAttribute()
     {
-        return vsprintf("%02d__%s__%s__%s__%s", [
+        return vsprintf('%02d__%s__%s__%s__%s', [
             $this->person->grade == 0 ? 99 : $this->person->grade,
             $this->person->gender == 'M' ? 'z' : 'a',
             $this->agegroup == 'leader' ? 'z' : 'a',
             $this->person->first_name,
             $this->person->last_name,
         ]);
-
     }
 
     public function getAssignedSortAttribute()
     {
-        return vsprintf("%s__%02d__%s__%s__%s", [
+        return vsprintf('%s__%02d__%s__%s__%s', [
             $this->agegroup == 'leader' ? 'a' : 'z',
             $this->person->grade == 0 ? 99 : $this->person->grade,
             $this->person->gender == 'M' ? 'z' : 'a',
             $this->person->first_name,
-            $this->person->last_name
+            $this->person->last_name,
         ]);
-
     }
 }
