@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Ticket;
 use Carbon\Carbon;
-use App\Observers\WaiverObserver;
 use App\Jobs\CancelSignatureRequest;
 use Facades\App\Services\Esign\ProviderFactory as EsignProviderFactory;
 
@@ -76,8 +74,8 @@ class Waiver extends Model
     public function dropboxFilePath()
     {
         return vsprintf('%s/%s/%s.pdf', [
-            'Passion Camp 2017 Waivers',
-            $this->ticket->order->organization_id . ' - ' . $this->ticket->order->organization->church->name,
+            'Passion Camp 2018 Waivers',
+            $this->ticket->owner->organization_id . ' - ' . $this->ticket->owner->organization->church->name,
             $this->ticket_id . ' - ' . $this->ticket->name,
         ]);
     }

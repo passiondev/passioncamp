@@ -16,7 +16,7 @@ class TicketWaiverController extends Controller
     {
         $this->authorize('view', $ticket);
 
-        if (!! request()->query('completed')) {
+        if (request()->query('completed')) {
             $ticket->waivers->each(function ($waiver) {
                 $waiver->delete();
             });

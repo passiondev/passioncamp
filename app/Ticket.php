@@ -239,7 +239,7 @@ class Ticket extends OrderItem
             'provider' => $provider,
         ]);
 
-        dispatch(new RequestWaiverSignature($waiver));
+        RequestWaiverSignature::dispatch($waiver);
 
         return $waiver;
     }
