@@ -35,10 +35,10 @@ class RequestWaiverSignature implements ShouldQueue
         $agreementId = $this->waiver->provider()->createSignatureRequest([
             'documentCreationInfo' => [
                 'fileInfos' => [
-                    'libraryDocumentId' => '3AAABLblqZhBbAFBkT6dWSNEEUttbb8Ck4bFUPCbOUpzG8hndrlCqudK8p57OdW47Tg1PGnMEdjp55Lkw36GIBElm5QwCx00c',
+                    'libraryDocumentId' => config('passioncamp.waiver_document_id'),
                 ],
-                'name' => 'Passion Camp 2017 Waiver & Release',
-                'message' => 'Please note that each participant must have a signed waiver completed by May 29.',
+                'name' => __('waivers.request_subject'),
+                'message' => __('waivers.request_body'),
                 'signatureType' => 'ESIGN',
                 'recipientSetInfos' => [
                     'recipientSetMemberInfos' => [
@@ -70,6 +70,10 @@ class RequestWaiverSignature implements ShouldQueue
                     [
                         'fieldName' => 'Participant Name 4',
                         'defaultValue' => $this->waiver->ticket->name,
+                    ],
+                    [
+                        'fieldName' => 'Participant Birthdate',
+                        'defaultValue' => $this->waiver->ticket->birthdate,
                     ],
                     [
                         'fieldName' => 'Participant Gender',
