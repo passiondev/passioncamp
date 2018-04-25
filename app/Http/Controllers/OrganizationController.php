@@ -17,7 +17,7 @@ class OrganizationController extends Controller
     public function index()
     {
         $organizations = Organization::orderByChurchName()
-            ->with('church', 'settings')
+            ->with('church', 'settings', 'contact')
             // ->has('tickets')
             ->withCount(['activeAttendees', 'assignedToRoom', 'rooms', 'completedWaivers', 'checkedInRooms', 'keyReceivedRooms', 'settings'])
             ->scopes(['withTicketsSum', 'withHotelsSum', 'withCostSum', 'withPaidSum'])
@@ -50,7 +50,7 @@ class OrganizationController extends Controller
             'transactions.transaction',
             'authUsers.person',
             'notes',
-            'attendees.waiver'
+            'attendees.waiver',
         ]);
 
         return view('super.organization.show', compact('organization'));
@@ -71,8 +71,7 @@ class OrganizationController extends Controller
         $organization = (new Organization)
             ->church()->associate(Church::create(request('church')))
             ->contact()->associate(Person::create(request('contact')))
-            ->studentPastor()->associate(Person::create(request('student_pastor')))
-        ;
+            ->studentPastor()->associate(Person::create(request('student_pastor')));
 
         $organization->save();
 
@@ -90,8 +89,8 @@ class OrganizationController extends Controller
         $organization->contact->fill(request('contact'))->save();
         $organization->studentPastor->fill(request('student_pastor'))->save();
 
-        if (!! $organization->setting('checked_in') != !! request('checked_in')) {
-            $organization->setting('checked_in', !! request('checked_in') ? time() : '');
+        if ((bool) $organization->setting('checked_in') != (bool) request('checked_in')) {
+            $organization->setting('checked_in', (bool) request('checked_in') ? time() : '');
         }
 
         return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church updated.');
