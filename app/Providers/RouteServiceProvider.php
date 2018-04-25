@@ -41,14 +41,14 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->domain('pccstudents.' . config('app.domain'))
+            ->group(base_path('routes/pccstudents.php'));
+
         $this->mapWebRoutes();
 
         $this->mapAuthRoutes();
-
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->domain('pccstudents.' . config('app.domain'))
-             ->group(base_path('routes/pccstudents.php'));
     }
 
     /**
