@@ -34,6 +34,7 @@ class Hotel extends Item
         return $this->morphedByMany(Organization::class, 'owner', 'order_items', 'item_id')
             ->withPivot('quantity')
             ->where('quantity', '>', '0')
+            ->whereNull('order_items.deleted_at')
             ->distinct();
     }
 
@@ -43,6 +44,7 @@ class Hotel extends Item
             'organizations_count',
             Organization::selectRaw('count(distinct organizations.id)')
                 ->join('order_items', 'organizations.id', 'owner_id')
+                ->whereNull('order_items.deleted_at')
                 ->where('quantity', '>', '0')
                 ->whereRaw('items.id = item_id')
         );
