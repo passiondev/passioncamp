@@ -20,6 +20,8 @@
         ]) !!};
         window.store = {};
     </script>
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
+    <script>window.bugsnagClient = bugsnag(@json(config('bugsnag.api_key')))</script>
     @yield('head')
 </head>
 <body style="padding-top:0">
