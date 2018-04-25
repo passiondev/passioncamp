@@ -69,10 +69,10 @@
                 return this.elementsSubmitHandler(e);
             },
             applyDiscountCode() {
-                // if (this.discountCode.toLowerCase() == 'rising') {
-                //     this.localTicketPrice = 365;
-                //     return;
-                // }
+                if (this.discountCode.toLowerCase() == 'rising') {
+                    this.localTicketPrice = 365;
+                    return;
+                }
 
                 this.localTicketPrice = ticket_price
                 return;

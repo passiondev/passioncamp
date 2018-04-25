@@ -197,7 +197,7 @@
                                                     <strong>@{{ donation_total | currency }}</strong>
                                                 </div>
                                             </li>
-                                            <li style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0" class="d-none">
+                                            <li style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0">
                                                 <div class="flex form-inline">
                                                     <input type="text" name="code" id="" class="form-control" placeholder="Discount Code" style="flex: 1" v-model="discountCode">
                                                     <button class="btn btn-secondary ml-3" @click.prevent="applyDiscountCode">Apply</button>
@@ -300,7 +300,7 @@
                                             <strong>@{{ donation_total | currency }}</strong>
                                         </div>
                                     </li>
-                                    <li style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0" class="d-none">
+                                    <li style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 1rem 0">
                                         <div class="flex form-inline">
                                             <input type="text" name="code" id="" class="form-control" placeholder="Discount Code" style="flex: 1" v-model="discountCode">
                                             <button class="btn btn-secondary ml-3" @click.prevent="applyDiscountCode">Apply</button>
