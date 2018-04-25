@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Organization;
 use Illuminate\Http\Request;
 use App\Jobs\Order\AddToMailChimp;
+use Illuminate\Support\Facades\Log;
 use App\Jobs\Order\SendConfirmationEmail;
 use App\Http\Requests\RegisterCreateRequest;
 
@@ -84,6 +85,7 @@ class RegisterController extends Controller
             );
         } catch (\Exception $e) {
             \DB::rollback();
+            Log::debug($e);
 
             return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
         }
