@@ -42,7 +42,7 @@ class RequestWaiverSignature implements ShouldQueue
                 'signatureType' => 'ESIGN',
                 'recipientSetInfos' => [
                     'recipientSetMemberInfos' => [
-                        'email' => $this->waiver->ticket->order->user->person->email,
+                        'email' => config('app.env') == 'production' ? $this->waiver->ticket->order->user->person->email : 'matt.floyd+waivers@268generation.com',
                     ],
                     'recipientSetRole' => ['SIGNER'],
                 ],
@@ -73,7 +73,7 @@ class RequestWaiverSignature implements ShouldQueue
                     ],
                     [
                         'fieldName' => 'Participant Birthdate',
-                        'defaultValue' => $this->waiver->ticket->birthdate,
+                        'defaultValue' => $this->waiver->ticket->birthdate ?? '',
                     ],
                     [
                         'fieldName' => 'Participant Gender',

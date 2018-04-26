@@ -32,21 +32,26 @@ class EsignServiceProvider extends ServiceProvider
             'clientId' => config('services.adobesign.key'),
             'clientSecret' => config('services.adobesign.secret'),
             'scope' => [
-                'agreement_read',
-                'agreement_send',
-                'library_read',
-                'agreement_write',
-            ]
+                'agreement_read:self',
+                'agreement_send:self',
+                'agreement_write:self',
+                'library_read:self',
+            ],
         ]);
 
         $adobeSign = new AdobeSign($provider);
 
-        if ($app['cache']->has('adobesign.token')) {
-            $accessToken = new AccessToken(json_decode($app['cache']->get('adobesign.token'), true));
-        } else {
-            $accessToken = $adobeSign->refreshAccessToken(config('services.adobesign.refresh'));
+        $accessToken = optional($app['cache']->get('adobesign.token'), function ($token) {
+            return new AccessToken(json_decode($token, true));
+        });
 
-            $app['cache']->put('adobesign.token', json_encode($accessToken), 60);
+        if (! $accessToken) {
+            throw new \Exception('Adobe Sign not authorized.');
+        }
+
+        if ($accessToken->hasExpired()) {
+            $accessToken = $adobeSign->refreshAccessToken($accessToken->getRefreshToken());
+            $app['cache']->put('adobesign.token', json_encode($accessToken), now()->addDays(60));
         }
 
         $adobeSign->setAccessToken($accessToken->getToken());
