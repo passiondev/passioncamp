@@ -34,8 +34,7 @@ class Hotel extends Item
         return $this->morphedByMany(Organization::class, 'owner', 'order_items', 'item_id')
             ->withPivot('quantity')
             ->where('quantity', '>', '0')
-            ->whereNull('order_items.deleted_at')
-            ->distinct();
+            ->whereNull('order_items.deleted_at');
     }
 
     public function scopeWithDistinctOrganizationsCount($query)
