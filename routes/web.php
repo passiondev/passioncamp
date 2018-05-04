@@ -33,7 +33,7 @@ Route::prefix('account')->namespace('Account')->as('account.')->group(function (
 });
 
 Route::prefix('admin')->as('admin.')->group(function () {
-    Route::get('adobesign', 'Super\AdobeSignController');
+    Route::get('adobesign', 'Super\AdobeSignController')->middleware(['auth', 'super']);
 
     Route::get('/', 'Super\DashboardController')->middleware(['auth', 'super']);
 
