@@ -43,7 +43,7 @@ class AdobeSignController extends Controller
             cache()->forever('adobesign.token', json_encode($accessToken));
             echo 'Access Token: ' . $accessToken->getToken() . '<br>';
             echo 'Refresh Token: ' . $accessToken->getRefreshToken() . '<br>';
-            echo 'Expires at: ' . Carbon::createFromTimestamp($accessToken->getExpires()) . '<br>';
+            echo 'Expires: ' . Carbon::createFromTimestamp($accessToken->getExpires()) . '<br>';
         }
     }
 }

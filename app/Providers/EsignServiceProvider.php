@@ -31,6 +31,7 @@ class EsignServiceProvider extends ServiceProvider
         $provider = new OAuth2Client([
             'clientId' => config('services.adobesign.key'),
             'clientSecret' => config('services.adobesign.secret'),
+            'redirectUri' => secure_url('admin/adobesign'),
             'scope' => [
                 'agreement_read:self',
                 'agreement_send:self',
@@ -51,11 +52,20 @@ class EsignServiceProvider extends ServiceProvider
 
         if ($accessToken->hasExpired()) {
             $accessToken = $adobeSign->refreshAccessToken($accessToken->getRefreshToken());
-            $app['cache']->put('adobesign.token', json_encode($accessToken), now()->addDays(60));
+
+            $this->updateCachedToken($accessToken);
         }
 
         $adobeSign->setAccessToken($accessToken->getToken());
 
         return new AdobeSignEsignProvider($adobeSign);
+    }
+
+    private function updateCachedToken($token)
+    {
+        $cacheToken = json_decode(cache()->get('adobesign.token'), true);
+        $newToken = json_decode(json_encode($token), true);
+
+        cache()->put('adobesign.token', json_encode(array_merge($cacheToken, $newToken)), now()->addDays(60));
     }
 }
