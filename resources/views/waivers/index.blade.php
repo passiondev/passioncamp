@@ -49,7 +49,7 @@
                             {{ $ticket->order->user->person->email }}
                         </td>
                         <td>
-                            @if ($ticket->waiver && $ticket->waiver->isComplete())
+                            @if (optional($ticket->waiver)->isComplete())
                                 {{ ucfirst($ticket->waiver->status) }}
                             @elseif ($ticket->waiver)
                                     <ticket-waiver :data="{{ json_encode($ticket->waiver) }}" inline-template v-cloak>
