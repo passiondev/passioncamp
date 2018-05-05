@@ -224,7 +224,7 @@ class Ticket extends OrderItem
         return [
             'name' => $this->person->name,
             'organization_id' => $this->owner->organization_id,
-            'parent_email' => $this->owner->user->email,
+            'parent_email' => $this->owner->user->email ?: $this->owner->user->person->email,
             'parent_name' => $this->owner->user->person->name,
         ];
     }
