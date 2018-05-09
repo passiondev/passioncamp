@@ -51,8 +51,13 @@
                 </div>
             </div>
         </div>
-        <div class="ui two column stackable grid">
-            <div class="column">
+        <div class="row">
+            @if ($organization->slug == 'pcc')
+                <div class="col">
+                    @include('organization.partials.registration_summary')
+                </div>
+            @endif
+            <div class="col">
                 @include('organization.partials.billing_summary')
                 <a href="{{ action('Account\PaymentController@index') }}" class="btn btn-primary">Make Payment</a>
             </div>

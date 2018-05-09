@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use App\Collections\OrganizationCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -54,19 +53,23 @@ class Organization extends Model
     {
         return $query->addSubSelect(
             'tickets_sum',
-            OrgItem::withoutTrashed()->selectRaw('SUM(quantity)')->where('org_type', 'ticket')->whereRaw('order_items.owner_id = organizations.id')
+            OrgItem::withoutTrashed()
+                ->selectRaw('SUM(quantity)')
+                ->where('org_type', 'ticket')
+                ->whereRaw('order_items.owner_id = organizations.id')
         );
     }
 
     public function getTicketsSumAttribute($tickets_sum)
     {
-        if (! array_key_exists('tickets_sum', $this->attributes)) {
-            $tickets_sum = static::newQueryWithoutScopes()
-                ->scopes(['withTicketsSum'])
-                ->find($this->id)
-                ->tickets_sum;
+        if (array_key_exists('tickets_sum', $this->attributes)) {
+            return $tickets_sum;
+        }
 
-            $this->setAttribute('tickets_sum', $tickets_sum);
+        static $tickets_sum = null;
+
+        if (is_null($tickets_sum)) {
+            $tickets_sum = $this->tickets()->sum('quantity');
         }
 
         return $tickets_sum;
@@ -90,13 +93,14 @@ class Organization extends Model
 
     public function getCostSumAttribute($cost_sum)
     {
-        if (! array_key_exists('cost_sum', $this->attributes)) {
-            $cost_sum = static::newQueryWithoutScopes()
-                ->scopes(['withCostSum'])
-                ->find($this->id)
-                ->cost_sum;
+        if (array_key_exists('cost_sum', $this->attributes)) {
+            return $cost_sum;
+        }
 
-            $this->setAttribute('cost_sum', $cost_sum);
+        static $cost_sum = null;
+
+        if (is_null($cost_sum)) {
+            $cost_sum = $this->items()->selectRaw('SUM(quantity * cost) as cost_sum')->first()->cost_sum;
         }
 
         return $cost_sum;
@@ -118,13 +122,14 @@ class Organization extends Model
 
     public function getPaidSumAttribute($paid_sum)
     {
-        if (! array_key_exists('paid_sum', $this->attributes)) {
-            $paid_sum = static::newQueryWithoutScopes()
-                ->scopes(['withPaidSum'])
-                ->find($this->id)
-                ->paid_sum;
+        if (array_key_exists('paid_sum', $this->attributes)) {
+            return $paid_sum;
+        }
 
-            $this->setAttribute('paid_sum', $paid_sum);
+        static $paid_sum;
+
+        if (is_null($paid_sum)) {
+            $paid_sum = $this->transactions()->sum('amount');
         }
 
         return $paid_sum;
@@ -188,6 +193,21 @@ class Organization extends Model
     public function attendees()
     {
         return $this->hasManyThrough(Ticket::class, Order::class, 'organization_id', 'owner_id');
+    }
+
+    public function orderItems()
+    {
+        return $this->hasManyThrough(OrderItem::class, Order::class, 'organization_id', 'owner_id');
+    }
+
+    public function donations()
+    {
+        return $this->orderItems()->where('type', 'donation');
+    }
+
+    public function orderTransactions()
+    {
+        return $this->hasManyThrough(TransactionSplit::class, Order::class, 'organization_id', 'order_id');
     }
 
     public function students()
@@ -306,7 +326,13 @@ class Organization extends Model
 
     public function getActiveAttendeesCountAttribute($active_attendees_count)
     {
-        if (! array_key_exists('active_attendees_count', $this->attributes)) {
+        if (array_key_exists('active_attendees_count', $this->attributes)) {
+            return $active_attendees_count;
+        }
+
+        static $active_attendees_count = null;
+
+        if (is_null($active_attendees_count)) {
             $active_attendees_count = $this->activeAttendees()->count();
         }
 
@@ -368,6 +394,80 @@ class Organization extends Model
 
     public function getIsCheckedInAttribute()
     {
-        return !! $this->checked_in_rooms_count || !! $this->setting('checked_in');
+        return (bool) $this->checked_in_rooms_count || (bool) $this->setting('checked_in');
+    }
+
+    public function getActiveAttendeesTotalAttribute()
+    {
+        static $attendees_price_sum;
+
+        if (is_null($attendees_price_sum)) {
+            $attendees_price_sum = $this->activeAttendees()->sum('price');
+        }
+
+        return $attendees_price_sum;
+    }
+
+    public function getStudentsCountAttribute($students_count)
+    {
+        if (array_key_exists('students_count', $this->attributes)) {
+            return $students_count;
+        }
+
+        static $students_count = null;
+
+        if (is_null($students_count)) {
+            $students_count = $this->students()->count();
+        }
+
+        return $students_count;
+    }
+
+    public function getLeadersCountAttribute($leaders_count)
+    {
+        if (array_key_exists('leaders_count', $this->attributes)) {
+            return $leaders_count;
+        }
+
+        static $leaders_count = null;
+
+        if (is_null($leaders_count)) {
+            $leaders_count = $this->leaders()->count();
+        }
+
+        return $leaders_count;
+    }
+
+    public function getDonationsTotalAttribute($donations_total)
+    {
+        static $donations_total = null;
+
+        if (is_null($donations_total)) {
+            $donations_total = $this->donations()->sum('price');
+        }
+
+        return $donations_total;
+    }
+
+    public function getOrdersGrandTotalAttribute($orders_grand_total)
+    {
+        static $orders_grand_total = null;
+
+        if (is_null($orders_grand_total)) {
+            $orders_grand_total = $this->orderItems()->active()->sum('price');
+        }
+
+        return $orders_grand_total;
+    }
+
+    public function getOrdersTransactionsTotalAttribute($orders_grand_total)
+    {
+        static $orders_grand_total = null;
+
+        if (is_null($orders_grand_total)) {
+            $orders_grand_total = $this->orderTransactions()->sum('amount');
+        }
+
+        return $orders_grand_total;
     }
 }

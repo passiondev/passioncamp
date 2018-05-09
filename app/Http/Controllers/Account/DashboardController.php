@@ -15,12 +15,8 @@ class DashboardController extends Controller
 
     public function __invoke()
     {
-        $organization = auth()->user()->organization()
-            ->with('items.item')
-            ->withCount('students', 'leaders', 'activeAttendees')
-            ->scopes(['withTicketsSum', 'withCostSum', 'withPaidSum'])
-            ->first();
+        $organization = auth()->user()->organization()->with('items.item')->first();
 
-        return view('account.dashboard')->withOrganization($organization);
+        return view('account.dashboard', compact('organization'));
     }
 }
