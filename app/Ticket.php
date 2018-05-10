@@ -81,7 +81,7 @@ class Ticket extends OrderItem
         return $query->whereExists(function ($q) use ($organization) {
             $q->select(\DB::raw(1))
                 ->from('orders')
-                ->whereRaw('orders.id = owner_id')
+                ->whereRaw('orders.id = owner_id and owner_type = "App\\\Order"')
                 ->where('orders.organization_id', $organization->id);
         });
     }
