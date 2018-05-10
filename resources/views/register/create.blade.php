@@ -110,60 +110,70 @@
                         <div class="tickets">
                             <ticket v-for="(ticket, index) in tickets" :key="index" :index="index" :ticket="ticket"></ticket>
                         </div>
+
+                        <div class="card mt-4" style="background-color:#f1f5f8; border: 0; font-size: .875rem">
+                            <div class="card-block">
+                                <div class="form-group mb-0">
+                                    <label for="rep" class="mb-1">Passion Camp Rep <span style="color:#b8c2cc">(optional)</span></label>
+                                    <input type="text" placeholder="Rep Name" class="form-control" name="rep" value="{{ old('rep') }}">
+                                </div>
+                            </div>
+                        </div>
                     </section>
 
                     <section>
-                    <div class="card card--registration">
-                        <div class="card-block">
-                            <h4>Help Make Camp Possible!</h4>
-                            <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
+                        <div class="card card--registration">
+                            <div class="card-block">
+                                <h4>Help Make Camp Possible!</h4>
+                                <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
 
-                            <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
-                            <ul>
-                                <li>A small group leader's spot (We are taking 100-120 leaders!)</li>
-                                <li>The charter buses (Each bus costs $5,000 and we are taking 12-14 buses!)</li>
-                                <li>To help a student who can’t afford camp (We don’t want anyone to miss out!)</li>
-                            </ul>
-                            <fieldset>
-                                <legend>Donation Amount</legend>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="25" v-model.number="fund_amount">
-                                        $25
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="50" v-model.number="fund_amount">
-                                        $50
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="75" v-model.number="fund_amount">
-                                        $75
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="100" v-model.number="fund_amount">
-                                        $100
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="other" onchange="document.querySelector('#fund_amount_other').focus()" v-model="fund_amount">
-                                        Other
-                                    </label>
-                                    - $<input type="number" name="fund_amount_other" id="fund_amount_other" min="0" max="99999" class="form-control form-control-sm nospin" style="width: 6em; text-align: right; display: inline-block" v-model.number="fund_amount_other">
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="radio" class="form-check-input" name="fund_amount" value="0" v-model.number="fund_amount">
-                                        No thanks
-                                    </label>
-                                </div>
-                            </fie>
+                                <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
+                                <ul>
+                                    <li>A small group leader's spot (We are taking 100-120 leaders!)</li>
+                                    <li>The charter buses (Each bus costs $5,000 and we are taking 12-14 buses!)</li>
+                                    <li>To help a student who can’t afford camp (We don’t want anyone to miss out!)</li>
+                                </ul>
+                                <fieldset>
+                                    <legend>Donation Amount</legend>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="fund_amount" value="25" v-model.number="fund_amount">
+                                            $25
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="fund_amount" value="50" v-model.number="fund_amount">
+                                            $50
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="fund_amount" value="75" v-model.number="fund_amount">
+                                            $75
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="fund_amount" value="100" v-model.number="fund_amount">
+                                            $100
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="fund_amount" value="other" onchange="document.querySelector('#fund_amount_other').focus()" v-model="fund_amount">
+                                            Other
+                                        </label>
+                                        - $<input type="number" name="fund_amount_other" id="fund_amount_other" min="0" max="99999" class="form-control form-control-sm nospin" style="width: 6em; text-align: right; display: inline-block" v-model.number="fund_amount_other">
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="fund_amount" value="0" v-model.number="fund_amount">
+                                            No thanks
+                                        </label>
+                                    </div>
+                                </fieldset>
+                            </div>
                         </div>
                     </section>
 
@@ -264,7 +274,6 @@
                             </div>
                         </div>
                     </section>
-
 
                     <section>
                         <p class="lead">Full payment is due by May 3rd. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>

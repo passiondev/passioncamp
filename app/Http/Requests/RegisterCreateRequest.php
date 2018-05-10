@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Ticket;
 use App\User;
+use App\Ticket;
+use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterCreateRequest extends FormRequest
 {
@@ -90,6 +90,7 @@ class RegisterCreateRequest extends FormRequest
 
         $order = $user->orders()->create([
             'organization_id' => $this->organization(),
+            'order_data' => ['rep' => request('rep')],
         ]);
 
         if ($this->getFundAmount() > 0) {

@@ -14,6 +14,14 @@ class Order extends Model
 
     protected $touches = ['organization'];
 
+    protected $casts = [
+        'order_data' => 'collection',
+    ];
+
+    protected $attributes = [
+        'order_data' => '',
+    ];
+
     protected $searchableColumns = [
         'id',
         'tickets.person.first_name',

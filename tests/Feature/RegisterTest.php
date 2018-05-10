@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use App\Order;
 use App\Ticket;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
-use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class RegisterTest extends TestCase
 {
@@ -48,8 +45,8 @@ class RegisterTest extends TestCase
                     'birthdate' => '03/29/1986',
                     'considerations' => [
                         'nut' => 'nut',
-                        'other' => 'other_text'
-                    ]
+                        'other' => 'other_text',
+                    ],
                 ],
                 2 => [
                     'first_name' => 'Two',
@@ -63,7 +60,7 @@ class RegisterTest extends TestCase
             'num_tickets' => 2,
             'stripeToken' => $this->generateToken(),
             'payment_type' => 'full',
-            'fund_amount' => 50
+            'fund_amount' => 50,
         ], $params));
     }
 
@@ -105,10 +102,10 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    function order_is_not_created_if_payment_fails()
+    public function order_is_not_created_if_payment_fails()
     {
         $response = $this->register([
-            'stripeToken' => 'invalid-token'
+            'stripeToken' => 'invalid-token',
         ]);
 
         $response->assertRedirect(route('register.create'));
@@ -122,13 +119,25 @@ class RegisterTest extends TestCase
 
         $data = \Stripe\Token::create([
             'card' => [
-                "number" => "4111111111111111",
-                "exp_month" => 11,
-                "exp_year" => date('y') + 4,
-                "cvc" => "314"
-            ]
+                'number' => '4111111111111111',
+                'exp_month' => 11,
+                'exp_year' => date('y') + 4,
+                'cvc' => '314',
+            ],
         ]);
 
         return $data['id'];
+    }
+
+    /** @test */
+    public function a_rep_name_can_be_added()
+    {
+        $response = $this->register([
+            'rep' => 'Rep Name',
+        ]);
+
+        $this->assertEquals(1, Order::count());
+        $order = Order::first();
+        $this->assertEquals('Rep Name', $order->order_data->get('rep'));
     }
 }
