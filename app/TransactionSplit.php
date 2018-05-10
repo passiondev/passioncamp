@@ -10,6 +10,8 @@ class TransactionSplit extends Model
 
     protected $guarded = [];
 
+    protected $touches = ['organization', 'order'];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

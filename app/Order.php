@@ -11,10 +11,12 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $touches = ['organization'];
+
     protected $searchableColumns = [
         'id',
         'tickets.person.first_name',
-        'tickets.person.last_name'
+        'tickets.person.last_name',
     ];
 
     public function newCollection(array $models = [])
@@ -121,7 +123,7 @@ class Order extends Model
     {
         return array_sum([
             $this->donation_total,
-            $this->ticket_count * 7500
+            $this->ticket_count * 7500,
         ]);
     }
 
@@ -158,7 +160,7 @@ class Order extends Model
     public function addContact($data)
     {
         $this->user()->create([
-            'person_id' => Person::create($data)->id
+            'person_id' => Person::create($data)->id,
         ]);
 
         return $this;

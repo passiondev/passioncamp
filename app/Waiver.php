@@ -10,6 +10,8 @@ class Waiver extends Model
 {
     protected $guarded = [];
 
+    protected $touches = ['ticket'];
+
     protected $attributes = [
         'status' => WaiverStatus::CREATED,
     ];

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model
 {
-    use SoftDeletes, Notated;
+    use SoftDeletes, Notated, Cacheable;
 
     protected $casts = [
         'tickets_sum' => 'integer',
@@ -66,13 +66,14 @@ class Organization extends Model
             return $tickets_sum;
         }
 
-        static $tickets_sum = null;
+        return tap($this->tickets()->sum('quantity'), function ($tickets_sum) {
+            $this->setAttribute('tickets_sum', $tickets_sum);
+        });
+    }
 
-        if (is_null($tickets_sum)) {
-            $tickets_sum = $this->tickets()->sum('quantity');
-        }
-
-        return $tickets_sum;
+    public function getCachedTicketsSumAttribute()
+    {
+        return $this->cached('tickets_sum');
     }
 
     public function scopeWithHotelsSum($query)
@@ -81,6 +82,22 @@ class Organization extends Model
             'hotels_sum',
             OrgItem::withoutTrashed()->selectRaw('SUM(quantity)')->where('org_type', 'hotel')->whereRaw('order_items.owner_id = organizations.id')
         );
+    }
+
+    public function getHotelsSumAttribute($hotels_sum)
+    {
+        if (array_key_exists('hotels_sum', $this->attributes)) {
+            return $hotels_sum;
+        }
+
+        return tap($this->hotelItems()->sum('quantity'), function ($hotels_sum) {
+            $this->setAttribute('hotels_sum', $hotels_sum);
+        });
+    }
+
+    public function getCachedHotelsSumAttribute()
+    {
+        return $this->cached('hotels_sum');
     }
 
     public function scopeWithCostSum($query)
@@ -97,13 +114,14 @@ class Organization extends Model
             return $cost_sum;
         }
 
-        static $cost_sum = null;
+        return tap($this->items()->selectRaw('SUM(quantity * cost) as cost_sum')->first()->cost_sum, function ($cost_sum) {
+            $this->setAttribute('cost_sum', $cost_sum);
+        });
+    }
 
-        if (is_null($cost_sum)) {
-            $cost_sum = $this->items()->selectRaw('SUM(quantity * cost) as cost_sum')->first()->cost_sum;
-        }
-
-        return $cost_sum;
+    public function getCachedCostSumAttribute()
+    {
+        return $this->cached('cost_sum');
     }
 
     public function scopeWithPaidSum($query, $source = null)
@@ -126,13 +144,14 @@ class Organization extends Model
             return $paid_sum;
         }
 
-        static $paid_sum;
+        return tap($this->transactions()->sum('amount'), function ($paid_sum) {
+            $this->setAttribute('paid_sum', $paid_sum);
+        });
+    }
 
-        if (is_null($paid_sum)) {
-            $paid_sum = $this->transactions()->sum('amount');
-        }
-
-        return $paid_sum;
+    public function getCachedPaidSumAttribute()
+    {
+        return $this->cached('paid_sum');
     }
 
     public function church()
@@ -240,6 +259,22 @@ class Organization extends Model
         return $this->activeAttendees()->has('rooms');
     }
 
+    public function getAssignedToRoomCountAttribute($assigned_to_room_count)
+    {
+        if (array_key_exists('assigned_to_room_count', $this->attributes)) {
+            return $assigned_to_room_count;
+        }
+
+        return tap($this->assignedToRoom()->count(), function ($assigned_to_room_count) {
+            $this->setAttribute('assigned_to_room_count', $assigned_to_room_count);
+        });
+    }
+
+    public function getCachedAssignedToRoomCountAttribute()
+    {
+        return $this->cached('assigned_to_room_count');
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -255,14 +290,62 @@ class Organization extends Model
         return $this->hasMany(Room::class);
     }
 
+    public function getRoomsCountAttribute($rooms_count)
+    {
+        if (array_key_exists('rooms_count', $this->attributes)) {
+            return $rooms_count;
+        }
+
+        return tap($this->rooms()->count(), function ($rooms_count) {
+            $this->setAttribute('rooms_count', $rooms_count);
+        });
+    }
+
+    public function getCachedRoomsCountAttribute()
+    {
+        return $this->cached('rooms_count');
+    }
+
     public function checkedInRooms()
     {
         return $this->rooms()->whereNotNull('checked_in_at');
     }
 
+    public function getCheckedInRoomsCountAttribute($checked_in_rooms_count)
+    {
+        if (array_key_exists('checked_in_rooms_count', $this->attributes)) {
+            return $checked_in_rooms_count;
+        }
+
+        return tap($this->checkedInRooms()->count(), function ($checked_in_rooms_count) {
+            $this->setAttribute('checked_in_rooms_count', $checked_in_rooms_count);
+        });
+    }
+
+    public function getCachedCheckedInRoomsCountAttribute()
+    {
+        return $this->cached('checked_in_rooms_count');
+    }
+
     public function keyReceivedRooms()
     {
         return $this->rooms()->whereNotNull('key_received_at');
+    }
+
+    public function getKeyReceivedRoomsCountAttribute($key_received_rooms_count)
+    {
+        if (array_key_exists('key_received_rooms_count', $this->attributes)) {
+            return $key_received_rooms_count;
+        }
+
+        return tap($this->keyReceivedRooms()->count(), function ($key_received_rooms_count) {
+            $this->setAttribute('key_received_rooms_count', $key_received_rooms_count);
+        });
+    }
+
+    public function getCachedKeyReceivedRoomsCountAttribute()
+    {
+        return $this->cached('key_received_rooms_count');
     }
 
     public function getRoomsNeededAttribute()
@@ -309,9 +392,20 @@ class Organization extends Model
         return 0;
     }
 
-    public function getBalanceAttribute()
+    public function getBalanceAttribute($balance)
     {
-        return $this->cost_sum - $this->paid_sum;
+        if (array_key_exists('balance', $this->attributes)) {
+            return $balance;
+        }
+
+        return tap($this->cost_sum - $this->paid_sum, function ($balance) {
+            $this->setAttribute('balance', $balance);
+        });
+    }
+
+    public function getCachedBalanceAttribute()
+    {
+        return $this->cached('balance');
     }
 
     public function getCanReceivePaymentAttribute()
@@ -330,13 +424,14 @@ class Organization extends Model
             return $active_attendees_count;
         }
 
-        static $active_attendees_count = null;
+        return tap($this->activeAttendees()->count(), function ($active_attendees_count) {
+            $this->setAttribute('active_attendees_count', $active_attendees_count);
+        });
+    }
 
-        if (is_null($active_attendees_count)) {
-            $active_attendees_count = $this->activeAttendees()->count();
-        }
-
-        return $active_attendees_count;
+    public function getCachedActiveAttendeesCountAttribute()
+    {
+        return $this->cached('active_attendees_count');
     }
 
     public function getTicketsRemainingCountAttribute()
@@ -392,9 +487,29 @@ class Organization extends Model
         return $this->activeAttendees()->has('completedWaivers');
     }
 
-    public function getIsCheckedInAttribute()
+    public function getCompletedWaiversCountAttribute($completed_waivers_count)
     {
-        return (bool) $this->checked_in_rooms_count || (bool) $this->setting('checked_in');
+        if (array_key_exists('completed_waivers_count', $this->attributes)) {
+            return $completed_waivers_count;
+        }
+
+        return tap($this->completedWaivers()->count(), function ($completed_waivers_count) {
+            $this->setAttribute('completed_waivers_count', $completed_waivers_count);
+        });
+    }
+
+    public function getCachedCompletedWaiversCountAttribute()
+    {
+        return $this->cached('completed_waivers_count');
+    }
+
+    public function getIsCheckedInAttribute($is_checked_in)
+    {
+        if (array_key_exists('is_checked_in', $this->attributes)) {
+            return $is_checked_in;
+        }
+
+        return (bool) $this->cached_checked_in_rooms_count || (bool) $this->setting('checked_in');
     }
 
     public function getActiveAttendeesTotalAttribute()

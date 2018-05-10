@@ -40,6 +40,8 @@ class Room extends Model
         'deleted' => RoomDeleted::class,
     ];
 
+    protected $touches = ['organization'];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);
@@ -127,7 +129,7 @@ class Room extends Model
     public function checkIn()
     {
         $this->update([
-            'is_checked_in' => true
+            'is_checked_in' => true,
         ]);
     }
 

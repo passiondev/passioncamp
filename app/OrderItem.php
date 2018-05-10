@@ -12,6 +12,8 @@ class OrderItem extends Model
 
     protected $guarded = [];
 
+    protected $touches = ['owner'];
+
     protected static function boot()
     {
         parent::boot();

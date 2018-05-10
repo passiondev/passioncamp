@@ -100,8 +100,6 @@ class User extends Authenticatable
         if ($this->organization) {
             return $this->organization->church->name . ' - ' . $this->organization->church->location;
         }
-
-        return;
     }
 
     public function setPersonAttribute($person)
