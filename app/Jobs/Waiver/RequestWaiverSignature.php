@@ -77,7 +77,7 @@ class RequestWaiverSignature implements ShouldQueue
                     ],
                     [
                         'fieldName' => 'Participant Gender',
-                        'defaultValue' => $this->waiver->ticket->gender == 'M' ? 'Male' : 'Female',
+                        'defaultValue' => $this->waiver->ticket->person->gender == 'M' ? 'Male' : 'Female',
                     ],
                     [
                         'fieldName' => 'Parent Name',
