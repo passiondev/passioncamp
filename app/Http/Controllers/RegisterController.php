@@ -26,9 +26,9 @@ class RegisterController extends Controller
 
     public function getCurrentTicketPrice()
     {
-        if (strtolower(request('code')) == 'rising') {
-            return 365;
-        }
+        // if (strtolower(request('code')) == 'rising') {
+        //     return 365;
+        // }
 
         $prices = [
             '375' => '2018-01-01',
@@ -54,7 +54,7 @@ class RegisterController extends Controller
     public function store(RegisterCreateRequest $request)
     {
         if ($this->ticket_price > 375 && request('num_tickets') >= 2) {
-            $this->ticket_price = 375;
+            $this->ticket_price = $this->ticket_price - 20;
         }
 
         \DB::beginTransaction();

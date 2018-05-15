@@ -27,11 +27,11 @@
         },
         computed: {
             ticket_price() {
-                if (this.localTicketPrice <= 375) {
-                    return this.localTicketPrice;
+                if (this.localTicketPrice > 375 && this.num_tickets >= 2) {
+                    return this.localTicketPrice - 20;
                 }
 
-                return this.num_tickets >= 2 ? (this.localTicketPrice - 20) : this.localTicketPrice;
+                return this.localTicketPrice;
             },
             ticket_total() {
                 return this.num_tickets * this.ticket_price;
@@ -69,10 +69,10 @@
                 return this.elementsSubmitHandler(e);
             },
             applyDiscountCode() {
-                if (this.discountCode.toLowerCase() == 'rising') {
-                    this.localTicketPrice = 365;
-                    return;
-                }
+                // if (this.discountCode.toLowerCase() == 'rising') {
+                //     this.localTicketPrice = 365;
+                //     return;
+                // }
 
                 this.localTicketPrice = ticket_price
                 return;
