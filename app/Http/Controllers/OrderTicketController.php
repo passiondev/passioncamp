@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Order;
 use App\Person;
 use App\Ticket;
-use Illuminate\Http\Request;
+use App\Http\Middleware\VerifyTicketCanBeAddedToOrganization;
 
 class OrderTicketController extends Controller
 {
@@ -47,7 +47,7 @@ class OrderTicketController extends Controller
                 'gender' => request()->input('ticket.gender'),
                 'grade' => request()->input('ticket.grade'),
                 'allergies' => request()->input('ticket.allergies'),
-            ]
+            ],
         ]);
 
         $ticket->organization()->associate(auth()->user()->organization);
