@@ -24,9 +24,9 @@ class RoominglistExportController extends Controller
             'user_id' => request()->user()->id,
         ]);
 
-        GenerateRoomingListVersionExport::withChain([
+        GenerateRoomingListVersionExport::onQueue('long-running-queue')->withChain([
             new NotifyUserOfCompletedExport(request()->user(), $version),
-        ])->onQueue('long-running-queue')->dispatch($version);
+        ])->dispatch($version);
 
         return redirect()->back()->withLoading('A new export is being generated. Stay on this page and once the export is complete, it will download automatically. Or, come back to this page in a few minutes and download it from the list below.');
     }
