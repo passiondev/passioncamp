@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\App;
 
 class RequestWaiverSignature implements ShouldQueue
 {
@@ -35,14 +36,14 @@ class RequestWaiverSignature implements ShouldQueue
         $agreementId = $this->waiver->provider()->createSignatureRequest([
             'documentCreationInfo' => [
                 'fileInfos' => [
-                    'libraryDocumentId' => config('passioncamp.waiver_document_id'),
+                    'libraryDocumentId' => $this->getLibraryDocumentId(),
                 ],
                 'name' => __('waivers.request_subject'),
                 'message' => __('waivers.request_body'),
                 'signatureType' => 'ESIGN',
                 'recipientSetInfos' => [
                     'recipientSetMemberInfos' => [
-                        'email' => config('app.env') == 'production' ? $this->waiver->ticket->order->user->person->email : 'matt.floyd+waivers@268generation.com',
+                        'email' => $this->getRecipientEmail(),
                     ],
                     'recipientSetRole' => ['SIGNER'],
                 ],
@@ -109,5 +110,19 @@ class RequestWaiverSignature implements ShouldQueue
             'provider_agreement_id' => $agreementId,
             'status' => WaiverStatus::PENDING,
         ]);
+    }
+
+    private function getLibraryDocumentId()
+    {
+        return $this->waiver->ticket->order->organization->slug == 'pcc'
+            ? config('passioncamp.pcc_waiver_document_id')
+            : config('passioncamp.waiver_document_id');
+    }
+
+    public function getRecipientEmail()
+    {
+        return App::environment('production')
+            ? $this->waiver->ticket->order->user->person->email
+            : 'matt.floyd+waivers@268generation.com';
     }
 }
