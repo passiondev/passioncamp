@@ -79,6 +79,14 @@ return [
                 'processes' => 10,
                 'tries' => 3,
             ],
+            'supervisor-long-running' => [
+                'connection' => 'redis-long-running',
+                'queue' => ['long-running-queue'],
+                'balance' => 'simple',
+                'processes' => 10,
+                'tries' => 3,
+                'timeout' => 900,
+            ],
         ],
 
         'local' => [
