@@ -30,6 +30,10 @@ class RegisterController extends Controller
         //     return 365;
         // }
 
+        if (now()->gte(Carbon::parse('2018-05-24')->startOfDay()) && now()->lte(Carbon::parse('2018-05-24')->endOfDay())) {
+            return 375;
+        }
+
         $prices = [
             '375' => '2018-01-01',
             '400' => '2018-04-08',
