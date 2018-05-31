@@ -47,7 +47,9 @@ class RegisterController extends Controller
 
     public function create()
     {
-        // return view('register.closed');
+        if (now()->gte(Carbon::parse('2018-06-03')->endOfDay())) {
+            return view('register.closed');
+        }
 
         return view('register.create', [
             'ticketPrice' => $this->ticket_price,
