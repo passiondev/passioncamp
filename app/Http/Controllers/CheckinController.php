@@ -26,6 +26,7 @@ class CheckinController extends Controller
         if (request('search')) {
             $tickets = Ticket::search(request('query'))
                 ->where('organization_id', auth()->user()->organization_id)
+                ->where('is_canceled', false)
                 ->keys();
 
             $tickets->load('person', 'order.user.items', 'order.user.transactions', 'waiver');
