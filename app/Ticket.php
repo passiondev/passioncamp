@@ -227,7 +227,6 @@ class Ticket extends OrderItem
             'parent_email' => $this->owner->user->email ?: $this->owner->user->person->email,
             'parent_name' => $this->owner->user->person->name,
             'is_canceled' => $this->is_canceled,
-            'agegroup' => $this->agegroup,
         ];
     }
 
