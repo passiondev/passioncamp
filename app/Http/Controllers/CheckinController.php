@@ -24,7 +24,7 @@ class CheckinController extends Controller
         $tickets = [];
 
         if (request('search')) {
-            $tickets = Ticket::search(request('query'))
+            $tickets = Ticket::search(request('search'))
                 ->where('organization_id', auth()->user()->organization_id)
                 ->where('is_canceled', 0)
                 ->get();
