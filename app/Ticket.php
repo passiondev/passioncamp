@@ -226,12 +226,8 @@ class Ticket extends OrderItem
             'organization_id' => $this->owner->organization_id,
             'parent_email' => $this->owner->user->email ?: $this->owner->user->person->email,
             'parent_name' => $this->owner->user->person->name,
+            'is_canceled' => $this->is_canceled,
         ];
-    }
-
-    public function shouldBeSearchable()
-    {
-        return ! $this->is_canceled;
     }
 
     public function createWaiver($provider = 'adobesign')
