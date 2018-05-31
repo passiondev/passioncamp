@@ -8,16 +8,20 @@
 </template>
 <script>
     export default {
-        props: [
-            'href',
-            'method',
-            'is-success',
-            'confirm',
-        ],
+        props: {
+            'href': String,
+            'action': {
+                default: null
+            },
+            'method': String,
+            'is-success': Boolean,
+            'confirm': Boolean,
+        },
 
         data() {
             return {
-                success: this.isSuccess
+                success: this.isSuccess,
+                actionHref: this.action || this.href,
             };
         },
 
@@ -33,7 +37,7 @@
             },
 
             _submit(e) {
-                axios[this.method.toLowerCase()](this.href)
+                axios[this.method.toLowerCase()](this.actionHref)
                     .then(response => {
                         this.success = true;
                         this.$emit('success', response.data);

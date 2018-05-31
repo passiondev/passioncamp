@@ -29,13 +29,13 @@
 </head>
 <body>
     <div class="container">
-        <table style="height:.45in;">
+        <table style="height:1in;">
             <tbody>
                 <tr>
-                    <td style="padding: 0 .25in;vertical-align: bottom">
-                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.75in;margin-bottom:.125in">
+                    <td style="padding: .25in">
+                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.5in">
                     </td>
-                    <td>
+                    <td style="padding: 0 .25in; vertical-align:middle">
                         <strong>{{ $ticket->person->name }}</strong> <br>
                         @if(!!$ticket->person->grade) {{ number_ordinal($ticket->person->grade) }} Grade <br> @endif
                         @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
@@ -47,13 +47,13 @@
         </table>
     </div>
     <div class="container">
-        <table style="height:.45in;">
+        <table style="height:1in;">
             <tbody>
                 <tr>
-                    <td style="padding: 0 .25in;vertical-align: bottom">
-                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.75in;margin-bottom:.125in">
+                    <td style="padding: .25in">
+                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.5in">
                     </td>
-                    <td>
+                    <td style="padding: 0 .25in; vertical-align:middle">
                         <strong>{{ $ticket->person->name }}</strong> <br>
                         @if(!!$ticket->person->grade) {{ number_ordinal($ticket->person->grade) }} Grade <br> @endif
                         @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif

@@ -35,7 +35,7 @@
         @endif
 
         <div style="font-size:8pt;">
-            @foreach ($room->tickets->assigendSort() as $ticket)
+            @foreach ($room->tickets->sortBy('assigned_sort') as $ticket)
                 {{ $ticket->person->name }}
                 @if ($ticket->squad)
                     <i>{{ strtoupper($ticket->squad) }}</i>

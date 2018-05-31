@@ -11,8 +11,9 @@ class CheckinController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
         $this->middleware(function ($request, $next) {
-            abort_unless(data_get($request->user(), 'organization.slug') == 'pcc', 401);
+            abort_unless(data_get($request->user(), 'organization.slug') == 'pcc', 403);
 
             return $next($request);
         });
@@ -23,8 +24,8 @@ class CheckinController extends Controller
         $tickets = [];
 
         if (request('search')) {
-            $keys = Ticket::search(request('search'))
-                ->forOrganization(auth()->user()->organization)
+            $keys = Ticket::search(request('query'))
+                ->where('organization_id', auth()->user()->organization_id)
                 ->keys();
 
             $tickets = Ticket::whereIn('id', $keys)

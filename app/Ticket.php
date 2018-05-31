@@ -244,23 +244,11 @@ class Ticket extends OrderItem
         return $waiver;
     }
 
-    public function toRouteSignatureArray()
-    {
-        $payload = [
-            'id' => $this->id,
-        ];
-
-        return [
-            'payload' => base64_encode(json_encode($payload)),
-            'signature' => RoutePayloadSignature::create($payload),
-        ];
-    }
-
     public function printWristband($printer, $driver = null)
     {
         Printer::driver($driver)->print(
             $printer,
-            action('TicketWristbandsController@signedShow', $this->toRouteSignatureArray()),
+            url()->signedRoute('tickets.wristband.show', $this),
             [
                 'title' => $this->name,
                 'source' => 'PCC Check In',

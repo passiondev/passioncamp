@@ -64,9 +64,8 @@ if (config('passioncamp.enable_rooms')) {
     Route::post('rooms/{room}/check-in', 'RoomController@checkin');
     Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
 
-    // Route::get('rooms/{room}/label', 'RoomLabelController@show');
+    Route::get('rooms/{room}/label', 'RoomLabelController@show')->name('room.label.show');
     Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
-    Route::get('rooms/{payload}/label', 'RoomLabelController@signedShow');
 }
 
 Route::resource('orders', 'OrderController')->only('show');
@@ -80,6 +79,7 @@ Route::get('tickets/search', 'TicketController@search')->name('tickets.search');
 Route::match(['put', 'patch'], 'tickets/{ticket}/cancel', 'TicketController@cancel')->name('tickets.cancel');
 Route::post('tickets/export', 'TicketExportController@store');
 Route::post('tickets/{ticket}/waivers', 'TicketWaiverController@store')->name('tickets.waivers.store');
+Route::get('tickets/{ticket}/wristband', 'TicketWristbandsController@show')->name('tickets.wristband.show');
 
 Route::get('transactions/{split}/refund', 'TransactionRefundController@create')->name('transactions.refunds.create');
 Route::post('transactions/{split}/refund', 'TransactionRefundController@store')->name('transactions.refunds.store');
@@ -109,7 +109,8 @@ if (config('passioncamp.enable_waivers')) {
 
 Route::get('ticket-items', 'TicketItemController@index')->name('ticket-items.index');
 
-Route::resource('printers', 'PrinterController')->only('index', 'destroy');
+Route::get('printers', 'PrinterController@index')->name('printers.index');
+Route::delete('printers', 'PrinterController@refresh')->name('printers.refresh');
 Route::post('printers/{printer}/test', 'PrinterController@test')->name('printers.test');
 Route::post('selected-printer', 'SelectedPrinterController@store')->name('selected-printer.store');
 Route::delete('selected-printer', 'SelectedPrinterController@destroy')->name('selected-printer.destroy');
@@ -118,5 +119,3 @@ Route::get('checkin', 'CheckinController@index');
 Route::get('checkin/all-leaders', 'CheckinController@allLeaders');
 Route::post('checkin/{ticket}', 'CheckinController@create');
 Route::delete('checkin/{ticket}', 'CheckinController@destroy');
-
-Route::get('tickets/{ticket}/wristband', 'TicketWristbandsController@show');

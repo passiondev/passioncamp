@@ -80,7 +80,7 @@
                                 </li>
                                 <li>
                                     @if (Session::has('printer'))
-                                        <ajax href="{{ action('RoomLabelController@printnode', $room) }}" method="POST" v-cloak>
+                                        <ajax href="{{ url()->signedRoute('room.label.show', $room) }}" action="{{ action('RoomLabelController@printnode', $room) }}" method="POST" v-cloak>
                                             print
                                             <span slot="success">
                                                 @icon('checkmark', 'text-success') printing...

@@ -22,7 +22,7 @@ class RoomController extends Controller
             ->orderByChurchName()
             ->orderBy('id')->with([
                 'tickets.person',
-                'organization' => function ($q) { $q->withoutGlobalScopes(); },
+                'organization',
                 'organization.church',
             ])->when($filters->hasFilters(), function ($q) {
                 return $q->get();

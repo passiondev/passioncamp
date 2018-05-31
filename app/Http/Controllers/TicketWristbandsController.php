@@ -10,7 +10,7 @@ class TicketWristbandsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(ValidateSignature::class)->only('show');
+        $this->middleware(ValidateSignature::class);
     }
 
     public function show(Ticket $ticket)

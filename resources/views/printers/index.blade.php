@@ -4,11 +4,11 @@
     <div class="container-fluid">
         <nav class="nav mb-3">
             <a class="nav-link" href="{{ route('selected-printer.destroy') }}" onclick="event.preventDefault(); document.getElementById('printer-selection-destroy-form').submit();">Clear Selection</a>
-            <a class="nav-link" href="{{ route('printers.destroy') }}" onclick="event.preventDefault(); document.getElementById('printers-destroy-form').submit();">Refresh Printers</a>
+            <a class="nav-link" href="{{ route('printers.refresh') }}" onclick="event.preventDefault(); document.getElementById('printers-refresh-form').submit();">Refresh Printers</a>
         </nav>
 
         <form action="{{ route('selected-printer.store') }}" method="POST">
-            {{ csrf_field() }}
+            @csrf
             <div class="card mb-5">
                 <h3 class="card-header">Printers</h3>
 
@@ -72,12 +72,12 @@
         </div>
 
         <form action="{{ route('selected-printer.destroy') }}" method="POST" id="printer-selection-destroy-form" style="display:none;">
-            {{ method_field('DELETE') }}
-            {{ csrf_field() }}
+            @method('DELETE')
+            @csrf
         </form>
-        <form action="{{ route('printers.destroy') }}" method="POST" id="printers-destroy-form" style="display:none;">
-            {{ method_field('DELETE') }}
-            {{ csrf_field() }}
+        <form action="{{ route('printers.refresh') }}" method="POST" id="printers-refresh-form" style="display:none;">
+            @method('DELETE')
+            @csrf
         </form>
     </div>
 @stop

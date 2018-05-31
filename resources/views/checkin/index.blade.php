@@ -75,9 +75,11 @@
                                 </td>
                                 <td class="text-center" style="vertical-align: middle">
                                     @unless ($ticket->is_checked_in)
-                                        <a href="{{ action('TicketWristbandsController@signedShow', $ticket->toRouteSignatureArray()) }}"
+                                        <a href="{{ url()->signedRoute('tickets.wristband.show', $ticket) }}"
                                             class="btn btn-outline-primary"
-                                            onclick="event.preventDefault(); document.getElementById('checkin-{{ $ticket->id }}-form').submit()">Check In</a>
+                                            onclick="event.preventDefault(); document.getElementById('checkin-{{ $ticket->id }}-form').submit()">
+                                            Check In
+                                        </a>
 
                                         <form action="{{ action('CheckinController@create', $ticket) }}" method="POST" id="checkin-{{ $ticket->id }}-form">
                                             {{ csrf_field() }}

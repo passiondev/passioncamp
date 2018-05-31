@@ -9,13 +9,23 @@ use Illuminate\Http\Request;
 use App\Http\Middleware\VerifyPayloadSignature;
 use App\Http\Middleware\VerifyUserHasSelectedPrinter;
 use Facades\App\Contracts\Printing\Factory as Printer;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 
 class RoomLabelController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('signedShow');
-        $this->middleware(VerifyPayloadSignature::class)->only('signedShow');
+        $this->middleware('auth')->except('show');
+
+        $this->middleware(function ($request, $next) {
+            if (! Auth::check() && ! $request->hasValidSignature()) {
+                throw new AuthenticationException;
+            }
+
+            return $next($request);
+        })->only('show');
+
         $this->middleware(VerifyUserHasSelectedPrinter::class)->only('printnode');
     }
 
@@ -23,7 +33,7 @@ class RoomLabelController extends Controller
     {
         Printer::print(
             session('printer'),
-            action('RoomLabelController@signedShow', $room->toRouteSignatureArray()),
+            url()->signedRoute('room.label.show', $room),
             [
                 'title' => $room->name,
                 'source' => $room->organization->church->name
@@ -34,13 +44,6 @@ class RoomLabelController extends Controller
     public function show(Room $room)
     {
         return $this->generatePdf($room)->stream('dompdf.pdf', ['Attachment' => 0]);
-    }
-
-    public function signedShow($payload)
-    {
-        $room = Room::findOrFail($payload['id']);
-
-        return $this->show($room);
     }
 
     private function generatePdf($room)

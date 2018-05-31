@@ -31,7 +31,7 @@ class PrinterController extends Controller
         return redirect()->back();
     }
 
-    public function destroy()
+    public function refresh()
     {
         $this->printDriver()->refreshPrinters();
 

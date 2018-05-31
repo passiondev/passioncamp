@@ -200,7 +200,7 @@ class RoomingListController extends Controller
     {
         $room->checkin();
 
-        request()->expectsJson()
+        return request()->expectsJson()
             ? response('<i class="checkmark green icon"></i> checked in', 200)
             : redirect()->back()->withSuccess('Room checked in.');
     }
