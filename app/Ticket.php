@@ -229,6 +229,11 @@ class Ticket extends OrderItem
         ];
     }
 
+    public function shouldBeSearchable()
+    {
+        return ! $this->is_canceled;
+    }
+
     public function createWaiver($provider = 'adobesign')
     {
         if ($this->waivers()->count()) {

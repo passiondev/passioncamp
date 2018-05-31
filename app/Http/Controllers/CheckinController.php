@@ -24,14 +24,11 @@ class CheckinController extends Controller
         $tickets = [];
 
         if (request('search')) {
-            $keys = Ticket::search(request('query'))
+            $tickets = Ticket::search(request('query'))
                 ->where('organization_id', auth()->user()->organization_id)
                 ->keys();
 
-            $tickets = Ticket::whereIn('id', $keys)
-                ->with('person', 'order.user.items', 'order.user.transactions', 'waiver')
-                ->active()
-                ->get();
+            $tickets->load('person', 'order.user.items', 'order.user.transactions', 'waiver');
         }
 
         $organization = auth()->user()->organization()
