@@ -38,7 +38,7 @@ class PrintWristbandJob implements ShouldQueue
     {
         Printer::driver($this->driver)->print(
             $this->printer,
-            action('TicketWristbandsController@signedShow', $this->ticket->toRouteSignatureArray()),
+            url()->signedRoute('tickets.wristband.show', $this->ticket),
             [
                 'title' => $this->ticket->name,
                 'source' => 'PCC Check In'
