@@ -21,12 +21,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($printers ?? [] as $printer)
+                        @foreach ($printers as $printer)
                             <tr>
-                                <td>{{ $printer->computer->name }}</td>
+                                <td>{{ $printer['computer'] }}</td>
                                 <td>
-                                    {{ $printer->name }}
-                                    <ajax href="{{ route('printers.test', $printer->id) }}" method="POST" class="text-muted ml-3" v-cloak>
+                                    {{ $printer['name'] }}
+                                    <ajax href="{{ route('printers.test', $printer['id']) }}" method="POST" class="text-muted ml-3" v-cloak>
                                         test
                                         <span slot="success">
                                             @icon('checkmark', 'text-success')
@@ -34,8 +34,8 @@
                                     </ajax>
                                 </td>
                                 <td>
-                                    @unless(session('printer.id') == $printer->id)
-                                        <button class="btn btn-primary" name="printer" value="{{ $printer->id }}">Select</button>
+                                    @unless(session('printer.id') == $printer['id'])
+                                        <button class="btn btn-primary" name="printer" value="{{ $printer['id'] }}">Select</button>
                                     @else
                                         <em>Selected</em>
                                     @endif

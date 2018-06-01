@@ -18,8 +18,16 @@ class PrinterController extends Controller
     {
         request()->intended(url()->previous());
 
+        $printers = collect($this->printDriver()->printers())->map(function ($printer) {
+            return [
+                'id' => $printer->id,
+                'name' => $printer->name,
+                'computer' => $printer->computer->name,
+            ];
+        })->sortBy('name')->sortBy('computer');
+
         return view('printers.index', [
-            'printers' => $this->printDriver()->printers(),
+            'printers' => $printers,
             'jobs' => session('printer.id') ? $this->printDriver()->jobs(session('printer.id')) : []
         ]);
     }
