@@ -65,9 +65,6 @@
                                         @unless ($ticket->waiver && $ticket->waiver->isComplete())
                                             <li class="text-danger">@icon('exclamation-outline') Camp Waiver</li>
                                         @endunless
-                                        @unless ($ticket->pcc_waiver)
-                                            <li class="text-danger">@icon('exclamation-outline') PCC Waiver</li>
-                                        @endunless
                                         @if ($ticket->order->user->balance > 0)
                                             <li class="text-danger">@icon('exclamation-outline') Balance Due</li>
                                         @endif
