@@ -11,6 +11,8 @@ use App\Http\Middleware\VerifyUserHasSelectedPrinter;
 use Facades\App\Contracts\Printing\Factory as Printer;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
+use App\Filters\RoomFilters;
+use App\Jobs\PrintRoomLabelJob;
 
 class RoomLabelController extends Controller
 {
@@ -27,6 +29,17 @@ class RoomLabelController extends Controller
         })->only('show');
 
         $this->middleware(VerifyUserHasSelectedPrinter::class)->only('printnode');
+    }
+
+    public function printAll(RoomFilters $filters)
+    {
+        $rooms = Room::filter($filters)->get();
+
+        $rooms->each(function ($room) {
+            PrintRoomLabelJob::dispatch($room, session('printer'));
+        });
+
+        return redirect()->back();
     }
 
     public function printnode(Room $room)

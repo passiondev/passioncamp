@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="d-xl-flex align-items-center mb-2">
-            <form action="{{ action('RoomController@index') }}" method="GET" class="form-inline mb-lg-2">
+        <div class="d-xl-flex align-items-center mb-3">
+            <form action="{{ action('RoomController@index') }}" method="GET" class="form-inline">
                 <select name="organization" class="form-control mb-2 mr-sm-2 mb-lg-0" onchange="this.form.submit()">
                     <option selected disabled>Church...</option>
                     <option value="">- All -</option>
@@ -23,6 +23,13 @@
                     @endforeach
                 </select>
             </form>
+            @if (session()->has('printer') && request('hotel'))
+                <form action="{{ action('RoomLabelController@printAll') }}" method="POST" class="form-inline">
+                    @csrf
+                    <input type="hidden" name="hotel" value="{{ request('hotel') }}">
+                    <button type="submit" class="btn btn-secondary">Print All for Hotel</button>
+                </form>
+            @endif
         </div>
 
         <table class="table table-striped align-middle table-responsive">

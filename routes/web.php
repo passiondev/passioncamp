@@ -66,6 +66,7 @@ if (config('passioncamp.enable_rooms')) {
 
     Route::get('rooms/{room}/label', 'RoomLabelController@show')->name('room.label.show');
     Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
+    Route::post('rooms/print-all', 'RoomLabelController@printAll');
 }
 
 Route::resource('orders', 'OrderController')->only('show');
