@@ -32,32 +32,23 @@ class ImportPccInfo extends Command
      */
     public function handle()
     {
-        $reader = Reader::createFromPath(storage_path('app/pcc.csv'));
-        // Skip the header
-        $all = $reader->setOffset(1)->fetchAll();
+        $csv = Reader::createFromPath(storage_path('app/pcc.csv'));
+        $csv->setHeaderOffset(0);
 
-        collect($all)->mapWithKeys(function ($row) {
-            return [
-                $row[0] => [
-                    'squad' => $row[1],
-                    'leader' => $row[2],
-                    'bus' => $row[3],
-                ]
-            ];
-        })
-        // ->dd()
-        ->each(function ($row, $id) {
-            if (! $id) {
+        collect($csv->getRecords())
+        ->each(function ($row) {
+            if (! $row['id']) {
                 return;
             }
 
             try {
-                $ticket = Ticket::findOrFail($id);
+                $ticket = Ticket::findOrFail($row['id']);
+                unset($row['id']);
                 $ticket->update([
                     'ticket_data' => collect($ticket->ticket_data)->merge($row)
                 ]);
             } catch (\Exception $e) {
-                $this->line($id);
+                $this->line($row['id']);
                 $this->error($e->getMessage());
             }
         });
