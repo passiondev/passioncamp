@@ -27,13 +27,7 @@
 
             <div class="tickets">
                 <div class="list-group">
-                    <draggable
-                        :list="tickets"
-                        :options="draggableOptions"
-                        @change="onChange"
-                        style="min-height: 1rem">
-                        <ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"></ticket>
-                    </draggable>
+                    <ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"></ticket>
                 </div>
             </div>
         </div>
@@ -61,6 +55,8 @@
 
         methods: {
             onChange(event) {
+                return false
+
                 if (event.added) {
                     let ticket = event.added.element
                     let oldRoomId = ticket.room_id
