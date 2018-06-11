@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Facades\App\Contracts\Printing\Factory as Printer;
+use Illuminate\Support\Facades\Redis;
 
 class PrintRoomLabelJob implements ShouldQueue
 {
@@ -35,13 +36,17 @@ class PrintRoomLabelJob implements ShouldQueue
      */
     public function handle()
     {
-        Printer::print(
-            $this->printer,
-            url()->signedRoute('room.label.show', $this->room),
-            [
-                'title' => $this->room->name,
-                'source' => $this->room->organization->church->name,
-            ]
-        );
+        Redis::throttle('printnode')->allow(10)->every(1)->then(function () {
+            Printer::print(
+                $this->printer,
+                url()->signedRoute('room.label.show', $this->room),
+                [
+                    'title' => $this->room->name,
+                    'source' => $this->room->organization->church->name,
+                ]
+            );
+        }, function () {
+            return $this->release(10);
+        });
     }
 }
