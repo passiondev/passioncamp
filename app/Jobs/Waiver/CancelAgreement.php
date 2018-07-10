@@ -9,23 +9,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class UpdateAgreementStatus implements ShouldQueue
+class CancelAgreement implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $agreementId;
-
-    protected $requestBody;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($agreement, $requestBody)
+    public function __construct($agreement)
     {
         $this->agreementId = $agreement->agreementId;
-        $this->requestBody = $requestBody;
     }
 
     /**
@@ -35,6 +32,6 @@ class UpdateAgreementStatus implements ShouldQueue
      */
     public function handle(EsignProvider $provider)
     {
-        $provider->updateAgreementStatus($this->agreementId, $this->requestBody);
+        $provider->cancelSignatureRequest($this->agreementId);
     }
 }

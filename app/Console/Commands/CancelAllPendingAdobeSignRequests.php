@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Contracts\EsignProvider;
-use App\Jobs\Waiver\UpdateAgreementStatus;
+use App\Jobs\Waiver\CancelAgreement;
 
 class CancelAllPendingAdobeSignRequests extends Command
 {
@@ -46,9 +46,7 @@ class CancelAllPendingAdobeSignRequests extends Command
         );
 
         collect($agreements)->each(function ($agreement) {
-            UpdateAgreementStatus::dispatch($agreement, [
-                'value' => 'CANCEL',
-            ]);
+            CancelAgreement::dispatch($agreement);
 
             $this->info($agreement->agreementId);
         });
