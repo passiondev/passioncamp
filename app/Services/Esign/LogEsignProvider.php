@@ -42,4 +42,15 @@ class LogEsignProvider implements EsignProvider
     {
         return 'Hello World';
     }
+
+    public function updateAgreementStatus($agreementId, array $agreementStatusUpdateInfo)
+    {
+        $this->logger->info($agreementId, $agreementStatusUpdateInfo);
+
+        return [
+            'body' => [
+                'result' => 'CANCELED',
+            ],
+        ];
+    }
 }
