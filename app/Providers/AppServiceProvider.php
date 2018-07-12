@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use Mandrill;
+use Laravel\Horizon\Horizon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Horizon\Horizon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+        $this->bootMacros();
 
         Schema::defaultStringLength(191);
 
@@ -39,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
 
         Builder::macro('addSubSelect', function ($column, $query) {
             if (is_null($this->getQuery()->columns)) {
-                $this->select($this->getQuery()->from.'.*');
+                $this->select($this->getQuery()->from . '.*');
             }
 
             return $this->selectSub($query->limit(1)->getQuery(), $column);
@@ -83,5 +85,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Mandrill::class, function () {
             return new Mandrill(config('services.mandrill.key'));
         });
+    }
+
+    private function bootMacros()
+    {
+        require base_path('resources/macros/blade.php');
     }
 }
