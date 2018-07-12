@@ -3,41 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Person;
 use App\AccountUser;
 use App\Organization;
 use App\Mail\AccountUserCreated;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Middleware\VerifyUserIsSuperAdmin;
 
 class OrganizationUserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('super');
+        $this->middleware([Authenticate::class, VerifyUserIsSuperAdmin::class]);
     }
 
     public function create(Organization $organization)
     {
-        return view('super.organization-user.create', compact('organization') + ['user' => new User]);
+        return view('admin.organization.user.create', compact('organization'));
     }
 
     public function store(Organization $organization)
     {
-        $this->validate(request(), [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|unique:users,email',
+        request()->validate([
+            'email' => 'required',
         ]);
 
-        $user = $organization->users()->create(request(['email']) + [
-            'access' => 1,
-            'person_id' => Person::create(request(['first_name', 'last_name']))->id,
-        ]);
+        $user = $organization->users()->save(
+            User::firstOrCreate(['email' => request('email')])
+        );
 
-        Mail::to($user)->send(new AccountUserCreated($user));
+        if ($user->wasRecentlyCreated) {
+            Mail::to($user)->send(new AccountUserCreated($user));
+        }
 
-        return redirect()->action('OrganizationController@show', $organization);
+        return redirect()->route('admin.organizations.show', $organization);
     }
 
     public function destroy(Organization $organization, User $user)

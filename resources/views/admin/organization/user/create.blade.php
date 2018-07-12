@@ -1,34 +1,21 @@
-@extends('layouts.semantic')
+@extends('layouts.bootstrap4')
 
 @section('content')
-    <div class="ui container">
+    <div class="container">
         <header class="page-header">
-            <h1>Add Auth User</h1>
+            <h1>Add User</h1>
         </header>
 
-        <div class="ui stackable grid">
-            <div class="seven wide column">
-                {{ Form::open(['route' => ['admin.organization.user.store', $organization], 'class' => 'ui form']) }}
+        <form action="{{ route('admin.organizations.users.store', $organization) }}" method="POST">
+            @csrf
 
-                    <div class="field">
-                        {{ Form::label('first_name', 'First Name') }}
-                        {{ Form::text('first_name', null, ['id' => 'first_name']) }}
-                    </div>
-
-                    <div class="field">
-                        {{ Form::label('last_name', 'Last Name') }}
-                        {{ Form::text('last_name', null, ['id' => 'last_name']) }}
-                    </div>
-                    
-                    <div class="field">
-                        {{ Form::label('email', 'Email Address') }}
-                        {{ Form::email('email', null, ['id' => 'email']) }}
-                    </div>
-
-                    <button class="ui primary button">Submit</button>
-
-                {{ Form::close() }}
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}" class="form-control">
             </div>
-        </div>
+
+            <button class="btn btn-primary" type="submit">Add User</button>
+        </form>
+
     </div>
 @stop

@@ -11,40 +11,13 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    return [
-        'email' => $faker->safeEmail,
-        'person_id' => function ($data) {
-            return factory(App\Person::class)->create([
-                'email' => $data['email'],
-            ])->id;
-        }
-    ];
-});
-
-$factory->state(App\User::class, 'superAdmin', function ($faker) {
-    return [
-        'access' => 100,
-        'organization_id' => null,
-    ];
-});
-
-$factory->state(App\User::class, 'churchAdmin', function ($faker) {
-    return [
-        'access' => 1,
-        'organization_id' => function () {
-            return factory(App\Organization::class)->create()->id;
-        },
-    ];
-});
-
 $factory->define(App\Person::class, function (Faker\Generator $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email' => $faker->safeEmail,
         'phone' => $faker->phoneNumber,
-        'gender' => $faker->randomElement(['M','F'])
+        'gender' => $faker->randomElement(['M', 'F']),
     ];
 });
 
@@ -55,7 +28,7 @@ $factory->define(App\Order::class, function (Faker\Generator $faker) {
         },
         'user_id' => function ($data) {
             return factory(App\User::class)->create([
-                'organization_id' => $data['organization_id']
+                'organization_id' => $data['organization_id'],
             ])->id;
         },
     ];
@@ -73,7 +46,7 @@ $factory->define(App\OrgItem::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Item::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->words(3, true)
+        'name' => $faker->words(3, true),
     ];
 });
 
