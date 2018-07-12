@@ -5,23 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Passion Camp Portal</title>
+    <title>{{ isset($title) ? $title.' | ' : '' }} {{ config('app.name') }}</title>
 
-    <!-- Styles -->
     <link href="{{ mix('/css/bootstrap4.css') }}" rel="stylesheet">
 
-    <!-- Scripts -->
     <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
+        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
         window.store = {};
     </script>
-    <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
-    <script>window.bugsnagClient = bugsnag(@json(config('bugsnag.api_key')))</script>
+
+    @include('layouts._bugsnag')
+
     @yield('head')
 </head>
 <body>
