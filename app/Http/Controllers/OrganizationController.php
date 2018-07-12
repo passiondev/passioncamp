@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Church;
 use App\Person;
 use App\Organization;
+use App\Http\Middleware\VerifyUserIsAdmin;
+use Illuminate\Auth\Middleware\Authenticate;
 
 class OrganizationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('super');
+        $this->middleware([Authenticate::class, VerifyUserIsAdmin::class]);
     }
 
     public function index()
@@ -66,9 +67,9 @@ class OrganizationController extends Controller
     public function store()
     {
         $organization = (new Organization)
-            ->church()->associate(Church::create(request('church')))
-            ->contact()->associate(Person::create(request('contact')))
-            ->studentPastor()->associate(Person::create(request('student_pastor')));
+            ->church()->associate(
+                Church::create(['name' => request()->input('name')])
+            );
 
         $organization->save();
 
