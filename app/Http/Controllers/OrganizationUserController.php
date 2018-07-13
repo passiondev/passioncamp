@@ -32,6 +32,8 @@ class OrganizationUserController extends Controller
             User::firstOrCreate(['email' => request('email')])
         );
 
+        $user->update(['access' => 1]);
+
         if ($user->wasRecentlyCreated) {
             Mail::to($user)->send(new AccountUserCreated($user));
         }

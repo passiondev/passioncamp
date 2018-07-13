@@ -54,6 +54,17 @@ class CreateOrganizationUserTest extends TestCase
     }
 
     /** @test */
+    public function added_user_is_made_a_church_admin()
+    {
+        $this->post("/admin/organizations/{$this->organization->id}/users", [
+            'email' => 'email@example.com',
+        ]);
+
+        $user = User::where('email', 'email@example.com')->first();
+        $this->assertTrue($user->isChurchAdmin());
+    }
+
+    /** @test */
     public function it_sends_an_email_to_a_new_user()
     {
         Mail::fake();
