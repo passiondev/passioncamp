@@ -63,7 +63,9 @@
                 </div>
                 <div class="card-block">
                     <div class="row">
-                        <div class="col offset-md-3">
+                        <div class="col offset-md-3 col-md-6">
+                            <p class="form-text text-muted" style="fontSize: 85%">I am authorized by {{ $ticket->order->organization->church->name }} to share information for the students in my group with Passion Conferences.</p>
+
                             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                         </div>
                     </div>

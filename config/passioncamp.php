@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'year' => 2019,
+
     'enable_rooms' => env('ENABLE_ROOMS', false),
 
     'enable_waivers' => env('ENABLE_WAIVERS', false),
