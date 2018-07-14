@@ -26,7 +26,10 @@ return [
     |
     */
 
-    'prefix' => env('HORIZON_PREFIX', 'horizon:'),
+    'prefix' => env(
+        'HORIZON_PREFIX',
+        str_slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
+    ),
 
     /*
     |--------------------------------------------------------------------------
