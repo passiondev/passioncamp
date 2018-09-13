@@ -39,11 +39,6 @@ $factory->define(App\OrderItem::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\OrgItem::class, function (Faker\Generator $faker) {
-    return [
-    ];
-});
-
 $factory->define(App\Item::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->words(3, true),

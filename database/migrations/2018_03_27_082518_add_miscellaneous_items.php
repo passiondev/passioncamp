@@ -1,9 +1,9 @@
 <?php
 
+use App\Item;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Item;
 
 class AddMiscellaneousItems extends Migration
 {
@@ -14,15 +14,15 @@ class AddMiscellaneousItems extends Migration
      */
     public function up()
     {
-        optional(Item::where('type', 'deposit')->first())->update([
-            'type' => 'other',
-            'name' => 'Non-refundable deposit',
-        ]);
+        // optional(Item::where('type', 'deposit')->first())->update([
+        //     'type' => 'other',
+        //     'name' => 'Non-refundable deposit',
+        // ]);
 
-        Item::create([
-            'name' => 'Miscellaneous',
-            'type' => 'other',
-        ]);
+        // Item::create([
+        //     'name' => 'Miscellaneous',
+        //     'type' => 'other',
+        // ]);
     }
 
     /**
