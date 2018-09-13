@@ -148,7 +148,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Codedge\Fpdf\FpdfServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
 
         /*
          * Application Service Providers...
