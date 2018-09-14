@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Church;
-use App\Person;
 use App\Organization;
 use League\Csv\Reader;
 use Illuminate\Console\Command;
@@ -41,7 +39,7 @@ class ChurchImport extends Command
      */
     public function handle()
     {
-        $csv = Reader::createFromPath(storage_path('app/import2018.csv'));
+        $csv = Reader::createFromPath(storage_path('app/2019/church.csv'));
         $csv->setHeaderOffset(0);
 
         $keys = collect($csv->getRecords())
@@ -49,7 +47,7 @@ class ChurchImport extends Command
                 return ! empty($row['new id']);
             })
             ->map(function ($row) {
-                $organization = Organization::findOrNew($row['ORG ID']);
+                $organization = new Organization;
 
                 $church = tap($organization->church->fill([
                     'name' => $row['Church Name'],
@@ -84,14 +82,16 @@ class ChurchImport extends Command
                 ]), function ($contact) {
                     $contact->save();
                 });
+
                 $organization->contact()->associate($contact);
 
                 $organization->save();
 
+                $organization->addNote($row['Notes']);
+
                 return $organization->id;
             })
-            ->dd()
-        ;
+            ->dd();
 
         die();
     }

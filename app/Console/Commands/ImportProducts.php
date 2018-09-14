@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use League\Csv\Reader;
+use App\Item;
 use App\Organization;
+use League\Csv\Reader;
+use Illuminate\Console\Command;
 
 class ImportProducts extends Command
 {
@@ -22,7 +23,7 @@ class ImportProducts extends Command
      */
     public function handle()
     {
-        $csv = Reader::createFromPath(storage_path('app/import2018-products.csv'));
+        $csv = Reader::createFromPath(storage_path('app/2019/products.csv'));
         $csv->setHeaderOffset(0);
 
         collect($csv->getRecords())
@@ -30,12 +31,31 @@ class ImportProducts extends Command
                 $organization = Organization::findOrFail($row['ORG ID']);
 
                 $organization->items()->create([
-                    'org_type' => in_array($row['item_id'], [1,3,4,5,19]) ? 'ticket' : 'hotel',
-                    'item_id' => $row['item_id'],
+                    'org_type' => $this->isATicketItem($row['product']) ? 'ticket' : 'hotel',
+                    'item_id' => Item::firstOrCreate(['name' => $row['product']]),
                     'cost' => (int) $row['price'] * 100,
                     'quantity' => $row['quantity'],
-                    'name' => $row['name'],
                 ]);
+
+                if ($row['notes']) {
+                    $organization->addNote($row['notes']);
+                }
             });
+    }
+
+    public function isATicketItem($product)
+    {
+        $tickets = [
+            'Full',
+            'Program + Meals',
+            'Program + Hotel',
+            'Program Only',
+        ];
+
+        if (in_array($product, $tickets)) {
+            return true;
+        }
+
+        return false;
     }
 }
