@@ -1,0 +1,62 @@
+﻿ORG ID,source,identifier,amount
+1,other,Check 125421 7/2,7500
+3,other,Check 87367 7/11,18750
+4,stripe,ch_1CdHaZAD1oCai5xujPvlKo6X,3500
+5,stripe,ch_1CkdPhAD1oCai5xuM1E7YXD7,2500
+6,other,Check 1338 7/2,3500
+7,other,Check 10400 7/2,6500
+9,other,ch_1CdJ6rAD1oCai5xuwETOkJbF,2000
+10,other,check 0031109837 8/7,200
+11,stripe,ch_1CdKyCAD1oCai5xuBrsUP9rK,600
+12,stripe,ch_1CdLGEAD1oCai5xuMHY2GLll,900
+13,stripe,ch_1CdNl4AD1oCai5xuzBzYWf87,3000
+14,other,check 20896 7/20,5600
+15,other,Check 22906 6/26,2650
+18,stripe,ch_1Cm3dSAD1oCai5xuMZn131Ai,5500
+19,stripe,ch_1CdezIAD1oCai5xuWxvw9nIN,1000
+20,stripe,ch_1CjYdwAD1oCai5xu7pO5fvBj,5000
+20,stripe,ch_1CjYfHAD1oCai5xuwPr4pQqz,2500
+21,stripe,ch_1CdhVvAD1oCai5xurTzQyaju,750
+22,stripe,ch_1CdhY6AD1oCai5xuGLdYcOru,950
+23,stripe,ch_1Ce48cAD1oCai5xuoemhowvM,1000
+24,other,Check 191450 7/3,2500
+25,other,Check 1103 7/30,1500
+26,stripe,ch_1CeObcAD1oCai5xus4IPGDeG,500
+27,stripe,ch_1CePnpAD1oCai5xurWkpUWSq,5600
+29,stripe,ch_1CeQoSAD1oCai5xur9IhFTPK,2500
+30,stripe,ch_1CeSSCAD1oCai5xublJ25Q3Q,2000
+31,stripe,ch_1CeSnfAD1oCai5xuP2XuaT4v,1250
+32,stripe,ch_1CeSt6AD1oCai5xuowxLBknz,1000
+33,stripe,ch_1Cjr0WAD1oCai5xu5TebKUyc,1400
+34,stripe,ch_1CeqEwAD1oCai5xu0K2xM9NZ,1250
+35,stripe,ch_1Cf7lzAD1oCai5xu8nvZ2GFZ,2500
+36,stripe,ch_1CfD2wAD1oCai5xuchFlGjAu,1000
+37,stripe,ch_1CfD3LAD1oCai5xuBMIhgpNd,1250
+39,other,wire transfer,1200
+40,stripe,ch_1CfW1wAD1oCai5xu265n8mkc,3750
+41,stripe,ch_1ChifiAD1oCai5xuKOnzHWHA,1000
+42,stripe,ch_1Ci5ASAD1oCai5xugT60ZvRY,2500
+43,stripe,ch_1CjZF0AD1oCai5xukA0Qy1KR,2300
+44,stripe,ch_1CocDOAD1oCai5xu88yH9GCa,4000
+45,stripe,ch_1CjupqAD1oCai5xuIn7Faanc,1750
+46,stripe,ch_1CmSufAD1oCai5xuepEsJqup,1000
+47,other,check 024105  9/6,12500
+48,stripe,ch_1CpHypAD1oCai5xudx4cdjxx,5000
+49,other,check 230772 7/30,3000
+50,other,check 14384 7/30,1500
+51,stripe,ch_1CtfxCAD1oCai5xuCVGrtySZ,2000
+52,other,check 15663  8/7,1500
+53,other,check 87379. 8/20,1750
+54,stripe,ch_1CwDQfAD1oCai5xuvYwUN2Pt,1000
+55,stripe,ch_1CwsFOAD1oCai5xuLmL9W7IQ,5500
+56,other,check 23099. 9/6,2000
+57,stripe,ch_1CzUHSAD1oCai5xuat5zSURI,1250
+58,stripe, ch_1CzmHdAD1oCai5xu5psSIrKg,5000
+61,stripe,ch_1D4E2SAD1oCai5xuiCEG5nON,550
+63,stripe, ch_1D8re4AD1oCai5xuDPH41IOX,2500
+64,stripe, ch_1D8rikAD1oCai5xuHHGPvE05,250
+65,stripe, ch_1D90KgAD1oCai5xufiIDQ6E4,1500
+66,stripe, ch_1D9BKLAD1oCai5xu6083GApT,2500
+67,stripe, ch_1D9HYFAD1oCai5xup3XkzKuN,2000
+68,stripe, ch_1D9uTuAD1oCai5xu5fZsNxk4 ,2000
+70,stripe, ch_1D9yZQAD1oCai5xuFsEsfLzf ,3750
