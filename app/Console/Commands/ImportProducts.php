@@ -31,8 +31,8 @@ class ImportProducts extends Command
                 $organization = Organization::findOrFail($row['ORG ID']);
 
                 $organization->items()->create([
-                    'org_type' => $this->isATicketItem($row['product']) ? 'ticket' : 'hotel',
-                    'item_id' => Item::firstOrCreate(['name' => $row['product']]),
+                    'org_type' => $type = $this->isATicketItem($row['product']) ? 'ticket' : 'hotel',
+                    'item_id' => Item::firstOrCreate(['name' => $row['product']], ['type' => $type])->id,
                     'cost' => (int) $row['price'] * 100,
                     'quantity' => $row['quantity'],
                 ]);
