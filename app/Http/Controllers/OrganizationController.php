@@ -84,8 +84,22 @@ class OrganizationController extends Controller
     public function update(Organization $organization)
     {
         $organization->church->fill(request('church'))->save();
+
+        if ($organization->church->wasRecentlyCreated) {
+            $organization->church()->associate($organization->church)->save();
+        }
+
         $organization->contact->fill(request('contact'))->save();
+
+        if ($organization->contact->wasRecentlyCreated) {
+            $organization->contact()->associate($organization->contact)->save();
+        }
+
         $organization->studentPastor->fill(request('student_pastor'))->save();
+
+        if ($organization->studentPastor->wasRecentlyCreated) {
+            $organization->studentPastor()->associate($organization->studentPastor)->save();
+        }
 
         if ((bool) $organization->setting('checked_in') != (bool) request('checked_in')) {
             $organization->setting('checked_in', (bool) request('checked_in') ? time() : '');
