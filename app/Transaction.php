@@ -18,14 +18,4 @@ class Transaction extends Model
 
         return $this->attributes['cc_last4'];
     }
-
-    public static function migrateAllDataToSplits()
-    {
-        TransactionSplit::query()
-            ->whereNotNull('transaction_id')
-            ->with('transaction')
-            ->each(function ($split) {
-                $split->migrateTransactionData();
-            });
-    }
 }

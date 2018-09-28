@@ -27,11 +27,6 @@ class TransactionSplit extends Model
         return $this->belongsTo(Transaction::class);
     }
 
-    public function getTransactionAttribute()
-    {
-        return $this;
-    }
-
     public function getNameAttribute()
     {
         if ($this->amount < 0) {
@@ -47,23 +42,5 @@ class TransactionSplit extends Model
         }
 
         return 'Credit Card';
-    }
-
-    public function setCcLast4Attribute($cardnum)
-    {
-        $this->attributes['cc_last4'] = substr($cardnum, -4);
-    }
-
-    public function migrateTransactionData()
-    {
-        $transaction = $this->getRelation('transaction');
-
-        $this->update([
-            'source' => $transaction->source,
-            'identifier' => $transaction->identifier,
-            'cc_brand' => $transaction->cc_brand,
-            'cc_last4' => $transaction->cc_last4,
-            'transaction_id' => null,
-        ]);
     }
 }

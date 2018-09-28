@@ -2,44 +2,80 @@
 
 namespace Tests\Feature\Admin;
 
+use App\User;
 use Tests\TestCase;
 use App\Transaction;
+use App\Organization;
 use App\TransactionSplit;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EditPaymentsTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /** @test */
-    public function transaction_splits_table_has_migrated_columns()
+    public function an_admin_can_edit_a_payment()
     {
-        factory(TransactionSplit::class)->create([
+        // create organization and add a payment
+        $organization = factory(Organization::class)->create();
+        $transaction = $organization->transactions()->create(factory(TransactionSplit::class)->raw());
+
+        $this->actingAs(
+            factory(User::class)->states('superAdmin')->create()
+        );
+
+        // view edit form
+        $this->get("/admin/organizations/{$organization->id}/payments/{$transaction->id}/edit")->assertSuccessful();
+    }
+
+    /** @test */
+    public function a_payment_can_be_updated()
+    {
+        $organization = factory(Organization::class)->create();
+        $transaction = $organization->transactions()->create(factory(TransactionSplit::class)->raw());
+
+        $this->actingAs(
+            factory(User::class)->states('superAdmin')->create()
+        );
+
+        $this->put("/admin/organizations/{$organization->id}/payments/{$transaction->id}", [
             'source' => 'stripe',
-            'identifier' => '11112222333344445555',
-            'cc_brand' => 'Visa',
-            'cc_last4' => '8765',
-        ]);
+            'identifier' => 'EV5xl2AqQ1Rhh2pwsSHHL3FH',
+            'amount' => $amount = $this->faker->numberBetween(1, 999),
+        ])->assertRedirect("/admin/organizations/{$organization->id}");
 
         $this->assertDatabaseHas('transaction_splits', [
+            'amount' => $amount * 100,
+            'organization_id' => $organization->id,
+        ]);
+
+        $this->assertDatabaseHas('transactions', [
+            'amount' => $amount * 100,
             'source' => 'stripe',
-            'identifier' => '11112222333344445555',
-            'cc_brand' => 'Visa',
-            'cc_last4' => '8765',
+            'identifier' => 'EV5xl2AqQ1Rhh2pwsSHHL3FH',
         ]);
     }
 
     /** @test */
-    public function transaction_data_has_been_migrated()
+    public function a_payment_can_be_deleted()
     {
-        factory(TransactionSplit::class)->create([
-            'transaction_id' => factory(Transaction::class)->create(),
-            'source' => null,
-            'identifier' => null,
-            'cc_brand' => null,
-            'cc_last4' => null,
-        ]);
+        $organization = factory(Organization::class)->create();
+        $transaction = $organization->transactions()->create(factory(TransactionSplit::class)->raw());
 
-        Transaction::migrateAllDataToSplits();
+        $this->actingAs(
+            factory(User::class)->states('superAdmin')->create()
+        );
+
+        $this->assertCount(1, TransactionSplit::all());
+        $this->assertCount(1, Transaction::all());
+        $this->assertCount(1, $organization->transactions()->get());
+
+        $this->delete("/admin/organizations/{$organization->id}/payments/{$transaction->id}")
+            ->assertRedirect("/admin/organizations/{$organization->id}");
+
+        $this->assertCount(0, TransactionSplit::all());
+        $this->assertCount(0, Transaction::all());
+        $this->assertCount(0, $organization->transactions()->get());
     }
 }

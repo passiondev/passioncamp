@@ -65,6 +65,9 @@
                 <div class="transaction">
                     <div class="item left">
                         {{ $split->name }}
+                        @can('update', $split)
+                            <a class="btn btn-link btn-sm text-muted" href="{{ action('OrganizationPaymentController@edit', [$organization, $split]) }}">edit</a>
+                        @endcan
                     </div>
                     <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
                         {{ money_format('%.2n', $split->amount / 100) }}
@@ -73,7 +76,9 @@
                 @if ($split->transaction->source == 'stripe')
                     <small class="caption">{{ $split->transaction->identifier }}</small>
                 @endif
-                <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
+                <small class="caption">
+                    {{ $split->created_at->toDayDateTimeString() }}
+                </small>
             </li>
         @endforeach
         </ul>
