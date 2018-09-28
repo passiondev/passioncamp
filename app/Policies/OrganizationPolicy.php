@@ -17,9 +17,14 @@ class OrganizationPolicy
         }
     }
 
+    public function view(User $user, Organization $organization)
+    {
+        return $user->organization->is($organization);
+    }
+
     public function update(User $user, Organization $organization)
     {
-        return $organization->id == $user->organization_id;
+        return $user->organization->is($organization);
     }
 
     public function edit(User $user, Organization $organization)

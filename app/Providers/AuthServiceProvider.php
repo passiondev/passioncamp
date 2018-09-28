@@ -16,15 +16,16 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         App\Organization::class => Policies\OrganizationPolicy::class,
-        App\Order::class        => Policies\OrderPolicy::class,
-        App\OrderItem::class    => Policies\OrderItemPolicy::class,
-        App\Ticket::class       => Policies\TicketPolicy::class,
-        App\User::class         => Policies\UserPolicy::class,
-        App\Room::class         => Policies\RoomPolicy::class,
-        App\Person::class       => Policies\PersonPolicy::class,
-        App\Waiver::class       => Policies\WaiverPolicy::class,
-        App\AccountUser::class  => Policies\AccountUserPolicy::class,
-        App\OrgItem::class      => Policies\OrgItemPolicy::class,
+        App\Order::class => Policies\OrderPolicy::class,
+        App\OrderItem::class => Policies\OrderItemPolicy::class,
+        App\Ticket::class => Policies\TicketPolicy::class,
+        App\User::class => Policies\UserPolicy::class,
+        App\Room::class => Policies\RoomPolicy::class,
+        App\Person::class => Policies\PersonPolicy::class,
+        App\Waiver::class => Policies\WaiverPolicy::class,
+        App\AccountUser::class => Policies\AccountUserPolicy::class,
+        App\OrgItem::class => Policies\OrgItemPolicy::class,
+        App\TransactionSplit::class => Policies\TransactionSplitPolicy::class,
     ];
 
     /**

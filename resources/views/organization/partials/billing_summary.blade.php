@@ -65,6 +65,9 @@
                 <div class="transaction">
                     <div class="item left">
                         {{ $split->name }}
+                        @can('update', $split)
+                            <a class="btn btn-link btn-sm text-muted" href="{{ action('OrganizationPaymentController@edit', [$organization, $split]) }}">edit</a>
+                        @endcan
                     </div>
                     <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
                         {{ money_format('%.2n', $split->amount / 100) }}
