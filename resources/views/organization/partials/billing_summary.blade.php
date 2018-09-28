@@ -76,9 +76,7 @@
                 @if ($split->transaction->source == 'stripe')
                     <small class="caption">{{ $split->transaction->identifier }}</small>
                 @endif
-                <small class="caption">
-                    {{ $split->created_at->toDayDateTimeString() }}
-                </small>
+                <small class="caption">{{ $split->created_at->toDayDateTimeString() }}</small>
             </li>
         @endforeach
         </ul>
