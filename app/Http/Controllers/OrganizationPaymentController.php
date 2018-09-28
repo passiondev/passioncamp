@@ -11,7 +11,7 @@ class OrganizationPaymentController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('super');
-        $this->middleware('can:view,organization');
+        $this->middleware('can:view, organization');
         $this->authorizeResource(TransactionSplit::class, 'payment');
     }
 
