@@ -172,7 +172,7 @@
                                     </li>
                                 @endif
                                 <li class="nav-item">
-                                    <a href="https://passion-forms.formstack.com/forms/passion_camp_2018_hotel_room_request" class="nav-link" target="_blank">
+                                    <a href="https://passion-forms.formstack.com/forms/passion_camp_2019_request" class="nav-link" target="_blank">
                                         Registration &amp; Hotel Requests
                                     </a>
                                 </li>
