@@ -34,7 +34,7 @@ class OrganizationUserController extends Controller
 
         $user->update(['access' => 1]);
 
-        if ($user->wasRecentlyCreated) {
+        if (auth()->user()->isChurchAdmin() && $user->wasRecentlyCreated) {
             Mail::to($user)->send(new AccountUserCreated($user));
         }
 
