@@ -10,27 +10,18 @@
     {{ $slot }}
 
     {{-- Subcopy --}}
-    @if (isset($subcopy))
+    @isset($subcopy)
         @slot('subcopy')
             @component('mail::subcopy')
                 {{ $subcopy }}
             @endcomponent
         @endslot
-    @endif
+    @endisset
+
     {{-- Footer --}}
     @slot('footer')
-        <tr>
-            <td>
-                <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td class="content-cell" align="center">
-                            <a href="http://268generation.com">
-                                <img src="{{ url('img/conferences-logo.png') }}" width="25" alt="Passion Conferences">
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+        @component('mail::footer')
+            <a href="http://268generation.com"><img src="{{ url('img/conferences-logo.png') }}" width="25" alt="Passion Conferences"></a>
+        @endcomponent
     @endslot
 @endcomponent

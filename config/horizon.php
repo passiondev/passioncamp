@@ -58,7 +58,7 @@ return [
     */
 
     'trim' => [
-        'recent' => 60,
+        'recent' => 24 * 60,
         'failed' => 10080,
     ],
 
@@ -79,14 +79,14 @@ return [
                 'connection' => 'redis',
                 'queue' => ['default'],
                 'balance' => 'simple',
-                'processes' => 3,
+                'processes' => 1,
                 'tries' => 3,
             ],
             'supervisor-long-running' => [
                 'connection' => 'redis-long-running',
                 'queue' => ['long-running-queue'],
                 'balance' => 'simple',
-                'processes' => 2,
+                'processes' => 1,
                 'tries' => 3,
                 'timeout' => 900,
             ],

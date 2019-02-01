@@ -11,7 +11,7 @@
                 {{ $slot }}
             </div>
             <div class="modal-footer">
-                {{ $footer or '' }}
+                {{ $footer ?? '' }}
             </div>
         </div>
     </div>

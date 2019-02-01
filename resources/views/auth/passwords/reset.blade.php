@@ -16,7 +16,7 @@
                             <label class="col-lg-4 col-form-label text-lg-right">E-Mail Address</label>
 
                             <div class="col-lg-6">
-                                <input type="email" class="form-control" name="email" value="{{ $email or old('email') }}">
+                                <input type="email" class="form-control" name="email" value="{{ $email ?? old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <p class="form-control-feedback">

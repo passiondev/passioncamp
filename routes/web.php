@@ -1,5 +1,11 @@
 <?php
 
+use App\Mail\AccountUserCreated;
+
+Route::get('test', function () {
+    return new AccountUserCreated(App\User::find(358));
+});
+
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('logout');

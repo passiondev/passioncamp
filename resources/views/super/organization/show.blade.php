@@ -88,7 +88,7 @@
                     <table class="table table-responsive table-striped">
                         @foreach ($organization->authUsers as $user)
                             <tr>
-                                <td>{{ $user->person->name or '' }}</td>
+                                <td>{{ $user->person->name ?? '' }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @unless ($user->password)

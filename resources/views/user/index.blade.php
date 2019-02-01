@@ -13,8 +13,8 @@
         <table class="table table-responsive table-striped align-middle">
             @foreach ($users as $user)
                 <tr>
-                    <td>{!! $user->email or '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
-                    <td>{{ $user->person->name or '' }}</td>
+                    <td>{!! $user->email ?? '<i style="font-size:85%;font-weight:normal">none</i>' !!}</td>
+                    <td>{{ $user->person->name ?? '' }}</td>
                     <td style="line-height: 1">
                         @if (! $user->isRegistered())
                             <input type="text" style="margin-bottom:0" readonly value="{{ url()->signedRoute('auth.register.create', $user) }}">

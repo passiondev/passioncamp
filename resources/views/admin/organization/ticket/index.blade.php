@@ -10,9 +10,9 @@
         <table class="table">
             @foreach ($tickets as $ticket)
                 <tr>
-                    <th>{{ $ticket->person->name or '' }}</th>
+                    <th>{{ $ticket->person->name ?? '' }}</th>
                     <td>{{ $ticket->agegroup }}</td>
-                    <td>{{ $ticket->person->grade or '' }}</td>
+                    <td>{{ $ticket->person->grade ?? '' }}</td>
                     <td>@currency($ticket->price)</td>
                 </tr>
             @endforeach
