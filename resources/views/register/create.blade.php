@@ -15,13 +15,11 @@
 @endsection
 @section('content')
 <div class="container">
-    <register-form inline-template stripe-elements="card-element" :can-pay-deposit="@json($can_pay_deposit)" initial-code="{{ old('code') }}" event="{{ $event }}">
+    <register-form inline-template stripe-elements="card-element" :can-pay-deposit="@json($can_pay_deposit)" initial-code="{{ old('code') }}">
         <form ref="form" class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
             @csrf
-                <input type="hidden" name="event" value="{{ request('event', old('event')) }}">
-            @if (request('code'))
-                <input type="hidden" name="code" value="{{ request('code') }}">
-            @endif
+            <input type="hidden" name="code" value="{{ request('code') }}">
+
             <div class="row">
                 <div class="col-md-7">
 

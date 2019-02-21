@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
 mix.webpackConfig(webpack => {
     return {
@@ -21,12 +21,11 @@ mix.webpackConfig(webpack => {
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/bootstrap4.scss', 'public/css')
+mix
+    .js('resources/assets/js/app.js', 'public/js')
+    .sass('resources/assets/sass/bootstrap4.scss', 'public/css')
     .sourceMaps()
-
-mix.options({
-    processCssUrls: false,
-})
-
-    mix.version();
+    .options({
+        processCssUrls: false,
+    })
+    .version()

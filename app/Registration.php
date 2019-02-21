@@ -33,6 +33,13 @@ class Registration
         $this->numTickets = $numTickets;
     }
 
+    public function setNumTickets($numTickets)
+    {
+        $this->numTickets = $numTickets;
+
+        return $this;
+    }
+
     public function createOrder($orderData, $callback)
     {
         $order = $this->user->orders()->create([

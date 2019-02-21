@@ -9,7 +9,7 @@
 
     export default {
         mixins: [payment],
-        props: ['stripeElements', 'canPayDeposit', 'initialCode', 'event'],
+        props: ['stripeElements', 'canPayDeposit', 'initialCode'],
         components: {
             ticket
         },
@@ -71,11 +71,11 @@
                 return this.elementsSubmitHandler(e);
             },
             applyDiscountCode: debounce(function () {
-                axios.post('/ticket-price', {
-                    event: this.event,
-                    code: this.discountCode,
-                    num_tickets: this.num_tickets
-                })
+                axios
+                    .post('/ticket-price', {
+                        code: this.discountCode,
+                        num_tickets: this.num_tickets
+                    })
                     .then(({data}) => {
                         this.localTicketPrice = data / 100
                     })
