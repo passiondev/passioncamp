@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <p class="lead">We are excited your {{ str_plural('student', $order->num_tickets) }} {{ $order->num_tickets == 1 ? 'is' : 'are' }} planning to join PCC Students at Passion Camp 2018! We are looking forward to all that Jesus is going to do in students' lives during our time together in Daytona Beach!</p>
+                <p class="lead">{!! $occurrence->confirmation !!}</p>
 
                 <p>A confirmation email has been sent to <strong>{{ $order->user->person->email }}</strong>.</p>
 

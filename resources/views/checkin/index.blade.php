@@ -1,4 +1,4 @@
-@extends('layouts.bootstrap4')
+@extends('layouts.checkin')
 
 @section('content')
     <div class="container mt-3">
@@ -62,7 +62,7 @@
                                 </td>
                                 <td style="vertical-align: middle">
                                     <ul class="list-unstyled mb-0">
-                                        @unless ($ticket->waiver && $ticket->waiver->isComplete())
+                                        @unless ($ticket->pcc_waiver)
                                             <li class="text-danger">@icon('exclamation-outline') Camp Waiver</li>
                                         @endunless
                                         @if ($ticket->order->user->balance > 0)

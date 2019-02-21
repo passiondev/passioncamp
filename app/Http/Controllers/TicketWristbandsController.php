@@ -15,6 +15,8 @@ class TicketWristbandsController extends Controller
 
     public function show(Ticket $ticket)
     {
+        $ticket->load('roomAssignment.room');
+
         return $this->generatePdf($ticket)
             ->stream('wristband.pdf', ['Attachment' => 0]);
     }

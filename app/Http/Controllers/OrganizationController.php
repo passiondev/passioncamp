@@ -45,7 +45,7 @@ class OrganizationController extends Controller
             'studentPastor',
             'contact',
             'items.item',
-            'transactions.transaction',
+            'transactions',
             'authUsers.person',
             'notes',
             'attendees.waiver',

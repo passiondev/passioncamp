@@ -25,9 +25,14 @@
                     <tbody>
                         @foreach($tickets as $ticket)
                             <tr class="{{ $ticket->is_canceled ? 'canceled' : '' }}">
-                                <td>{{ $ticket->name }}</td>
                                 <td>
+                                    <h1 style="font-size: 1.2rem" class="mb-0">
+                                        {{ $ticket->name }}
+                                    </h1>
                                     @include('ticket/partials/label')
+                                </td>
+                                <td>
+                                    {{ $ticket->order->organization->church->name }}
                                 </td>
                                 <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
                             </tr>

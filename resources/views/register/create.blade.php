@@ -1,4 +1,4 @@
-@extends('layouts.pccstudents')
+@extends('layouts.pccstudents', ['occurrence' => $occurrence])
 
 @section('head')
     <script>
@@ -8,15 +8,17 @@
             'ticketData' => old('tickets', []),
             'fund_amount' => old('fund_amount'),
             'fund_amount_other' => old('fund_amount_other'),
-            'payment_type' => old('payment_type', $can_pay_deposit ? 'deposit' : 'full')
+            'payment_type' => 'full',
+            'lowest_ticket_price' => $lowestTicketPrice,
         ]) !!}
     </script>
 @endsection
 @section('content')
 <div class="container">
-    <register-form inline-template stripe-elements="card-element" :can-pay-deposit="@json($can_pay_deposit)" initial-code="{{ old('code') }}">
+    <register-form inline-template stripe-elements="card-element" :can-pay-deposit="@json($can_pay_deposit)" initial-code="{{ old('code') }}" event="{{ $event }}">
         <form ref="form" class="register-form" method="POST" action="{{ route('register.store') }}" novalidate v-on:submit.prevent="submitHandler">
             @csrf
+                <input type="hidden" name="event" value="{{ request('event', old('event')) }}">
             @if (request('code'))
                 <input type="hidden" name="code" value="{{ request('code') }}">
             @endif
@@ -108,15 +110,17 @@
                             </div>
                         </div>
                         <div class="tickets">
-                            <ticket v-for="(ticket, index) in tickets" :key="index" :index="index" :ticket="ticket"></ticket>
+                            <ticket v-for="(ticket, index) in tickets" :key="index" :index="index" :ticket="ticket" :grades="@json($occurrence->grades)"></ticket>
                         </div>
 
                         <div class="card mt-4" style="background-color:#f1f5f8; border: 0; font-size: .875rem">
                             <div class="card-block">
                                 <div class="form-group mb-0">
-                                    <label for="rep" class="mb-1">Passion Camp Rep <span style="color:#b8c2cc">(optional)</span></label>
-                                    <input type="text" placeholder="Rep Name" class="form-control" name="rep" value="{{ old('rep') }}">
+                                    <label for="rep" class="mb-1">Special Code <span style="color:#b8c2cc">(optional)</span></label>
+                                    <input type="text" class="form-control" name="rep" value="{{ old('rep') }}">
                                 </div>
+
+                                <p class="mt-2 mb-0" style="font-size: .8rem">Add the name of the Squad you hope to be on or the name of the Student Rep who helped you get signed up!</p>
                             </div>
                         </div>
                     </section>
@@ -124,15 +128,13 @@
                     <section>
                         <div class="card card--registration">
                             <div class="card-block">
-                                <h4>Help Make Camp Possible!</h4>
-                                <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us! We are stunned every year by the generosity of our House. Thank you!</p>
+                                <h4>Help Make {{ $occurrence->title_short }} Possible!</h4>
+                                <p>We want as many students to experience Jesus at Winter WKND as possible this year! Would you consider partnering with us to help make Winter WKND a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us. We are stunned every year by the generosity of our House!</p>
 
                                 <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
-                                <ul>
-                                    <li>A small group leader's spot (We are taking 100-120 leaders!)</li>
-                                    <li>The charter buses (Each bus costs $5,000 and we are taking 12-14 buses!)</li>
-                                    <li>To help a student who can’t afford camp (We don’t want anyone to miss out!)</li>
-                                </ul>
+
+                                @markdown($occurrence->donation_list)
+
                                 <fieldset>
                                     <legend>Donation Amount</legend>
                                     <div class="form-check">
@@ -192,7 +194,7 @@
                                         <ul class="order-summary list-unstyled mb-0">
                                             <li class="row order-summary__item py-1">
                                                 <div class="col">
-                                                    <p class="mb-0">Passion Camp Ticket x@{{ num_tickets }}</p>
+                                                    <p class="mb-0">{{ $occurrence->title_short }} x@{{ num_tickets }}</p>
                                                     <span class="text-muted">@{{ ticket_price | currency }}</span>
                                                 </div>
                                                 <div class="col text-right">
@@ -276,9 +278,9 @@
                     </section>
 
                     <section>
-                        <p class="lead">Full payment is due by May 3rd. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
+                        <p class="lead"></strong></p>
 
-                        <p><i>Upon clicking submit, your credit card will be charged <strong>@{{ payment_amount | currency }}</strong> for your Passion Camp registration.</i></p>
+                        <p><i><strong>Registration is non-refundable.</strong> Upon clicking submit, your credit card will be charged <strong>@{{ payment_amount | currency }}</strong> for your {{ $occurrence->title_short }} registration.</i></p>
 
                         <button :disabled="Payment.occupied" class="btn btn-primary btn-lg">Submit Registration</button>
                     </section>
@@ -294,7 +296,7 @@
                                 <ul class="order-summary list-unstyled mb-0">
                                     <li class="row order-summary__item py-1">
                                         <div class="col">
-                                            <p class="mb-0">Passion Camp Ticket x@{{ num_tickets }}</p>
+                                            <p class="mb-0">{{ $occurrence->title_short }} Ticket x@{{ num_tickets }}</p>
                                             <span class="text-muted">@{{ ticket_price | currency }}</span>
                                         </div>
                                         <div class="col text-right">
@@ -323,16 +325,6 @@
                                             <strong>@{{ full_amount | currency }}</strong>
                                         </div>
                                     </li>
-                                    @if ($can_pay_deposit)
-                                        <li class="row order-summary__item px-4">
-                                            <div class="col">
-                                                Deposit Amount
-                                            </div>
-                                            <div class="col text-right">
-                                                @{{ deposit_amount | currency }}
-                                            </div>
-                                        </li>
-                                    @endif
                                 </ul>
                             </div>
                         </div>

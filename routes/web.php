@@ -1,25 +1,25 @@
 <?php
 
-use App\Mail\AccountUserCreated;
+Route::post('/ticket-price', 'TicketPriceController');
 
-Route::get('test', function () {
-    return new AccountUserCreated(App\User::find(358));
-});
+Route::get('login', 'Auth\MagicLinkLoginController@show')->name('magic.login');
+Route::post('login', 'Auth\MagicLinkLoginController@sendToken');
+Route::get('login/{token}', 'Auth\MagicLinkLoginController@authenticate')->name('magic.authenticate');
 
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
-Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('auth/login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('auth/login', 'Auth\LoginController@login');
+Route::match(['get', 'post'], 'auth/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('register/{user}/{hash?}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
-Route::get('register/{user}', 'Auth\RegisterController@showRegistrationForm')->name('auth.register.create');
-Route::post('register/{user}', 'Auth\RegisterController@register')->name('auth.register.store');
-Route::post('register/{provider}/{user}/{hash}', 'Auth\RegisterController@registerWithSocial');
+Route::get('auth/register/{user}/{hash?}', 'Auth\RegisterController@showRegistrationForm')->name('complete.registration');
+Route::get('auth/register/{user}', 'Auth\RegisterController@showRegistrationForm')->name('auth.register.create');
+Route::post('auth/register/{user}', 'Auth\RegisterController@register')->name('auth.register.store');
+Route::post('auth/register/{provider}/{user}/{hash}', 'Auth\RegisterController@registerWithSocial');
 
 // Password Reset Routes...
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('auth/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('auth/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('auth/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('auth/password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
 

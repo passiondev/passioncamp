@@ -585,4 +585,14 @@ class Organization extends Model
 
         return $orders_grand_total;
     }
+
+    public function registration()
+    {
+        return new Registration($this);
+    }
+
+    public function newRegistrationForUser($user)
+    {
+        return new Registration($this, $user);
+    }
 }

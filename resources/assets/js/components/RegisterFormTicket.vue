@@ -27,13 +27,17 @@
             <div class="row">
                 <div class="form-group col-lg-4">
                     <label class="control-label" :for="`tickets_${index}__gender`">Gender</label>
-                    <div class="form-controls form-controls--radio">
-                        <label class="radio-inline">
-                            <input type="radio" value="M" :name="`tickets[${index}][gender]`" v-model="ticket.gender" :id="`tickets_${index}__gender`"> Male
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" value="F" :name="`tickets[${index}][gender]`" v-model="ticket.gender" :id="`tickets_${index}__gender`"> Female
-                        </label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" value="M" :name="`tickets[${index}][gender]`" v-model="ticket.gender" :id="`tickets_${index}__gender`"> Male
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" value="F" :name="`tickets[${index}][gender]`" v-model="ticket.gender" :id="`tickets_${index}__gender`"> Female
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,15 +46,15 @@
                     <label class="control-label" :for="`tickets_${index}__grade`">Grade</label>
                     <select class="form-control" :id="`tickets_${index}__grade`" :name="`tickets[${index}][grade]`" v-model="ticket.grade">
                         <option></option>
-                        <option value="6">6th</option>
-                        <option value="7">7th</option>
-                        <option value="8">8th</option>
-                        <option value="9">9th</option>
-                        <option value="10">10th</option>
-                        <option value="11">11th</option>
-                        <option value="12">12th</option>
+                        <option value="6" v-if="grades.includes(6)">6th</option>
+                        <option value="7" v-if="grades.includes(7)">7th</option>
+                        <option value="8" v-if="grades.includes(8)">8th</option>
+                        <option value="9" v-if="grades.includes(9)">9th</option>
+                        <option value="10" v-if="grades.includes(10)">10th</option>
+                        <option value="11" v-if="grades.includes(11)">11th</option>
+                        <option value="12" v-if="grades.includes(12)">12th</option>
                     </select>
-                    <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of Spring 2018.</small></p>
+                    <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of Spring 2019.</small></p>
                 </div>
                 <div class="form-group col-lg-8">
                     <label class="control-label" :for="`tickets_${index}__school`">School</label>
@@ -150,7 +154,14 @@
 </template>
 <script>
     export default {
-        props: ['ticket', 'index'],
+        props: {
+            ticket: Object,
+            index: Number,
+            grades: {
+                type: Array,
+                default: [6,7,8,9,10,11,12]
+            }
+        },
         created() {
             if (! this.ticket.considerations) {
                 this.ticket.considerations = {};

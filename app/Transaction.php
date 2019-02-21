@@ -18,4 +18,14 @@ class Transaction extends Model
 
         return $this->attributes['cc_last4'];
     }
+
+    public function getCcLast4Attribute($cc_last4)
+    {
+        return substr($cc_last4, -4);
+    }
+
+    public function setCcLast4Attribute($cc_last4)
+    {
+        $this->attributes['cc_last4'] = substr($cc_last4, -4);
+    }
 }

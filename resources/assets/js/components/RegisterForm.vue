@@ -5,10 +5,11 @@
 <script>
     import payment from '../Mixins/Payment.js';
     import ticket from './RegisterFormTicket.vue'
+    import { debounce } from 'lodash'
 
     export default {
         mixins: [payment],
-        props: ['stripeElements', 'canPayDeposit', 'initialCode'],
+        props: ['stripeElements', 'canPayDeposit', 'initialCode', 'event'],
         components: {
             ticket
         },
@@ -25,12 +26,13 @@
                 this.applyDiscountCode()
             }
         },
+        watch: {
+            num_tickets(newNumTickets) {
+                this.applyDiscountCode()
+            }
+        },
         computed: {
             ticket_price() {
-                if (this.localTicketPrice > 375 && this.num_tickets >= 2) {
-                    return this.localTicketPrice - 20;
-                }
-
                 return this.localTicketPrice;
             },
             ticket_total() {
@@ -68,15 +70,18 @@
             submitHandler(e) {
                 return this.elementsSubmitHandler(e);
             },
-            applyDiscountCode() {
-                // if (this.discountCode.toLowerCase() == 'rising') {
-                //     this.localTicketPrice = 365;
-                //     return;
-                // }
+            applyDiscountCode: debounce(function () {
+                axios.post('/ticket-price', {
+                    event: this.event,
+                    code: this.discountCode,
+                    num_tickets: this.num_tickets
+                })
+                    .then(({data}) => {
+                        this.localTicketPrice = data / 100
+                    })
 
-                this.localTicketPrice = ticket_price
                 return;
-            }
+            }, 300, { leading: true })
         }
     }
 </script>

@@ -28,7 +28,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        str_slug(env('APP_NAME', 'laravel'), '_') . '_horizon:'
+        snake_case(env('APP_NAME', 'laravel')) . '_horizon:'
     ),
 
     /*

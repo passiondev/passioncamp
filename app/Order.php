@@ -175,25 +175,27 @@ class Order extends Model
         return $this;
     }
 
-    public function addTicket($data)
+    public function addTickets(array $records, array $attributes = [])
     {
-        $person = Person::create(array_only($data, [
-            'first_name',
-            'last_name',
-            'email',
-            'phone',
-            'birthdate',
-            'gender',
-            'grade',
-            'allergies',
-        ]));
+        $tickets = collect($records)->mapInto(Ticket::class)->each->fill($attributes);
 
-        dd('todo');
-        // $this->ticket_repo->make($data)
-        //     ->order()->associate($this)
-        //     ->organization()->associate($this->organization)
-        //     ->person()->associate($person)
-        //     ->save();
+        $this->tickets()->saveMany($tickets);
+
+        return $this;
+    }
+
+    public function addDonation($amountInDollars)
+    {
+        if ($amountInDollars <= 0) {
+            return $this;
+        }
+
+        $this->donations()->create([
+            'type' => 'donation',
+            'price' => $amountInDollars * 100,
+        ]);
+
+        return $this;
     }
 
     public function hasContactInfo()

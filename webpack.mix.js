@@ -29,6 +29,4 @@ mix.options({
     processCssUrls: false,
 })
 
-if (mix.inProduction()) {
     mix.version();
-}

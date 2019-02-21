@@ -2,125 +2,118 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Order;
-use Carbon\Carbon;
+use App\Occurrence;
 use App\Organization;
-use Illuminate\Http\Request;
-use App\Jobs\Order\AddToMailChimp;
+use App\Registration;
+use App\Mail\WaiverRequest;
+use App\Billing\PaymentGateway;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Billing\PaymentFailedException;
 use App\Jobs\Order\SendConfirmationEmail;
 use App\Http\Requests\RegisterCreateRequest;
 
 class RegisterController extends Controller
 {
     protected $organization;
-    protected $ticket_price;
     protected $can_pay_deposit;
+    protected $paymentGateway;
 
-    public function __construct()
+    public function __construct(PaymentGateway $paymentGateway)
     {
-        $this->organization = Organization::whereSlug('pcc')->firstOrFail();
-        $this->ticket_price = $this->getCurrentTicketPrice();
+        $this->paymentGateway = $paymentGateway;
         $this->can_pay_deposit = now()->lte(Carbon::parse('2018-05-03')->endOfDay());
     }
 
-    public function getCurrentTicketPrice()
-    {
-        // if (strtolower(request('code')) == 'rising') {
-        //     return 365;
-        // }
-
-        if (now()->gte(Carbon::parse('2018-05-24')->startOfDay()) && now()->lte(Carbon::parse('2018-05-24')->endOfDay())) {
-            return 375;
-        }
-
-        $prices = [
-            '375' => '2018-01-01',
-            '400' => '2018-04-08',
-            '420' => '2018-05-06',
-        ];
-
-        return collect($prices)->filter(function ($date) {
-            return now()->gte(Carbon::parse($date)->endOfDay());
-        })->keys()->sort()->last();
-    }
-
     public function create()
+        $this->organization = Organization::whereSlug('pcc')->firstOrFail();
     {
-        if (now()->gte(Carbon::parse('2018-06-03')->endOfDay())) {
-            return view('register.closed');
+        $organization = Organization::whereSlug(request()->input('event'))->firstOrFail();
+        $occurrence = new Occurrence(config('occurrences.' . request()->input('event')));
+
+        if ($occurrence->isClosed() && request()->query('code') !== 'wwknd2019') {
+            return view('register.closed', ['occurrence' => $occurrence]);
         }
 
         return view('register.create', [
-            'ticketPrice' => $this->ticket_price,
-            'can_pay_deposit' => $this->can_pay_deposit,
+            'event' => request()->input('event'),
+            'occurrence' => $occurrence,
+            'ticketPrice' => $occurrence->ticketPrice() / 100,
+            'can_pay_deposit' => false,
+            'lowestTicketPrice' => $occurrence->lowestTicketPrice() / 100,
         ]);
     }
 
     public function store(RegisterCreateRequest $request)
     {
-        if ($this->ticket_price > 375 && request('num_tickets') >= 2) {
-            $this->ticket_price = $this->ticket_price - 20;
-        }
+        $organization = Organization::whereSlug($request->input('event'))->firstOrFail();
+        $occurrence = new Occurrence(config('occurrences.' . request()->input('event')));
+
+        $user = User::firstOrCreate(
+            [
+                'email' => $request->input('contact.email'),
+            ],
+            [
+                'person' => array_collapse($request->only([
+                    'contact.first_name',
+                    'contact.last_name',
+                    'contact.email',
+                    'contact.phone',
+                    'billing.street',
+                    'billing.city',
+                    'billing.state',
+                    'billing.zip',
+                ])),
+            ]
+        );
 
         \DB::beginTransaction();
 
-        $order = $request
-            ->forOrganization($this->organization)
-            ->withTicketPrice($this->ticket_price)
-            ->persist();
+        $registration = new Registration($organization, $user, $request->input('num_tickets'));
+
+        $registration->createOrder($request->orderData(), function ($order) use ($occurrence, $request) {
+            $order
+                ->addTickets($request->ticketsData(), ['price' => $occurrence->ticketPrice($request->input('num_tickets'), $request->input('code'))])
+                ->addDonation($request->fundAmount());
+        });
 
         try {
-            $charge = \Stripe\Charge::create(
-                [
-                    'amount' => $this->can_pay_deposit && request('payment_type') == 'deposit' ? $order->deposit_total : $order->grand_total,
-                    'currency' => 'usd',
-                    'source' => request('stripeToken'),
-                    'description' => 'Passion Camp',
-                    'statement_descriptor' => 'PCC Students',
-                    'metadata' => [
-                        'order_id' => $order->id,
-                        'email' => $order->user->person->email,
-                        'name' => $order->user->person->name,
-                    ],
-                ],
-                [
-                    'api_key' => config('services.stripe.secret'),
-                    'stripe_account' => $this->organization->setting('stripe_user_id'),
-                ]
-            );
-        } catch (\Exception $e) {
+            $registration
+                ->payDeposit($request->input('payment_type') == 'deposit')
+                ->complete($this->paymentGateway, $request->input('stripeToken'));
+        } catch (PaymentFailedException $e) {
             \DB::rollback();
             Log::debug($e);
 
-            return redirect()->route('register.create')->withInput()->with('error', $e->getMessage());
+            return redirect()->route('register.create', ['event' => $request->input('event')])->withInput()->with(['error' => $e->getMessage()]);
         }
-
-        // Add payment to order
-        $order->addTransaction([
-            'source' => 'stripe',
-            'identifier' => $charge->id,
-            'amount' => $charge->amount,
-            'cc_brand' => $charge->source->brand,
-            'cc_last4' => $charge->source->last4,
-        ]);
 
         \DB::commit();
 
-        SendConfirmationEmail::dispatch($order);
-        AddToMailChimp::dispatch($order);
+        SendConfirmationEmail::dispatch($registration->order());
 
-        return redirect()->route('register.confirmation')->with('order_id', $order->id);
+        foreach ($registration->order()->tickets()->with('order.user.person')->get() as $ticket) {
+            Mail::to($ticket->order->user->person->email ?? 'matt.floyd@268generation.com')
+                ->queue(new WaiverRequest($ticket));
+        }
+
+        return redirect()
+            ->route('register.confirmation', ['event' => $request->input('event')])
+            ->with(['order_id' => $registration->order()->id]);
     }
 
     public function confirmation()
     {
+        $occurrence = new Occurrence(config('occurrences.' . request()->input('event')));
+
         if (! session()->has('order_id')) {
-            return redirect()->route('register.create');
+            return redirect()->route('register.create', ['event' => request()->input('event')]);
         }
 
         $order = Order::findOrFail(session('order_id'));
 
-        return view('register.confirmation')->withOrder($order);
+        return view('register.confirmation', ['occurrence' => $occurrence])->withOrder($order);
     }
 }

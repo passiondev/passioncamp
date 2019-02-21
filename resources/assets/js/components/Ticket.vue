@@ -19,13 +19,17 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="tickets[@{{ num }}][gender]">Gender</label>
-            <div class="form-controls">
-                <label class="radio-inline">
-                    <input type="radio" value="M" name="tickets[@{{ num }}][gender]" v-model="ticket.gender" id="tickets_@{{ num }}__gender"> Male
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" value="F" name="tickets[@{{ num }}][gender]" v-model="ticket.gender" id="tickets_@{{ num }}__gender"> Female
-                </label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" value="M" name="tickets[@{{ num }}][gender]" v-model="ticket.gender" id="tickets_@{{ num }}__gender"> Male
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="radio" value="F" name="tickets[@{{ num }}][gender]" v-model="ticket.gender" id="tickets_@{{ num }}__gender"> Female
+                    </label>
+                </div>
             </div>
         </div>
         <div class="form-group">

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use PrintNode;
 use Illuminate\Http\Request;
 use Facades\App\Contracts\Printing\Factory as Printer;
 
@@ -28,7 +27,7 @@ class PrinterController extends Controller
 
         return view('printers.index', [
             'printers' => $printers,
-            'jobs' => session('printer.id') ? $this->printDriver()->jobs(session('printer.id')) : []
+            'jobs' => session('printer.id') ? $this->printDriver()->jobs(session('printer.id')) : [],
         ]);
     }
 

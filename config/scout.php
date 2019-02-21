@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'prefix' => env('SCOUT_PREFIX', sprintf('%s_%s_', 'passioncamp', env('APP_ENV'))),
+    'prefix' => env('SCOUT_PREFIX', snake_case(env('APP_NAME')) . '_' . env('APP_ENV') . '_'),
 
     /*
     |--------------------------------------------------------------------------

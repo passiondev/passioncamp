@@ -28,41 +28,25 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <table style="height:1in;">
-            <tbody>
-                <tr>
-                    <td style="padding: .25in">
-                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.5in">
-                    </td>
-                    <td style="padding: 0 .25in; vertical-align:middle">
-                        <strong>{{ $ticket->person->name }}</strong> <br>
-                        @if(!!$ticket->person->grade) {{ number_ordinal($ticket->person->grade) }} Grade <br> @endif
-                        @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
-                        @if(!!$ticket->leader) {{ $ticket->leader }} <br> @endif
-                        @if(!!$ticket->bus) Bus #{{ $ticket->bus }} @endif
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="container">
-        <table style="height:1in;">
-            <tbody>
-                <tr>
-                    <td style="padding: .25in">
-                        <img src="{{ public_path('img/ticket/wristband/icon.png') }}" style="height:.5in">
-                    </td>
-                    <td style="padding: 0 .25in; vertical-align:middle">
-                        <strong>{{ $ticket->person->name }}</strong> <br>
-                        @if(!!$ticket->person->grade) {{ number_ordinal($ticket->person->grade) }} Grade <br> @endif
-                        @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
-                        @if(!!$ticket->leader) {{ $ticket->leader }} <br> @endif
-                        @if(!!$ticket->bus) Bus #{{ $ticket->bus }} @endif
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    @foreach(range(1, 2) as $i)
+        <div class="container">
+            <table style="height:1in;">
+                <tbody>
+                    <tr>
+                        <td style="padding: .25in">
+                            <img src="{{ public_path('img/ticket/wristband/black-students-logo-crop.png') }}" style="height:.5in">
+                        </td>
+                        <td style="padding: 0 .25in; vertical-align:middle">
+                            <strong>{{ $ticket->person->name }}</strong> <br>
+                            @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
+                            @if(!!$ticket->bus) Bus #{{ $ticket->bus }} <br> @endif
+                            @if(!!$ticket->roomAssignment) {{ $ticket->roomAssignment->room->description }} <br> @endif
+                            @if(!!$ticket->roomAssignment) {{ $ticket->roomAssignment->room->notes }} @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    @endforeach
 </body>
 </html>

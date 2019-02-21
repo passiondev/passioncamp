@@ -22,7 +22,7 @@ class PrintWristbandJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($ticket, $printer, $driver)
+    public function __construct($ticket, $printer, $driver = null)
     {
         $this->ticket = $ticket;
         $this->printer = $printer;
@@ -41,7 +41,7 @@ class PrintWristbandJob implements ShouldQueue
             url()->signedRoute('tickets.wristband.show', $this->ticket),
             [
                 'title' => $this->ticket->name,
-                'source' => 'PCC Check In'
+                'source' => 'PCC Check In',
             ]
         );
     }
