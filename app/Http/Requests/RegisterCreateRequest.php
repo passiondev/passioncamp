@@ -86,4 +86,9 @@ class RegisterCreateRequest extends FormRequest
 
         return $tickets->all();
     }
+
+    public function wantsToPayDeposit()
+    {
+        return $this->input('payment_type') == 'deposit';
+    }
 }

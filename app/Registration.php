@@ -82,7 +82,7 @@ class Registration
         ]);
     }
 
-    public function payDeposit($payDeposit = true)
+    public function shouldPayDeposit($payDeposit = true)
     {
         if (! $this->canPayDeposit()) {
             return $this;

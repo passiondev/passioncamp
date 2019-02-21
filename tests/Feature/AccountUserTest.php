@@ -2,18 +2,16 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
-use App\Organization;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AccountUserTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    function a_user_can_add_another_user_to_its_organization()
+    public function a_user_can_add_another_user_to_its_organization()
     {
         $authUser = factory(User::class)->create();
 

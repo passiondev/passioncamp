@@ -1,11 +1,9 @@
 <?php
 
 use App\Person;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
-class PersonTest extends BrowserKitTestCase
+class PersonTest extends TestCase
 {
     public function test_a_birthdate_can_be_set()
     {

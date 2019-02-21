@@ -14,6 +14,6 @@ class TicketPriceController extends Controller
 
     public function __invoke()
     {
-        return (new Occurrence('pcc'))->ticketPrice(request('num_tickets'), request('code'));
+        return (new Occurrence(config('occurrences.pcc')))->ticketPrice(request('num_tickets'), request('code'));
     }
 }

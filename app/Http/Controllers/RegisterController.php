@@ -7,6 +7,7 @@ use App\Order;
 use App\Occurrence;
 use App\Organization;
 use App\Mail\WaiverRequest;
+use Illuminate\Support\Carbon;
 use App\Billing\PaymentGateway;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -25,7 +26,7 @@ class RegisterController extends Controller
     public function __construct(PaymentGateway $paymentGateway)
     {
         $this->organization = $this->getOrganization();
-        $this->occurrence = new Occurrence('pcc');
+        $this->occurrence = new Occurrence(config('occurrences.pcc'));
         $this->can_pay_deposit = now()->lte(Carbon::parse('2018-05-03')->endOfDay());
         $this->paymentGateway = $paymentGateway;
     }
@@ -83,7 +84,7 @@ class RegisterController extends Controller
 
         try {
             $registration
-                ->payDeposit($request->input('payment_type') == 'deposit')
+                ->shouldPayDeposit($request->wantsToPayDeposit())
                 ->complete($this->paymentGateway, $request->input('stripeToken'));
         } catch (PaymentFailedException $e) {
             DB::rollback();

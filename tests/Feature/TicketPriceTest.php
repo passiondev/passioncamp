@@ -17,9 +17,9 @@ class TicketPriceTest extends TestCase
      */
     public function testExample()
     {
-        $org = factory(Organization::class)->create(['slug' => 'ww2019ms']);
+        $org = factory(Organization::class)->create(['slug' => 'pcc']);
 
-        $response = $this->get('/api/ticket-price?event=ww2019ms&num_tickets=1&code=newyear');
+        $response = $this->get('/api/ticket-price?num_tickets=1&code=newyear');
 
         dd($response->json());
     }
