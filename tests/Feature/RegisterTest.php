@@ -9,6 +9,7 @@ use App\Occurrence;
 use Tests\TestCase;
 use App\Organization;
 use App\Mail\WaiverRequest;
+use Illuminate\Support\Carbon;
 use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
 use Illuminate\Support\Facades\Bus;
@@ -69,6 +70,16 @@ class RegisterTest extends TestCase
 
         $response->assertJsonFragment(['location' => route('register.confirmation')]);
         $response->assertSessionHas('order_id', Order::first()->id);
+    }
+
+    /** @test */
+    public function deposits_can_be_paid()
+    {
+        Carbon::setTestNow('2019-03-04');
+        $this->register(['payment_type' => 'deposit', 'num_tickets' => '1', 'tickets' => []]);
+
+        $order = Order::first();
+        $this->assertEquals($order->tickets()->count() * 7500, $order->transactions_total);
     }
 
     /** @test */

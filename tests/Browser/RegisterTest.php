@@ -28,4 +28,17 @@ class RegisterTest extends DuskTestCase
                     ->assertSee('Student #2');
         });
     }
+
+    /** @test */
+    public function deposit_can_be_paid()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/register')
+                ->assertSee('Pay Deposit');
+
+            $browser->visit('/register')
+                ->click('@pay-deposit')
+                ->assertSee('your credit card will be charged $75.00');
+        });
+    }
 }

@@ -6,8 +6,7 @@ return [
         'slug' => 'pcc',
         'title' => 'Passion Camp',
         'title_short' => 'Passion Camp',
-        'header_bg' => 'https://res.cloudinary.com/pcc/image/upload/f_auto,q_auto/v1541437660/students_registration/ww2019ms/header-bg.jpg',
-        'header_fg' => 'https://res.cloudinary.com/pcc/image/upload/w_auto,dpr_auto,f_auto,q_auto/v1541437660/students_registration/ww2019ms/header-fg.png',
+        'header_bg' => 'https://res.cloudinary.com/pcc/image/upload/f_auto,q_auto,w_1200/v1551727604/students_registration/passioncamp2019/header-big.jpg',
         'pricing' => [
             '2019-01-01' => '385',
             '2019-04-07' => '410',

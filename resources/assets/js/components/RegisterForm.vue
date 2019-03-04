@@ -132,6 +132,23 @@
 
                 <section>
                     <div class="card card--registration">
+                        <div class="card-block">
+                            <h4>Help Make Passion Camp Possible!</h4>
+                            <p>We want as many students to experience Jesus at Passion Camp as possible this year! Would you consider partnering with us to help make Passion Camp a possibility for students who need financial assistance? We never want finances to keep a student from being able to join us. We are stunned every year by the generosity of our House!</p>
+                            <p>Any and all gifts will be a huge help, but here are a few specific things you can give towards:</p>
+                            <ul>
+                                <li>A Family Group Leader's spot (We will have 40-50 leaders with us.)</li>
+                                <li>Ground Transportation (Each van costs $420 and we will have 10-12 vans!)</li>
+                                <li>To help a student who can’t afford Winter WKND (We don’t want anyone to miss out!)</li>
+                            </ul>
+
+                            <a href="https://www.kindridgiving.com/f/f2?formid=59aa564b-7b60-4746-ae4b-8220307a9aa6" target="_blank" style="font-weight: 700; font-size: 1.125rem; text-decoration: underline;">Partner with us and make a donation</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="card card--registration">
                         <header class="card-header">
                             <h2>Payment Information</h2>
                         </header>
@@ -191,7 +208,7 @@
                             <h4>Payment Options</h4>
                             <div class="form-check-pill">
                                 <input id="payment_type--deposit" type="radio" v-model="form.payment_type" value="deposit">
-                                <label for="payment_type--deposit">
+                                <label for="payment_type--deposit" dusk="pay-deposit">
                                     <svg class="icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M0 11l2-2 5 5L18 3l2 2L7 18z" fill-rule="evenodd"/>
                                     </svg>
@@ -235,7 +252,7 @@
                 </section>
 
                 <section>
-                    <p class="lead">Full payment is due by May 3rd. <strong>Full Summer Camp registration is non-refundable after this date.</strong></p>
+                    <p class="lead">Full payment is due by May 5th. <strong>Full Passion Camp registration is non-refundable after this date.</strong></p>
 
                     <p><i>Upon clicking submit, your credit card will be charged <strong>{{ payment_amount | currency }}</strong> for your Passion Camp registration.</i></p>
 

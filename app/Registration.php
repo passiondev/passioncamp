@@ -22,7 +22,7 @@ class Registration
 
     public static $closedDate = '2019-06-03';
 
-    public static $depositCutoffDate = '2018-05-03';
+    public static $depositCutoffDate = '2019-05-03';
 
     protected $numTickets;
 
@@ -88,7 +88,7 @@ class Registration
             return $this;
         }
 
-        $this->payInFull = $payDeposit;
+        $this->payInFull = ! $payDeposit;
 
         return $this;
     }

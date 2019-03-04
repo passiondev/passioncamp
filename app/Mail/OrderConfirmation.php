@@ -36,6 +36,7 @@ class OrderConfirmation extends Mailable
             ->markdown('emails.order.confirmation')
             ->with([
                 'occurrence' => new Occurrence(config('occurrences.' . $this->order->organization->slug)),
+                'order' => $this->order,
             ]);
     }
 }

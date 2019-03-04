@@ -45,7 +45,6 @@ class RegisterController extends Controller
             'occurrence' => $this->occurrence,
             'ticketPrice' => $this->occurrence->ticketPrice() / 100,
             'can_pay_deposit' => $this->can_pay_deposit,
-            'lowestTicketPrice' => $this->occurrence->lowestTicketPrice() / 100,
         ]);
     }
 
@@ -115,7 +114,6 @@ class RegisterController extends Controller
 
         $order = Order::findOrFail(session('order_id'));
 
-        return view('register.confirmation', ['occurrence' => $this->occurrence])
-            ->withOrder($order);
+        return view('register.confirmation', ['occurrence' => $this->occurrence, 'order' => $order]);
     }
 }

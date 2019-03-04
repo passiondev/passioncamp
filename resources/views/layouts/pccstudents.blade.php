@@ -23,13 +23,9 @@
     @yield('head')
 </head>
 <body style="padding-top:0">
-    <header
-        id=""
-        class="text-center py-5"
-        style="{{ $occurrence->header_bg ? "background-image: url($occurrence->header_bg);" : '' }} {{ $occurrence->header_bg_color ? "background-color: $occurrence->header_bg_color;" : '' }} background-position: center; background-repeat: no-repeat; background-size: cover; "
-    >
+    <header style="background-color: black">
         <div class="container">
-            <img data-src="{{ $occurrence->header_fg }}" alt="{{ $occurrence->title }}" class="cld-responsive img-fluid">
+            <img data-src="https://res.cloudinary.com/pcc/image/upload/f_auto,q_auto,w_1200/v1551727604/students_registration/passioncamp2019/header-big.jpg" alt="{{ $occurrence->title }}" class="cld-responsive img-fluid">
         </div>
     </header>
     <div id="page-header-banner" class="py-2">
