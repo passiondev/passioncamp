@@ -37,7 +37,7 @@ class RegisterController extends Controller
 
     public function create()
     {
-        if ($this->occurrence->isClosed()) {
+        if ($this->occurrence->isClosed() && request()->get('code') != 'passion2019') {
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
