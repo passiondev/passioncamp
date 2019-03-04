@@ -27,20 +27,30 @@ class RegisterCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'contact.first_name' => 'required',
-            'contact.last_name' => 'required',
-            'contact.email' => 'required|email',
-            'contact.phone' => 'required',
-            'billing.street' => 'required',
-            'billing.city' => 'required',
-            'billing.state' => 'required',
-            'billing.zip' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'street' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
             'num_tickets' => 'required|numeric|min:1',
             'tickets.*.first_name' => 'required',
             'tickets.*.last_name' => 'required',
             'tickets.*.gender' => 'required',
             'tickets.*.grade' => 'required',
             'payment_type' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'tickets.*.first_name.required' => 'The first name field is required.',
+            'tickets.*.last_name.required' => 'The last name field is required.',
+            'tickets.*.gender.required' => 'The gender field is required.',
+            'tickets.*.grade.required' => 'The grade field is required.',
         ];
     }
 

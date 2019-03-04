@@ -177,7 +177,9 @@ class Order extends Model
 
     public function addTickets(array $records, array $attributes = [])
     {
-        $tickets = collect($records)->mapInto(Ticket::class)->each->fill($attributes);
+        $tickets = collect($records)
+            ->mapInto(Ticket::class)
+            ->each->fill($attributes);
 
         $this->tickets()->saveMany($tickets);
 

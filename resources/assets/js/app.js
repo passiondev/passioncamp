@@ -19,7 +19,7 @@ import Flash from './components/Flash'
 import roominglists from './components/roominglists'
 
 Vue.filter('currency', currency);
-Vue.component('register-form', require('./components/RegisterForm.vue'));
+Vue.component('register-form', require('./components/RegisterForm.vue').default);
 Vue.component('Transaction', TransactionComponent);
 
 const app = new Vue({

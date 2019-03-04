@@ -6,15 +6,14 @@ use App\User;
 use App\Order;
 use App\Occurrence;
 use App\Organization;
-use App\Mail\WaiverRequest;
 use Illuminate\Support\Carbon;
 use App\Billing\PaymentGateway;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use App\Billing\PaymentFailedException;
 use App\Jobs\Order\SendConfirmationEmail;
 use App\Http\Requests\RegisterCreateRequest;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -27,7 +26,7 @@ class RegisterController extends Controller
     {
         $this->organization = $this->getOrganization();
         $this->occurrence = new Occurrence(config('occurrences.pcc'));
-        $this->can_pay_deposit = now()->lte(Carbon::parse('2018-05-03')->endOfDay());
+        $this->can_pay_deposit = now()->lte(Carbon::parse('2019-05-03')->endOfDay());
         $this->paymentGateway = $paymentGateway;
     }
 
@@ -54,19 +53,19 @@ class RegisterController extends Controller
     {
         $user = User::firstOrCreate(
             [
-                'email' => $request->input('contact.email'),
+                'email' => $request->input('email'),
             ],
             [
-                'person' => array_collapse($request->only([
-                    'contact.first_name',
-                    'contact.last_name',
-                    'contact.email',
-                    'contact.phone',
-                    'billing.street',
-                    'billing.city',
-                    'billing.state',
-                    'billing.zip',
-                ])),
+                'person' => $request->only([
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'phone',
+                    'street',
+                    'city',
+                    'state',
+                    'zip',
+                ]),
             ]
         );
 
@@ -77,9 +76,9 @@ class RegisterController extends Controller
             ->setNumTickets($request->input('num_tickets'));
 
         $registration->createOrder($request->orderData(), function ($order) use ($request) {
-            $order
-                ->addTickets($request->ticketsData(), ['price' => $this->occurrence->ticketPrice($request->input('num_tickets'), $request->input('code'))])
-                ->addDonation($request->fundAmount());
+            $order->addTickets($request->ticketsData(), [
+                'price' => $this->occurrence->ticketPrice($request->input('num_tickets'), $request->input('code')),
+            ]);
         });
 
         try {
@@ -88,26 +87,24 @@ class RegisterController extends Controller
                 ->complete($this->paymentGateway, $request->input('stripeToken'));
         } catch (PaymentFailedException $e) {
             DB::rollback();
-            Log::debug($e);
+            Log::debug($e->getMessage());
 
-            return redirect()
-                ->route('register.create')
-                ->withInput()
-                ->with(['error' => $e->getMessage()]);
+            throw ValidationException::withMessages([
+                'payment' => $e->getMessage(),
+            ]);
         }
 
         DB::commit();
 
         SendConfirmationEmail::dispatch($registration->order());
 
-        foreach ($registration->order()->tickets()->with('order.user.person')->get() as $ticket) {
-            Mail::to($ticket->order->user->person->email ?? 'matt.floyd@268generation.com')
-                ->queue(new WaiverRequest($ticket));
-        }
+        $request->session()->flash('order_id', $registration->order()->id);
 
-        return redirect()
-            ->route('register.confirmation')
-            ->with(['order_id' => $registration->order()->id]);
+        return $request->expectsJson()
+            ? response()->json([
+                'location' => route('register.confirmation'),
+            ])
+            : redirect()->route('register.confirmation');
     }
 
     public function confirmation()

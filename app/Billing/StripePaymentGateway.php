@@ -34,7 +34,7 @@ class StripePaymentGateway implements PaymentGateway
                 'card_brand' => $stripeCharge['source']['brand'],
             ]);
         } catch (InvalidRequest $e) {
-            throw new PaymentFailedException;
+            throw new PaymentFailedException($e->getMessage());
         }
     }
 
