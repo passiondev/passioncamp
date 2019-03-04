@@ -115,6 +115,7 @@
                             :index="index"
                             :errors="errors | forTicket(index)"
                             :grades="grades"
+                            :id="`ticket_${index}`"
                             @input="(ticket) => { form.tickets[index] = ticket }"
                         ></ticket>
                     </div>
@@ -369,7 +370,7 @@
                 return this.ticket_total + this.donation_total;
             },
             payment_amount() {
-                return this.canPayDeposit && this.payment_type == 'deposit' ? this.deposit_amount : this.full_amount;
+                return this.canPayDeposit && this.form.payment_type == 'deposit' ? this.deposit_amount : this.full_amount;
             },
         },
         methods: {
