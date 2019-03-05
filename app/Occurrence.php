@@ -23,21 +23,28 @@ class Occurrence
             ->sort()
             ->last();
 
+        // return scholarship code price before checking for lowest price
+        switch (strtolower($discountCode)) {
+            // case 'scholarship':
+            //     return 5 * 100;
+            //     break;
+        }
+
         $lowestTicketPriceInDollars = $this->lowestTicketPrice() / 100;
 
-        if ($numTickets >= 3) {
+        if ($numTickets >= 2) {
             $price = $lowestTicketPriceInDollars;
         }
 
         switch (strtolower($discountCode)) {
-            case 'jodi':
-                $price = 5;
-                break;
+            // case 'discount':
+            //     $price -= 10;
+            //     break;
         }
 
-        if ($numTickets >= 3 && $price < $lowestTicketPriceInDollars - 10) {
-            // reset multi ticket discount if less than 10 off lowest price
-            return $this->ticketPrice(1, $discountCode);
+        if ($numTickets >= 2 && $price < $lowestTicketPriceInDollars - 10) {
+            // remove discount code if less than 10 off lowest price
+            return $this->ticketPrice($numTickets);
         }
 
         return $price * 100;
