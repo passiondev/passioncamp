@@ -29,7 +29,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand py-0 align-self-start align-self-md-auto" href="{{ url('/') }}">
-                <img src="https://res.cloudinary.com/pcc/image/upload/h_24,dpr_2.0,f_auto,q_auto/v1541435334/students_registration/logo.png" alt="{{ config('app.name') }}" height="24">
+                <img src="{{ url('img/camp-logo.svg') }}" alt="Passion Camp" height="40">
             </a>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
