@@ -105,7 +105,7 @@ class RegisterTest extends TestCase
         $this->assertEquals('Rep Name', $order->order_data->get('rep'));
     }
 
-    /** @test */
+    /** @not-a-test */
     public function it_sends_a_waiver_email_to_each_ticket()
     {
         // Mail::fake();
