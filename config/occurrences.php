@@ -14,7 +14,6 @@ return [
         ],
         'closes' => '2019-06-02 23:59:59',
         'closed_message' => 'Thank you so much for your interest in Passion Camp. At this time registration has closed. Please email [students@passioncitychurch.com](mailto:students@passioncitychurch.com) for further details or if you have any questions. Thanks so much!',
-        'confirmation' => 'We are so excited your student is planning to join us for Passion Camp! We are looking forward to all that Jesus is going to do in the lives of our students during our time together!',
         'grades' => [7, 8, 9, 10, 11, 12],
     ],
 

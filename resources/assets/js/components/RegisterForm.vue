@@ -120,7 +120,7 @@
                         ></ticket>
                     </div>
 
-                    <div class="card mt-4" style="background-color:#f1f5f8; border: 0; font-size: .875rem">
+                    <div class="card mt-4" style="background-color:#EFF8FF; border: 0; font-size: .875rem">
                         <div class="card-block">
                             <div class="form-group mb-0">
                                 <label for="rep" class="form-control-label mb-1">Passion Camp Rep <span style="color:#b8c2cc">(optional)</span></label>
