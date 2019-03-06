@@ -8,7 +8,7 @@ class PaymentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth.magic');
     }
 
     public function index()
@@ -27,7 +27,7 @@ class PaymentController extends Controller
         ]);
 
         $order = auth()->user()->orders()->create([
-            'organization_id' => 1
+            'organization_id' => 1,
         ]);
 
         try {
@@ -39,8 +39,8 @@ class PaymentController extends Controller
                 'statement_descriptor' => 'PCC SMMR CMP',
                 'metadata' => [
                     'email' => auth()->user()->person->email,
-                    'name' => auth()->user()->person->name
-                ]
+                    'name' => auth()->user()->person->name,
+                ],
             ], [
                 'api_key' => config('services.stripe.secret'),
                 'stripe_account' => 'acct_16y17LI1xefq0oDy',

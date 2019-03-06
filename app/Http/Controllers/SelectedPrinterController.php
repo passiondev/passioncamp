@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use PrintNode;
 use Illuminate\Http\Request;
 use Facades\App\Contracts\Printing\Factory as Printer;
 
@@ -17,7 +16,7 @@ class SelectedPrinterController extends Controller
     public function store()
     {
         request()->validate([
-            'printer' => 'required'
+            'printer' => 'required',
         ]);
 
         $printer = $this->printDriver()->printers()[request('printer')];

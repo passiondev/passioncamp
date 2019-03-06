@@ -12,6 +12,8 @@ class TransactionSplit extends Model
 
     protected $touches = ['organization', 'order'];
 
+    protected $with = ['transaction'];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

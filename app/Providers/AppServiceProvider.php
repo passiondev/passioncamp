@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Mandrill;
 use Laravel\Horizon\Horizon;
+use App\Billing\PaymentGateway;
 use Illuminate\Support\Collection;
+use App\Billing\StripePaymentGateway;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -26,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Horizon::auth(function ($request) {
-            return $request->user()->email == 'matt.floyd@268generation.com';
+            return $request->user() && $request->user()->email == 'matt.floyd@268generation.com';
         });
 
         Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
@@ -85,6 +87,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Mandrill::class, function () {
             return new Mandrill(config('services.mandrill.key'));
         });
+
+        $this->app->bind(StripePaymentGateway::class, function () {
+            return new StripePaymentGateway(config('services.stripe.secret'));
+        });
+
+        $this->app->bind(PaymentGateway::class, StripePaymentGateway::class);
     }
 
     private function bootMacros()

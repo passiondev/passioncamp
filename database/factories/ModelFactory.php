@@ -21,19 +21,6 @@ $factory->define(App\Person::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Order::class, function (Faker\Generator $faker) {
-    return [
-        'organization_id' => function () {
-            return factory(App\Organization::class)->create()->id;
-        },
-        'user_id' => function ($data) {
-            return factory(App\User::class)->create([
-                'organization_id' => $data['organization_id'],
-            ])->id;
-        },
-    ];
-});
-
 $factory->define(App\OrderItem::class, function (Faker\Generator $faker) {
     return [
     ];

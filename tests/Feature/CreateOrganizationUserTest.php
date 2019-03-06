@@ -65,22 +65,6 @@ class CreateOrganizationUserTest extends TestCase
     }
 
     /** @test */
-    public function it_sends_an_email_to_a_new_user()
-    {
-        Mail::fake();
-
-        $this->post("/admin/organizations/{$this->organization->id}/users", [
-            'email' => 'email@example.com',
-        ]);
-
-        Mail::assertQueued(AccountUserCreated::class, function ($mailable) {
-            return $mailable->user->is(
-                $this->organization->users()->where('email', 'email@example.com')->first()
-            );
-        });
-    }
-
-    /** @test */
     public function it_doesnt_send_an_email_to_an_existing_user()
     {
         Mail::fake();

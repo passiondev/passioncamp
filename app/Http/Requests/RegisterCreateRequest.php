@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\User;
-use App\Ticket;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterCreateRequest extends FormRequest
@@ -28,14 +27,14 @@ class RegisterCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'contact.first_name' => 'required',
-            'contact.last_name' => 'required',
-            'contact.email' => 'required|email',
-            'contact.phone' => 'required',
-            'billing.street' => 'required',
-            'billing.city' => 'required',
-            'billing.state' => 'required',
-            'billing.zip' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'street' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
             'num_tickets' => 'required|numeric|min:1',
             'tickets.*.first_name' => 'required',
             'tickets.*.last_name' => 'required',
@@ -45,82 +44,36 @@ class RegisterCreateRequest extends FormRequest
         ];
     }
 
-    public function forOrganization($organization)
+    public function messages()
     {
-        $this->_data['organization_id'] = $organization->id;
-
-        return $this;
+        return [
+            'tickets.*.first_name.required' => 'The first name field is required.',
+            'tickets.*.last_name.required' => 'The last name field is required.',
+            'tickets.*.gender.required' => 'The gender field is required.',
+            'tickets.*.grade.required' => 'The grade field is required.',
+        ];
     }
 
-    public function withTicketPrice($ticketPrice)
-    {
-        $this->_data['ticketPrice'] = $ticketPrice;
-
-        return $this;
-    }
-
-    private function ticketPrice()
-    {
-        return $this->_data['ticketPrice'];
-    }
-
-    private function organization()
-    {
-        return $this->_data['organization_id'];
-    }
-
-    public function persist()
-    {
-        $user = User::firstOrNew([
-            'email' => $this->input('contact.email'),
-        ]);
-
-        $user->fill([
-            'person' => array_collapse($this->only([
-                'contact.first_name',
-                'contact.last_name',
-                'contact.email',
-                'contact.phone',
-                'billing.street',
-                'billing.city',
-                'billing.state',
-                'billing.zip',
-            ])),
-        ])->save();
-
-        $order = $user->orders()->create([
-            'organization_id' => $this->organization(),
-            'order_data' => ['rep' => request('rep')],
-        ]);
-
-        if ($this->getFundAmount() > 0) {
-            $order->donations()->create([
-                'type' => 'donation',
-                'price' => 100 * $this->getFundAmount(),
-            ]);
-        }
-
-        $order->tickets()->saveMany(
-            $this->buildTickets()
-        );
-
-        return $order;
-    }
-
-    private function getFundAmount()
+    public function fundAmount()
     {
         return $this->input('fund_amount') == 'other'
             ? $this->input('fund_amount_other')
             : $this->input('fund_amount');
     }
 
-    public function buildTickets()
+    public function orderData()
+    {
+        return [
+            'rep' => $this->input('rep'),
+        ];
+    }
+
+    public function ticketsData()
     {
         $tickets = collect($this->input('tickets'))->map(function ($data) {
-            return new Ticket([
+            return [
                 'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => request('code')],
-                'price_in_dollars' => $this->ticketPrice(),
+                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => $this->input('code')],
                 'person' => array_only($data, [
                     'first_name',
                     'last_name',
@@ -131,19 +84,21 @@ class RegisterCreateRequest extends FormRequest
                     'allergies',
                     'considerations',
                 ]),
-            ]);
+            ];
         });
 
-        for ($i = $tickets->count(); $i < $this->input('num_tickets'); $i++) {
-            $tickets->push(
-                new Ticket([
-                    'agegroup' => 'student',
-                    'price_in_dollars' => $this->ticketPrice(),
-                    'person' => [],
-                ])
-            );
+        while ($tickets->count() < $this->input('num_tickets')) {
+            $tickets->push([
+                'agegroup' => 'student',
+                'person' => [],
+            ]);
         }
 
-        return $tickets;
+        return $tickets->all();
+    }
+
+    public function wantsToPayDeposit()
+    {
+        return $this->input('payment_type') == 'deposit';
     }
 }

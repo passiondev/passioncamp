@@ -1,4 +1,4 @@
-@extends('layouts.bootstrap4')
+@extends('layouts.checkin')
 
 @section('content')
     <div class="container-fluid">

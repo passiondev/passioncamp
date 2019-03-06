@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ isset($title) ? $title.' | ' : '' }} {{ config('app.name') }}</title>
 
-    <link href="{{ mix('/css/bootstrap4.css') }}" rel="stylesheet">
+    <link href="{{ asset(mix('/css/bootstrap4.css')) }}" rel="stylesheet">
 
     <script>
-        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
         window.store = {};
     </script>
 
@@ -29,7 +29,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand py-0 align-self-start align-self-md-auto" href="{{ url('/') }}">
-                <img src="{{ url('img/camp-logo.svg') }}" alt="Passion Camp" height="40">
+                <img src="https://res.cloudinary.com/pcc/image/upload/h_24,dpr_2.0,f_auto,q_auto/v1541435334/students_registration/logo.png" alt="{{ config('app.name') }}" height="24">
             </a>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -64,16 +64,17 @@
                     <!-- Authentication Links -->
                     @if (Auth::guest())
                         <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/admin') }}">Admin</a></li>
                     @else
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->person->name }} <span class="caret"></span>
                             </a>
 
-                            <div class="dropdown-menu" role="menu">
+                            <div class="dropdown-menu dropdown-menu-right" role="menu">
                                 <a class="dropdown-item" href="{{ action('ProfileController@show') }}">Profile</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Sign Out
                                 </a>
                             </div>
@@ -195,7 +196,7 @@
             @endif
         </div>
 
-        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
 

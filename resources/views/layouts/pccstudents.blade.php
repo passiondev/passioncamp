@@ -4,20 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>PCC Students - Passion Camp</title>
+    <title>@yield('title', 'Passion Students - ' . $occurrence->title)</title>
 
     <!-- Styles -->
-    <link href="{{ mix('/css/bootstrap4.css') }}" rel="stylesheet">
+    <link href="{{ asset(mix('/css/bootstrap4.css')) }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
-        window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
-        ]) !!};
         window.store = {};
     </script>
     <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
@@ -25,13 +23,15 @@
     @yield('head')
 </head>
 <body style="padding-top:0">
-    <header id="page-header" class="text-center pt-xl-5">
-        <h1 style="display:none">Passion Camp</h1>
+    <header style="background-color: black">
+        <div class="container">
+            <img data-src="https://res.cloudinary.com/pcc/image/upload/f_auto,q_auto,w_1200/v1551727604/students_registration/passioncamp2019/header-big.jpg" alt="{{ $occurrence->title }}" class="cld-responsive img-fluid">
+        </div>
     </header>
     <div id="page-header-banner" class="py-2">
-        <div class="container d-flex flex-column align-items-center justify-content-between flex-sm-row">
-            <img src="/img/logo.png" alt="PCC Students" style="width:252px;">
-            <h1>Passion Camp</h1>
+        <div class="container d-flex flex-column align-items-center justify-content-between flex-md-row text-center">
+            <img data-src="https://res.cloudinary.com/pcc/image/upload/w_auto,dpr_auto,f_auto,q_auto/v1541435334/students_registration/logo.png" class="cld-responsive" alt="PCC Students" style="width:252px;">
+            <h1>{{ $occurrence->title }}</h1>
         </div>
     </div>
     <div id="app">
@@ -44,7 +44,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        PCC Students SMMR CMP
+                        PCC Students
                     </a>
 
                     <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -74,7 +74,7 @@
                                             </a>
 
                                             <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                                {{ csrf_field() }}
+                                                @csrf
                                             </form>
                                         </li>
                                     </ul>
@@ -91,8 +91,13 @@
 
     <!-- Scripts -->
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-core/2.5.0/cloudinary-core-shrinkwrap.min.js"></script>
+    <script type="text/javascript">
+        var cl = cloudinary.Cloudinary.new({cloud_name: "pcc"});
+        cl.responsive();
+    </script>
     @yield('foot')
-    <script src="{{ mix('/js/app.js') }}"></script>
+    <script src="{{ asset(mix('/js/app.js')) }}"></script>
     {{ svg_spritesheet() }}
 </body>
 </html>

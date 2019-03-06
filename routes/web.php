@@ -1,10 +1,6 @@
 <?php
 
-use App\Mail\AccountUserCreated;
-
-Route::get('test', function () {
-    return new AccountUserCreated(App\User::find(358));
-});
+Route::post('/ticket-price', 'TicketPriceController');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');

@@ -2,16 +2,6 @@
 
 // Rules for Laravel Code Standard
 $rules = [
-    // '@PSR2' => true,
-    // 'array_syntax' => ['syntax' => 'short'],
-    // 'binary_operator_spaces' => ['align_double_arrow' => false],
-    // 'concat_space' => ['spacing' => 'one'],
-    // 'linebreak_after_opening_tag' => true,
-    // 'not_operator_with_successor_space' => true,
-    // 'ordered_imports' => ['sortAlgorithm' => 'length'],
-    // 'trailing_comma_in_multiline_array' => true,
-    // 'no_unused_imports' => true,
-
     '@PSR2' => true,
     'array_syntax' => ['syntax' => 'short'],
     'binary_operator_spaces' => [
@@ -23,7 +13,6 @@ $rules = [
         'statements' => ['return'],
     ],
     'cast_spaces' => true,
-    // 'concat_space' => ['spacing' => 'none'],
     'concat_space' => ['spacing' => 'one'],
     'declare_equal_normalize' => true,
     'function_typehint_space' => true,
@@ -65,31 +54,6 @@ $rules = [
     'not_operator_with_successor_space' => true,
     'object_operator_without_whitespace' => true,
     'ordered_imports' => ['sortAlgorithm' => 'length'],
-    // 'phpdoc_align' => [
-    //     'parts' => [
-    //         'hint',
-    //     ],
-    //     'separatorSpaces' => [
-    //         'desc' => 2,
-    //         'var' => 2,
-    //     ],
-    // ],
-    // 'phpdoc_align' => true,
-    // 'phpdoc_indent' => true,
-    // 'phpdoc_inline_tag' => true,
-    // 'phpdoc_no_access' => true,
-    // 'phpdoc_no_alias_tag' => ['replacements' => [
-    //     'type' => 'var',
-    // ]],
-    // 'phpdoc_no_package' => true,
-    // 'phpdoc_no_useless_inheritdoc' => true,
-    // 'phpdoc_scalar' => true,
-    // 'phpdoc_single_line_var_spacing' => true,
-    // 'phpdoc_summary' => true,
-    // 'phpdoc_to_comment' => true,
-    // 'phpdoc_trim' => true,
-    // 'phpdoc_types' => true,
-    // 'phpdoc_var_without_name' => true,
     'self_accessor' => true,
     'short_scalar_cast' => true,
     'simplified_null_return' => true,

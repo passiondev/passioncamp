@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
@@ -14,7 +14,8 @@ class Person extends Model
     protected $dates = ['birthdate'];
 
     protected $casts = [
-        'considerations' => 'collection',
+        'allergies' => 'array',
+        'considerations' => 'array',
     ];
 
     public function user()
@@ -24,7 +25,7 @@ class Person extends Model
 
     public function getNameAttribute()
     {
-        return ucwords(sprintf("%s %s", $this->first_name, $this->last_name));
+        return ucwords(sprintf('%s %s', $this->first_name, $this->last_name));
     }
 
     public function getConsiderationsAttribute($considerations)
@@ -46,7 +47,7 @@ class Person extends Model
         $parts = explode(' ', $name);
 
         $this->last_name = array_pop($parts);
-        $this->first_name = implode(" ", $parts);
+        $this->first_name = implode(' ', $parts);
     }
 
     public function setBirthdateAttribute($birthdate)

@@ -43,7 +43,7 @@ class Ticket extends OrderItem
     ];
 
     protected $with = [
-        'roomAssignment',
+        // 'roomAssignment',
     ];
 
     protected $observables = [
@@ -292,6 +292,25 @@ class Ticket extends OrderItem
             $this->person->gender == 'M' ? 'z' : 'a',
             $this->person->first_name,
             $this->person->last_name,
+        ]);
+    }
+
+    public function waiverLink()
+    {
+        dd('TO DO');
+
+        return vsprintf('%s?%s', [
+            'https://passion-forms.formstack.com/forms/winter_wknd_2019_release',
+            http_build_query([
+                'event' => $this->order->organization->slug,
+                'ticket' => $this->id,
+                'field73148253-first' => $this->person->first_name,
+                'field73148253-last' => $this->person->last_name,
+                'field73148311M' => optional($this->person->birthdate)->format('F'),
+                'field73148311D' => optional($this->person->birthdate)->format('d'),
+                'field73148311Y' => optional($this->person->birthdate)->format('Y'),
+                'gender' => $this->person->gender == 'F' ? 'Female' : 'Male',
+            ]),
         ]);
     }
 }

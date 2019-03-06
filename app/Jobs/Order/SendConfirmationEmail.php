@@ -2,9 +2,10 @@
 
 namespace App\Jobs\Order;
 
-use Mandrill;
 use App\Order;
 use Illuminate\Bus\Queueable;
+use App\Mail\OrderConfirmation;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,10 +13,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class SendConfirmationEmail implements ShouldQueue
 {
-    private $order;
-    private $template = 'pcc-students-passion-camp-2018';
-
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public $order;
 
     /**
      * Create a new job instance.
@@ -32,24 +32,8 @@ class SendConfirmationEmail implements ShouldQueue
      *
      * @return void
      */
-    public function handle(Mandrill $mandrill)
+    public function handle()
     {
-        $message = [
-            'subject' => 'Passion Camp Registration Confirmation',
-            'to' => [
-                [
-                    'name' => $this->order->user->person->name,
-                    'email' => $this->order->user->person->email,
-                ],
-            ],
-            'global_merge_vars' => [
-                [
-                    'name' => 'BODY',
-                    'content' => view('emails.order.confirmation', ['order' => $this->order])->render(),
-                ],
-            ],
-        ];
-
-        $mandrill->messages->sendTemplate($this->template, null, $message);
+        Mail::to($this->order->user)->send(new OrderConfirmation($this->order));
     }
 }
