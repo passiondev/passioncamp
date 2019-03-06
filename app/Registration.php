@@ -14,12 +14,6 @@ class Registration
 
     protected $payInFull = true;
 
-    protected static $prices = [
-        '2018-11-30' => '99',
-        '2018-12-31' => '115',
-        '2019-01-27' => '130',
-    ];
-
     public static $closedDate = '2019-06-03';
 
     public static $depositCutoffDate = '2019-05-03';
