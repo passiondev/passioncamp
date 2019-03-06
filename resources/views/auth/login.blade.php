@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">Login</div>
                 <div class="card-block">
-                    <form method="POST" action="{{ url('/auth/login') }}">
+                    <form method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
 
                         <div class="form-group row {{ $errors->has('email') ? 'has-danger' : '' }}">
