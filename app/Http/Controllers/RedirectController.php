@@ -6,7 +6,7 @@ class RedirectController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth.magic');
+        $this->middleware('auth');
     }
 
     public function home()
@@ -15,10 +15,6 @@ class RedirectController extends Controller
             return redirect()->action('Super\DashboardController');
         }
 
-        if (auth()->user()->isChurchAdmin()) {
-            return redirect()->action('Account\DashboardController');
-        }
-
-        return redirect()->action('User\DashboardController');
+        return redirect()->action('Account\DashboardController');
     }
 }
