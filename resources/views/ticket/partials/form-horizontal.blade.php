@@ -68,6 +68,6 @@
 
 <div class="form-group row">
     <div class="col-md-6 offset-md-3">
-        <ticket-considerations style="margin-bottom:0" :considerations="{{ json_encode(old('considerations', $ticket->considerations ?? [])) }}"></ticket-considerations>
+        <ticket-considerations style="margin-bottom:0" :considerations="{!! json_encode(old('considerations', $ticket->considerations ?? [])) !!}"></ticket-considerations>
     </div>
 </div>
