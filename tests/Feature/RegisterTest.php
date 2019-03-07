@@ -10,7 +10,6 @@ use Tests\TestCase;
 use App\Organization;
 use App\Mail\WaiverRequest;
 use Illuminate\Support\Carbon;
-use App\Billing\PaymentGateway;
 use App\Billing\FakePaymentGateway;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +27,7 @@ class RegisterTest extends TestCase
         Bus::fake();
 
         $this->paymentGateway = new FakePaymentGateway;
-        $this->app->instance(PaymentGateway::class, $this->paymentGateway);
+        $this->app->instance('stripe.pcc', $this->paymentGateway);
     }
 
     /** @test */

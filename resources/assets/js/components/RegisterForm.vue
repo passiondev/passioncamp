@@ -119,15 +119,6 @@
                             @input="(ticket) => { form.tickets[index] = ticket }"
                         ></ticket>
                     </div>
-
-                    <div class="card mt-4" style="background-color:#EFF8FF; border: 0; font-size: .875rem">
-                        <div class="card-block">
-                            <div class="form-group mb-0">
-                                <label for="rep" class="form-control-label mb-1">Passion Camp Rep <span style="color:#b8c2cc">(optional)</span></label>
-                                <input type="text" placeholder="Rep Name" class="form-control" v-model="form.rep">
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
                 <section>

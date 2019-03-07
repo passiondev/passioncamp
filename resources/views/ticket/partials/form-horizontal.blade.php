@@ -60,7 +60,7 @@
     <div class="form-group row">
         <label for="allergies" class="col-md-3 col-form-label text-md-right">Special Considerations</label>
         <div class="col-md-6">
-            <input type="text" name="ticket[allergies]" id="allergies" value="{{ old('ticket.allergies', $ticket->allergies) }}" class="form-control">
+            <input type="text" name="ticket[allergies]" id="allergies" value="{{ json_encode(old('ticket.allergies', $ticket->allergies)) }}" class="form-control">
             <p class="form-text text-muted mb-0">(medical/food allergies, physical or vision/hearing impairment, etc)</p>
         </div>
     </div>
@@ -68,6 +68,10 @@
 
 <div class="form-group row">
     <div class="col-md-6 offset-md-3">
-        <ticket-considerations style="margin-bottom:0" :considerations="{!! json_encode(old('considerations', $ticket->considerations ?? [])) !!}"></ticket-considerations>
+        <ticket-considerations
+            style="margin-bottom:0"
+            :considerations="{{ json_encode(old('considerations', $ticket->considerations), JSON_FORCE_OBJECT) }}"
+            input-name="considerations"
+        ></ticket-considerations>
     </div>
 </div>

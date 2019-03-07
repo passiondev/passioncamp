@@ -79,94 +79,17 @@
                 <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Roommate requests will be considered but are not guaranteed.</small></p>
             </div>
             <div class="form-group">
-                <fieldset class="form-group">
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" v-model="food_toggle">
-                            Food Allergies
-                        </label>
-                    </div>
-                    <div class="pl-4 mb-2" v-if="food_toggle">
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="nut" class="form-check-input" v-model="form.allergies.nut">
-                                Peanut/Nut Allergy
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="vegetarian" class="form-check-input" v-model="form.allergies.vegetarian">
-                                Vegetarian
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="vegan" class="form-check-input" v-model="form.allergies.vegan">
-                                Vegan
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="gluten" class="form-check-input" v-model="form.allergies.gluten">
-                                Gluten/Celiac
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="dairy" class="form-check-input" v-model="form.allergies.dairy">
-                                Dairy Allergy
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="true" class="form-check-input" v-model="other_toggle">
-                                <input v-if="other_toggle" type="text" :id="`considerations_${index}_other`" placeholder="Other..." class="form-control form-control-sm" v-model="form.allergies.other">
-                                <template v-else>Other</template>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" v-model="accessibility_toggle">
-                            Medical/Accessibility
-                        </label>
-                    </div>
-                    <div class="pl-4 mb-2" v-if="accessibility_toggle">
-                        <div class="form-check">
-                            <label class="form-check-label w-100">
-                                <input type="checkbox" class="form-check-input" v-model="drug_toggle">
-                                <input v-if="drug_toggle" type="text" :id="`considerations_${index}_drug`" placeholder="Please list name of drug..." class="form-control form-control-sm" v-model="form.considerations.drug">
-                                <template v-else>Drug Allergy</template>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label w-100">
-                                <input type="checkbox" class="form-check-input" v-model="physical_toggle">
-                                <input v-if="physical_toggle" type="text" :id="`considerations_${index}_physical`" placeholder="Please provide more info..." class="form-control form-control-sm" v-model="form.considerations.physical">
-                                <template v-else>Physical Impairment</template>
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="visual" class="form-check-input" v-model="form.considerations.visual">
-                                Visual Impairment
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input type="checkbox" value="hearing" class="form-check-input" v-model="form.considerations.hearing">
-                                Hearing Impairment
-                            </label>
-                        </div>
-                    </div>
-                </fieldset>
+                <ticket-considerations :considerations="form.considerations" @input="(considerations) => {form.considerations = considerations}"></ticket-considerations>
             </div>
         </div>
     </div>
 </template>
 <script>
     import { Errors } from 'form-backend-validation'
+    import TicketConsiderations from './TicketConsiderations'
+
     export default {
+        components: {TicketConsiderations},
         props: {
             index: Number,
             grades: {
@@ -180,14 +103,8 @@
         data() {
             return {
                 form: {
-                    allergies: {},
                     considerations: {},
                 },
-                food_toggle: false,
-                accessibility_toggle: false,
-                other_toggle: false,
-                drug_toggle: false,
-                physical_toggle: false,
             };
         },
         watch: {
@@ -198,30 +115,6 @@
                 deep: true,
                 immediate: true,
             },
-            other_toggle(toggle) {
-                if (! toggle) {
-                    return
-                }
-                this.$nextTick(() => {
-                    document.getElementById(`considerations_${this.index}_other`).focus()
-                })
-            },
-            drug_toggle(toggle) {
-                if (! toggle) {
-                    return
-                }
-                this.$nextTick(() => {
-                    document.getElementById(`considerations_${this.index}_drug`).focus()
-                })
-            },
-            physical_toggle(toggle) {
-                if (! toggle) {
-                    return
-                }
-                this.$nextTick(() => {
-                    document.getElementById(`considerations_${this.index}_physical`).focus()
-                })
-            }
         }
     }
 </script>
