@@ -14,6 +14,6 @@
 
 @section('foot')
     <script>
-        const stripe = Stripe('{{ config('services.stripe.key') }}');
+        const stripe = Stripe('{{ config('services.stripe.pcc.key') }}');
     </script>
 @endsection

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\RegisterController;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -88,11 +89,20 @@ class AppServiceProvider extends ServiceProvider
             return new Mandrill(config('services.mandrill.key'));
         });
 
-        $this->app->bind(StripePaymentGateway::class, function () {
+        $this->app->bind('stripe.conference', function () {
             return new StripePaymentGateway(config('services.stripe.secret'));
         });
 
-        $this->app->bind(PaymentGateway::class, StripePaymentGateway::class);
+        $this->app->bind('stripe.pcc', function () {
+            return new StripePaymentGateway(config('services.stripe.pcc.secret'));
+        });
+
+        $this->app->bind(PaymentGateway::class, 'stripe.conference');
+        $this->app->when(RegisterController::class)
+            ->needs(PaymentGateway::class)
+            ->give(function ($app) {
+                return $app->make('stripe.pcc');
+            });
     }
 
     private function bootMacros()
