@@ -36,7 +36,7 @@ class PaymentController extends Controller
                 'currency' => 'usd',
                 'source' => request('stripeToken'),
                 'description' => 'Passion Camp',
-                'statement_descriptor' => 'PCC SMMR CMP',
+                'statement_descriptor' => 'Passion Camp',
                 'metadata' => [
                     'email' => auth()->user()->person->email,
                     'name' => auth()->user()->person->name,

@@ -450,12 +450,12 @@ class Organization extends Model
 
     public function getCanMakeStripePaymentsAttribute()
     {
-        return (bool) $this->setting('stripe_user_id');
+        return $this->slug == 'pcc';
     }
 
     public function getCanRecordTransactionsAttribute()
     {
-        return (bool) $this->setting('use_transactions');
+        return $this->slug == 'pcc';
     }
 
     public function roomCountForHotel($hotel)

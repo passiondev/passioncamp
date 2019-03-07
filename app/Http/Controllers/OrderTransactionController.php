@@ -43,11 +43,11 @@ class OrderTransactionController extends Controller
                             'order_id' => $order->id,
                             'name' => $order->user->person->name,
                             'email' => $order->user->person->email,
-                        ]
+                        ],
                     ],
                     [
                         'api_key' => config('services.stripe.secret'),
-                        'stripe_account' => $order->organization->setting('stripe_user_id'),
+                        'stripe_account' => 'acct_16y17LI1xefq0oDy',
                     ]
                 );
             } catch (\Exception $e) {
