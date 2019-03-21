@@ -36,7 +36,6 @@ class TicketTransformer extends TransformerAbstract
                 'church' => $ticket->order->organization->church->name,
                 'email' => $ticket->email,
                 'phone' => $ticket->phone,
-                'birthdate' => $ticket->birthdate ? $ticket->birthdate->toDateString() : null,
                 'shirtsize' => $ticket->shirtsize,
                 'school' => $ticket->school,
                 'roommate requested' => $ticket->roommate_requested,
