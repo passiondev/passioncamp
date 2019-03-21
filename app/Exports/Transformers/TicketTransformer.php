@@ -29,7 +29,7 @@ class TicketTransformer extends TransformerAbstract
             'camp waiver' => data_get($ticket, 'waiver.is_complete') ? 'X' : '',
         ];
 
-        $data += $ticket->person->formatted_considerations->toArray();
+        $data += $ticket->person->formatted_considerations;
 
         if ($this->includeAdditionalFields) {
             $data += [
