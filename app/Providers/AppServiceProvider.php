@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['ticket.partials.form', 'ticket.partials.form-horizontal'], function ($view) {
             $gradeOptions = [];
 
-            foreach (range(7, 12) as $grade) {
+            foreach (range(6, 12) as $grade) {
                 $gradeOptions[$grade] = number_ordinal($grade);
             }
 

@@ -66,7 +66,7 @@
                     <div class="form-control-feedback" v-if="errors.has('grade')">
                         {{ errors.first('grade') }}
                     </div>
-                    <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of Spring 2019.</small></p>
+                    <p class="form-text mb-0" style="line-height:1"><small class="text-muted">Grade completed as of June 2019.</small></p>
                 </div>
                 <div class="form-group col-lg-8">
                     <label class="form-control-label" :for="`tickets_${index}__school`">School</label>
