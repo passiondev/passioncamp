@@ -182,7 +182,7 @@ class Occurrence
             case 'ashleye':
             case 'willh':
             case 'alexisa':
-            case 'linseye':
+            case 'lindseye':
                 $price = $price - 10;
                 break;
         }
