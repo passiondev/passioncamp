@@ -36,19 +36,10 @@ class Occurrence
             case 'trickshot':
                 $price = $price - 15;
                 break;
-
-            case 'goodfriday':
-                if (now()->between(Carbon::parse('2019-04-19 00:00:00'), Carbon::parse('2019-04-19 23:59:59'))) {
-                    $price = $price - 15;
-                }
+                
                 break;
             case 'easter':
-                if (now()->between(Carbon::parse('2019-04-21 00:00:00'), Carbon::parse('2019-04-21 23:59:59'))) {
-                    $price = $price - 25;
-                }
-                break;
-            case 'sadie':
-                if (now()->between(Carbon::parse('2019-04-24 09:00:00'), Carbon::parse('2019-04-26 23:59:59'))) {
+                if (now()->between(Carbon::parse('2019-04-19 00:00:00'), Carbon::parse('2019-04-21 23:59:59'))) {
                     $price = $price - 15;
                 }
                 break;
