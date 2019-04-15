@@ -230,7 +230,7 @@ class Ticket extends OrderItem
         ];
     }
 
-    public function createWaiver($provider = 'adobesign')
+    public function createWaiver($provider = 'hellosign')
     {
         if ($this->waivers()->count()) {
             return $this->waivers()->latest();
@@ -312,5 +312,30 @@ class Ticket extends OrderItem
                 'gender' => $this->person->gender == 'F' ? 'Female' : 'Male',
             ]),
         ]);
+    }
+
+    public function toHelloSignSignatureRequestArray()
+    {
+        $templateId = 'd670b0e6610cd423b4e56413510036369fc58eae';
+
+        // if ($this->order->organization->id == 'pcc') {
+        //     $templateId = '28bf8648a4b9dcb4602e710f1cd479c064bc4ada';
+        // }
+
+        return [
+            'template_id' => $templateId,
+            'signers' => [
+                'Adult Participant or Parent / Guardian of Minor Participant' => [
+                    'name' => $this->order->user->person->name,
+                    // 'email_address' => $this->order->user->person->email,
+                    'email_address' => 'matt.floyd@268generation.com',
+                ],
+            ],
+            'metadata' => [
+                'ticket_id' => $this->id,
+                'organization_id' => $this->order->organization->id,
+                'attempt' => $this->waivers()->count() + 1,
+            ],
+        ];
     }
 }

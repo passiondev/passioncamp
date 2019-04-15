@@ -10,4 +10,6 @@ return [
     'waiver_document_id' => env('WAIVER_DOCUMENT_ID', '3AAABLblqZhATz8U9tf0p9vHogRDAqpG7x0Rvc6xrWn4VOoFGD0nJ-A9ZEBhBDsJkcC6C-dC0XwT8vr-b9BHFenMWB9o2K-Sx'),
 
     'pcc_waiver_document_id' => env('PCC_WAIVER_DOCUMENT_ID', '3AAABLblqZhD9_uiqv7GnSVz3AMn_ocGbuCoV3Voy55YW9xnMrdaRqj2hY4kKoQpQj7lgn0AgcWCiAmdqYMys7Stc-wYPBqqa'),
+
+    'hellosign_api_key' => env('HELLOSIGN_SECRET'),
 ];

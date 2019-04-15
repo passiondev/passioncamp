@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "002662b34370cfd5655f878d266af5d2",
+    "content-hash": "123df816a02bed7ae3cd23670b6263ed",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -1567,6 +1567,45 @@
                 "url"
             ],
             "time": "2018-12-04T20:46:45+00:00"
+        },
+        {
+            "name": "hellosign/hellosign-php-sdk",
+            "version": "v3.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hellosign/hellosign-php-sdk.git",
+                "reference": "4382ee60973a5fc5f957fa86777e93dedfc64d50"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hellosign/hellosign-php-sdk/zipball/4382ee60973a5fc5f957fa86777e93dedfc64d50",
+                "reference": "4382ee60973a5fc5f957fa86777e93dedfc64d50",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HelloSign\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "HelloSign",
+                    "email": "apisupport@hellosign.com"
+                }
+            ],
+            "description": "This is the official PHP wrapper for HelloSign's API",
+            "time": "2019-01-10T16:53:41+00:00"
         },
         {
             "name": "ircmaxell/random-lib",

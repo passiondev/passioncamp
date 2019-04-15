@@ -22,6 +22,7 @@
         "fideloper/proxy": "^4.0",
         "graham-campbell/markdown": "^10.2",
         "guzzlehttp/guzzle": "^6.0",
+        "hellosign/hellosign-php-sdk": "^3.5",
         "itbz/fpdf": "^1.7",
         "jenssegers/rollbar": "^1.5",
         "kevinem/adobe-sign-php": "^0.1.0",
