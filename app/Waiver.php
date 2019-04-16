@@ -63,9 +63,9 @@ class Waiver extends Model
 
     public function fetchStatus()
     {
-        $status = $this->provider()->fetchStatus($this->provider_agreement_id);
+        $signatureRequest = $this->provider()->fetchStatus($this->provider_agreement_id);
 
-        return WaiverStatus::get($status);
+        return $signatureRequest->is_complete ? WaiverStatus::COMPLETE : WaiverStatus::PENDING;
     }
 
     public function fetchPdf()
@@ -76,7 +76,7 @@ class Waiver extends Model
     public function dropboxFilePath()
     {
         return vsprintf('%s/%s/%s.pdf', [
-            'Passion Camp 2018 Waivers',
+            'Passion Camp 2019 Waivers',
             $this->ticket->owner->organization_id . ' - ' . $this->ticket->owner->organization->church->name,
             $this->ticket_id . ' - ' . $this->ticket->name,
         ]);

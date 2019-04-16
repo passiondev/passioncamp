@@ -72,6 +72,14 @@
                                                 </ajax>
                                             </li>
 
+                                            @if (auth()->user()->isSuperAdmin() && $ticket->waiver->canBeReminded())
+                                                <li v-if="! updated">
+                                                    <ajax href="{{ action('WaiverController@reminder', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
+                                                        remind
+                                                    </ajax>
+                                                </li>
+                                            @endif
+
                                             <li v-if="! updated">
                                                 <ajax href="{{ action('WaiverController@destroy', $ticket->waiver) }}" method="DELETE" class="text-danger" confirm="Are you sure you want to cancel this waiver?" @success="waiver = {status: 'canceled'};updated = true;" v-cloak>
                                                     cancel
