@@ -8,7 +8,7 @@
 
         @if (config('passioncamp.waiver_test_mode'))
             <div class="alert alert-warning text-center">
-                Test mode enabled
+                Test mode enabled. Waivers will be sent to <strong>{{ auth()->user()->email }}</strong> and won't count against quota.
             </div>
         @endif
 
