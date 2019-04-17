@@ -15,24 +15,8 @@ class HelloSignEsignProvider
         $this->client = $client;
     }
 
-    public function createSignatureRequest(array $data)
+    public function createSignatureRequest(TemplateSignatureRequest $request)
     {
-        $request = new TemplateSignatureRequest;
-        $request->fromArray($data);
-
-        if (app()->isLocal()) {
-            $request->enableTestMode();
-        }
-        // $request->setCustomFieldValue('Cost', '$20,000');
-
-        // $request->enableTestMode();
-        // $request->setTemplateId($template->getId());
-        // $request->setSubject('Purchase Order');
-        // $request->setMessage('Glad we could come to an agreement.');
-        // $request->setSigner('Client', 'george@example.com', 'George');
-        // $request->setCC('Accounting', 'accounting@example.com');
-        // $request->setCustomFieldValue('Cost', '$20,000');
-
         return $this->client->sendTemplateSignatureRequest($request);
     }
 

@@ -6,6 +6,12 @@
             <h1 class="mb-2 mb-lg-0">Waivers</h1>
         </header>
 
+        @if (config('passioncamp.waiver_test_mode'))
+            <div class="alert alert-warning text-center">
+                Test mode enabled
+            </div>
+        @endif
+
         @if (auth()->user()->isSuperAdmin())
             <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mb-3">
                 <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">

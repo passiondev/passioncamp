@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Jobs\Waiver\RequestWaiverSignature;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Facades\App\Contracts\Printing\Factory as Printer;
+use HelloSign\TemplateSignatureRequest;
 
 class Ticket extends OrderItem
 {
@@ -314,33 +315,93 @@ class Ticket extends OrderItem
         ]);
     }
 
-    public function toHelloSignSignatureRequestArray()
+    public function toHelloSignSignatureRequest()
     {
-        $templateId = 'd670b0e6610cd423b4e56413510036369fc58eae';
+        $templateIds = ['d670b0e6610cd423b4e56413510036369fc58eae'];
 
-        if ($this->order->organization->id == 'pcc') {
-            $templateId = '28bf8648a4b9dcb4602e710f1cd479c064bc4ada';
+        if ($this->order->organization->slug == 'pcc') {
+            array_push($templateIds, '28bf8648a4b9dcb4602e710f1cd479c064bc4ada');
         }
 
-        return [
-            'template_id' => $templateId,
+        $request = new TemplateSignatureRequest;
+
+        $request->fromArray([
+            'template_ids' => $templateIds,
             'signers' => [
                 'Adult Participant or Parent / Guardian of Minor Participant' => [
                     'name' => $this->order->user->person->name,
-                    // 'email_address' => $this->order->user->person->email,
                     'email_address' => $this->waiver_signer_email,
                 ],
             ],
+            'custom_fields' => json_encode([
+                [
+                    "name" => "623cbe_9", // Church Name
+                    "value" => $this->order->organization->church->name,
+                ],
+                [
+                    "name" => "623cbe_10", // Church City, State
+                    "value" => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
+                ],
+                [
+                    "name" => "623cbe_22", // Participant Name
+                    "value" => $this->person->name,
+                ],
+                [
+                    "name" => "623cbe_24", // Male \/ Female
+                    "value" => $this->person->gender,
+                ],
+                [
+                    "name" => "623cbe_26", // Parent\/Guardian Name
+                    "value" => $this->order->user->person->name,
+                ],
+                [
+                    "name" => "623cbe_27", // Phone number
+                    "value" => $this->order->user->person->phone,
+                ],
+                [
+                    "name" => "Email", // Email address
+                    "value" => $this->order->user->person->email,
+                ],
+                [
+                    "name" => "623cbe_15", // Participant Name
+                    "value" => $this->person->name,
+                ],
+                [
+                    "name" => "623cbe_17", // Parent\/Guardian Name
+                    "value" => $this->order->user->person->name,
+                ],
+                [
+                    "name" => "623cbe_16", // Participant Name
+                    "value" => $this->person->name,
+                ],
+                [
+                    "name" => "623cbe_18", // Participant Name
+                    "value" => $this->person->name,
+                ],
+                [
+                    "name" => "623cbe_19", // Parent\/Guardian Name
+                    "value" => $this->order->user->person->name,
+                ]
+            ]),
             'metadata' => [
                 'ticket_id' => $this->id,
                 'organization_id' => $this->order->organization->id,
             ],
-        ];
+        ]);
+
+        if (config('passioncamp.waiver_test_mode')) {
+            $request->enableTestMode();
+        }
+
+        return $request;
     }
 
     public function getWaiverSignerEmailAttribute()
     {
-        // return $this->order->user->person->email;
-        return 'matt.floyd@268generation.com';
+        if (config('passioncamp.waiver_test_mode')) {
+            return auth()->user() ? auth()->user()->email : 'matt.floyd@268generation.com';
+        }
+
+        return $this->order->user->person->email;
     }
 }
