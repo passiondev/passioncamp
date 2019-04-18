@@ -107,6 +107,8 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 
 if (config('passioncamp.enable_waivers')) {
     Route::resource('waivers', 'WaiverController')->only('index', 'destroy');
+    Route::post('waivers/bulk-send', 'WaiverBulkSendController');
+    Route::post('waivers/bulk-remind', 'WaiverBulkRemindController');
     Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
     Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
 }

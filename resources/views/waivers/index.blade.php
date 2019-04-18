@@ -12,18 +12,49 @@
             </div>
         @endif
 
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if (auth()->user()->isSuperAdmin())
-            <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mb-3">
-                <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
-                    <option selected disabled>Church...</option>
-                    <option value="">- All -</option>
-                    @foreach ($organizations as $organization)
-                        <option value="{{ $organization->id }}" @if (request('organization') == $organization->id) selected @endif>
-                            {{ $organization->church->name }} - {{ $organization->church->location }}
-                        </option>
-                    @endforeach
-                </select>
-            </form>
+            <div class="d-flex align-items-baseline">
+                <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mb-3">
+                    <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
+                        <option selected disabled>Church...</option>
+                        <option value="">- All -</option>
+                        @foreach ($organizations as $organization)
+                            <option value="{{ $organization->id }}" @if (request('organization') == $organization->id) selected @endif>
+                                {{ $organization->church->name }} - {{ $organization->church->location }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+
+                @if (request()->input('organization'))
+                    <div class="ml-4">
+                        <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="event.preventDefault(); document.getElementById('bulk-send').submit()"
+                        >Send all</button>
+
+                        <form action="{{ action('WaiverBulkSendController', ['organization' => request('organization')]) }}" method="post" id="bulk-send">
+                            @csrf
+                        </form>
+                    </div>
+                    <div class="ml-4">
+                        <button
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="event.preventDefault(); document.getElementById('bulk-remind').submit()"
+                        >Remind all</button>
+
+                        <form action="{{ action('WaiverBulkRemindController', ['organization' => request('organization')]) }}" method="post" id="bulk-remind">
+                            @csrf
+                        </form>
+                    </div>
+                @endif
+            </div>
         @endif
 
         <table class="table table-responsive table-striped">

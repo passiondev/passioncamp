@@ -71,8 +71,6 @@ class WaiverController extends Controller
 
         $waiver->delete();
 
-        CancelAgreement::dispatch($waiver->provider, $waiver->provider_agreement_id);
-
         return request()->expectsJson()
             ? response([], 204)
             : redirect()->back();
