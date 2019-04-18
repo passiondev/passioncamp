@@ -10,6 +10,7 @@ use App\Billing\StripePaymentGateway;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
+use HelloSign\Client as HelloSignClient;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\RegisterController;
 
@@ -103,6 +104,16 @@ class AppServiceProvider extends ServiceProvider
             ->give(function ($app) {
                 return $app->make('stripe.pcc');
             });
+
+        $this->app->singleton(HelloSignClient::class, function ($app) {
+            $client = new HelloSignClient(config('passioncamp.hellosign_api_key'));
+
+            // if ($app->isLocal()) {
+            //     $client->enableDebugMode();
+            // }
+
+            return $client;
+        });
     }
 
     private function bootMacros()

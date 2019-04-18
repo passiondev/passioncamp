@@ -31,11 +31,9 @@ class SendReminder implements ShouldQueue
      */
     public function handle()
     {
-        $status = $this->waiver->provider()
-            ->sendReminder($this->waiver->provider_agreement_id);
+        $this->waiver->provider()
+            ->sendReminder($this->waiver->provider_agreement_id, $this->waiver->ticket->waiver_signer_email);
 
-        $this->waiver->fill([
-            'status' => $status,
-        ])->touch();
+        $this->waiver->touch();
     }
 }

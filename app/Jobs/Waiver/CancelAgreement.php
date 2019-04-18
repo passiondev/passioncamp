@@ -8,10 +8,13 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Facades\App\Services\Esign\ProviderFactory as EsignProviderFactory;
 
 class CancelAgreement implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $provider;
 
     protected $agreementId;
 
@@ -20,9 +23,10 @@ class CancelAgreement implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($agreement)
+    public function __construct($provider, $agreementId)
     {
-        $this->agreementId = $agreement->agreementId;
+        $this->provider = $provider;
+        $this->agreementId = $agreementId;
     }
 
     /**
@@ -30,8 +34,8 @@ class CancelAgreement implements ShouldQueue
      *
      * @return void
      */
-    public function handle(EsignProvider $provider)
+    public function handle()
     {
-        $provider->cancelSignatureRequest($this->agreementId);
+        EsignProviderFactory::make($this->provider)->cancelSignatureRequest($this->agreementId);
     }
 }

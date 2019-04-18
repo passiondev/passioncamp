@@ -18,6 +18,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::any('webhooks/adobesign', 'Webhooks\AdobeSignController');
+Route::any('webhooks/hellosign', 'Webhooks\HelloSignController');
 
 Route::get('/', 'RedirectController@home');
 
@@ -106,6 +107,8 @@ Route::get('stop-impersonating', 'Auth\ImpersonationController@stopImpersonating
 
 if (config('passioncamp.enable_waivers')) {
     Route::resource('waivers', 'WaiverController')->only('index', 'destroy');
+    Route::post('waivers/bulk-send', 'WaiverBulkSendController');
+    Route::post('waivers/bulk-remind', 'WaiverBulkRemindController');
     Route::post('waivers/{waiver}/reminder', 'WaiverController@reminder');
     Route::post('waivers/{waiver}/refresh', 'WaiverController@refresh');
 }

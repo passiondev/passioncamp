@@ -7,6 +7,7 @@ class WaiverStatus
     const CREATED = 'new';
     const PENDING = 'pending';
     const COMPLETE = 'complete';
+    const BOUNCED = 'bounced';
 
     public static function get($status)
     {
@@ -18,6 +19,9 @@ class WaiverStatus
             case 'ESIGNED':
             case 'SIGNED':
                 return static::COMPLETE;
+
+            case 'bounced':
+                return static::BOUNCED;
 
             case 'PENDING':
             default:

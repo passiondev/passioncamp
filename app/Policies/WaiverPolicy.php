@@ -15,6 +15,10 @@ class WaiverPolicy
         if ($user->isSuperAdmin()) {
             return true;
         }
+
+        if (config('passioncamp.waiver_test_mode')) {
+            return false;
+        }
     }
 
     /**

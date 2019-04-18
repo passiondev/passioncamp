@@ -33,7 +33,33 @@ class RequestWaiverSignature implements ShouldQueue
      */
     public function handle()
     {
-        $agreementId = $this->waiver->provider()->createSignatureRequest([
+        $agreementId = $this->waiver->provider()->createSignatureRequest(
+            $this->waiver->ticket->toHelloSignSignatureRequest()
+        )->signature_request_id;
+
+        $this->waiver->update([
+            'provider_agreement_id' => $agreementId,
+            'status' => WaiverStatus::PENDING,
+        ]);
+    }
+
+    private function getLibraryDocumentId()
+    {
+        return $this->waiver->ticket->order->organization->slug == 'pcc'
+            ? config('passioncamp.pcc_waiver_document_id')
+            : config('passioncamp.waiver_document_id');
+    }
+
+    public function getRecipientEmail()
+    {
+        return App::environment('production')
+            ? $this->waiver->ticket->order->user->person->email
+            : 'matt.floyd+waivers@268generation.com';
+    }
+
+    public function toAdobeSignSignatureRequestArray()
+    {
+        return [
             'documentCreationInfo' => [
                 'fileInfos' => [
                     'libraryDocumentId' => $this->getLibraryDocumentId(),
@@ -104,25 +130,6 @@ class RequestWaiverSignature implements ShouldQueue
                 'signatureFlow' => 'SENDER_SIGNATURE_NOT_REQUIRED',
                 'callbackInfo' => action('Webhooks\AdobeSignController'),
             ],
-        ]);
-
-        $this->waiver->update([
-            'provider_agreement_id' => $agreementId,
-            'status' => WaiverStatus::PENDING,
-        ]);
-    }
-
-    private function getLibraryDocumentId()
-    {
-        return $this->waiver->ticket->order->organization->slug == 'pcc'
-            ? config('passioncamp.pcc_waiver_document_id')
-            : config('passioncamp.waiver_document_id');
-    }
-
-    public function getRecipientEmail()
-    {
-        return App::environment('production')
-            ? $this->waiver->ticket->order->user->person->email
-            : 'matt.floyd+waivers@268generation.com';
+        ];
     }
 }

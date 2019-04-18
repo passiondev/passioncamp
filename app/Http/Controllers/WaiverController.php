@@ -8,6 +8,7 @@ use App\Organization;
 use Illuminate\Http\Request;
 use App\Filters\TicketFilters;
 use App\Jobs\Waiver\SendReminder;
+use App\Jobs\Waiver\CancelAgreement;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
 
 class WaiverController extends Controller
@@ -19,6 +20,8 @@ class WaiverController extends Controller
 
     public function index(TicketFilters $filters)
     {
+        $this->authorize('create', Waiver::class);
+
         $tickets = Ticket::forUser(auth()->user())
             ->active()
             ->when(auth()->user()->isSuperAdmin(), function ($q) use ($filters) {
