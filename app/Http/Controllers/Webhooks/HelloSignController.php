@@ -6,16 +6,21 @@ use App\Waiver;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
+use Illuminate\Support\Facades\Validator;
 
 class HelloSignController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'event' => 'required',
         ]);
 
-        logger($this->json('event.event_type'), ['signature_request_id' => $this->json('event.event_metadata.related_signature_id')]);
+        if ($validator->fails()) {
+            return response('not found', 404);
+        }
+
+        logger($request->json('event.event_type'), ['signature_request_id' => $request->json('event.event_metadata.related_signature_id')]);
 
         switch ($request->json('event.event_type')) {
             case 'signature_request_signed':
