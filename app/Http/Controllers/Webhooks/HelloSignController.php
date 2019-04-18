@@ -12,11 +12,11 @@ class HelloSignController extends Controller
 {
     public function __invoke(Request $request)
     {
-        logger($request->header('User-Agent'));
-        logger($request->json('json'));
-        if (! $request->header('User-Agent') != 'HelloSign API') {
+        if ($request->header('User-Agent') != 'HelloSign API') {
             return response('not found', 404);
         }
+
+        $request->replace(json_decode($request->input('json'), true));
 
         $validator = Validator::make($request->all(), [
             'event' => 'required',
