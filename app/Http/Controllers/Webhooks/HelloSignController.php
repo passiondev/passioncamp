@@ -48,6 +48,6 @@ class HelloSignController extends Controller
                 break;
         }
 
-        return response('ok', 200);
+        return response('Hello API Event Received', 200);
     }
 }
