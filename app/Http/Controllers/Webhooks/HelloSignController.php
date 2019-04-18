@@ -11,13 +11,8 @@ class HelloSignController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if (! $request->header('User-Agent') != 'HelloSign API') {
-            return response('not found', 404);
-        }
-
         $request->validate([
             'event' => 'required',
-            'signature_request' => 'required',
         ]);
 
         logger($this->json('event.event_type'), ['signature_request_id' => $this->json('event.event_metadata.related_signature_id')]);
