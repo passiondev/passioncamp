@@ -6,6 +6,7 @@ use Laravel\Telescope\Telescope;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
+use Laravel\Telescope\EntryType;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
@@ -27,7 +28,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                 return true;
             }
 
-            return $entry->isReportableException() ||
+            return $entry->type == EntryType::REQUEST ||
+                   $entry->isReportableException() ||
                    $entry->isFailedJob() ||
                    $entry->isScheduledTask() ||
                    $entry->hasMonitoredTag();
