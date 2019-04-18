@@ -389,6 +389,8 @@ class Ticket extends OrderItem
             ],
         ]);
 
+        $request->setClientId('a1d6b974cf34edc7557b03c4004a9820');
+
         if (config('passioncamp.waiver_test_mode')) {
             $request->enableTestMode();
         }
