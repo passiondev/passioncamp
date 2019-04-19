@@ -335,61 +335,43 @@ class Ticket extends OrderItem
             ],
             'custom_fields' => json_encode([
                 [
-                    "name" => "623cbe_9", // Church Name
-                    "value" => $this->order->organization->church->name,
+                    'name' => '623cbe_9', // Church Name
+                    'value' => $this->order->organization->church->name,
                 ],
                 [
-                    "name" => "623cbe_10", // Church City, State
-                    "value" => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
+                    'name' => '623cbe_10', // Church City, State
+                    'value' => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
                 ],
                 [
-                    "name" => "623cbe_22", // Participant Name
-                    "value" => $this->person->name,
+                    'name' => '623cbe_22', // Participant Name
+                    'value' => $this->person->name,
                 ],
                 [
-                    "name" => "623cbe_24", // Male \/ Female
-                    "value" => $this->person->gender,
+                    'name' => '623cbe_24', // Male \/ Female
+                    'value' => $this->person->gender,
                 ],
                 [
-                    "name" => "623cbe_26", // Parent\/Guardian Name
-                    "value" => $this->order->user->person->name,
+                    'name' => '623cbe_26', // Parent\/Guardian Name
+                    'value' => $this->order->user->person->name,
                 ],
                 [
-                    "name" => "623cbe_27", // Phone number
-                    "value" => $this->order->user->person->phone,
+                    'name' => '623cbe_27', // Phone number
+                    'value' => $this->order->user->person->phone,
                 ],
                 [
-                    "name" => "Email", // Email address
-                    "value" => $this->order->user->person->email,
+                    'name' => 'f7ad66_9', // Email address
+                    'value' => $this->order->user->person->email,
                 ],
-                [
-                    "name" => "623cbe_15", // Participant Name
-                    "value" => $this->person->name,
-                ],
-                [
-                    "name" => "623cbe_17", // Parent\/Guardian Name
-                    "value" => $this->order->user->person->name,
-                ],
-                [
-                    "name" => "623cbe_16", // Participant Name
-                    "value" => $this->person->name,
-                ],
-                [
-                    "name" => "623cbe_18", // Participant Name
-                    "value" => $this->person->name,
-                ],
-                [
-                    "name" => "623cbe_19", // Parent\/Guardian Name
-                    "value" => $this->order->user->person->name,
-                ]
             ]),
             'metadata' => [
+                'name' => $this->person->name,
+                'church' => "{$this->order->organization->church->name}, {$this->order->organization->church->city}, {$this->order->organization->church->state}",
                 'ticket_id' => $this->id,
                 'organization_id' => $this->order->organization->id,
             ],
         ]);
 
-        $request->setClientId('a1d6b974cf34edc7557b03c4004a9820');
+        $request->setClientId('3ad91213f735fe7f9515dba9d1396269');
 
         if (config('passioncamp.waiver_test_mode')) {
             $request->enableTestMode();

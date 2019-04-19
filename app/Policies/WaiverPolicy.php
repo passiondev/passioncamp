@@ -41,7 +41,7 @@ class WaiverPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class WaiverPolicy
      */
     public function update(User $user, Waiver $waiver)
     {
-        return $this->view($user, $waiver);
+        return false;
     }
 
     /**
@@ -65,6 +65,11 @@ class WaiverPolicy
      */
     public function delete(User $user, Waiver $waiver)
     {
-        return $this->view($user, $waiver);
+        return false;
+    }
+
+    public function remind(User $user, Waiver $waiver)
+    {
+        return false;
     }
 }

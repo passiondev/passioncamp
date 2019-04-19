@@ -39,20 +39,9 @@ class WaiverController extends Controller
         return view('waivers.index', compact('tickets', 'organizations'));
     }
 
-    public function refresh(Waiver $waiver)
-    {
-        $this->authorize('view', $waiver);
-
-        FetchAndUpdateStatus::dispatch($waiver);
-
-        return request()->expectsJson()
-            ? $waiver
-            : redirect()->back();
-    }
-
     public function reminder(Waiver $waiver)
     {
-        $this->authorize('view', $waiver);
+        $this->authorize('remind', $waiver);
 
         if (! $waiver->canBeReminded()) {
             abort(403, 'This waiver cannot be reminded.');
@@ -67,7 +56,7 @@ class WaiverController extends Controller
 
     public function destroy(Waiver $waiver)
     {
-        $this->authorize($waiver);
+        $this->authorize('delete', $waiver);
 
         $waiver->delete();
 

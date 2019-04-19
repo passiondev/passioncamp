@@ -20,7 +20,7 @@ class WaiverStatus
             case 'SIGNED':
                 return static::COMPLETE;
 
-            case 'bounced':
+            case 'BOUNCED':
                 return static::BOUNCED;
 
             case 'PENDING':
