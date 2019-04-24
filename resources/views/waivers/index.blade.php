@@ -112,7 +112,7 @@
                                         @if (auth()->user()->can('remind', $ticket->waiver) && $ticket->waiver->canBeReminded())
                                             <li v-if="! updated">
                                                 <ajax href="{{ action('WaiverController@reminder', $ticket->waiver) }}" method="POST" @success="waiver = {status: 'refreshing'};updated = true;" v-cloak>
-                                                    remind
+                                                    resend
                                                 </ajax>
                                             </li>
                                         @endif

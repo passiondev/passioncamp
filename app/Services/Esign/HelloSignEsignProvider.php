@@ -32,7 +32,16 @@ class HelloSignEsignProvider
         return $this->client->getSignatureRequest($agreementId);
     }
 
+    public function getSignatureRequest($agreementId) {
+        return $this->client->getSignatureRequest($agreementId);
+    }
+
     public function fetchPdf($agreementId) {
         return file_get_contents($this->client->getFiles($agreementId)->getFileUrl());
+    }
+
+    public function updateSignatureRequest($agreementId, $signatureId, $email)
+    {
+        $this->client->updateSignatureRequest($agreementId, $signatureId, $email);
     }
 }

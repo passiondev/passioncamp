@@ -70,6 +70,6 @@ class WaiverPolicy
 
     public function remind(User $user, Waiver $waiver)
     {
-        return false;
+        return true;
     }
 }

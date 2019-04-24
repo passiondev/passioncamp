@@ -335,31 +335,31 @@ class Ticket extends OrderItem
             ],
             'custom_fields' => json_encode([
                 [
-                    'name' => '623cbe_9', // Church Name
+                    'name' => 'church_name', // Church Name
                     'value' => $this->order->organization->church->name,
                 ],
                 [
-                    'name' => '623cbe_10', // Church City, State
+                    'name' => 'church_location', // Church City, State
                     'value' => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
                 ],
                 [
-                    'name' => '623cbe_22', // Participant Name
+                    'name' => 'participant_name', // Participant Name
                     'value' => $this->person->name,
                 ],
                 [
-                    'name' => '623cbe_24', // Male \/ Female
+                    'name' => 'participant_gender', // Male \/ Female
                     'value' => $this->person->gender,
                 ],
                 [
-                    'name' => '623cbe_26', // Parent\/Guardian Name
+                    'name' => 'parent_name', // Parent\/Guardian Name
                     'value' => $this->order->user->person->name,
                 ],
                 [
-                    'name' => '623cbe_27', // Phone number
+                    'name' => 'parent_phone', // Phone number
                     'value' => $this->order->user->person->phone,
                 ],
                 [
-                    'name' => 'f7ad66_9', // Email address
+                    'name' => 'parent_email', // Email address
                     'value' => $this->order->user->person->email,
                 ],
             ]),

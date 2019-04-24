@@ -33,9 +33,14 @@ class RequestWaiverSignature implements ShouldQueue
      */
     public function handle()
     {
-        $agreementId = $this->waiver->provider()->createSignatureRequest(
-            $this->waiver->ticket->toHelloSignSignatureRequest()
-        )->signature_request_id;
+        try {
+            $agreementId = $this->waiver->provider()->createSignatureRequest(
+                $this->waiver->ticket->toHelloSignSignatureRequest()
+            )->signature_request_id;
+        } catch (\Exception $e) {
+            $this->waiver->delete();
+            throw $e;
+        }
 
         $this->waiver->update([
             'provider_agreement_id' => $agreementId,
