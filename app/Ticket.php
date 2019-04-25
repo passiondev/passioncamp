@@ -5,11 +5,11 @@ namespace App;
 use Laravel\Scout\Searchable;
 use App\Observers\TicketObserver;
 use Illuminate\Support\Facades\Auth;
+use HelloSign\TemplateSignatureRequest;
 use Illuminate\Database\Eloquent\Builder;
 use App\Jobs\Waiver\RequestWaiverSignature;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Facades\App\Contracts\Printing\Factory as Printer;
-use HelloSign\TemplateSignatureRequest;
 
 class Ticket extends OrderItem
 {
@@ -349,18 +349,6 @@ class Ticket extends OrderItem
                 [
                     'name' => 'participant_gender', // Male \/ Female
                     'value' => $this->person->gender,
-                ],
-                [
-                    'name' => 'parent_name', // Parent\/Guardian Name
-                    'value' => $this->order->user->person->name,
-                ],
-                [
-                    'name' => 'parent_phone', // Phone number
-                    'value' => $this->order->user->person->phone,
-                ],
-                [
-                    'name' => 'parent_email', // Email address
-                    'value' => $this->order->user->person->email,
                 ],
             ]),
             'metadata' => [
