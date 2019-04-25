@@ -38,6 +38,7 @@ class RequestWaiverSignature implements ShouldQueue
                 $this->waiver->ticket->toHelloSignSignatureRequest()
             )->signature_request_id;
         } catch (\Exception $e) {
+            report($e);
             $this->waiver->delete();
             throw $e;
         }
