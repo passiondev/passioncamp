@@ -319,9 +319,9 @@ class Ticket extends OrderItem
     {
         $templateIds = ['d670b0e6610cd423b4e56413510036369fc58eae'];
 
-        // if ($this->order->organization->slug == 'pcc') {
-        //     array_push($templateIds, '28bf8648a4b9dcb4602e710f1cd479c064bc4ada');
-        // }
+        if ($this->order->organization->slug == 'pcc') {
+            $templateIds = ['081d3928c758b4a8448018e1f0ceaa99595d723a'];
+        }
 
         $request = new TemplateSignatureRequest;
 
