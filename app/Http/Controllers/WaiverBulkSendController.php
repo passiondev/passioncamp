@@ -15,6 +15,8 @@ class WaiverBulkSendController extends Controller
 
         $organization = Organization::findOrFail($request->input('organization'));
 
+        $this->authorize('update', $organization);
+
         $waiversSent = 0;
         $organization->attendees()->each(function ($attendee) use (&$waiversSent) {
             if ($attendee->waiver) {

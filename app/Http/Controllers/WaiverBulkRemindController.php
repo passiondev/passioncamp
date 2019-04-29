@@ -16,6 +16,8 @@ class WaiverBulkRemindController extends Controller
 
         $organization = Organization::findOrFail($request->input('organization'));
 
+        $this->authorize('update', $organization);
+
         $remindersSent = 0;
         $organization->attendees()->each(function ($attendee) use (&$remindersSent) {
             if (! $attendee->waiver) {

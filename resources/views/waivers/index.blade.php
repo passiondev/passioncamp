@@ -19,8 +19,8 @@
         @endif
 
         @if (auth()->user()->isSuperAdmin())
-            <div class="d-flex align-items-baseline">
-                <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mb-3">
+            <div class="d-flex align-items-baseline mb-3">
+                <form action="{{ action('WaiverController@index') }}" method="GET" class="form-inline mr-4">
                     <select name="organization" class="form-control mb-2 mr-sm-2 mb-sm-0" onchange="this.form.submit()">
                         <option selected disabled>Church...</option>
                         <option value="">- All -</option>
@@ -32,29 +32,10 @@
                     </select>
                 </form>
 
-                @if (request()->input('organization'))
-                    <div class="ml-4">
-                        <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="event.preventDefault(); document.getElementById('bulk-send').submit()"
-                        >Send all</button>
-
-                        <form action="{{ action('WaiverBulkSendController', ['organization' => request('organization')]) }}" method="post" id="bulk-send">
-                            @csrf
-                        </form>
-                    </div>
-                    <div class="ml-4">
-                        <button
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="event.preventDefault(); document.getElementById('bulk-remind').submit()"
-                        >Remind all</button>
-
-                        <form action="{{ action('WaiverBulkRemindController', ['organization' => request('organization')]) }}" method="post" id="bulk-remind">
-                            @csrf
-                        </form>
-                    </div>
-                @endif
+                @includeWhen(request()->input('organization'), 'waivers.partials.bulk-actions')
             </div>
+        @else
+            @include('waivers.partials.bulk-actions')
         @endif
 
         <table class="table table-responsive table-striped">
