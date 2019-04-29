@@ -35,7 +35,9 @@
                 @includeWhen(request()->input('organization'), 'waivers.partials.bulk-actions')
             </div>
         @else
-            @include('waivers.partials.bulk-actions')
+            <div class="d-flex align-items-baseline mb-3">
+                @include('waivers.partials.bulk-actions')
+            </div>
         @endif
 
         <table class="table table-responsive table-striped">
