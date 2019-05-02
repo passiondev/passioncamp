@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Auth\MagicAuthentication;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MagicLinkLoginController extends Controller
 {
@@ -33,10 +34,13 @@ class MagicLinkLoginController extends Controller
         return redirect()->route('magic.login')->with('magic-link-sent', $request->input('email'));
     }
 
-    public function authenticate(Request $request, EmailLogin $token)
+    public function authenticate(Request $request, $token)
     {
         try {
+            $token = EmailLogin::where('token', $token)->firstOrFail();
             $token->validateRequest($request);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('magic.login')->with('error', 'This Magic Link is not longer valid.');
         } catch (\Exception $e) {
             return redirect()->route('magic.login')->with('error', $e->getMessage());
         }
