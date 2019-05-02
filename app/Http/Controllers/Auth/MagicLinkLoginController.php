@@ -40,7 +40,7 @@ class MagicLinkLoginController extends Controller
             $token = EmailLogin::where('token', $token)->firstOrFail();
             $token->validateRequest($request);
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('magic.login')->with('error', 'This Magic Link is not longer valid.');
+            return redirect()->route('magic.login')->with('error', 'This Magic Link is no longer valid.');
         } catch (\Exception $e) {
             return redirect()->route('magic.login')->with('error', $e->getMessage());
         }
