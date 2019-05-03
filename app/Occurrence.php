@@ -81,6 +81,23 @@ class Occurrence
                 $price = $price - 200;
                 break;
 
+            // set prices
+            case 'camp200':
+                $price = 200;
+                break;
+            case 'camp215':
+                $price = 215;
+                break;
+            case 'camp225':
+                $price = 225;
+                break;
+            case 'camp250':
+                $price = 250;
+                break;
+            case 'camp300':
+                $price = 300;
+                break;
+
             // schools
             case 'ahs19':
             case 'cambridge19':
