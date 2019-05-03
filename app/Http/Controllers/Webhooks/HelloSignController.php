@@ -34,14 +34,14 @@ class HelloSignController extends Controller
             case 'signature_request_reassigned':
             case 'signature_request_downloadable':
             case 'signature_request_all_signed':
-                $waiver = Waiver::whereProvider('adobesign')
+                $waiver = Waiver::whereProvider('hellosign')
                     ->where('provider_agreement_id', $request->json('event.event_metadata.related_signature_id'))
                     ->firstOrFail();
                 FetchAndUpdateStatus::dispatch($waiver);
                 break;
 
             case 'signature_request_email_bounce':
-                $waiver = Waiver::whereProvider('adobesign')
+                $waiver = Waiver::whereProvider('hellosign')
                     ->where('provider_agreement_id', $request->json('event.event_metadata.related_signature_id'))
                     ->firstOrFail();
                 $waiver->update(['status' => 'bounced']);
