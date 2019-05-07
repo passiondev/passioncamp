@@ -20,12 +20,7 @@ class RoomingListVersionExport implements WithMultipleSheets
 
     public function sheets() : array
     {
-        $rooms = Room::with('organization.church')
-            ->join('organizations', function ($join) {
-                $join->on('rooms.organization_id', '=', 'organizations.id')
-                    ->whereNull('organizations.deleted_at');
-            })
-            ->get();
+        $rooms = Room::with('organization.church', 'tickets.person')->get();
 
         $roomChanges = $rooms->mapWithKeys(function ($room) {
             return [$room->id => $room->revision()];
@@ -38,6 +33,10 @@ class RoomingListVersionExport implements WithMultipleSheets
         });
 
         $allRooms = $rooms->map(function ($room) use ($roomChanges, $ticketChanges) {
+            if (! $room->organization) {
+                return;
+            }
+
             return [
                 'id' => $room->id,
                 'confirmation_number' => $room->confirmation_number,
@@ -47,8 +46,8 @@ class RoomingListVersionExport implements WithMultipleSheets
                 'desc' => $room->description,
                 'notes' => $room->notes,
                 'changed' => $roomChanges[$room->id]->propertiesHaveChanged(),
-                'gender' => $room->tickets->pluck('person.gender')->implode(''),
-                'tickets' => $room->tickets->map(function ($ticket) use ($ticketChanges) {
+                'gender' => $room->tickets->alphaSort()->pluck('person.gender')->implode(''),
+                'tickets' => $room->tickets->alphaSort()->map(function ($ticket) use ($ticketChanges) {
                     return [
                         'first_name' => $ticket->first_name,
                         'last_name' => $ticket->last_name,
@@ -56,7 +55,7 @@ class RoomingListVersionExport implements WithMultipleSheets
                     ];
                 })->toArray(),
             ];
-        });
+        })->filter();
 
         $changedRooms = $rooms->map(function ($room) use ($roomChanges) {
             return [

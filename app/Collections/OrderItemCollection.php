@@ -48,6 +48,11 @@ class OrderItemCollection extends Collection
         });
     }
 
+    public function alphaSort()
+    {
+        return $this->sortBy('first_name')->sortBy('last_name');
+    }
+
     public function checkedIn()
     {
         return $this->filter(function ($ticket) {
