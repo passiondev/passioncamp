@@ -26,7 +26,7 @@ class HelloSignController extends Controller
             return response('not found', 404);
         }
 
-        logger($request->json('event.event_type'), ['signature_request_id' => $request->json('event.event_metadata.related_signature_id')]);
+        logger()->info($request->json('event.event_type'), ['signature_request_id' => $request->json('event.event_metadata.related_signature_id')]);
 
         switch ($request->json('event.event_type')) {
             case 'signature_request_signed':

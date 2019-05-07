@@ -36,7 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', 'bugsnag'],
+            'channels' => ['single', 'bugsnag', 'syslog'],
         ],
 
         'single' => [
@@ -80,7 +80,7 @@ return [
 
         'syslog' => [
             'driver' => 'syslog',
-            'level' => 'debug',
+            'level' => 'info',
         ],
 
         'errorlog' => [
