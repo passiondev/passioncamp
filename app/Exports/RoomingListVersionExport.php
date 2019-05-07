@@ -20,7 +20,12 @@ class RoomingListVersionExport implements WithMultipleSheets
 
     public function sheets() : array
     {
-        $rooms = Room::with('organization.church')->get();
+        $rooms = Room::with('organization.church')
+            ->join('organizations', function ($join) {
+                $join->on('rooms.organization_id', '=', 'organizations.id')
+                    ->whereNull('organizations.deleted_at');
+            })
+            ->get();
 
         $roomChanges = $rooms->mapWithKeys(function ($room) {
             return [$room->id => $room->revision()];
