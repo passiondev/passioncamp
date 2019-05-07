@@ -20,7 +20,7 @@ class RoomingListVersionExport implements WithMultipleSheets
 
     public function sheets() : array
     {
-        $rooms = Room::with('organization.church', 'tickets.person')->get();
+        $rooms = Room::with('organization.church', 'tickets.person')->has('organization')->get();
 
         $roomChanges = $rooms->mapWithKeys(function ($room) {
             return [$room->id => $room->revision()];
@@ -33,10 +33,6 @@ class RoomingListVersionExport implements WithMultipleSheets
         });
 
         $allRooms = $rooms->map(function ($room) use ($roomChanges, $ticketChanges) {
-            if (! $room->organization) {
-                return;
-            }
-
             return [
                 'id' => $room->id,
                 'confirmation_number' => $room->confirmation_number,
@@ -55,7 +51,7 @@ class RoomingListVersionExport implements WithMultipleSheets
                     ];
                 })->toArray(),
             ];
-        })->filter();
+        });
 
         $changedRooms = $rooms->map(function ($room) use ($roomChanges) {
             return [
