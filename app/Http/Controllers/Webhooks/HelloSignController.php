@@ -29,10 +29,10 @@ class HelloSignController extends Controller
         logger()->info($request->input('event.event_type'), ['signature_request_id' => $request->input('signature_request.signature_request_id')]);
 
         switch ($request->input('event.event_type')) {
-            case 'signature_request_signed':
+            // case 'signature_request_signed':
             case 'signature_request_declined':
             case 'signature_request_reassigned':
-            case 'signature_request_downloadable':
+            // case 'signature_request_downloadable':
             case 'signature_request_all_signed':
                 $waiver = Waiver::whereProvider('hellosign')
                     ->where('provider_agreement_id', $request->input('signature_request.signature_request_id'))
