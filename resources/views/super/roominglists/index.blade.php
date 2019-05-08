@@ -29,12 +29,29 @@
                         </div>
                     @endforeach
                 </div>
+
+                @if (count($versions))
+                    <button
+                        href="{{ action('RoominglistResetController') }}"
+                        class="btn btn-sm btn-outline-danger mt-5"
+                        onclick="
+                            if (confirm('Are you sure you want to remove and reset all versions? This is permanent and cannot be undone!'))
+                                { event.preventDefault(); document.getElementById('reset-form').submit(); }
+                            else return
+                        "
+                    >
+                        Remove and reset all versions
+                    </button>
+                @endif
             </div>
         </div>
     </div>
 
     <form id="export-form" action="{{ action('RoominglistExportController@create') }}" method="POST" style="display:none">
-        {{ csrf_field() }}
+        @csrf
+    </form>
+    <form id="reset-form" action="{{ action('RoominglistResetController') }}" method="POST" style="display:none">
+        @csrf
     </form>
 @endsection
 

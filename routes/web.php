@@ -43,6 +43,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::get('roominglists', 'Super\RoominglistsController@index');
     Route::post('roominglists/export', 'RoominglistExportController@create');
     Route::get('roominglists/{version}/download', 'RoominglistExportController@download');
+    Route::post('roominglists/reset', 'RoominglistResetController');
 
     Route::resource('organizations', 'OrganizationController');
     Route::get('organizations/search', 'OrganizationController@search');
