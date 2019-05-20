@@ -24,7 +24,7 @@
 </head>
 <body>
     <div class="container">
-        <p><img src="{{ public_path('img/room/label/icon.png') }}" style="width:60%;max-width:200px;"></p>
+        <img src="{{ public_path('img/room/label/icon.png') }}" style="display:block;margin-top:6px;width:60%;max-width:200px;">
 
         <p>{{ $room->organization->church->name }}</p>
 
