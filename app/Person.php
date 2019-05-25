@@ -35,9 +35,15 @@ class Person extends Model
 
     public function getFormattedConsiderationsAttribute()
     {
-        return collect(['nut', 'vegetarian', 'vegan', 'gluten', 'dairy', 'other', 'drug', 'physical', 'visual', 'hearing'])->mapWithKeys(function ($consideration) {
-            return [$consideration => array_get($this->considerations, $consideration) ? 'X' : ''];
-        })->toArray();
+        return collect(['nut', 'vegetarian', 'vegan', 'gluten', 'dairy', 'other', 'drug', 'physical', 'visual', 'hearing'])
+            ->mapWithKeys(function ($consideration) {
+                $value = array_get($this->considerations, $consideration);
+
+                return [
+                    $consideration => in_array($value, [$consideration, 'true']) ? 'X' : $value,
+                ];
+            })
+            ->toArray();
     }
 
     public function setNameAttribute($name)
