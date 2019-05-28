@@ -82,6 +82,9 @@ class Occurrence
                 break;
 
             // set prices
+            case 'camp50':
+                $price = 50;
+                break;
             case 'camp100':
                 $price = 100;
                 break;           
