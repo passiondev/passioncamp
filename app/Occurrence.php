@@ -103,6 +103,9 @@ class Occurrence
             case 'camp300':
                 $price = 300;
                 break;
+            case 'camp385':
+                $price = 385;
+                break;
 
             // schools
             case 'ahs19':
