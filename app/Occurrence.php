@@ -36,7 +36,7 @@ class Occurrence
             case 'trickshot':
                 $price = $price - 15;
                 break;
-                
+
                 break;
             case 'easter':
                 if (now()->between(Carbon::parse('2019-04-19 00:00:00'), Carbon::parse('2019-04-21 23:59:59'))) {
@@ -87,7 +87,7 @@ class Occurrence
                 break;
             case 'camp100':
                 $price = 100;
-                break;           
+                break;
             case 'camp200':
                 $price = 200;
                 break;
@@ -215,6 +215,11 @@ class Occurrence
     public function isClosed()
     {
         return now()->gte(Carbon::parse($this->closes));
+    }
+
+    public function isSoldOut()
+    {
+        return $this->config['sold_out'] === true;
     }
 
     public function __get($name)

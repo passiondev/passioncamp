@@ -441,10 +441,6 @@ class Organization extends Model
 
     public function canAddTickets()
     {
-        if ($this->slug == 'pcc') {
-            return true;
-        }
-
         return $this->tickets_remaining_count > 0;
     }
 
