@@ -41,7 +41,7 @@ class RegisterController extends Controller
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
-        if ($this->organization->canAddTickets() || $this->occurrence->isSoldOut()) {
+        if (! $this->organization->canAddTickets() || $this->occurrence->isSoldOut()) {
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
