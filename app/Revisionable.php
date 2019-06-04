@@ -16,7 +16,7 @@ trait Revisionable
         $lastActivity = $this->activity()->latest()->first();
 
         $properties['attributes'] = static::logChanges($this);
-        $properties['old'] = $lastActivity->changes['attributes'] ?? [];
+        $properties['old'] = optional($lastActivity)->changes()['attributes'] ?? [];
         $properties['old'] = array_diff_assoc($properties['old'], $properties['attributes']);
         $properties['changed'] = $lastActivity ? array_keys($properties['old']) : static::attributesToBeLogged();
 
