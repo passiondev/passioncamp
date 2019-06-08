@@ -27,7 +27,7 @@ class PaymentController extends Controller
         ]);
 
         $order = auth()->user()->orders()->create([
-            'organization_id' => 1,
+            'organization_id' => 2,
         ]);
 
         try {
