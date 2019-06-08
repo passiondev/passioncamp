@@ -19,7 +19,7 @@
             <div class="alert alert-warning">{{ session('unchecked_in.name') }} un-checked.</div>
         @endif
 
-        <div class="card mb-5">
+        <div class="card mb-4">
             <header class="card-header d-flex align-items-center justify-content-between">
                 <h1>Check In</h1>
                 <div class="text-right">
@@ -27,10 +27,10 @@
                     <strong class="color-leader">Leaders</strong> {{ 100* $leaders_progress }}% <small>({{ $leaders_remaining }} remaining)</small>
                 </div>
             </header>
-                <div class="progress" style="border-radius: 0;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="height:3px;width:{{ 100 * $students_progress * $students_percentage }}%"></div>
-                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="height:3px;width:{{ 100* $leaders_progress * $leaders_percentage }}%"></div>
-                </div>
+            <div class="progress" style="border-radius: 0;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" style="height:3px;width:{{ 100 * $students_progress * $students_percentage }}%"></div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="height:3px;width:{{ 100* $leaders_progress * $leaders_percentage }}%"></div>
+            </div>
             @unless(session('printer'))
                 <div class="card-block">
                     <a href="{{ route('printers.index') }}">Select a printer...</a>
@@ -62,8 +62,8 @@
                                 </td>
                                 <td style="vertical-align: middle">
                                     <ul class="list-unstyled mb-0">
-                                        @unless ($ticket->pcc_waiver)
-                                            <li class="text-danger">@icon('exclamation-outline') Camp Waiver</li>
+                                        @unless (optional($ticket->waiver)->isComplete())
+                                            <li class="text-danger">@icon('exclamation-outline') Waiver</li>
                                         @endunless
                                         @if ($ticket->order->user->balance > 0)
                                             <li class="text-danger">@icon('exclamation-outline') Balance Due</li>
@@ -98,5 +98,16 @@
                 @endif
             @endunless
         </div>
+        <nav style="font-size: 80%" class="d-flex px-4">
+            <a href="{{ action('CheckinController@showRemaining') }}">View Remaining</a>
+            <a
+                href="{{ action('CheckinController@allLeaders') }}"
+                class="ml-3"
+                onclick="event.preventDefault(); confirm('Are you sure?') && document.getElementById('checkin-all-leaders-form').submit();"
+            >Check In All Leaders</a>
+        </nav>
+        <form action="{{ action('CheckinController@allLeaders') }}" method="POST" id="checkin-all-leaders-form">
+            @csrf
+        </form>
     </div>
 @stop

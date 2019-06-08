@@ -123,6 +123,7 @@ Route::post('selected-printer', 'SelectedPrinterController@store')->name('select
 Route::delete('selected-printer', 'SelectedPrinterController@destroy')->name('selected-printer.destroy');
 
 Route::get('checkin', 'CheckinController@index');
-Route::get('checkin/all-leaders', 'CheckinController@allLeaders');
+Route::post('checkin/all-leaders', 'CheckinController@allLeaders');
+Route::get('checkin/remaining', 'CheckinController@showRemaining');
 Route::post('checkin/{ticket}', 'CheckinController@create');
 Route::delete('checkin/{ticket}', 'CheckinController@destroy');
