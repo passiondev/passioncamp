@@ -41,7 +41,6 @@
                             @if(!!$ticket->squad) {{ $ticket->squad }} <br> @endif
                             @if(!!$ticket->bus) Bus #{{ $ticket->bus }} <br> @endif
                             @if(!!$ticket->roomAssignment) {{ $ticket->roomAssignment->room->description }} <br> @endif
-                            @if(!!$ticket->roomAssignment) {{ $ticket->roomAssignment->room->notes }} @endif
                         </td>
                     </tr>
                 </tbody>
