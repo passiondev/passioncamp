@@ -52,15 +52,17 @@
             </div>
         </div>
         <div class="row">
-            @if ($organization->slug == 'pcc')
+            @unless(auth()->user()->email == 'students@passioncitychurch.com')
+                @if ($organization->slug == 'pcc')
+                    <div class="col">
+                        @include('organization.partials.registration_summary')
+                    </div>
+                @endif
                 <div class="col">
-                    @include('organization.partials.registration_summary')
+                    @include('organization.partials.billing_summary')
+                    <a href="{{ action('Account\PaymentController@index') }}" class="btn btn-primary">Make Payment</a>
                 </div>
-            @endif
-            <div class="col">
-                @include('organization.partials.billing_summary')
-                <a href="{{ action('Account\PaymentController@index') }}" class="btn btn-primary">Make Payment</a>
-            </div>
+            @endunless
         </div>
     </div>
 @stop
