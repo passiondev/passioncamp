@@ -44,5 +44,16 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('print', function ($user) {
             return $user->isSuperAdmin() || data_get($user, 'organization.slug') == 'pcc';
         });
+
+        Gate::define('can-see-money', function ($user) {
+            if (in_array($user->email, [
+                'students@passioncitychurch.com',
+                'passioncamp@268generation.com',
+            ])) {
+                return false;
+            }
+
+            return true;
+        });
     }
 }

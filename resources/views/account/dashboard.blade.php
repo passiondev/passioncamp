@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="row">
-            @unless(auth()->user()->email == 'students@passioncitychurch.com')
+            @if (Gate::check('can-see-money'))
                 @if ($organization->slug == 'pcc')
                     <div class="col">
                         @include('organization.partials.registration_summary')
@@ -62,7 +62,7 @@
                     @include('organization.partials.billing_summary')
                     <a href="{{ action('Account\PaymentController@index') }}" class="btn btn-primary">Make Payment</a>
                 </div>
-            @endunless
+            @endif
         </div>
     </div>
 @stop
