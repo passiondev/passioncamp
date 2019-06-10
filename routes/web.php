@@ -64,6 +64,7 @@ if (config('passioncamp.enable_rooms')) {
 
     Route::post('rooms/{room}/assignments', 'RoomAssignmentController@store')->name('rooms.assignments.store');
     Route::delete('tickets/{ticket}/assignments', 'TicketAssignmentController@destroy');
+}
 
     Route::post('rooms/{room}/check-in', 'RoomController@checkin');
     Route::post('rooms/{room}/key-received', 'RoomController@keyReceived');
@@ -71,7 +72,6 @@ if (config('passioncamp.enable_rooms')) {
     Route::get('rooms/{room}/label', 'RoomLabelController@show')->name('room.label.show');
     Route::post('rooms/{room}/print-label', 'RoomLabelController@printnode');
     Route::post('rooms/print-all', 'RoomLabelController@printAll');
-}
 
 Route::resource('orders', 'OrderController')->only('show');
 Route::post('orders/exports', 'OrderExportController@store')->name('orders.exports.store');
