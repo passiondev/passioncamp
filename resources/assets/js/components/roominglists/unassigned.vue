@@ -4,12 +4,7 @@
 
         <div id="unassigned-tickets-scroll" style="overflow-y: scroll;padding-bottom: 20px">
             <div id="unassigned" class="list-group">
-                <draggable
-                    :list="tickets"
-                    @change="onChange"
-                    :options="draggableOptions">
-                    <ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"></ticket>
-                </draggable>
+                <ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"></ticket>
             </div>
         </div>
     </div>
