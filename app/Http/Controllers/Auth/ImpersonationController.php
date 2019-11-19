@@ -11,8 +11,6 @@ class ImpersonationController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -22,8 +20,9 @@ class ImpersonationController extends Controller
     /**
      * Impersonate the given user.
      *
-     * @param  Request  $request
-     * @param  string  $userId
+     * @param Request $request
+     * @param string  $userId
+     *
      * @return Response
      */
     public function impersonate(Request $request, User $user)
@@ -48,7 +47,8 @@ class ImpersonationController extends Controller
     /**
      * Stop impersonating and switch back to primary account.
      *
-     * @param  Request  $request
+     * @param Request $request
+     *
      * @return Response
      */
     public function stopImpersonating(Request $request)
@@ -58,7 +58,7 @@ class ImpersonationController extends Controller
         // We will make sure we have an impersonator's user ID in the session and if the
         // value doesn't exist in the session we will log this user out of the system
         // since they aren't really impersonating anyone and manually hit this URL.
-        if (! $request->session()->has('spark:impersonator')) {
+        if (!$request->session()->has('spark:impersonator')) {
             Auth::logout();
 
             return redirect('/');

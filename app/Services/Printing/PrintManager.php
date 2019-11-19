@@ -14,11 +14,26 @@ class PrintManager
         $this->app = $app;
     }
 
+    public function __call($method, $parameters)
+    {
+        return $this->driver()->$method(...$parameters);
+    }
+
     public function driver($name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
 
         return $this->drivers[$name] = $this->get($name);
+    }
+
+    public function getDefaultDriver()
+    {
+        return $this->app['config']['printing.default'];
+    }
+
+    public function setDefaultDriver($name)
+    {
+        $this->app['config']['printing.default'] = $name;
     }
 
     protected function get($name)
@@ -30,13 +45,13 @@ class PrintManager
     {
         $config = $this->getConfig($name);
 
-        if (is_null($config)) {
+        if (null === $config) {
             throw new InvalidArgumentException("Printer [{$name}] is not defined.");
         }
 
         $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
 
-        if (! method_exists($this, $driverMethod)) {
+        if (!method_exists($this, $driverMethod)) {
             throw new InvalidArgumentException("Driver [{$config['driver']}] is not supported.");
         }
 
@@ -68,20 +83,5 @@ class PrintManager
     protected function getConfig($name)
     {
         return $this->app['config']["printing.clients.{$name}"];
-    }
-
-    public function getDefaultDriver()
-    {
-        return $this->app['config']['printing.default'];
-    }
-
-    public function setDefaultDriver($name)
-    {
-        $this->app['config']['printing.default'] = $name;
-    }
-
-    public function __call($method, $parameters)
-    {
-        return $this->driver()->$method(...$parameters);
     }
 }

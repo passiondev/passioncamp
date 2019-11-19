@@ -6,7 +6,6 @@ use League\Fractal\TransformerAbstract;
 
 class RoomAssignmentTransformer extends TransformerAbstract
 {
-
     public function transform($roomAssignment)
     {
         return [

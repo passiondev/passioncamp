@@ -26,8 +26,6 @@ class SendWaiverToTickets extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -54,9 +52,9 @@ class SendWaiverToTickets extends Command
             ->with('order.user.person')
             ->get();
 
-        $this->info('Tickets: ' . $tickets->count());
+        $this->info('Tickets: '.$tickets->count());
 
-        if (! $tickets->count()) {
+        if (!$tickets->count()) {
             $this->line('Bye!');
 
             return;
@@ -70,7 +68,7 @@ class SendWaiverToTickets extends Command
             ];
         }));
 
-        if (! $this->confirm('Proceed?')) {
+        if (!$this->confirm('Proceed?')) {
             $this->line('Bye!');
 
             return;

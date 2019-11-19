@@ -13,6 +13,6 @@ class OrderExport extends Export
 
     public function data()
     {
-        return fractal($this->orders, new Transformers\OrderTransformer)->toArray();
+        return fractal($this->orders, new Transformers\OrderTransformer())->toArray();
     }
 }

@@ -46,7 +46,7 @@ class EsignServiceProvider extends ServiceProvider
             return new AccessToken(json_decode($token, true));
         });
 
-        if (! $accessToken) {
+        if (!$accessToken) {
             throw new \Exception('Adobe Sign not authorized.');
         }
 

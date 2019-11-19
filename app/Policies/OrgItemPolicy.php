@@ -19,21 +19,17 @@ class OrgItemPolicy
 
     public function view(User $user, OrgItem $orgItem)
     {
-        //
     }
 
     public function create(User $user)
     {
-        //
     }
 
     public function update(User $user, OrgItem $orgItem)
     {
-        //
     }
 
     public function delete(User $user, OrgItem $orgItem)
     {
-        //
     }
 }

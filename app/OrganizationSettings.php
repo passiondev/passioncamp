@@ -12,7 +12,7 @@ class OrganizationSettings extends Model
     {
         return new OrganizationSettingsCollection($models);
     }
-    
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

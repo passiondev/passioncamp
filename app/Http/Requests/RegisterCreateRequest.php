@@ -56,7 +56,7 @@ class RegisterCreateRequest extends FormRequest
 
     public function fundAmount()
     {
-        return $this->input('fund_amount') == 'other'
+        return 'other' == $this->input('fund_amount')
             ? $this->input('fund_amount_other')
             : $this->input('fund_amount');
     }
@@ -99,6 +99,6 @@ class RegisterCreateRequest extends FormRequest
 
     public function wantsToPayDeposit()
     {
-        return $this->input('payment_type') == 'deposit';
+        return 'deposit' == $this->input('payment_type');
     }
 }

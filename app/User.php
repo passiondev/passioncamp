@@ -9,7 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes, HasEmailLogin;
+    use Notifiable;
+    use SoftDeletes;
+    use HasEmailLogin;
 
     protected $guarded = [];
 
@@ -70,17 +72,17 @@ class User extends Authenticatable
 
     public function isSuperAdmin()
     {
-        return $this->access == 100;
+        return 100 == $this->access;
     }
 
     public function isChurchAdmin()
     {
-        return $this->access == 1 && $this->organization_id !== null;
+        return 1 == $this->access && null !== $this->organization_id;
     }
 
     public function isOrderOwner()
     {
-        return ($this->access == 1 || $this->access == null) && $this->organization_id === null;
+        return (1 == $this->access || null == $this->access) && null === $this->organization_id;
     }
 
     public function getAuthOrganizationAttribute()
@@ -94,13 +96,13 @@ class User extends Authenticatable
         }
 
         if ($this->organization) {
-            return $this->organization->church->name . ' - ' . $this->organization->church->location;
+            return $this->organization->church->name.' - '.$this->organization->church->location;
         }
     }
 
     public function setPersonAttribute($person)
     {
-        if (is_array($person)) {
+        if (\is_array($person)) {
             $person = $this->person->exists
                 ? tap($this->person->fill($person))->save()
                 : Person::create($person);
@@ -120,7 +122,7 @@ class User extends Authenticatable
 
     public function getHashAttribute()
     {
-        if (! $this->email) {
+        if (!$this->email) {
             return hash_hmac('sha256', $this->id, env('APP_KEY'));
         }
 

@@ -1,11 +1,11 @@
 <?php
 
+use App\Order;
 use App\Waiver;
 use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
-use App\Jobs\Waiver\FetchAndUpdateStatus;
 use App\Jobs\Order\SendConfirmationEmail;
-use App\Order;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,9 +47,9 @@ Artisan::command('pcc:balance-due', function () {
         dispatch(new App\Jobs\SendBalanceDueEmail(App\User::find($userId)));
     });
 
-    $this->info('Orders: ' . $orders->count());
-    $this->info('Users: ' . $userIds->count());
-    $this->info('Sent: ' . $sent->count());
+    $this->info('Orders: '.$orders->count());
+    $this->info('Users: '.$userIds->count());
+    $this->info('Sent: '.$sent->count());
 });
 
 Artisan::command('passioncamp:update-waivers', function ($organizationIds = []) {
@@ -61,7 +61,7 @@ Artisan::command('passioncamp:update-waivers', function ($organizationIds = []) 
         ->chunk(100, function ($waivers) use (&$count) {
             $waivers->each(function ($waiver) use (&$count) {
                 dispatch(new FetchAndUpdateStatus($waiver));
-                $count++;
+                ++$count;
             });
         });
 

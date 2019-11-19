@@ -10,7 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AccountUserCreated extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $user;
 
@@ -18,8 +19,6 @@ class AccountUserCreated extends Mailable implements ShouldQueue
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
     public function __construct(User $user)
     {

@@ -13,7 +13,7 @@ class CheckinController extends Controller
         $this->middleware(Authenticate::class);
 
         $this->middleware(function ($request, $next) {
-            abort_unless(data_get($request->user(), 'organization.slug') == 'pcc', 403);
+            abort_unless('pcc' == data_get($request->user(), 'organization.slug'), 403);
 
             return $next($request);
         });

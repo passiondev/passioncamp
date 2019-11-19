@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -42,7 +41,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -73,7 +71,5 @@ return [
             'driver' => 'dropbox',
             'authorizationToken' => env('DROPBOX_SECRET'),
         ],
-
     ],
-
 ];

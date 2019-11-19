@@ -47,11 +47,11 @@ class OrganizationPolicy
             return true;
         }
 
-        if (is_null($organization)) {
+        if (null === $organization) {
             $organization = auth()->user()->organization;
         }
 
-        if (is_null($organization)) {
+        if (null === $organization) {
             return false;
         }
 

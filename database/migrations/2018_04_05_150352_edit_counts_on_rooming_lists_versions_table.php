@@ -8,8 +8,6 @@ class EditCountsOnRoomingListsVersionsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -21,13 +19,10 @@ class EditCountsOnRoomingListsVersionsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::table('rooming_list_versions', function (Blueprint $table) {
-            //
         });
     }
 }

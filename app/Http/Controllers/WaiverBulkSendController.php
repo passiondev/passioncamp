@@ -31,7 +31,7 @@ class WaiverBulkSendController extends Controller
 
             $attendee->createWaiver();
 
-            $waiversSent++;
+            ++$waiversSent;
         });
 
         return redirect()->back()

@@ -6,9 +6,8 @@ use League\Fractal\TransformerAbstract;
 
 class TicketTransformer extends TransformerAbstract
 {
-    private $includeAdditionalFields;
-
     protected $defaultIncludes = ['contact', 'roomAssignment'];
+    private $includeAdditionalFields;
 
     public function __construct($includeAdditionalFields = false)
     {
@@ -56,12 +55,12 @@ class TicketTransformer extends TransformerAbstract
 
     public function includeContact($ticket)
     {
-        return $this->item($ticket->order->user->person, new ContactTransformer);
+        return $this->item($ticket->order->user->person, new ContactTransformer());
     }
 
     public function includeRoomAssignment($ticket)
     {
-        return $this->item($ticket->roomAssignment, new RoomAssignmentTransformer);
+        return $this->item($ticket->roomAssignment, new RoomAssignmentTransformer());
     }
 
     // public function includeGroup($ticket)

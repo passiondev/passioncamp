@@ -13,11 +13,6 @@ trait HasEmailLogin
         return $this->hasOne(EmailLogin::class);
     }
 
-    protected function deleteExistingMagicToken()
-    {
-        $this->emailLogin()->delete();
-    }
-
     public function createMagicToken()
     {
         $this->deleteExistingMagicToken();
@@ -38,6 +33,11 @@ trait HasEmailLogin
 
     public function canUseMagicLink()
     {
-        return $this->access === null;
+        return null === $this->access;
+    }
+
+    protected function deleteExistingMagicToken()
+    {
+        $this->emailLogin()->delete();
     }
 }

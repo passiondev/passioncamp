@@ -40,7 +40,7 @@ class Person extends Model
                 $value = array_get($this->considerations, $consideration);
 
                 return [
-                    $consideration => in_array($value, [$consideration, 'true']) ? 'X' : $value,
+                    $consideration => \in_array($value, [$consideration, 'true'], true) ? 'X' : $value,
                 ];
             })
             ->toArray();
@@ -61,7 +61,7 @@ class Person extends Model
         try {
             $this->attributes['birthdate'] = new Carbon($birthdate);
         } catch (\Exception $e) {
-            \Log::error("Couldn't set birthdate " . $birthdate);
+            \Log::error("Couldn't set birthdate ".$birthdate);
         }
     }
 }

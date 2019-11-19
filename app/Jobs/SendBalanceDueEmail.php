@@ -11,7 +11,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class SendBalanceDueEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private $user;
     private $template = 'pcc-students-smmr-cmp-2017';
@@ -19,7 +22,7 @@ class SendBalanceDueEmail implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param mixed $user
      */
     public function __construct($user)
     {
@@ -28,8 +31,6 @@ class SendBalanceDueEmail implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle(Mandrill $mandrill)
     {
@@ -39,14 +40,14 @@ class SendBalanceDueEmail implements ShouldQueue
                 [
                     'name' => $this->user->person->name,
                     'email' => $this->user->person->email,
-                ]
+                ],
             ],
             'global_merge_vars' => [
                 [
                     'name' => 'BODY',
-                    'content' => view('emails.user.balance-due', ['user' => $this->user])->render()
+                    'content' => view('emails.user.balance-due', ['user' => $this->user])->render(),
                 ],
-            ]
+            ],
         ];
 
         $mandrill->messages->sendTemplate($this->template, null, $message);

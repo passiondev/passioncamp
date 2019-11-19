@@ -17,36 +17,29 @@ class HotelPolicy
 
     public function viewAny(User $user)
     {
-        //
     }
 
     public function view(User $user, Hotel $hotel)
     {
-        //
     }
 
     public function create(User $user)
     {
-        //
     }
 
     public function update(User $user, Hotel $hotel)
     {
-        //
     }
 
     public function delete(User $user, Hotel $hotel)
     {
-        //
     }
 
     public function restore(User $user, Hotel $hotel)
     {
-        //
     }
 
     public function forceDelete(User $user, Hotel $hotel)
     {
-        //
     }
 }

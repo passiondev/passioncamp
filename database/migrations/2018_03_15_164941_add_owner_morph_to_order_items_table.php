@@ -1,24 +1,22 @@
 <?php
 
+use App\OrderItem;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\OrderItem;
 
 class AddOwnerMorphToOrderItemsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         Schema::table('order_items', function (Blueprint $table) {
-            $table->string("owner_type")->nullable();
-            $table->unsignedBigInteger("owner_id")->nullable();
+            $table->string('owner_type')->nullable();
+            $table->unsignedBigInteger('owner_id')->nullable();
 
-            $table->index(["owner_type", "owner_id"]);
+            $table->index(['owner_type', 'owner_id']);
         });
 
         // where organization id is not null
@@ -27,7 +25,7 @@ class AddOwnerMorphToOrderItemsTable extends Migration
             $item->timestamps = false;
             $item->update([
                 'owner_type' => 'App\Organization',
-                'owner_id'   => $item->organization_id,
+                'owner_id' => $item->organization_id,
             ]);
         });
 
@@ -37,7 +35,7 @@ class AddOwnerMorphToOrderItemsTable extends Migration
             $item->timestamps = false;
             $item->update([
                 'owner_type' => 'App\Order',
-                'owner_id'   => $item->order_id,
+                'owner_id' => $item->order_id,
             ]);
         });
 
@@ -52,13 +50,10 @@ class AddOwnerMorphToOrderItemsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::table('order_items', function (Blueprint $table) {
-            //
         });
     }
 }

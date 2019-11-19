@@ -10,15 +10,6 @@ class Hotel extends Item
         'type' => 'hotel',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('type', function (Builder $builder) {
-            $builder->where('items.type', '=', 'hotel');
-        });
-    }
-
     public function items()
     {
         return $this->hasMany(OrderItem::class, 'item_id');
@@ -47,5 +38,14 @@ class Hotel extends Item
                 ->where('quantity', '>', '0')
                 ->whereRaw('items.id = item_id')
         );
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('type', function (Builder $builder) {
+            $builder->where('items.type', '=', 'hotel');
+        });
     }
 }

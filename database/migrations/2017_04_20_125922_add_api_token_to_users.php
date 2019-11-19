@@ -8,8 +8,6 @@ class AddApiTokenToUsers extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -20,11 +18,8 @@ class AddApiTokenToUsers extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        //
     }
 }

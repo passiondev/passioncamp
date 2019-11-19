@@ -20,8 +20,9 @@ class TicketPolicy
     /**
      * Determine whether the user can view the ticket.
      *
-     * @param  \App\User  $user
-     * @param  \App\Ticket  $ticket
+     * @param \App\User   $user
+     * @param \App\Ticket $ticket
+     *
      * @return mixed
      */
     public function view(User $user, Ticket $ticket)
@@ -36,19 +37,20 @@ class TicketPolicy
     /**
      * Determine whether the user can create tickets.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
      * Determine whether the user can update the ticket.
      *
-     * @param  \App\User  $user
-     * @param  \App\Ticket  $ticket
+     * @param \App\User   $user
+     * @param \App\Ticket $ticket
+     *
      * @return mixed
      */
     public function update(User $user, Ticket $ticket)
@@ -59,8 +61,9 @@ class TicketPolicy
     /**
      * Determine whether the user can delete the ticket.
      *
-     * @param  \App\User  $user
-     * @param  \App\Ticket  $ticket
+     * @param \App\User   $user
+     * @param \App\Ticket $ticket
+     *
      * @return mixed
      */
     public function delete(User $user, Ticket $ticket)
@@ -71,7 +74,7 @@ class TicketPolicy
     public function cancel(User $user, Ticket $ticket)
     {
         return $this->view($user, $ticket)
-            && ! $ticket->canceled_at
-            && $ticket->order->organization->slug == 'pcc';
+            && !$ticket->canceled_at
+            && 'pcc' == $ticket->order->organization->slug;
     }
 }

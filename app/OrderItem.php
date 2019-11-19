@@ -14,15 +14,6 @@ class OrderItem extends Model
 
     protected $touches = ['owner'];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($item) {
-            $item->attributes['type'] = $item->type;
-        });
-    }
-
     public function newCollection(array $models = [])
     {
         return new OrderItemCollection($models);
@@ -84,7 +75,7 @@ class OrderItem extends Model
 
     public function isOrganizationItem()
     {
-        return $this->owner_type == 'App\Organization';
+        return 'App\Organization' == $this->owner_type;
     }
 
     public function getIsCanceledAttribute()
@@ -111,5 +102,14 @@ class OrderItem extends Model
     public function getNotesAttribute()
     {
         return $this->attributes['name'];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($item) {
+            $item->attributes['type'] = $item->type;
+        });
     }
 }

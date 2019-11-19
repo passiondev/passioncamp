@@ -48,12 +48,12 @@ class Waiver extends Model
     public function canBeReminded()
     {
         // updated more than 24 hours ago
-        return Carbon::now()->subHour(24)->gt($this->updated_at) && $this->status == WaiverStatus::PENDING;
+        return Carbon::now()->subHour(24)->gt($this->updated_at) && WaiverStatus::PENDING == $this->status;
     }
 
     public function isComplete()
     {
-        return $this->status == WaiverStatus::COMPLETE;
+        return WaiverStatus::COMPLETE == $this->status;
     }
 
     public function provider()
@@ -77,14 +77,14 @@ class Waiver extends Model
     {
         return vsprintf('%s/%s/%s.pdf', [
             'Passion Camp 2019 Waivers',
-            $this->ticket->owner->organization_id . ' - ' . $this->ticket->owner->organization->church->name,
-            $this->ticket_id . ' - ' . $this->ticket->name,
+            $this->ticket->owner->organization_id.' - '.$this->ticket->owner->organization->church->name,
+            $this->ticket_id.' - '.$this->ticket->name,
         ]);
     }
 
     public function cancelSignatureRequest()
     {
-        if (! $this->provider_agreement_id) {
+        if (!$this->provider_agreement_id) {
             return;
         }
 

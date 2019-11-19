@@ -33,11 +33,11 @@ abstract class BasePrinter
 
     public function filenameIsValid()
     {
-        if (is_null($this->filename)) {
+        if (null === $this->filename) {
             return false;
         }
 
-        if (! ends_with($this->filename, '.pdf')) {
+        if (!ends_with($this->filename, '.pdf')) {
             return false;
         }
 
@@ -46,6 +46,6 @@ abstract class BasePrinter
 
     public function getFormattedFilename()
     {
-        return str_slug($this->title) . '.pdf';
+        return str_slug($this->title).'.pdf';
     }
 }

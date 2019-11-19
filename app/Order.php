@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use SoftDeletes, Notated;
+    use SoftDeletes;
+    use Notated;
 
     protected $guarded = [];
 
@@ -113,11 +114,6 @@ class Order extends Model
         return $this->getTicketsOfAgegroupCount('leader');
     }
 
-    private function getTicketsOfAgegroupCount($agegroup)
-    {
-        return $this->tickets->active()->ofAgegroup($agegroup)->count();
-    }
-
     public function getTicketTotalAttribute()
     {
         return $this->tickets->active()->sum('price');
@@ -203,5 +199,10 @@ class Order extends Model
     public function hasContactInfo()
     {
         return $this->user && $this->user->person && $this->user->person->email;
+    }
+
+    private function getTicketsOfAgegroupCount($agegroup)
+    {
+        return $this->tickets->active()->ofAgegroup($agegroup)->count();
     }
 }

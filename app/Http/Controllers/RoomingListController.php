@@ -189,9 +189,9 @@ class RoomingListController extends Controller
 
         if ($request->ajax() || $request->wantsJson()) {
             return response('<i class="checkmark green icon"></i>', 201);
-        } else {
-            return redirect()->back()->withSuccess('Printing job queued.');
         }
+
+        return redirect()->back()->withSuccess('Printing job queued.');
     }
 
     public function checkin(Request $request, Room $room)

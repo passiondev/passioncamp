@@ -21,7 +21,7 @@ class AdobeSignController extends Controller
             ->where('provider_agreement_id', request('documentKey'))
             ->firstOrFail();
 
-        if ($waiver->status != WaiverStatus::COMPLETE) {
+        if (WaiverStatus::COMPLETE != $waiver->status) {
             dispatch(new FetchAndUpdateStatus($waiver));
         }
 

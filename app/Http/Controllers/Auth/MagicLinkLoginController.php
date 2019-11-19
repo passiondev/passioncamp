@@ -23,7 +23,7 @@ class MagicLinkLoginController extends Controller
     {
         $request->validate([
             'email' => ['bail', 'required', 'email', 'exists:users', function ($attribute, $value, $fail) {
-                if (! User::where('email', $value)->first()->canUseMagicLink()) {
+                if (!User::where('email', $value)->first()->canUseMagicLink()) {
                     return $fail('The user is invalid.');
                 }
             }],

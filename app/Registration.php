@@ -6,6 +6,9 @@ use Illuminate\Support\Carbon;
 
 class Registration
 {
+    public static $closedDate = '2019-06-03';
+
+    public static $depositCutoffDate = '2019-05-03';
     protected $organization;
 
     protected $user;
@@ -13,10 +16,6 @@ class Registration
     protected $order;
 
     protected $payInFull = true;
-
-    public static $closedDate = '2019-06-03';
-
-    public static $depositCutoffDate = '2019-05-03';
 
     protected $numTickets;
 
@@ -58,7 +57,7 @@ class Registration
             : $this->order->deposit_total;
 
         $charge = $paymentGateway->charge($amount, $paymentToken, [
-            'description' => (new Occurrence(config('occurrences.' . $this->organization->slug)))->title,
+            'description' => (new Occurrence(config('occurrences.'.$this->organization->slug)))->title,
             'statement_descriptor' => 'Passion Students',
             'metadata' => [
                 'order_id' => $this->order->id,
@@ -78,11 +77,11 @@ class Registration
 
     public function shouldPayDeposit($payDeposit = true)
     {
-        if (! $this->canPayDeposit()) {
+        if (!$this->canPayDeposit()) {
             return $this;
         }
 
-        $this->payInFull = ! $payDeposit;
+        $this->payInFull = !$payDeposit;
 
         return $this;
     }

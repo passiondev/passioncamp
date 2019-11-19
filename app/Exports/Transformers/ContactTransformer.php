@@ -6,7 +6,6 @@ use League\Fractal\TransformerAbstract;
 
 class ContactTransformer extends TransformerAbstract
 {
-
     public function transform($person)
     {
         return [

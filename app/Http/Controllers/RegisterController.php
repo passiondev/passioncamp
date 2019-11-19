@@ -30,18 +30,13 @@ class RegisterController extends Controller
         $this->paymentGateway = $paymentGateway;
     }
 
-    private function getOrganization() : Organization
-    {
-        return Organization::where(['slug' => 'pcc'])->firstOrFail();
-    }
-
     public function create()
     {
-        if ($this->occurrence->isClosed() && request()->get('code') != 'passion2019') {
+        if ($this->occurrence->isClosed() && 'passion2019' != request()->get('code')) {
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
-        if (! $this->organization->canAddTickets() || $this->occurrence->isSoldOut()) {
+        if (!$this->organization->canAddTickets() || $this->occurrence->isSoldOut()) {
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
@@ -112,12 +107,17 @@ class RegisterController extends Controller
 
     public function confirmation()
     {
-        if (! session()->has('order_id')) {
+        if (!session()->has('order_id')) {
             return redirect()->route('register.create');
         }
 
         $order = Order::findOrFail(session('order_id'));
 
         return view('register.confirmation', ['occurrence' => $this->occurrence, 'order' => $order]);
+    }
+
+    private function getOrganization(): Organization
+    {
+        return Organization::where(['slug' => 'pcc'])->firstOrFail();
     }
 }

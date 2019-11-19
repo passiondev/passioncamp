@@ -18,7 +18,7 @@ class TicketController extends Controller
             ->with('person', 'order.organization.church')
             ->paginate();
 
-        if (request()->query('page') == 'last') {
+        if ('last' == request()->query('page')) {
             return redirect()->route('tickets.index', ['page' => $tickets->lastPage()]);
         }
 
@@ -33,7 +33,7 @@ class TicketController extends Controller
 
         $tickets = Ticket::search(request('query'));
 
-        if (! auth()->user()->isSuperAdmin()) {
+        if (!auth()->user()->isSuperAdmin()) {
             $tickets->where('organization_id', auth()->user()->organization_id);
         }
 

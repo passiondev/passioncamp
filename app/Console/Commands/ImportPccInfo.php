@@ -5,12 +5,9 @@ namespace App\Console\Commands;
 use App\Ticket;
 use League\Csv\Reader;
 use Illuminate\Console\Command;
-use App\Repositories\TicketRepository;
 
 class ImportPccInfo extends Command
 {
-    private $tickets;
-
     /**
      * The name and signature of the console command.
      *
@@ -24,6 +21,7 @@ class ImportPccInfo extends Command
      * @var string
      */
     protected $description = 'Import PCC info';
+    private $tickets;
 
     /**
      * Execute the console command.
@@ -37,7 +35,7 @@ class ImportPccInfo extends Command
 
         collect($csv->getRecords())
         ->each(function ($row) {
-            if (! $row['id']) {
+            if (!$row['id']) {
                 return;
             }
 
@@ -45,7 +43,7 @@ class ImportPccInfo extends Command
                 $ticket = Ticket::findOrFail($row['id']);
                 unset($row['id']);
                 $ticket->update([
-                    'ticket_data' => collect($ticket->ticket_data)->merge($row)
+                    'ticket_data' => collect($ticket->ticket_data)->merge($row),
                 ]);
             } catch (\Exception $e) {
                 $this->line($row['id']);

@@ -30,20 +30,20 @@ class AdobeSignController extends Controller
 
         $adobeSign = new AdobeSign($provider);
 
-        if (! request()->has('code')) {
+        if (!request()->has('code')) {
             $authorizationUrl = $adobeSign->getAuthorizationUrl();
             // session()->forget('oauth2state');
             session()->flash('oauth2state', $provider->getState());
             echo $authorizationUrl;
-        } elseif (! request()->has('state') || request('state') !== session('oauth2state')) {
+        } elseif (!request()->has('state') || request('state') !== session('oauth2state')) {
             echo 'Invalid state';
             print_r([request('state'), session('oauth2state')]);
         } else {
             $accessToken = $adobeSign->getAccessToken(request('code'));
             cache()->forever('adobesign.token', json_encode($accessToken));
-            echo 'Access Token: ' . $accessToken->getToken() . '<br>';
-            echo 'Refresh Token: ' . $accessToken->getRefreshToken() . '<br>';
-            echo 'Expires: ' . Carbon::createFromTimestamp($accessToken->getExpires()) . '<br>';
+            echo 'Access Token: '.$accessToken->getToken().'<br>';
+            echo 'Refresh Token: '.$accessToken->getRefreshToken().'<br>';
+            echo 'Expires: '.Carbon::createFromTimestamp($accessToken->getExpires()).'<br>';
         }
     }
 }

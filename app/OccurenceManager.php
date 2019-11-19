@@ -17,13 +17,6 @@ class OccurenceManager
         $this->request = $request;
     }
 
-    protected function getConfig()
-    {
-        $slug = $this->request->input('event');
-
-        return $this->app['config']["occurrences.{$slug}"];
-    }
-
     public function __get($name)
     {
         static $occurrence;
@@ -31,5 +24,12 @@ class OccurenceManager
         $occurrence = new Occurrence($this->getConfig());
 
         return $occurrence->$name;
+    }
+
+    protected function getConfig()
+    {
+        $slug = $this->request->input('event');
+
+        return $this->app['config']["occurrences.{$slug}"];
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Exports\Sheets;
 
-use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
 class ChangedRoomsSheet implements FromView, WithTitle
 {
-	protected $rooms;
+    protected $rooms;
 
     public function __construct($rooms)
     {

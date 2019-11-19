@@ -36,8 +36,8 @@ class PrintNodePrinter extends Printer
 
     public function testPrint($printer)
     {
-        $pdf = tap(new Dompdf, function ($dompdf) use ($printer) {
-            $dompdf->loadHtml('Test: ' . $printer);
+        $pdf = tap(new Dompdf(), function ($dompdf) use ($printer) {
+            $dompdf->loadHtml('Test: '.$printer);
             $dompdf->render();
         })->output();
 
@@ -70,7 +70,7 @@ class PrintNodePrinter extends Printer
 
     protected function cacheKey()
     {
-        return 'printers::' . $this->key;
+        return 'printers::'.$this->key;
     }
 
     private function mapJobPayload($job, $payload)

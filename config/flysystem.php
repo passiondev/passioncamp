@@ -10,7 +10,6 @@
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Connection Name
@@ -36,14 +35,13 @@ return [
     */
 
     'connections' => [
-
         'awss3' => [
-            'driver'          => 'awss3',
-            'key'             => 'your-key',
-            'secret'          => 'your-secret',
-            'bucket'          => 'your-bucket',
-            'region'          => 'your-region',
-            'version'         => 'latest',
+            'driver' => 'awss3',
+            'key' => 'your-key',
+            'secret' => 'your-secret',
+            'bucket' => 'your-bucket',
+            'region' => 'your-region',
+            'version' => 'latest',
             // 'bucket_endpoint' => false,
             // 'calculate_md5'   => true,
             // 'scheme'          => 'https',
@@ -55,21 +53,21 @@ return [
         ],
 
         'azure' => [
-            'driver'       => 'azure',
+            'driver' => 'azure',
             'account-name' => 'your-account-name',
-            'api-key'      => 'your-api-key',
-            'container'    => 'your-container',
+            'api-key' => 'your-api-key',
+            'container' => 'your-container',
             // 'visibility'   => 'public',
             // 'eventable'    => true,
             // 'cache'        => 'foo'
         ],
 
         'copy' => [
-            'driver'          => 'copy',
-            'consumer-key'    => 'your-consumer-key',
+            'driver' => 'copy',
+            'consumer-key' => 'your-consumer-key',
             'consumer-secret' => 'your-consumer-secret',
-            'access-token'    => 'your-access-token',
-            'token-secret'    => 'your-token-secret',
+            'access-token' => 'your-access-token',
+            'token-secret' => 'your-token-secret',
             // 'prefix'          => 'your-prefix',
             // 'visibility'      => 'public',
             // 'eventable'       => true,
@@ -77,21 +75,21 @@ return [
         ],
 
         'dropbox' => [
-            'driver'     => 'dropbox',
-            'token'      => 'xivuwSwAuhAAAAAAAAAKRr4T74iQvUsgx6MwqBgbTqT01eBGZ-F69gfmDFq1BXfP',
-            'app'        => 'f3t2vs1qt7jmy6b',
-            'prefix'     => '2016-Events/Passion Camp/REGISTRATION/WAIVER/SIGNED WAIVERS/',
+            'driver' => 'dropbox',
+            'token' => 'xivuwSwAuhAAAAAAAAAKRr4T74iQvUsgx6MwqBgbTqT01eBGZ-F69gfmDFq1BXfP',
+            'app' => 'f3t2vs1qt7jmy6b',
+            'prefix' => '2016-Events/Passion Camp/REGISTRATION/WAIVER/SIGNED WAIVERS/',
             // 'visibility' => 'public',
             // 'eventable'  => true,
             // 'cache'      => 'foo'
         ],
 
         'ftp' => [
-            'driver'     => 'ftp',
-            'host'       => 'ftp.example.com',
-            'port'       => 21,
-            'username'   => 'your-username',
-            'password'   => 'your-password',
+            'driver' => 'ftp',
+            'host' => 'ftp.example.com',
+            'port' => 21,
+            'username' => 'your-username',
+            'password' => 'your-password',
             // 'root'       => '/path/to/root',
             // 'passive'    => true,
             // 'ssl'        => true,
@@ -102,35 +100,35 @@ return [
         ],
 
         'gridfs' => [
-            'driver'     => 'gridfs',
-            'server'     => 'mongodb://localhost:27017',
-            'database'   => 'your-database',
+            'driver' => 'gridfs',
+            'server' => 'mongodb://localhost:27017',
+            'database' => 'your-database',
             // 'visibility' => 'public',
             // 'eventable'  => true,
             // 'cache'      => 'foo'
         ],
 
         'local' => [
-            'driver'     => 'local',
-            'path'       => storage_path('files'),
+            'driver' => 'local',
+            'path' => storage_path('files'),
             // 'visibility' => 'public',
             // 'eventable'  => true,
             // 'cache'      => 'foo'
         ],
 
         'null' => [
-            'driver'    => 'null',
+            'driver' => 'null',
             // 'eventable' => true,
             // 'cache'     => 'foo'
         ],
 
         'rackspace' => [
-            'driver'     => 'rackspace',
-            'endpoint'   => 'your-endpoint',
-            'region'     => 'your-region',
-            'username'   => 'your-username',
-            'apiKey'     => 'your-api-key',
-            'container'  => 'your-container',
+            'driver' => 'rackspace',
+            'endpoint' => 'your-endpoint',
+            'region' => 'your-region',
+            'username' => 'your-username',
+            'apiKey' => 'your-api-key',
+            'container' => 'your-container',
             // 'internal'   => false,
             // 'visibility' => 'public',
             // 'eventable'  => true,
@@ -138,20 +136,20 @@ return [
         ],
 
         'replicate' => [
-            'driver'     => 'replicate',
-            'source'     => 'your-source-adapter',
-            'replica'    => 'your-replica-adapter',
+            'driver' => 'replicate',
+            'source' => 'your-source-adapter',
+            'replica' => 'your-replica-adapter',
             // 'visibility' => 'public',
             // 'eventable'  => true,
             // 'cache'      => 'foo'
         ],
 
         'sftp' => [
-            'driver'     => 'sftp',
-            'host'       => 'sftp.example.com',
-            'port'       => 22,
-            'username'   => 'your-username',
-            'password'   => 'your-password',
+            'driver' => 'sftp',
+            'host' => 'sftp.example.com',
+            'port' => 22,
+            'username' => 'your-username',
+            'password' => 'your-password',
             // 'privateKey' => 'path/to/or/contents/of/privatekey',
             // 'root'       => '/path/to/root',
             // 'timeout'    => 20,
@@ -161,23 +159,22 @@ return [
         ],
 
         'webdav' => [
-            'driver'     => 'webdav',
-            'baseUri'    => 'http://example.org/dav/',
-            'userName'   => 'your-username',
-            'password'   => 'your-password',
+            'driver' => 'webdav',
+            'baseUri' => 'http://example.org/dav/',
+            'userName' => 'your-username',
+            'password' => 'your-password',
             // 'visibility' => 'public',
             // 'eventable'  => true,
             // 'cache'      => 'foo'
         ],
 
         'zip' => [
-            'driver'     => 'zip',
-            'path'       => storage_path('files.zip'),
+            'driver' => 'zip',
+            'path' => storage_path('files.zip'),
             // 'visibility' => 'public',
             // 'eventable'  => true,
             // 'cache'      => 'foo'
         ],
-
     ],
 
     /*
@@ -193,28 +190,25 @@ return [
     */
 
     'cache' => [
-
         'foo' => [
-            'driver'    => 'illuminate',
+            'driver' => 'illuminate',
             'connector' => null, // null means use default driver
-            'key'       => 'foo',
+            'key' => 'foo',
             // 'ttl'       => 300
         ],
 
         'bar' => [
-            'driver'    => 'illuminate',
+            'driver' => 'illuminate',
             'connector' => 'redis', // config/cache.php
-            'key'       => 'bar',
-            'ttl'       => 600,
+            'key' => 'bar',
+            'ttl' => 600,
         ],
 
         'adapter' => [
-            'driver'  => 'adapter',
+            'driver' => 'adapter',
             'adapter' => 'local', // as defined in connections
-            'file'    => 'flysystem.json',
-            'ttl'     => 600,
+            'file' => 'flysystem.json',
+            'ttl' => 600,
         ],
-
     ],
-
 ];

@@ -26,11 +26,11 @@ class WaiverBulkRemindController extends Controller
 
         $remindersSent = 0;
         $organization->attendees()->each(function ($attendee) use (&$remindersSent) {
-            if (! $attendee->waiver) {
+            if (!$attendee->waiver) {
                 return;
             }
 
-            if (! $attendee->waiver->canBeReminded()) {
+            if (!$attendee->waiver->canBeReminded()) {
                 return;
             }
 
@@ -38,7 +38,7 @@ class WaiverBulkRemindController extends Controller
 
             SendReminder::dispatch($attendee->waiver);
 
-            $remindersSent++;
+            ++$remindersSent;
         });
 
         return redirect()->back()

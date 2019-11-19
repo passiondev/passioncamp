@@ -52,7 +52,7 @@ class ImportProducts extends Command
             'Program Only',
         ];
 
-        if (in_array($product, $tickets)) {
+        if (\in_array($product, $tickets, true)) {
             return true;
         }
 

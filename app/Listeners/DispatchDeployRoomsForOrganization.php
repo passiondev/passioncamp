@@ -9,7 +9,7 @@ class DispatchDeployRoomsForOrganization
 {
     public function handle(OrgItemSaved $event)
     {
-        if ($event->orgItem->org_type != 'hotel') {
+        if ('hotel' != $event->orgItem->org_type) {
             return;
         }
 

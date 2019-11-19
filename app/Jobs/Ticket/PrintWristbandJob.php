@@ -11,16 +11,20 @@ use Facades\App\Contracts\Printing\Factory as Printer;
 
 class PrintWristbandJob implements ShouldQueue
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     public $ticket;
     public $printer;
     public $driver;
 
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param mixed      $ticket
+     * @param mixed      $printer
+     * @param mixed|null $driver
      */
     public function __construct($ticket, $printer, $driver = null)
     {
@@ -31,8 +35,6 @@ class PrintWristbandJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

@@ -28,6 +28,6 @@ class OrderTransformer extends TransformerAbstract
 
     public function includeContact($order)
     {
-        return $this->item($order->user->person ?? new Person, new ContactTransformer);
+        return $this->item($order->user->person ?? new Person(), new ContactTransformer());
     }
 }

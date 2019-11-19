@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use League\Csv\Reader;
 use App\Organization;
+use League\Csv\Reader;
+use Illuminate\Console\Command;
 
 class ImportNotes extends Command
 {

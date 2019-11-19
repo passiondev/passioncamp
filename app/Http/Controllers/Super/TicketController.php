@@ -27,7 +27,7 @@ class TicketController extends Controller
             $ticket->getAttributes(),
             $ticket->person->getAttributes(),
             ['birthdate' => $ticket->person->birthdate ? $ticket->person->birthdate->format('m/d/Y') : ''],
-            is_array($ticket->ticket_data()) ? $ticket->ticket_data() : [],
+            \is_array($ticket->ticket_data()) ? $ticket->ticket_data() : [],
             ['shirtsize' => $ticket->shirt_size]
         );
 
@@ -58,7 +58,7 @@ class TicketController extends Controller
         )->fill([
             'ticket_data' => request([
                 'shirtsize', 'school', 'roommate_requested',
-                'travel_plans', 'leader', 'bus', 'pcc_waiver'
+                'travel_plans', 'leader', 'bus', 'pcc_waiver',
             ]),
             'price' => request('price') * 100,
         ])->save();

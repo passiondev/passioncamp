@@ -11,6 +11,11 @@ class RoutePayloadSignature
         $this->payload = $payload;
     }
 
+    public function __toString()
+    {
+        return $this->generate();
+    }
+
     public static function create($payload)
     {
         return (new static($payload))->generate();
@@ -19,10 +24,5 @@ class RoutePayloadSignature
     public function generate()
     {
         return hash_hmac('sha256', json_encode($this->payload), config('app.key'));
-    }
-
-    public function __toString()
-    {
-        return $this->generate();
     }
 }

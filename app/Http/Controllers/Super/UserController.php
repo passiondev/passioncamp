@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('user.create', ['user' => new User]);
+        return view('user.create', ['user' => new User()]);
     }
 
     public function store()
@@ -42,7 +42,7 @@ class UserController extends Controller
         $user = User::create([
             'email' => request('email'),
             'access' => 100,
-            'person_id' => Person::create(request(['first_name', 'last_name']))->id
+            'person_id' => Person::create(request(['first_name', 'last_name']))->id,
         ]);
 
         Mail::to($user)->send(new AccountUserCreated($user));
@@ -68,7 +68,7 @@ class UserController extends Controller
         ]);
 
         if (auth()->user()->isSuperAdmin()) {
-            if (request('organization') == 'ADMIN') {
+            if ('ADMIN' == request('organization')) {
                 $user->access = 100;
                 $user->organization()->dissociate();
             } else {
@@ -85,7 +85,7 @@ class UserController extends Controller
 
     public function sendAccountCreationEmail(User $user)
     {
-        /**
+        /*
          * TODO
          */
         // Mail::send('auth.emails.register', compact('user'), function ($m) use ($user) {

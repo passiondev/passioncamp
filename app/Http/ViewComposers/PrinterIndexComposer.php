@@ -4,9 +4,8 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 use PrintNode\Client as PrintNode;
-use Illuminate\Support\Facades\Session;
 
-interface PrinterIndexComposerContract
+interface PrinterIndexComposer
 {
     public function __construct(PrintNode $printnode);
 

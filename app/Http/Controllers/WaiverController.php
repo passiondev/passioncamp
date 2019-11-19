@@ -42,7 +42,7 @@ class WaiverController extends Controller
     {
         $this->authorize('remind', $waiver);
 
-        if (! $waiver->canBeReminded()) {
+        if (!$waiver->canBeReminded()) {
             abort(403, 'This waiver cannot be reminded.');
         }
 

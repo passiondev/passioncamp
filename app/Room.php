@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
 {
-    use SoftDeletes, Revisionable;
+    use SoftDeletes;
+    use Revisionable;
 
     protected $guarded = [];
 
@@ -93,7 +94,7 @@ class Room extends Model
 
     public function getIsAtCapacityAttribute()
     {
-        return (bool) ! $this->remaining;
+        return (bool) !$this->remaining;
     }
 
     public function getRemainingAttribute()

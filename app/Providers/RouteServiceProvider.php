@@ -18,13 +18,11 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
      */
     public function boot()
     {
         Route::bind('payload', function ($payload) {
-            return tap(json_decode(base64_decode($payload), true), function ($value) {
+            return tap(json_decode(base64_decode($payload, true), true), function ($value) {
                 abort_if(JSON_ERROR_NONE !== json_last_error(), 400, 'Invalid payload.');
             });
         });
@@ -34,8 +32,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the routes for the application.
-     *
-     * @return void
      */
     public function map()
     {
@@ -43,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->domain('pccstudents.' . config('app.domain'))
+            ->domain('pccstudents.'.config('app.domain'))
             ->group(base_path('routes/pccstudents.php'));
 
         $this->mapWebRoutes();
@@ -55,8 +51,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
      */
     protected function mapWebRoutes()
     {
@@ -76,8 +70,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
-     *
-     * @return void
      */
     protected function mapApiRoutes()
     {

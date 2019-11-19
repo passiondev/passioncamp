@@ -3,8 +3,6 @@
 namespace App\Http\Requests;
 
 use App\User;
-use App\Ticket;
-use App\Person;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AccountTicketCreateRequest extends FormRequest
@@ -40,20 +38,20 @@ class AccountTicketCreateRequest extends FormRequest
 
     public function persist()
     {
-        $user = $this->user()->organization->slug == 'pcc'
+        $user = 'pcc' == $this->user()->organization->slug
             ? User::firstOrNew(['email' => $this->input('contact.email')])
-            : new User;
+            : new User();
 
         $user->fill([
             'person' => [
                 'name' => $this->input('contact.name'),
                 'email' => $this->input('contact.email'),
                 'phone' => $this->input('contact.phone'),
-            ]
+            ],
         ])->save();
 
         $order = $user->orders()->create([
-            'organization_id' => $this->user()->organization_id
+            'organization_id' => $this->user()->organization_id,
         ]);
 
         $order->tickets()->create([
@@ -65,7 +63,7 @@ class AccountTicketCreateRequest extends FormRequest
                 'gender' => $this->input('ticket.gender'),
                 'grade' => $this->input('ticket.grade'),
                 'allergies' => $this->input('ticket.allergies'),
-            ]
+            ],
         ]);
     }
 }

@@ -11,14 +11,15 @@ class VerifyPayloadSignature
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         if ($request['signature'] !== RoutePayloadSignature::create($request->route('payload'))) {
-            throw new ResourceNotFoundException;
+            throw new ResourceNotFoundException();
         }
 
         return $next($request);

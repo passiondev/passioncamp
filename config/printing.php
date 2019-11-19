@@ -4,7 +4,6 @@ return [
     'default' => 'camp',
 
     'clients' => [
-
         'camp' => [
             'driver' => 'printnode',
             'key' => env('PRINTNODE_CAMP_KEY'),
@@ -14,6 +13,5 @@ return [
             'driver' => 'printnode',
             'key' => env('PRINTNODE_PCC_KEY'),
         ],
-
-    ]
+    ],
 ];

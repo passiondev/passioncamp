@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Horizon Redis Connection
@@ -28,7 +27,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        snake_case(env('APP_NAME', 'laravel')) . '_horizon:'
+        snake_case(env('APP_NAME', 'laravel')).'_horizon:'
     ),
 
     /*
