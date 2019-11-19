@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Auth\Access\AuthorizationException;
-use App\Organization;
 use App\User;
+use Tests\TestCase;
+use App\Organization;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WaiverBulkRemindTest extends TestCase
 {
@@ -65,7 +64,7 @@ class WaiverBulkRemindTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get("/waivers")
+            ->get('/waivers')
             ->assertDontSee('Remind all');
 
         $this
@@ -86,7 +85,7 @@ class WaiverBulkRemindTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get("/waivers")
+            ->get('/waivers')
             ->assertOk()
             ->assertSee('Remind all');
     }

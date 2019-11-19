@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Church;
 use App\Person;
 use App\Organization;
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsAdmin;
-use Illuminate\Auth\Middleware\Authenticate;
 
 class OrganizationController extends Controller
 {

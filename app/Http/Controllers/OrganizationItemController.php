@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Item;
 use App\OrgItem;
 use App\Organization;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\VerifyUserIsSuperAdmin;
 
 class OrganizationItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('super');
+        $this->middleware([Authenticate::class, VerifyUserIsSuperAdmin::class]);
 
         $this->authorizeResource(OrgItem::class, 'item');
     }
@@ -47,7 +48,7 @@ class OrganizationItemController extends Controller
         $item->update([
             'notes' => request('notes'),
             'quantity' => request('quantity'),
-            'cost' => request('cost') * 100
+            'cost' => request('cost') * 100,
         ]);
 
         return redirect()->route('admin.organizations.show', $organization)->withSuccess('Item updated.');

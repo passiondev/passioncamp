@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use App\RoomingListVersion;
 use Illuminate\Http\Request;
-use App\Jobs\GenerateRoomingListVersion;
-use App\Exports\RoomingListVersionExport;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\NotifyUserOfCompletedExport;
 use App\Jobs\GenerateRoomingListVersionExport;
+use App\Http\Middleware\VerifyUserIsSuperAdmin;
 
 class RoominglistExportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('super');
+        $this->middleware([Authenticate::class, VerifyUserIsSuperAdmin::class]);
     }
 
     public function create()
@@ -30,7 +29,6 @@ class RoominglistExportController extends Controller
 
         return redirect()->back()->withLoading('A new export is being generated. Stay on this page and once the export is complete, it will download automatically. Or, come back to this page in a few minutes and download it from the list below.');
     }
-
 
     public function download(RoomingListVersion $version)
     {

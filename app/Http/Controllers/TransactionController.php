@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\TransactionSplit;
+use App\Http\Middleware\Authenticate;
 
 class TransactionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function edit(TransactionSplit $split)
@@ -30,7 +31,7 @@ class TransactionController extends Controller
         ]);
 
         $split->update([
-            'amount' => request('amount') * 100
+            'amount' => request('amount') * 100,
         ]);
 
         $split->transaction->update([

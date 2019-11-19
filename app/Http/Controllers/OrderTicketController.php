@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Order;
-use App\Person;
 use App\Ticket;
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyTicketCanBeAddedToOrganization;
 
 class OrderTicketController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware(VerifyTicketCanBeAddedToOrganization::class);
+        $this->middleware([
+            Authenticate::class,
+            VerifyTicketCanBeAddedToOrganization::class,
+        ]);
     }
 
     public function create(Order $order)

@@ -8,8 +8,7 @@ use App\Ticket;
 use App\Organization;
 use App\PrintJobHandler;
 use Illuminate\Http\Request;
-use App\Repositories\RoomRepository;
-use App\Repositories\TicketRepository;
+use App\Http\Middleware\Authenticate;
 use App\Http\Requests\UpdateRoomRequest;
 use App\PrintNode\RoominglistPrintNodeClient;
 
@@ -17,7 +16,7 @@ class RoomingListController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function index()
@@ -58,7 +57,7 @@ class RoomingListController extends Controller
 
         return request()->expectsJson()
             ? response()->json([
-                'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render()
+                'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render(),
             ])
             : redirect()->route('roominglist.index');
     }
@@ -74,14 +73,14 @@ class RoomingListController extends Controller
             return request()->expectsJson()
                 ? response()->json([
                     'message' => $e->getMessage(),
-                    'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render()
+                    'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render(),
                 ], 400)
                 : abort(400, $e->getMessage());
         }
 
         return request()->expectsJson()
             ? response()->json([
-                'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render()
+                'view' => view('roominglist.partials.room', ['room' => $room->fresh('tickets')])->render(),
             ])
             : redirect()->route('roominglist.index');
     }
@@ -150,7 +149,6 @@ class RoomingListController extends Controller
                     return $hotel['qty'] != $hotel['rooms'];
                 });
 
-
             // $rooms = $organization->rooms->filter(function ($room) {
             //     return $room->hotel_id;
             // })->each(function ($room) use ($hotels) {
@@ -162,7 +160,7 @@ class RoomingListController extends Controller
             //     $hotel['qty']--;
             //     $hotels->offsetSet($hotel['hotel_id'], $hotel);
             // });
-                return [
+            return [
                 $hotels->flatten(),
                 // $rooms
                 ];
@@ -183,7 +181,7 @@ class RoomingListController extends Controller
 
     public function label(Request $request, Room $room)
     {
-        $pdf = new \HTML2PDF('P', [50.8,58.7], 'en', true, 'UTF-8', 0);
+        $pdf = new \HTML2PDF('P', [50.8, 58.7], 'en', true, 'UTF-8', 0);
         $pdf->writeHTML(view('roominglist/partials/label', compact('room'))->render());
 
         $handler = new PrintJobHandler(RoominglistPrintNodeClient::init());

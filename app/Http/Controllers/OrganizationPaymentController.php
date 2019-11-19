@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Organization;
 use App\TransactionSplit;
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\VerifyUserIsSuperAdmin;
 
 class OrganizationPaymentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('super');
-        $this->middleware('can:view,organization');
+        $this->middleware([
+            Authenticate::class,
+            VerifyUserIsSuperAdmin::class,
+            'can:view,organization',
+        ]);
+
         $this->authorizeResource(TransactionSplit::class, 'payment');
     }
 

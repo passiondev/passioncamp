@@ -8,14 +8,13 @@ use App\Organization;
 use Illuminate\Http\Request;
 use App\Filters\TicketFilters;
 use App\Jobs\Waiver\SendReminder;
-use App\Jobs\Waiver\CancelAgreement;
-use App\Jobs\Waiver\FetchAndUpdateStatus;
+use App\Http\Middleware\Authenticate;
 
 class WaiverController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function index(TicketFilters $filters)

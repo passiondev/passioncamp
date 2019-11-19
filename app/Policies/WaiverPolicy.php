@@ -21,51 +21,29 @@ class WaiverPolicy
         }
     }
 
-    /**
-     * Determine whether the user can view the waiver.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Waiver  $waiver
-     * @return mixed
-     */
+    public function viewAny(User $user)
+    {
+        return $user->isSuperAdmin();
+    }
+
     public function view(User $user, Waiver $waiver)
     {
         return $user->organization_id == $waiver->ticket->order->organization_id;
     }
 
-    /**
-     * Determine whether the user can create waivers.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
     public function create(User $user)
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can update the waiver.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Waiver  $waiver
-     * @return mixed
-     */
     public function update(User $user, Waiver $waiver)
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the waiver.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Waiver  $waiver
-     * @return mixed
-     */
     public function delete(User $user, Waiver $waiver)
     {
-        return false;
+        return true;
     }
 
     public function remind(User $user, Waiver $waiver)

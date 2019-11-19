@@ -8,9 +8,11 @@ use App\Waiver;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Contracts\EsignProvider;
+use App\Jobs\Waiver\SendReminder;
+use App\Jobs\CancelSignatureRequest;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Storage;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
+use App\Jobs\Waiver\RequestWaiverSignature;
 use Facades\App\Services\Esign\ProviderFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -22,6 +24,8 @@ class WaiversTest extends TestCase
     {
         parent::setUp();
 
+        config()->set('passioncamp.waiver_test_mode', false);
+
         $this->esign = Mockery::mock(EsignProvider::class);
 
         ProviderFactory::shouldReceive('make')
@@ -32,14 +36,11 @@ class WaiversTest extends TestCase
     /** @test */
     public function a_waiver_request_can_be_created()
     {
+        Queue::fake();
         $order = factory(Order::class)->create();
         $ticket = $order->tickets()->save(
             factory(\App\Ticket::class)->make()
         );
-
-        $this->esign->shouldReceive('createSignatureRequest')
-            ->with(Mockery::hasKey('documentCreationInfo'))
-            ->once();
 
         $this->actingAs($order->user)
             ->json('POST', "/tickets/{$ticket->id}/waivers", [
@@ -47,32 +48,16 @@ class WaiversTest extends TestCase
             ])
             ->assertStatus(201);
 
-        $this->assertCount(1, $ticket->waivers);
+        Queue::assertPushed(RequestWaiverSignature::class);
+        $this->assertCount(1, $ticket->waivers()->get());
         $this->assertCount(1, Waiver::all());
     }
 
-    // /** @test */
-    // public function it_can_send_a_reminder_for_an_existing_request()
-    // {
-    //     $waiver = factory(\App\Waiver::class)->create([
-    //         'provider' => 'adobesign',
-    //     ]);
-
-    //     $this->esign->shouldReceive('sendReminder')
-    //         ->once()
-    //         ->with($waiver->provider_agreement_id)
-    //         ->andReturn('reminder-sent');
-
-    //     Carbon::setTestNow('+2 days');
-
-    //     $this->actingAs($waiver->ticket->order->user)
-    //         ->json('POST', "/waivers/{$waiver->id}/reminder")
-    //         ->assertStatus(201);
-    // }
-
     /** @test */
-    public function it_can_delete_an_existing_request()
+    public function it_can_send_a_reminder_for_an_existing_request()
     {
+        Queue::fake();
+
         $order = factory(Order::class)->create();
         $ticket = $order->tickets()->save(
             factory(\App\Ticket::class)->make()
@@ -81,15 +66,33 @@ class WaiversTest extends TestCase
             factory(\App\Waiver::class)->create(['provider' => 'adobesign'])
         );
 
-        $this->esign->shouldReceive('cancelSignatureRequest')
-            ->once()
-            ->with($waiver->provider_agreement_id)
-            ->andReturnNull();
+        Carbon::setTestNow('+2 days');
+
+        $this->actingAs($order->user)
+            ->json('POST', "/waivers/{$waiver->id}/reminder")
+            ->assertStatus(201);
+
+        Queue::assertPushed(SendReminder::class);
+    }
+
+    /** @test */
+    public function it_can_delete_an_existing_request()
+    {
+        Queue::fake();
+
+        $order = factory(Order::class)->create();
+        $ticket = $order->tickets()->save(
+            factory(\App\Ticket::class)->make()
+        );
+        $waiver = $ticket->waiver()->save(
+            factory(\App\Waiver::class)->create(['provider' => 'adobesign'])
+        );
 
         $this->actingAs($order->user)
             ->json('DELETE', "/waivers/{$waiver->id}")
             ->assertStatus(204);
 
+        Queue::assertPushed(CancelSignatureRequest::class);
         $this->assertCount(0, Waiver::all());
     }
 
@@ -108,39 +111,7 @@ class WaiversTest extends TestCase
 
         $response = $this->put("/webhooks/adobesign?documentKey={$waiver->provider_agreement_id}&eventType=ESIGNED");
 
-        $response->assertStatus(200);
+        $response->assertOk();
         Queue::assertPushed(FetchAndUpdateStatus::class);
-    }
-
-    /** @test */
-    public function it_can_update_status_and_download_file()
-    {
-        Storage::fake('dropbox');
-
-        $order = factory(Order::class)->create();
-        $ticket = $order->tickets()->save(
-            factory(\App\Ticket::class)->make()
-        );
-        $waiver = $ticket->waiver()->save(
-            factory(\App\Waiver::class)->make(['provider' => 'adobesign'])
-        );
-        $admin = factory(\App\User::class)->create([
-            'access' => 100,
-        ]);
-
-        $this->esign->shouldReceive('fetchStatus')
-            ->once()
-            ->with($waiver->provider_agreement_id)
-            ->andReturn('complete');
-
-        $this->esign->shouldReceive('fetchPdf')
-            ->once()
-            ->with($waiver->provider_agreement_id)
-            ->andReturn('Hello World');
-
-        $this->actingAs($admin)->post("/waivers/{$waiver->id}/refresh");
-        $this->assertEquals('complete', $waiver->fresh()->status);
-        Storage::disk('dropbox')->assertExists($waiver->dropboxFilePath());
-        Storage::disk('dropbox')->delete($waiver->dropboxFilePath());
     }
 }

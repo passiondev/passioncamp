@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Ticket;
 use App\WaiverStatus;
+use App\Http\Middleware\Authenticate;
 
 class TicketWaiverController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function store(Ticket $ticket)

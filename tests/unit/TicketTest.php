@@ -9,40 +9,19 @@ use App\Contracts\EsignProvider;
 use Illuminate\Support\Facades\Event;
 use Facades\App\Services\Esign\ProviderFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TicketTest extends TestCase
 {
     use DatabaseMigrations;
 
     /** @test */
-    function the_one_where()
-    {
-        // $ticket = new \App\Ticket([
-        //     'agegroup' => 'student'
-        // ]);
-        // $ticket->setRelation('person', new \App\Person([
-        //     'first_name' => 'Matt',
-        //     'gender' => 'M',
-        // ]));
-        // $ticket = $ticket->fresh();
-
-        // $this->assertEquals('student', $ticket->agegroup);
-        // $this->assertEquals('Matt', $ticket->first_name);
-        // // $this->assertEquals('M', $ticket->person->gender);
-        // $this->assertTrue($ticket->relationLoaded('person'));
-        // $this->assertEquals('M', $ticket->gender);
-        // $this->assertNull($ticket->nullAttribute);
-    }
-
-    /** @test */
-    function it_stores_activity_when_revisioned()
+    public function it_stores_activity_when_revisioned()
     {
         $ticket = factory(\App\Ticket::class)->create();
         Carbon::setTestNow('+5 minutes');
 
         $ticket->person->update([
-            'first_name' => 'new-name'
+            'first_name' => 'new-name',
         ]);
         $ticket->fresh()->revision();
 
@@ -56,15 +35,13 @@ class TicketTest extends TestCase
         Carbon::setTestNow('+5 minutes');
         $ticket->fresh()->revision();
 
-
         // dd($ticket->activity()->latest()->first()->changes);
-
 
         $this->assertCount(3, $ticket->activity()->get());
     }
 
     /** @test */
-    function it_fires_canceling_event()
+    public function it_fires_canceling_event()
     {
         Event::fake();
 
@@ -72,14 +49,14 @@ class TicketTest extends TestCase
         $ticket->cancel();
 
         Event::assertDispatched('eloquent.created: App\Ticket');
-        Event::assertDispatched('eloquent.canceling: App\Ticket');
+        Event::assertDispatched('eloquent.canceled: App\Ticket');
     }
 
     /** @test */
-    function it_cancels_waiver_request_when_being_canceled()
+    public function it_cancels_waiver_request_when_being_canceled()
     {
         $waiver = factory(\App\Waiver::class)->create([
-            'provider' => 'adobesign'
+            'provider' => 'adobesign',
         ]);
         $this->assertInstanceOf(\App\Ticket::class, $ticket = $waiver->fresh()->ticket);
 
@@ -98,10 +75,10 @@ class TicketTest extends TestCase
     }
 
     /** @test */
-    function it_cancels_waiver_request_when_being_deleted()
+    public function it_cancels_waiver_request_when_being_deleted()
     {
         $waiver = factory(\App\Waiver::class)->create([
-            'provider' => 'adobesign'
+            'provider' => 'adobesign',
         ]);
         $this->assertInstanceOf(\App\Ticket::class, $ticket = $waiver->fresh()->ticket);
 

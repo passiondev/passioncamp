@@ -4,27 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Room;
 use App\Hotel;
-use Dompdf\Dompdf;
 use App\Organization;
 use App\Filters\RoomFilters;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 
 class RoomController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function index(RoomFilters $filters)
     {
         $rooms = Room::filter($filters)
             ->orderByChurchName()
-            ->orderBy('id')->with([
+            ->orderBy('id')
+            ->with([
                 'tickets.person',
                 'organization',
                 'organization.church',
-            ])->when($filters->hasFilters(), function ($q) {
+            ])
+            ->when($filters->hasFilters(), function ($q) {
                 return $q->get();
             }, function ($q) {
                 return $q->paginate();

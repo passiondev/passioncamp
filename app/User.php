@@ -58,11 +58,6 @@ class User extends Authenticatable
         return $this->items()->where('type', 'donation');
     }
 
-    public function socialAccounts()
-    {
-        return $this->hasMany(SocialAccount::class);
-    }
-
     public function getIsSuperAdminAttribute()
     {
         return $this->isSuperAdmin();
@@ -135,11 +130,6 @@ class User extends Authenticatable
     public function isRegistered()
     {
         return $this->password;
-    }
-
-    public function hasSocialAccountFor($provider)
-    {
-        return $this->socialAccounts->pluck('provider')->contains($provider);
     }
 
     public function getTicketTotalAttribute()

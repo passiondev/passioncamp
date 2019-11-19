@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
+use App\Http\Middleware\Authenticate;
 
 class OrganizationNoteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function store(Organization $organization)

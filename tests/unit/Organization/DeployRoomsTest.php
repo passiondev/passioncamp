@@ -4,15 +4,12 @@ namespace Tests\Unit\Organization;
 
 use App\Item;
 use App\OrgItem;
-use App\OrderItem;
 use Tests\TestCase;
 use App\Organization;
-use App\Events\OrgItemSaved;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use App\Jobs\Organization\DeployRooms;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DeployRoomsTest extends TestCase
 {
@@ -24,15 +21,15 @@ class DeployRoomsTest extends TestCase
 
         $this->organization = factory(Organization::class)->create();
         $this->hotel = factory(Item::class)->create([
-            'type' => 'hotel'
+            'type' => 'hotel',
         ]);
         $this->hotel2 = factory(Item::class)->create([
-            'type' => 'hotel'
+            'type' => 'hotel',
         ]);
     }
 
     /** @test */
-    function can_add_rooms()
+    public function can_add_rooms()
     {
         Event::fake();
 
@@ -40,7 +37,7 @@ class DeployRoomsTest extends TestCase
             factory(OrgItem::class)->make([
                 'item_id' => $this->hotel->id,
                 'org_type' => 'hotel',
-                'quantity' => 10
+                'quantity' => 10,
             ])
         );
 
@@ -48,8 +45,9 @@ class DeployRoomsTest extends TestCase
 
         $this->assertEquals(10, $this->organization->rooms()->count());
     }
+
     /** @test */
-    function can_delete_rooms()
+    public function can_delete_rooms()
     {
         Event::fake();
 
@@ -67,13 +65,14 @@ class DeployRoomsTest extends TestCase
     }
 
     /** @test */
-    function can_add_and_delete_rooms()
+    public function can_add_and_delete_rooms()
     {
+        $this->markTestIncomplete();
         $this->organization->items()->save(
             factory(OrgItem::class)->make([
                 'item_id' => $this->hotel->id,
                 'org_type' => 'hotel',
-                'quantity' => 10
+                'quantity' => 10,
             ])
         );
 

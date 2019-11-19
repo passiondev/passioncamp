@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Person;
-use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 
 class ProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function show()
@@ -27,7 +26,7 @@ class ProfileController extends Controller
         request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,'.$user->id,
+            'email' => 'required|unique:users,email,' . $user->id,
         ]);
 
         $user->update([

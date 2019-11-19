@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Person;
+use App\User;
+use App\AccountUser;
 use Illuminate\Http\Request;
 use App\Mail\AccountUserCreated;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
-use App\User;
-use App\AccountUser;
 use App\Http\Middleware\VerifyUserIsChurchAdmin;
 
 class UserController extends Controller
@@ -22,7 +21,7 @@ class UserController extends Controller
     public function create()
     {
         return view('account.user.create', [
-            'organization' => auth()->user()->organization
+            'organization' => auth()->user()->organization,
         ]);
     }
 
@@ -39,8 +38,8 @@ class UserController extends Controller
             'access' => 1,
             'person' => request()->only([
                 'first_name',
-                'last_name'
-            ])
+                'last_name',
+            ]),
         ]);
 
         Mail::to($user)->send(new AccountUserCreated($user));

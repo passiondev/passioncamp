@@ -13,7 +13,7 @@ class AccountUserTest extends TestCase
     /** @test */
     public function a_user_can_add_another_user_to_its_organization()
     {
-        $authUser = factory(User::class)->create();
+        $authUser = factory(User::class)->state('churchAdmin')->create();
 
         $response = $this->actingAs($authUser)->post(route('account.users.store'), [
             'email' => 'new-user@example.com',

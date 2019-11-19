@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Stripe;
 use App\TransactionSplit;
+use App\Http\Middleware\Authenticate;
 
 class TransactionRefundController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function create(TransactionSplit $split)
@@ -34,7 +35,7 @@ class TransactionRefundController extends Controller
         try {
             $refund = Stripe\Refund::create([
                 'charge' => $split->transaction->identifier,
-                'amount' => request('amount') * 100
+                'amount' => request('amount') * 100,
             ], [
                 'api_key' => config('services.stripe.secret'),
                 'stripe_account' => $split->order->organization->setting('stripe_user_id'),

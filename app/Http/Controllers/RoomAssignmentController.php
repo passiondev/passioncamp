@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Room;
 use App\Ticket;
-use App\RoomAssignment;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Validator;
 
 class RoomAssignmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(Authenticate::class);
+    }
+
     public function store(Room $room)
     {
+        $this->authorize('update', $room);
+
         Validator::make(request()->all(), [
             'ticket' => 'required',
         ])->after(function ($validator) use ($room) {
@@ -20,6 +27,8 @@ class RoomAssignmentController extends Controller
         })->validate();
 
         $ticket = Ticket::findOrFail(request('ticket'));
+
+        $this->authorize('update', $ticket);
 
         throw_if($ticket->order->organization->isnot($room->organization), \Exception::class);
 

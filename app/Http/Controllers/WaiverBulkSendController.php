@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Organization;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 
 class WaiverBulkSendController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(Authenticate::class);
+    }
+
     public function __invoke(Request $request)
     {
         $request->validate([
@@ -29,6 +35,6 @@ class WaiverBulkSendController extends Controller
         });
 
         return redirect()->back()
-            ->with('success', vsprintf("%d %s sent.", [$waiversSent, str_plural('waiver', $waiversSent)]));
+            ->with('success', vsprintf('%d %s sent.', [$waiversSent, str_plural('waiver', $waiversSent)]));
     }
 }

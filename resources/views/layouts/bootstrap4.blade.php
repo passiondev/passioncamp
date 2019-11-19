@@ -120,7 +120,7 @@
                                     </li>
                                 @endif
                                 <li class="nav-item">
-                                    <a href="{{ action('HotelController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
+                                    <a href="{{ route('admin.hotels.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                         Hotels
                                     </a>
                                 </li>

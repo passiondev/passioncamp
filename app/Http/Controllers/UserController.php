@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Middleware\Authenticate;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function edit(User $user)

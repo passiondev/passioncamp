@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Person;
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PersonController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function edit(Person $person)
@@ -28,7 +29,7 @@ class PersonController extends Controller
         request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => "required|email",
+            'email' => 'required|email',
             'phone' => 'required',
         ]);
 

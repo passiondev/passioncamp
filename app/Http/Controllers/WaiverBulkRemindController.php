@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Organization;
+use Illuminate\Http\Request;
 use App\Jobs\Waiver\SendReminder;
+use App\Http\Middleware\Authenticate;
 
 class WaiverBulkRemindController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(Authenticate::class);
+    }
+
     public function __invoke(Request $request)
     {
         $request->validate([
@@ -36,6 +42,6 @@ class WaiverBulkRemindController extends Controller
         });
 
         return redirect()->back()
-            ->with('success', vsprintf("%d %s sent.", [$remindersSent, str_plural('reminder', $remindersSent)]));
+            ->with('success', vsprintf('%d %s sent.', [$remindersSent, str_plural('reminder', $remindersSent)]));
     }
 }

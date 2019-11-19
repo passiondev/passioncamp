@@ -64,17 +64,17 @@ class OccurrenceTest extends TestCase
     {
         $this->assertEquals(13000, $this->occurrence->ticketPrice(1));
 
-        $this->assertEquals(10000, $this->occurrence->ticketPrice(1, 'scholarship30'));
-        $this->assertEquals(10000, $this->occurrence->ticketPrice(4, 'scholarship30'));
+        $this->assertEquals(13000, $this->occurrence->ticketPrice(1, 'scholarship30'));
+        $this->assertEquals(13000, $this->occurrence->ticketPrice(4, 'scholarship30'));
 
-        $this->assertEquals(7500, $this->occurrence->ticketPrice(1, 'scholarship55'));
-        $this->assertEquals(7500, $this->occurrence->ticketPrice(4, 'scholarship55'));
+        $this->assertEquals(13000, $this->occurrence->ticketPrice(1, 'scholarship55'));
+        $this->assertEquals(13000, $this->occurrence->ticketPrice(4, 'scholarship55'));
 
         $this->assertEquals(3000, $this->occurrence->ticketPrice(1, 'scholarship100'));
         $this->assertEquals(3000, $this->occurrence->ticketPrice(4, 'scholarship100'));
 
         Carbon::setTestNow('2019-01-17');
-        $this->assertEquals(12000, $this->occurrence->ticketPrice(1, 'rising'));
-        $this->assertEquals(8900, $this->occurrence->ticketPrice(4, 'rising'));
+        $this->assertEquals(13000, $this->occurrence->ticketPrice(1, 'rising'));
+        $this->assertEquals(13000, $this->occurrence->ticketPrice(4, 'rising'));
     }
 }

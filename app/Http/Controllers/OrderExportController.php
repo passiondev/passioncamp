@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Exports\OrderExport;
-use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 
 class OrderExportController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(Authenticate::class);
     }
 
     public function store()

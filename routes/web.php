@@ -51,7 +51,7 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::resource('organizations.items', 'OrganizationItemController')->only('create', 'store', 'edit', 'update', 'destroy');
     Route::resource('organizations.payments', 'OrganizationPaymentController')->only('index', 'store', 'edit', 'update', 'destroy');
 
-    Route::resource('hotels', 'HotelController')->only('index', 'show');
+    Route::resource('hotels', 'Super\HotelController')->only('index', 'show');
     Route::resource('tickets', 'Super\TicketController')->only('index');
     Route::resource('users', 'Super\UserController')->only('index', 'create', 'store', 'edit', 'update');
     Route::get('rooms', 'RoomController@index')->name('rooms.index');

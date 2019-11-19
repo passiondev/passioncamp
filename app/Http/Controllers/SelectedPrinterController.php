@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Middleware\Authenticate;
 use Facades\App\Contracts\Printing\Factory as Printer;
 
 class SelectedPrinterController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('can:print');
+        $this->middleware([Authenticate::class, 'can:print']);
     }
 
     public function store()
