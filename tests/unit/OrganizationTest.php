@@ -12,7 +12,7 @@ class OrganizationTest extends TestCase
 
     protected $organization;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
