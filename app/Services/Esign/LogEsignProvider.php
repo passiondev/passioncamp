@@ -2,6 +2,7 @@
 
 namespace App\Services\Esign;
 
+use Illuminate\Support\Str;
 use Psr\Log\LoggerInterface;
 use App\Contracts\EsignProvider;
 
@@ -18,7 +19,7 @@ class LogEsignProvider implements EsignProvider
     {
         $this->logger->info($data);
 
-        return str_random(30);
+        return Str::random(30);
     }
 
     public function sendReminder($agreementId)

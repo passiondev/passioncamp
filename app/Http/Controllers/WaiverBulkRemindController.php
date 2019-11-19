@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Organization;
 use Illuminate\Http\Request;
 use App\Jobs\Waiver\SendReminder;
@@ -42,6 +43,6 @@ class WaiverBulkRemindController extends Controller
         });
 
         return redirect()->back()
-            ->with('success', vsprintf('%d %s sent.', [$remindersSent, str_plural('reminder', $remindersSent)]));
+            ->with('success', vsprintf('%d %s sent.', [$remindersSent, Str::plural('reminder', $remindersSent)]));
     }
 }

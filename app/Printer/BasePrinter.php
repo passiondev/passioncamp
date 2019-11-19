@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Printer;
+use Illuminate\Support\Str;
 
 abstract class BasePrinter
 {
@@ -37,7 +38,7 @@ abstract class BasePrinter
             return false;
         }
 
-        if (!ends_with($this->filename, '.pdf')) {
+        if (!Str::endsWith($this->filename, '.pdf')) {
             return false;
         }
 
@@ -46,6 +47,6 @@ abstract class BasePrinter
 
     public function getFormattedFilename()
     {
-        return str_slug($this->title).'.pdf';
+        return Str::slug($this->title).'.pdf';
     }
 }

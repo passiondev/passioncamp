@@ -56,7 +56,7 @@
                         <li class="nav-item mr-3">
                             <a class="nav-link" href="{{ route('printers.index') }}">@icon('printer') {{ Session::get('printer.name') }}</a>
                         </li>
-                    @elseif (str_contains(Request::route()->getActionName(), 'RoomController'))
+                    @elseif (Str::contains(Request::route()->getActionName(), 'RoomController'))
                         <li class="nav-item mr-3">
                             <a class="btn btn-outline-primary" href="{{ route('printers.index') }}">Select a printer...</a>
                         </li>
@@ -93,81 +93,81 @@
                         <ul class="nav nav-pills flex-md-column">
                             @if (Auth::user()->isSuperAdmin())
                                 <li class="nav-item">
-                                    <a href="{{ action('Super\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\DashboardController') ? 'active' :'' }}">
+                                    <a href="{{ action('Super\DashboardController') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'Super\DashboardController') ? 'active' :'' }}">
                                         Dashboard
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('OrganizationController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'OrganizationController') ? 'active' :'' }}">
+                                    <a href="{{ action('OrganizationController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'OrganizationController') ? 'active' :'' }}">
                                         Churches
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('tickets.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
+                                    <a href="{{ route('tickets.index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
                                         Attendees
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('Super\RoominglistsController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoominglistsController') ? 'active' :'' }}">
+                                    <a href="{{ action('Super\RoominglistsController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'RoominglistsController') ? 'active' :'' }}">
                                         Rooming&nbsp;Lists
                                     </a>
                                 </li>
                                 @if (Route::has('waivers.index'))
                                     <li class="nav-item">
-                                        <a href="{{ action('WaiverController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
+                                        <a href="{{ action('WaiverController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
                                             Waivers
                                         </a>
                                     </li>
                                 @endif
                                 <li class="nav-item">
-                                    <a href="{{ route('admin.hotels.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
+                                    <a href="{{ route('admin.hotels.index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'HotelController') ? 'active' :'' }}">
                                         Hotels
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('RoomController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoomController') ? 'active' :'' }}">
+                                    <a href="{{ action('RoomController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'RoomController') ? 'active' :'' }}">
                                         Rooms
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('ticket-items.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketItemController') ? 'active' :'' }}">
+                                    <a href="{{ route('ticket-items.index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'TicketItemController') ? 'active' :'' }}">
                                         Tickets
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ action('Super\UserController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Super\UserController') ? 'active' :'' }}">
+                                    <a href="{{ action('Super\UserController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'Super\UserController') ? 'active' :'' }}">
                                         Users
                                     </a>
                                 </li>
                             @endif
                             @if (Auth::user()->isChurchAdmin())
                                 <li class="nav-item">
-                                    <a href="{{ action('Account\DashboardController') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'Account\DashboardController') ? 'active' :'' }}">
+                                    <a href="{{ action('Account\DashboardController') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'Account\DashboardController') ? 'active' :'' }}">
                                         Account
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('tickets.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
+                                    <a href="{{ route('tickets.index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'TicketController') ? 'active' :'' }}">
                                         Attendees
                                     </a>
                                 </li>
                                 @if (Route::has('roominglist.index') && auth()->user()->organization->hotelItems->count())
                                     <li class="nav-item">
-                                        <a href="{{ action('RoomingListController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'RoomingListController') ? 'active' :'' }}">
+                                        <a href="{{ action('RoomingListController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'RoomingListController') ? 'active' :'' }}">
                                             Rooming List
                                         </a>
                                     </li>
                                 @endif
                                 @if (Route::has('waivers.index') && auth()->user()->can('create', App\Waiver::class))
                                     <li class="nav-item">
-                                        <a href="{{ route('waivers.index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
+                                        <a href="{{ route('waivers.index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
                                             Waivers
                                         </a>
                                     </li>
                                 @endif
                                 @if (data_get(auth()->user(), 'organization.slug') == 'pcc')
                                     <li class="nav-item">
-                                        <a href="{{ action('CheckinController@index') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'CheckinController') ? 'active' :'' }}">
+                                        <a href="{{ action('CheckinController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'CheckinController') ? 'active' :'' }}">
                                             Check In
                                         </a>
                                     </li>
@@ -178,7 +178,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('account.settings') }}" class="nav-link {{ str_contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
+                                    <a href="{{ route('account.settings') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'SettingsController') ? 'active' :'' }}">
                                         Settings
                                     </a>
                                 </li>

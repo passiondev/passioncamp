@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Str;
 
 return [
     /*
@@ -27,7 +28,7 @@ return [
 
     'prefix' => env(
         'HORIZON_PREFIX',
-        snake_case(env('APP_NAME', 'laravel')).'_horizon:'
+        Str::snake(env('APP_NAME', 'laravel')).'_horizon:'
     ),
 
     /*

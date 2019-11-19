@@ -44,7 +44,7 @@
                         </button>
                     </form>
                 </div>
-                @if (starts_with(request()->query('search'), 'leader'))
+                @if (Str::startsWith(request()->query('search'), 'leader'))
                     <div class="card-footer text-center">
                         <a href="{{ action('CheckinController@allLeaders') }}" class="btn btn-primary">Check In All Leaders</a>
                     </div>
