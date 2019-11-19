@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
+use Illuminate\Contracts\Support\DeferrableProvider;
 use App\Services\Printing\PrintManager;
 use Illuminate\Support\ServiceProvider;
 use App\Contracts\Printing\Factory as PrintingFactory;
 use App\Contracts\Printing\Printer as PrinterContract;
 
-class PrintNodeServiceProvider extends ServiceProvider
+class PrintNodeServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    protected $defer = true;
 
     /**
      * Bootstrap the application services.
