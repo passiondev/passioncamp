@@ -17,10 +17,10 @@ class OrganizationItemTest extends TestCase
     {
         parent::setUp();
 
-        $this->organization = factory('App\Organization')->create();
-        factory('App\Item')->create(['type' => 'ticket']);
+        $this->organization = factory(\App\Organization::class)->create();
+        factory(\App\Item::class)->create(['type' => 'ticket']);
 
-        $user = factory('App\User')->create([
+        $user = factory(\App\User::class)->create([
             'email' => 'matt.floyd@268generation.com',
             'access' => 100,
         ]);

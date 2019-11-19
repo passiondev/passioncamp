@@ -75,7 +75,7 @@ class OrderItem extends Model
 
     public function isOrganizationItem()
     {
-        return 'App\Organization' == $this->owner_type;
+        return \App\Organization::class == $this->owner_type;
     }
 
     public function getIsCanceledAttribute()

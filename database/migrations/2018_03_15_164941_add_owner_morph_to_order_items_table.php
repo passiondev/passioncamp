@@ -24,7 +24,7 @@ class AddOwnerMorphToOrderItemsTable extends Migration
         OrderItem::whereNotNull('organization_id')->withTrashed()->each(function ($item) {
             $item->timestamps = false;
             $item->update([
-                'owner_type' => 'App\Organization',
+                'owner_type' => \App\Organization::class,
                 'owner_id' => $item->organization_id,
             ]);
         });
@@ -34,7 +34,7 @@ class AddOwnerMorphToOrderItemsTable extends Migration
         OrderItem::whereNotNull('order_id')->withTrashed()->each(function ($item) {
             $item->timestamps = false;
             $item->update([
-                'owner_type' => 'App\Order',
+                'owner_type' => \App\Order::class,
                 'owner_id' => $item->order_id,
             ]);
         });
