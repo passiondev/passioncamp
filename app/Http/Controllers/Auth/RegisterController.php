@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
 {
@@ -44,16 +43,5 @@ class RegisterController extends Controller
         auth()->login($user);
 
         return redirect('/');
-    }
-
-    public function registerWithSocial($provider, User $user, $hash)
-    {
-        if ($user->hash !== $hash) {
-            abort(403, 'Not authorized.');
-        }
-
-        auth('social')->login($user);
-
-        return Socialite::driver($provider)->redirect();
     }
 }
