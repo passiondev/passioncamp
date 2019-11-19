@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -33,6 +34,7 @@ return [
     */
 
     'connections' => [
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
@@ -53,8 +55,8 @@ return [
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
-            'strict' => false,
             'prefix_indexes' => true,
+            'strict' => false,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
@@ -88,6 +90,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+
     ],
 
     /*
@@ -115,6 +118,7 @@ return [
     */
 
     'redis' => [
+
         'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
@@ -137,5 +141,7 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
         ],
+
     ],
+
 ];

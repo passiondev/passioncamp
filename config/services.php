@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -33,34 +34,4 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
-    'stripe' => [
-        'model' => App\User::class,
-        'key' => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
-        'pcc' => [
-            'key' => env('STRIPE_KEY_PCC'),
-            'secret' => env('STRIPE_SECRET_PCC'),
-        ],
-    ],
-
-    'adobesign' => [
-        'key' => env('ADOBESIGN_KEY'),
-        'secret' => env('ADOBESIGN_SECRET'),
-        'refresh' => env('ADOBESIGN_REFRESH'),
-    ],
-
-    'rollbar' => [
-        'access_token' => env('ROLLBAR_TOKEN'),
-        'level' => env('ROLLBAR_LEVEL'),
-    ],
-
-    'printnode' => [
-        'key' => env('PRINTNODE_KEY'),
-    ],
-
-    'google' => [
-        'client_id' => env('GOOGLE_KEY'),
-        'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' => 'https://portal.passioncamp.268generation.com/oauth/google/callback',
-    ],
 ];
