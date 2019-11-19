@@ -58,7 +58,7 @@ class PrintNodePrinter extends Printer
 
     public function printers()
     {
-        return Cache::remember($this->cacheKey(), 10, function () {
+        return Cache::remember($this->cacheKey(), 600, function () {
             return $this->client()->viewPrinters();
         });
     }
