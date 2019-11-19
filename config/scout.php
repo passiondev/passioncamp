@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Str;
 
 return [
     /*
@@ -27,7 +28,7 @@ return [
     |
     */
 
-    'prefix' => env('SCOUT_PREFIX', snake_case(env('APP_NAME')).'_'.env('APP_ENV').'_'),
+    'prefix' => env('SCOUT_PREFIX', Str::snake(env('APP_NAME')).'_'.env('APP_ENV').'_'),
 
     /*
     |--------------------------------------------------------------------------

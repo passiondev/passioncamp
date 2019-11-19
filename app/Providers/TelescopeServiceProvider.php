@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Telescope\Telescope;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
@@ -18,7 +20,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         Telescope::filter(function (IncomingEntry $entry) {
             if ($this->app->environment('local')) {
-                if ('request' == $entry->type && starts_with(array_get($entry->content, 'uri'), '/_debugbar')) {
+                if ('request' == $entry->type && Str::startsWith(Arr::get($entry->content, 'uri'), '/_debugbar')) {
                     return false;
                 }
 

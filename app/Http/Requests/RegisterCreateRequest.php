@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Arr;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -73,8 +74,8 @@ class RegisterCreateRequest extends FormRequest
         $tickets = collect($this->input('tickets'))->map(function ($data) {
             return [
                 'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => $this->input('code')],
-                'person' => array_only($data, [
+                'ticket_data' => Arr::only($data, ['school', 'roommate_requested']) + ['code' => $this->input('code')],
+                'person' => Arr::only($data, [
                     'first_name',
                     'last_name',
                     'email',

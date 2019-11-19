@@ -16,12 +16,12 @@
             <tr>
                 <td>{{ $ticket['id'] }}</td>
                 <td>{{ $ticket['church'] }}</td>
-                <td>{{ array_get($ticket['current'], 'roomId') }}</td>
-                <td>{{ array_get($ticket['current'], 'first_name') }}</td>
-                <td>{{ array_get($ticket['current'], 'last_name') }}</td>
-                <td>{{ array_get($ticket['previous'], 'roomId') }}</td>
-                <td>{{ array_get($ticket['previous'], 'first_name') }}</td>
-                <td>{{ array_get($ticket['previous'], 'last_name') }}</td>
+                <td>{{ Arr::get($ticket['current'], 'roomId') }}</td>
+                <td>{{ Arr::get($ticket['current'], 'first_name') }}</td>
+                <td>{{ Arr::get($ticket['current'], 'last_name') }}</td>
+                <td>{{ Arr::get($ticket['previous'], 'roomId') }}</td>
+                <td>{{ Arr::get($ticket['previous'], 'first_name') }}</td>
+                <td>{{ Arr::get($ticket['previous'], 'last_name') }}</td>
             </tr>
         @endforeach
     </tbody>

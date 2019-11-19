@@ -2,6 +2,7 @@
 
 namespace App\Auth\Traits;
 
+use Illuminate\Support\Str;
 use App\EmailLogin;
 use App\Mail\MagicLinkRequested;
 use Illuminate\Support\Facades\Mail;
@@ -18,7 +19,7 @@ trait HasEmailLogin
         $this->deleteExistingMagicToken();
 
         $this->emailLogin()->create([
-            'token' => str_random(32),
+            'token' => Str::random(32),
         ]);
 
         return $this;
