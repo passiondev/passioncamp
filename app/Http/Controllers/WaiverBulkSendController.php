@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
 use App\Organization;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
 

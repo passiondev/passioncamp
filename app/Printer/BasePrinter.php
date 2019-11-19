@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Printer;
+
 use Illuminate\Support\Str;
 
 abstract class BasePrinter
