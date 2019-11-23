@@ -37,7 +37,7 @@ class TicketTest extends TestCase
 
         // dd($ticket->activity()->latest()->first()->changes);
 
-        $this->assertCount(3, $ticket->activity()->get());
+        $this->assertCount(3, $ticket->activities()->get());
     }
 
     /** @test */
