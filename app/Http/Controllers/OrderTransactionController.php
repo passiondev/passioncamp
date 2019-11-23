@@ -47,7 +47,7 @@ class OrderTransactionController extends Controller
                         ],
                     ],
                     [
-                        'api_key' => config('services.stripe.secret'),
+                        'api_key' => config('settings.stripe.secret'),
                         'stripe_account' => 'acct_16y17LI1xefq0oDy',
                     ]
                 );

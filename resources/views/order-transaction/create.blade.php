@@ -101,6 +101,6 @@
 @section('foot')
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        var stripe = Stripe('{{ config('services.stripe.key') }}');
+        var stripe = Stripe('{{ config('settings.stripe.key') }}');
     </script>
 @endsection

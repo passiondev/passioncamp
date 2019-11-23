@@ -43,7 +43,7 @@ class PaymentController extends Controller
                     'email' => auth()->user()->person->email,
                     'name' => auth()->user()->person->name,
                 ],
-            ], ['api_key' => config('services.stripe.secret')]);
+            ], ['api_key' => config('settings.stripe.secret')]);
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }

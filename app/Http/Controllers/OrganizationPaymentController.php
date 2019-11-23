@@ -45,7 +45,7 @@ class OrganizationPaymentController extends Controller
                     'metadata' => [
                         'church' => $organization->church->name,
                     ],
-                ], ['api_key' => config('services.stripe.secret')]);
+                ], ['api_key' => config('settings.stripe.secret')]);
             } catch (\Exception $e) {
                 return redirect()->back()->withInput()->with('error', $e->getMessage());
             }
