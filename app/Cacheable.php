@@ -18,7 +18,7 @@ trait Cacheable
 
     protected function cached($attribute)
     {
-        return Cache::remember($this->cacheKey() . ':' . $attribute, 15, function () use ($attribute) {
+        return Cache::remember($this->cacheKey().':'.$attribute, 900, function () use ($attribute) {
             return $this->$attribute;
         });
     }

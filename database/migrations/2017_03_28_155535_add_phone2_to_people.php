@@ -8,8 +8,6 @@ class AddPhone2ToPeople extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -20,13 +18,10 @@ class AddPhone2ToPeople extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::table('people', function (Blueprint $table) {
-            //
         });
     }
 }

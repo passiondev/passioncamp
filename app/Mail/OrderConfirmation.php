@@ -10,14 +10,13 @@ use Illuminate\Queue\SerializesModels;
 
 class OrderConfirmation extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $order;
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
     public function __construct(Order $order)
     {
@@ -35,7 +34,7 @@ class OrderConfirmation extends Mailable
             ->subject('Passion Students Registration Confirmation')
             ->markdown('emails.order.confirmation')
             ->with([
-                'occurrence' => new Occurrence(config('occurrences.' . $this->order->organization->slug)),
+                'occurrence' => new Occurrence(config('occurrences.'.$this->order->organization->slug)),
                 'order' => $this->order,
             ]);
     }

@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class Export
 {
+    public function __toString()
+    {
+        return json_encode($this->data());
+    }
+
     abstract public function data();
 
     public function toCsv()
@@ -23,7 +28,7 @@ abstract class Export
 
     public function filename()
     {
-        return Str::snake(class_basename($this)) . '-' . time() . '.csv';
+        return Str::snake(class_basename($this)).'-'.time().'.csv';
     }
 
     public function store()
@@ -42,19 +47,14 @@ abstract class Export
     {
         return collect($data)->map(function ($ticket) {
             return collect($ticket)->mapWithKeys(function ($value, $key) {
-                if (is_array($value)) {
+                if (\is_array($value)) {
                     return collect($value)->mapWithKeys(function ($v, $k) use ($key) {
-                        return [$key . ' ' . $k => $v];
+                        return [$key.' '.$k => $v];
                     });
                 }
 
                 return [$key => $value];
             })->all();
         });
-    }
-
-    public function __toString()
-    {
-        return json_encode($this->data());
     }
 }

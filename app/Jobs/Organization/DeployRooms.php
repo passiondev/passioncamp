@@ -12,14 +12,14 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class DeployRooms implements ShouldQueue
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     private $organization;
-
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct(Organization $organization)
     {
@@ -28,8 +28,6 @@ class DeployRooms implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {
@@ -46,7 +44,7 @@ class DeployRooms implements ShouldQueue
         });
 
         $rooms = $this->organization->rooms()->get()->groupBy('hotel_id')->mapWithKeys(function ($rooms, $key) {
-            return [$key => count($rooms)];
+            return [$key => \count($rooms)];
         });
 
         return [$items, $rooms];

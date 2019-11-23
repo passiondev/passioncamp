@@ -8,8 +8,6 @@ class AddFlagsToUsers extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -20,13 +18,10 @@ class AddFlagsToUsers extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
         });
     }
 }

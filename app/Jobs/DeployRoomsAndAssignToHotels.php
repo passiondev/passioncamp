@@ -3,8 +3,6 @@
 namespace App\Jobs;
 
 use App\Room;
-use App\Jobs\Job;
-use App\OrderItem;
 use App\Organization;
 use App\Repositories\RoomRepository;
 use Illuminate\Queue\SerializesModels;
@@ -13,14 +11,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
 {
+    use InteractsWithQueue;
+    use SerializesModels;
     private $rooms;
-
-    use InteractsWithQueue, SerializesModels;
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct(RoomRepository $rooms = null)
     {
@@ -29,8 +25,6 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {
@@ -44,10 +38,10 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                 ->map(function ($hotel) use ($organization) {
                     return [
                         'hotel_id' => $hotel->first()->item_id,
-                        'qty' => $hotel->sum('quantity')
+                        'qty' => $hotel->sum('quantity'),
                     ];
                 })->reject(function ($hotel) {
-                    return $hotel['qty'] == 0;
+                    return 0 == $hotel['qty'];
                 });
 
             $organization->rooms->filter(function ($room) {
@@ -58,7 +52,7 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                 }, ['hotel_id' => null, 'qty' => 0]);
 
                 $hotels->forget($hotel['hotel_id']);
-                $hotel['qty']--;
+                --$hotel['qty'];
                 $hotels->offsetSet($hotel['hotel_id'], $hotel);
             });
 
@@ -78,7 +72,7 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                 $room->hotel_id = $hotel['hotel_id'];
                 $room->save();
 
-                $hotel['qty']--;
+                --$hotel['qty'];
                 $hotels->offsetSet($hotel['hotel_id'], $hotel);
             });
 
@@ -86,8 +80,8 @@ class DeployRoomsAndAssignToHotels extends Job implements ShouldQueue
                 return $hotel['qty'] > 0;
             })->each(function ($hotel) use ($organization) {
                 $total_rooms = $organization->rooms()->withTrashed()->count();
-                for ($i = 1; $i <= $hotel['qty']; $i++) {
-                    $this->rooms->create($organization, 'Room #' . ($total_rooms+$i), $hotel['hotel_id']);
+                for ($i = 1; $i <= $hotel['qty']; ++$i) {
+                    $this->rooms->create($organization, 'Room #'.($total_rooms + $i), $hotel['hotel_id']);
                 }
             });
         });

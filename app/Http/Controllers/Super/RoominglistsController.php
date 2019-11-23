@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Super;
 
 use App\RoomingListVersion;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class RoominglistsController extends Controller

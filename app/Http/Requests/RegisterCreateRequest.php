@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\User;
+use Illuminate\Support\Arr;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterCreateRequest extends FormRequest
@@ -56,7 +57,7 @@ class RegisterCreateRequest extends FormRequest
 
     public function fundAmount()
     {
-        return $this->input('fund_amount') == 'other'
+        return 'other' == $this->input('fund_amount')
             ? $this->input('fund_amount_other')
             : $this->input('fund_amount');
     }
@@ -73,8 +74,8 @@ class RegisterCreateRequest extends FormRequest
         $tickets = collect($this->input('tickets'))->map(function ($data) {
             return [
                 'agegroup' => 'student',
-                'ticket_data' => array_only($data, ['school', 'roommate_requested']) + ['code' => $this->input('code')],
-                'person' => array_only($data, [
+                'ticket_data' => Arr::only($data, ['school', 'roommate_requested']) + ['code' => $this->input('code')],
+                'person' => Arr::only($data, [
                     'first_name',
                     'last_name',
                     'email',
@@ -99,6 +100,6 @@ class RegisterCreateRequest extends FormRequest
 
     public function wantsToPayDeposit()
     {
-        return $this->input('payment_type') == 'deposit';
+        return 'deposit' == $this->input('payment_type');
     }
 }

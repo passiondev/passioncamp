@@ -11,12 +11,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class GenerateRoomingListVersionExport implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     protected $version;
 
@@ -27,8 +28,6 @@ class GenerateRoomingListVersionExport implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

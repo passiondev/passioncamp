@@ -3,17 +3,16 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class ExportCompleted extends Notification
 {
     use Queueable;
 
-	protected $version;
+    protected $version;
 
     public function __construct($version)
     {
@@ -23,7 +22,8 @@ class ExportCompleted extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -34,15 +34,15 @@ class ExportCompleted extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
                     ->line('The rooming list version export is now complete and has been attached to this email.')
                     ->attach(Storage::disk('exports')->path($this->version->file_name));
-
     }
 
     public function toBroadcast($notifiable)
@@ -55,13 +55,13 @@ class ExportCompleted extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

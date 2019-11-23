@@ -2,23 +2,23 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Maatwebsite\Excel\Concerns\Exportable;
 use App\Room;
 use App\Ticket;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class RoomingListVersionExport implements WithMultipleSheets
 {
     use Exportable;
 
-	protected $roomingListVersion;
+    protected $roomingListVersion;
 
     public function __construct($roomingListVersion)
     {
         $this->roomingListVersion = $roomingListVersion;
     }
 
-    public function sheets() : array
+    public function sheets(): array
     {
         $rooms = Room::with('organization.church', 'tickets.person')->has('organization')->get();
 

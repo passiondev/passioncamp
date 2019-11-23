@@ -41,8 +41,8 @@ class PaymentController extends Controller
                 'metadata' => [
                     'church' => $organization->church->name,
                     'email' => auth()->user()->person->email,
-                    'name' => auth()->user()->person->name
-                ]
+                    'name' => auth()->user()->person->name,
+                ],
             ], ['api_key' => config('services.stripe.secret')]);
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());

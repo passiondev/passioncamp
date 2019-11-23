@@ -26,11 +26,11 @@ class UserController extends Controller
         request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id,
+            'email' => 'required|unique:users,email,'.$user->id,
         ]);
 
         if (auth()->user()->isSuperAdmin()) {
-            if (request('organization') == 'ADMIN') {
+            if ('ADMIN' == request('organization')) {
                 $user->access = 100;
                 $user->organization()->dissociate();
             } elseif (request()->has('organization')) {

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     // Enable or disable partialcache alltogether
     'enabled' => true,
 
@@ -13,5 +12,4 @@ return [
 
     // The default cache duration in minutes, set null to remember forever
     'default_duration' => null,
-
 ];

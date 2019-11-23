@@ -3,24 +3,25 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use App\Notifications\ExportCompleted;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Notifications\ExportCompleted;
 
 class NotifyUserOfCompletedExport implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
-	protected $user;
+    protected $user;
 
-	protected $version;
+    protected $version;
 
     public function __construct($user, $version)
     {
@@ -30,8 +31,6 @@ class NotifyUserOfCompletedExport implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

@@ -12,7 +12,7 @@ class HelloSignController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if ($request->header('User-Agent') != 'HelloSign API') {
+        if ('HelloSign API' != $request->header('User-Agent')) {
             return response('not found', 404);
         }
 
@@ -39,7 +39,6 @@ class HelloSignController extends Controller
                     ->firstOrFail();
                 FetchAndUpdateStatus::dispatch($waiver);
                 break;
-
             case 'signature_request_email_bounce':
                 $waiver = Waiver::whereProvider('hellosign')
                     ->where('provider_agreement_id', $request->input('signature_request.signature_request_id'))

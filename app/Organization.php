@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Organization extends Model
 {
-    use SoftDeletes, Notated, Cacheable;
+    use SoftDeletes;
+    use Notated;
+    use Cacheable;
 
     protected $casts = [
         'tickets_sum' => 'integer',
@@ -45,7 +47,7 @@ class Organization extends Model
     public function scopeSearchByChurchName($query, $name)
     {
         $query->whereHas('church', function ($q) use ($name) {
-            $q->where('name', 'LIKE', $name . '%');
+            $q->where('name', 'LIKE', $name.'%');
         });
     }
 
@@ -62,7 +64,7 @@ class Organization extends Model
 
     public function getTicketsSumAttribute($tickets_sum)
     {
-        if (array_key_exists('tickets_sum', $this->attributes)) {
+        if (\array_key_exists('tickets_sum', $this->attributes)) {
             return $tickets_sum;
         }
 
@@ -86,7 +88,7 @@ class Organization extends Model
 
     public function getHotelsSumAttribute($hotels_sum)
     {
-        if (array_key_exists('hotels_sum', $this->attributes)) {
+        if (\array_key_exists('hotels_sum', $this->attributes)) {
             return $hotels_sum;
         }
 
@@ -110,7 +112,7 @@ class Organization extends Model
 
     public function getCostSumAttribute($cost_sum)
     {
-        if (array_key_exists('cost_sum', $this->attributes)) {
+        if (\array_key_exists('cost_sum', $this->attributes)) {
             return $cost_sum;
         }
 
@@ -127,7 +129,7 @@ class Organization extends Model
     public function scopeWithPaidSum($query, $source = null)
     {
         return $query->addSubSelect(
-            $source ? $source . '_paid_sum' : 'paid_sum',
+            $source ? $source.'_paid_sum' : 'paid_sum',
             TransactionSplit::withoutTrashed()
                 ->selectRaw('SUM(transaction_splits.amount)')
                 ->when($source, function ($q) use ($source) {
@@ -140,7 +142,7 @@ class Organization extends Model
 
     public function getPaidSumAttribute($paid_sum)
     {
-        if (array_key_exists('paid_sum', $this->attributes)) {
+        if (\array_key_exists('paid_sum', $this->attributes)) {
             return $paid_sum;
         }
 
@@ -261,7 +263,7 @@ class Organization extends Model
 
     public function getAssignedToRoomCountAttribute($assigned_to_room_count)
     {
-        if (array_key_exists('assigned_to_room_count', $this->attributes)) {
+        if (\array_key_exists('assigned_to_room_count', $this->attributes)) {
             return $assigned_to_room_count;
         }
 
@@ -292,7 +294,7 @@ class Organization extends Model
 
     public function getRoomsCountAttribute($rooms_count)
     {
-        if (array_key_exists('rooms_count', $this->attributes)) {
+        if (\array_key_exists('rooms_count', $this->attributes)) {
             return $rooms_count;
         }
 
@@ -313,7 +315,7 @@ class Organization extends Model
 
     public function getCheckedInRoomsCountAttribute($checked_in_rooms_count)
     {
-        if (array_key_exists('checked_in_rooms_count', $this->attributes)) {
+        if (\array_key_exists('checked_in_rooms_count', $this->attributes)) {
             return $checked_in_rooms_count;
         }
 
@@ -334,7 +336,7 @@ class Organization extends Model
 
     public function getKeyReceivedRoomsCountAttribute($key_received_rooms_count)
     {
-        if (array_key_exists('key_received_rooms_count', $this->attributes)) {
+        if (\array_key_exists('key_received_rooms_count', $this->attributes)) {
             return $key_received_rooms_count;
         }
 
@@ -355,11 +357,11 @@ class Organization extends Model
 
     public function setting($key, $value = null)
     {
-        if (! is_null($value)) {
+        if (null !== $value) {
             $key = [$key => $value];
         }
 
-        if (is_array($key)) {
+        if (\is_array($key)) {
             collect($key)->each(function ($value, $key) {
                 return $this->addSetting($key, $value);
             });
@@ -372,21 +374,6 @@ class Organization extends Model
         return $setting ? $setting->value : false;
     }
 
-    protected function addSetting($key, $value)
-    {
-        $setting = $this->settings()->where('key', $key)->first();
-
-        if (! $setting) {
-            $setting = new OrganizationSettings;
-            $setting->key = $key;
-            $setting->organization()->associate($this);
-        }
-
-        $setting->value = $value;
-
-        $setting->save();
-    }
-
     public function getDepositBalanceAttribute()
     {
         return 0;
@@ -394,7 +381,7 @@ class Organization extends Model
 
     public function getBalanceAttribute($balance)
     {
-        if (array_key_exists('balance', $this->attributes)) {
+        if (\array_key_exists('balance', $this->attributes)) {
             return $balance;
         }
 
@@ -410,7 +397,7 @@ class Organization extends Model
 
     public function getCanReceivePaymentAttribute()
     {
-        return $this->slug == 'pcc';
+        return 'pcc' == $this->slug;
     }
 
     public function getTicketCountAttribute()
@@ -420,7 +407,7 @@ class Organization extends Model
 
     public function getActiveAttendeesCountAttribute($active_attendees_count)
     {
-        if (array_key_exists('active_attendees_count', $this->attributes)) {
+        if (\array_key_exists('active_attendees_count', $this->attributes)) {
             return $active_attendees_count;
         }
 
@@ -446,12 +433,12 @@ class Organization extends Model
 
     public function getCanMakeStripePaymentsAttribute()
     {
-        return $this->slug == 'pcc';
+        return 'pcc' == $this->slug;
     }
 
     public function getCanRecordTransactionsAttribute()
     {
-        return $this->slug == 'pcc';
+        return 'pcc' == $this->slug;
     }
 
     public function roomCountForHotel($hotel)
@@ -464,7 +451,7 @@ class Organization extends Model
     public function getSignedWaiversCountAttribute()
     {
         return $this->attendees->active()->filter(function ($attendee) {
-            return $attendee->waiver && $attendee->waiver->status == 'signed';
+            return $attendee->waiver && 'signed' == $attendee->waiver->status;
         })->count();
     }
 
@@ -485,7 +472,7 @@ class Organization extends Model
 
     public function getCompletedWaiversCountAttribute($completed_waivers_count)
     {
-        if (array_key_exists('completed_waivers_count', $this->attributes)) {
+        if (\array_key_exists('completed_waivers_count', $this->attributes)) {
             return $completed_waivers_count;
         }
 
@@ -501,7 +488,7 @@ class Organization extends Model
 
     public function getIsCheckedInAttribute($is_checked_in)
     {
-        if (array_key_exists('is_checked_in', $this->attributes)) {
+        if (\array_key_exists('is_checked_in', $this->attributes)) {
             return $is_checked_in;
         }
 
@@ -512,7 +499,7 @@ class Organization extends Model
     {
         static $attendees_price_sum;
 
-        if (is_null($attendees_price_sum)) {
+        if (null === $attendees_price_sum) {
             $attendees_price_sum = $this->activeAttendees()->sum('price');
         }
 
@@ -521,13 +508,13 @@ class Organization extends Model
 
     public function getStudentsCountAttribute($students_count)
     {
-        if (array_key_exists('students_count', $this->attributes)) {
+        if (\array_key_exists('students_count', $this->attributes)) {
             return $students_count;
         }
 
         static $students_count = null;
 
-        if (is_null($students_count)) {
+        if (null === $students_count) {
             $students_count = $this->students()->count();
         }
 
@@ -536,13 +523,13 @@ class Organization extends Model
 
     public function getLeadersCountAttribute($leaders_count)
     {
-        if (array_key_exists('leaders_count', $this->attributes)) {
+        if (\array_key_exists('leaders_count', $this->attributes)) {
             return $leaders_count;
         }
 
         static $leaders_count = null;
 
-        if (is_null($leaders_count)) {
+        if (null === $leaders_count) {
             $leaders_count = $this->leaders()->count();
         }
 
@@ -553,7 +540,7 @@ class Organization extends Model
     {
         static $donations_total = null;
 
-        if (is_null($donations_total)) {
+        if (null === $donations_total) {
             $donations_total = $this->donations()->sum('price');
         }
 
@@ -564,7 +551,7 @@ class Organization extends Model
     {
         static $orders_grand_total = null;
 
-        if (is_null($orders_grand_total)) {
+        if (null === $orders_grand_total) {
             $orders_grand_total = $this->orderItems()->active()->sum('price');
         }
 
@@ -575,7 +562,7 @@ class Organization extends Model
     {
         static $orders_grand_total = null;
 
-        if (is_null($orders_grand_total)) {
+        if (null === $orders_grand_total) {
             $orders_grand_total = $this->orderTransactions()->sum('amount');
         }
 
@@ -590,5 +577,20 @@ class Organization extends Model
     public function newRegistrationForUser($user)
     {
         return new Registration($this, $user);
+    }
+
+    protected function addSetting($key, $value)
+    {
+        $setting = $this->settings()->where('key', $key)->first();
+
+        if (!$setting) {
+            $setting = new OrganizationSettings();
+            $setting->key = $key;
+            $setting->organization()->associate($this);
+        }
+
+        $setting->value = $value;
+
+        $setting->save();
     }
 }

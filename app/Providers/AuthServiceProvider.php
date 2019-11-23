@@ -30,8 +30,6 @@ class AuthServiceProvider extends ServiceProvider
 
     /**
      * Register any authentication / authorization services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -42,14 +40,14 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('print', function ($user) {
-            return $user->isSuperAdmin() || data_get($user, 'organization.slug') == 'pcc';
+            return $user->isSuperAdmin() || 'pcc' == data_get($user, 'organization.slug');
         });
 
         Gate::define('can-see-money', function ($user) {
-            if (in_array($user->email, [
+            if (\in_array($user->email, [
                 'students@passioncitychurch.com',
                 'passioncamp@268generation.com',
-            ])) {
+            ], true)) {
                 return false;
             }
 

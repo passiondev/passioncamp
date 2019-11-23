@@ -4,22 +4,24 @@ namespace App\Jobs\Waiver;
 
 use App\WaiverStatus;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\App;
 
 class RequestWaiverSignature implements ShouldQueue
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     public $waiver;
-
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param mixed $waiver
      */
     public function __construct($waiver)
     {
@@ -28,8 +30,6 @@ class RequestWaiverSignature implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {
@@ -47,13 +47,6 @@ class RequestWaiverSignature implements ShouldQueue
             'provider_agreement_id' => $agreementId,
             'status' => WaiverStatus::PENDING,
         ]);
-    }
-
-    private function getLibraryDocumentId()
-    {
-        return $this->waiver->ticket->order->organization->slug == 'pcc'
-            ? config('passioncamp.pcc_waiver_document_id')
-            : config('passioncamp.waiver_document_id');
     }
 
     public function getRecipientEmail()
@@ -110,7 +103,7 @@ class RequestWaiverSignature implements ShouldQueue
                     ],
                     [
                         'fieldName' => 'Participant Gender',
-                        'defaultValue' => $this->waiver->ticket->person->gender == 'M' ? 'Male' : 'Female',
+                        'defaultValue' => 'M' == $this->waiver->ticket->person->gender ? 'Male' : 'Female',
                     ],
                     [
                         'fieldName' => 'Parent Name',
@@ -137,5 +130,12 @@ class RequestWaiverSignature implements ShouldQueue
                 'callbackInfo' => action('Webhooks\AdobeSignController'),
             ],
         ];
+    }
+
+    private function getLibraryDocumentId()
+    {
+        return 'pcc' == $this->waiver->ticket->order->organization->slug
+            ? config('passioncamp.pcc_waiver_document_id')
+            : config('passioncamp.waiver_document_id');
     }
 }

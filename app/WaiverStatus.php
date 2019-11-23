@@ -14,15 +14,12 @@ class WaiverStatus
         switch (strtoupper($status)) {
             case 'NEW':
                 return static::CREATED;
-
             case 'COMPLETE':
             case 'ESIGNED':
             case 'SIGNED':
                 return static::COMPLETE;
-
             case 'BOUNCED':
                 return static::BOUNCED;
-
             case 'PENDING':
             default:
                 return static::PENDING;

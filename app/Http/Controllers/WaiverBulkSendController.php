@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
 
@@ -31,10 +32,10 @@ class WaiverBulkSendController extends Controller
 
             $attendee->createWaiver();
 
-            $waiversSent++;
+            ++$waiversSent;
         });
 
         return redirect()->back()
-            ->with('success', vsprintf('%d %s sent.', [$waiversSent, str_plural('waiver', $waiversSent)]));
+            ->with('success', vsprintf('%d %s sent.', [$waiversSent, Str::plural('waiver', $waiversSent)]));
     }
 }

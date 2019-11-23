@@ -4,7 +4,6 @@ namespace App\Billing;
 
 use Illuminate\Foundation\Testing\WithFaker;
 
-
 class FakePaymentGateway implements PaymentGateway
 {
     use WithFaker;
@@ -19,12 +18,12 @@ class FakePaymentGateway implements PaymentGateway
     public function charge($amount, $token)
     {
         if ($this->failing) {
-            throw new PaymentFailedException;
+            throw new PaymentFailedException();
         }
 
         return new Charge([
             'source' => 'fake',
-            'identifier' => 'ch_' . $this->faker->md5,
+            'identifier' => 'ch_'.$this->faker->md5,
             'amount' => $amount,
             'card_last_four' => substr($this->faker->creditCardNumber, -4),
             'card_brand' => $this->faker->creditCardType,
@@ -33,7 +32,7 @@ class FakePaymentGateway implements PaymentGateway
 
     public function getValidTestToken()
     {
-        return 'tok_' . $this->faker->md5;
+        return 'tok_'.$this->faker->md5;
     }
 
     public function getFailingTestToken()

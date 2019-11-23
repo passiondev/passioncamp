@@ -21,9 +21,8 @@ class PrintJobHandler
     {
         switch ($printer_id) {
             case 'PDF':
-                $this->printer = new PdfPrinter;
+                $this->printer = new PdfPrinter();
                 break;
-            
             default:
                 $this->printer = new PrintNodePrinter($this->printNode, $printer_id);
                 break;

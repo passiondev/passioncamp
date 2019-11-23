@@ -12,7 +12,7 @@ class Church extends Model
 
     public function getLocationAttribute()
     {
-        if (strlen($this->city)) {
+        if (\strlen($this->city)) {
             return sprintf('%s, %s', $this->city, $this->state);
         }
 

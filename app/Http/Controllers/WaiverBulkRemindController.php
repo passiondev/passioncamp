@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Organization;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Jobs\Waiver\SendReminder;
 use App\Http\Middleware\Authenticate;
@@ -26,11 +27,11 @@ class WaiverBulkRemindController extends Controller
 
         $remindersSent = 0;
         $organization->attendees()->each(function ($attendee) use (&$remindersSent) {
-            if (! $attendee->waiver) {
+            if (!$attendee->waiver) {
                 return;
             }
 
-            if (! $attendee->waiver->canBeReminded()) {
+            if (!$attendee->waiver->canBeReminded()) {
                 return;
             }
 
@@ -38,10 +39,10 @@ class WaiverBulkRemindController extends Controller
 
             SendReminder::dispatch($attendee->waiver);
 
-            $remindersSent++;
+            ++$remindersSent;
         });
 
         return redirect()->back()
-            ->with('success', vsprintf('%d %s sent.', [$remindersSent, str_plural('reminder', $remindersSent)]));
+            ->with('success', vsprintf('%d %s sent.', [$remindersSent, Str::plural('reminder', $remindersSent)]));
     }
 }

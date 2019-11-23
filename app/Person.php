@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -37,10 +38,10 @@ class Person extends Model
     {
         return collect(['nut', 'vegetarian', 'vegan', 'gluten', 'dairy', 'other', 'drug', 'physical', 'visual', 'hearing'])
             ->mapWithKeys(function ($consideration) {
-                $value = array_get($this->considerations, $consideration);
+                $value = Arr::get($this->considerations, $consideration);
 
                 return [
-                    $consideration => in_array($value, [$consideration, 'true']) ? 'X' : $value,
+                    $consideration => \in_array($value, [$consideration, 'true'], true) ? 'X' : $value,
                 ];
             })
             ->toArray();
@@ -61,7 +62,7 @@ class Person extends Model
         try {
             $this->attributes['birthdate'] = new Carbon($birthdate);
         } catch (\Exception $e) {
-            \Log::error("Couldn't set birthdate " . $birthdate);
+            \Log::error("Couldn't set birthdate ".$birthdate);
         }
     }
 }

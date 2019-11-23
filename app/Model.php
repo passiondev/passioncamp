@@ -6,21 +6,6 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 
 class Model extends BaseModel
 {
-    protected function castAttribute($key, $value)
-    {
-        if (is_null($value)) {
-            return $value;
-        }
-
-        switch ($this->getCastType($key)) {
-            case 'dollar':
-            case 'dollars':
-                return $value / 100;
-            default:
-                return parent::castAttribute($key, $value);
-        }
-    }
-
     public function getAttribute($key)
     {
         if ($this->hasAlias($key)) {
@@ -34,15 +19,30 @@ class Model extends BaseModel
 
     public function hasAlias($key)
     {
-        if (! property_exists($this, 'alias') || empty($this->alias)) {
+        if (!property_exists($this, 'alias') || empty($this->alias)) {
             return;
-        };
+        }
 
-        return array_key_exists($key, $this->alias);
+        return \array_key_exists($key, $this->alias);
     }
 
     public function getAliasAttribute($key)
     {
         return $this->getAttribute($this->alias[$key]);
+    }
+
+    protected function castAttribute($key, $value)
+    {
+        if (null === $value) {
+            return $value;
+        }
+
+        switch ($this->getCastType($key)) {
+            case 'dollar':
+            case 'dollars':
+                return $value / 100;
+            default:
+                return parent::castAttribute($key, $value);
+        }
     }
 }

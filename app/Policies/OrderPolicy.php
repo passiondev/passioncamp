@@ -34,7 +34,7 @@ class OrderPolicy
 
     public function recordTransaction(User $user, Order $order)
     {
-        if (! $order->organization->settings->exists('use_transactions')) {
+        if (!$order->organization->settings->exists('use_transactions')) {
             return false;
         }
 
@@ -63,18 +63,13 @@ class OrderPolicy
         return $this->isAdminOwner($user, $order);
     }
 
-    private function isAdminOwner($user, $order)
-    {
-        return $user->isSuperAdmin() || ($user->isChurchAdmin() && $user->organization_id == $order->organization_id);
-    }
-
     public function recordNotes($user, $order)
     {
         if ($user->isSuperAdmin()) {
             return true;
         }
 
-        if ($user->isChurchAdmin() && $order->organization_id == 8) {
+        if ($user->isChurchAdmin() && 8 == $order->organization_id) {
             return true;
         }
 
@@ -93,6 +88,11 @@ class OrderPolicy
 
     public function update(User $user, Order $order)
     {
-        return $user->organization_id == $order->organization_id || ($order->organization_id == null && $user->organization->slug == 'pcc');
+        return $user->organization_id == $order->organization_id || (null == $order->organization_id && 'pcc' == $user->organization->slug);
+    }
+
+    private function isAdminOwner($user, $order)
+    {
+        return $user->isSuperAdmin() || ($user->isChurchAdmin() && $user->organization_id == $order->organization_id);
     }
 }

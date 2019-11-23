@@ -8,6 +8,6 @@ class Activity extends BaseActivity
 {
     public function propertiesHaveChanged()
     {
-        return (bool) count($this->properties['changed']);
+        return (bool) \count($this->properties['changed']);
     }
 }

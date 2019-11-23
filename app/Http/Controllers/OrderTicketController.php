@@ -23,7 +23,7 @@ class OrderTicketController extends Controller
 
         request()->intended(url()->previous());
 
-        $ticket = (new Ticket)->order()->associate($order);
+        $ticket = (new Ticket())->order()->associate($order);
 
         return view('order-ticket.create', compact('ticket'));
     }

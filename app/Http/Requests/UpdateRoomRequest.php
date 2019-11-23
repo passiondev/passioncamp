@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRoomRequest extends FormRequest
 {
@@ -59,7 +58,7 @@ class UpdateRoomRequest extends FormRequest
 
     public function removeParameters()
     {
-        if (! $this->user()->isSuperAdmin()) {
+        if (!$this->user()->isSuperAdmin()) {
             $this->offsetUnset('name');
             $this->offsetUnset('hotel_id');
             $this->offsetUnset('confirmation_number');

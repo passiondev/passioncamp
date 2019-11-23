@@ -13,7 +13,7 @@ trait Notated
 
     public function addNote($body)
     {
-        $note = new Note;
+        $note = new Note();
         $note->body = $body;
 
         if (Auth::user()) {

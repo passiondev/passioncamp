@@ -6,5 +6,4 @@ use App\Contracts\Printing\Printer as PrinterContract;
 
 abstract class Printer implements PrinterContract
 {
-    //
 }

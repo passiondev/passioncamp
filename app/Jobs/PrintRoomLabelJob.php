@@ -3,25 +3,29 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Facades\App\Contracts\Printing\Factory as Printer;
-use Illuminate\Support\Facades\Redis;
 
 class PrintRoomLabelJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
-	protected $room;
+    protected $room;
 
-	protected $printer;
+    protected $printer;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param mixed $room
+     * @param mixed $printer
      */
     public function __construct($room, $printer)
     {
@@ -31,8 +35,6 @@ class PrintRoomLabelJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

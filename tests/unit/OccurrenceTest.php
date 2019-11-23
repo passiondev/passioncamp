@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class OccurrenceTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

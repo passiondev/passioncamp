@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      * The API key of a MailChimp account. You can find yours at
      * https://us10.admin.mailchimp.com/account/api-key-popup/.
@@ -17,7 +16,6 @@ return [
      * Here you can define properties of the lists.
      */
     'lists' => [
-
         /*
          * This key is used to identify this list. It can be used
          * as the listName parameter provided in the various methods.
@@ -26,7 +24,6 @@ return [
          * as many lists as you want.
          */
         'subscribers' => [
-
             /*
              * A MailChimp list id. Check the MailChimp docs if you don't know
              * how to get this value:
@@ -40,5 +37,4 @@ return [
      * If you're having trouble with https connections, set this to false.
      */
     'ssl' => true,
-
 ];

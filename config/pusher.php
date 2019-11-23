@@ -10,7 +10,6 @@
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Connection Name
@@ -36,7 +35,6 @@ return [
     */
 
     'connections' => [
-
         'main' => [
             'auth_key' => env('PUSHER_APP_KEY'),
             'secret' => env('PUSHER_APP_SECRET'),
@@ -56,7 +54,5 @@ return [
             'port' => null,
             'timeout' => null,
         ],
-
     ],
-
 ];

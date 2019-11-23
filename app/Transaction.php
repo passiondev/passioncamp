@@ -12,7 +12,7 @@ class Transaction extends Model
 
     public function getCardNumAttribute()
     {
-        if (strlen($this->attributes['cc_last4']) > 4) {
+        if (\strlen($this->attributes['cc_last4']) > 4) {
             $this->attributes['cc_last4'] = substr($this->attributes['cc_last4'], -4);
         }
 

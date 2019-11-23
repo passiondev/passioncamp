@@ -24,8 +24,6 @@ class ChurchImport extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -44,10 +42,10 @@ class ChurchImport extends Command
 
         $keys = collect($csv->getRecords())
             ->reject(function ($row) {
-                return ! empty($row['new id']);
+                return !empty($row['new id']);
             })
             ->map(function ($row) {
-                $organization = new Organization;
+                $organization = new Organization();
 
                 $church = tap($organization->church->fill([
                     'name' => $row['Church Name'],

@@ -56,17 +56,17 @@ class OrganizationController extends Controller
 
     public function create()
     {
-        $organization = (new Organization)
-            ->church()->associate(new Church)
-            ->contact()->associate(new Person)
-            ->studentPastor()->associate(new Person);
+        $organization = (new Organization())
+            ->church()->associate(new Church())
+            ->contact()->associate(new Person())
+            ->studentPastor()->associate(new Person());
 
         return view('super.organization.create', compact('organization'));
     }
 
     public function store()
     {
-        $organization = (new Organization)
+        $organization = (new Organization())
             ->church()->associate(
                 Church::create(['name' => request()->input('name')])
             );

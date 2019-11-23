@@ -13,6 +13,11 @@ class Occurrence
         $this->config = $config;
     }
 
+    public function __get($name)
+    {
+        return $this->config[$name] ?? null;
+    }
+
     public function ticketPrice($numTickets = 1, $discountCode = null)
     {
         $price = collect($this->pricing)
@@ -36,7 +41,6 @@ class Occurrence
             case 'trickshot':
                 $price = $price - 15;
                 break;
-
                 break;
             case 'easter':
                 if (now()->between(Carbon::parse('2019-04-19 00:00:00'), Carbon::parse('2019-04-21 23:59:59'))) {
@@ -63,7 +67,6 @@ class Occurrence
                     $price = $price - 15;
                 }
                 break;
-
             // scholarships
             case 'scholarship50':
                 $price = $price - 50;
@@ -80,7 +83,6 @@ class Occurrence
             case 'scholarship200':
                 $price = $price - 200;
                 break;
-
             // set prices
             case 'camp50':
                 $price = 50;
@@ -106,7 +108,6 @@ class Occurrence
             case 'camp385':
                 $price = 385;
                 break;
-
             // schools
             case 'ahs19':
             case 'cambridge19':
@@ -123,7 +124,6 @@ class Occurrence
             case 'whitefield19':
                 $price = $price - 10;
                 break;
-
             // student rep
             case 'studentrep':
             case 'rosap':
@@ -219,11 +219,6 @@ class Occurrence
 
     public function isSoldOut()
     {
-        return $this->config['sold_out'] === true;
-    }
-
-    public function __get($name)
-    {
-        return $this->config[$name] ?? null;
+        return true === $this->config['sold_out'];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Request;
 
 class TicketRequest extends FormRequest
 {
@@ -25,7 +24,6 @@ class TicketRequest extends FormRequest
     public function rules()
     {
         return [
-            //
         ];
     }
 }

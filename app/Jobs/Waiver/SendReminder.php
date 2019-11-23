@@ -10,14 +10,16 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class SendReminder implements ShouldQueue
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     public $waiver;
-
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param mixed $waiver
      */
     public function __construct($waiver)
     {
@@ -26,8 +28,6 @@ class SendReminder implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

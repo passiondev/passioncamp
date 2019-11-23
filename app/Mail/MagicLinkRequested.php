@@ -9,7 +9,8 @@ use Illuminate\Queue\SerializesModels;
 
 class MagicLinkRequested extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     protected $user;
 
@@ -18,7 +19,7 @@ class MagicLinkRequested extends Mailable
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param mixed $options
      */
     public function __construct(User $user, $options)
     {

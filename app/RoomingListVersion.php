@@ -13,6 +13,6 @@ class RoomingListVersion extends Model
 
     public function getFileNameAttribute()
     {
-        return 'Rooming List Export - Version #' . $this->id . '.xlsx';
+        return 'Rooming List Export - Version #'.$this->id.'.xlsx';
     }
 }

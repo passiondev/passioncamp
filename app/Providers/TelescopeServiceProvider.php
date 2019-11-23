@@ -2,18 +2,17 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Telescope\Telescope;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
-use Laravel\Telescope\EntryType;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
@@ -21,7 +20,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         Telescope::filter(function (IncomingEntry $entry) {
             if ($this->app->environment('local')) {
-                if ($entry->type == 'request' && starts_with(array_get($entry->content, 'uri'), '/_debugbar')) {
+                if ('request' == $entry->type && Str::startsWith(Arr::get($entry->content, 'uri'), '/_debugbar')) {
                     return false;
                 }
 
@@ -39,15 +38,13 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      * Register the Telescope gate.
      *
      * This gate determines who can access Telescope in non-local environments.
-     *
-     * @return void
      */
     protected function gate()
     {
         Gate::define('viewTelescope', function ($user) {
-            return in_array($user->email, [
+            return \in_array($user->email, [
                 'matt.floyd@268generation.com',
-            ]);
+            ], true);
         });
     }
 }

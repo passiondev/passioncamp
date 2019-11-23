@@ -20,8 +20,8 @@ class RoomLabelController extends Controller
         $this->middleware(Authenticate::class)->except('show');
 
         $this->middleware(function ($request, $next) {
-            if (! Auth::check() && ! $request->hasValidSignature()) {
-                throw new AuthenticationException;
+            if (!Auth::check() && !$request->hasValidSignature()) {
+                throw new AuthenticationException();
             }
 
             return $next($request);
@@ -60,7 +60,7 @@ class RoomLabelController extends Controller
 
     private function generatePdf($room)
     {
-        return tap(new Dompdf, function ($dompdf) use ($room) {
+        return tap(new Dompdf(), function ($dompdf) use ($room) {
             $dompdf->loadHtml(view('room/label', compact('room'))->render());
             $dompdf->render();
         });

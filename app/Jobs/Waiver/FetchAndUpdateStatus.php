@@ -12,14 +12,16 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class FetchAndUpdateStatus implements ShouldQueue
 {
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
     public $waiver;
-
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param mixed $waiver
      */
     public function __construct($waiver)
     {
@@ -28,18 +30,16 @@ class FetchAndUpdateStatus implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {
         $status = $this->waiver->fetchStatus();
 
         $this->waiver->fill([
-            'status' => $status
+            'status' => $status,
         ])->touch();
 
-        if ($status == WaiverStatus::COMPLETE) {
+        if (WaiverStatus::COMPLETE == $status) {
             $pdf = $this->waiver->fetchPdf();
 
             Storage::disk('dropbox')->put($this->waiver->dropboxFilePath(), $pdf);

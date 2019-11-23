@@ -23,7 +23,7 @@ class TicketWristbandsController extends Controller
 
     private function generatePdf($ticket)
     {
-        return tap(new Dompdf, function ($dompdf) use ($ticket) {
+        return tap(new Dompdf(), function ($dompdf) use ($ticket) {
             $dompdf->loadHtml(view('ticket.wristband', compact('ticket'))->render());
             $dompdf->render();
         });

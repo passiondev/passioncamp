@@ -34,7 +34,7 @@ class OrganizationPaymentController extends Controller
             'stripeToken' => 'required_if:type,credit',
         ]);
 
-        if (request('type') == 'credit') {
+        if ('credit' == request('type')) {
             try {
                 $charge = \Stripe\Charge::create([
                     'amount' => request('amount') * 100,

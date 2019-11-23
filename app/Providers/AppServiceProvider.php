@@ -18,8 +18,6 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
@@ -30,11 +28,11 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         Horizon::auth(function ($request) {
-            return $request->user() && $request->user()->email == 'matt.floyd@268generation.com';
+            return $request->user() && 'matt.floyd@268generation.com' == $request->user()->email;
         });
 
         Collection::macro('sometimes', function ($condition, $method, ...$parameters) {
-            return $condition ? call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
+            return $condition ? \call_user_func_array([(new static($this->items)), $method], $parameters) : $this;
         });
 
         Request::macro('intended', function ($url) {
@@ -44,8 +42,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Builder::macro('addSubSelect', function ($column, $query) {
-            if (is_null($this->getQuery()->columns)) {
-                $this->select($this->getQuery()->from . '.*');
+            if (null === $this->getQuery()->columns) {
+                $this->select($this->getQuery()->from.'.*');
             }
 
             return $this->selectSub($query->limit(1)->getQuery(), $column);
@@ -69,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
             $organizationOptions = [];
 
             \App\Organization::with('church')->each(function ($organization) use (&$organizationOptions) {
-                $organizationOptions[$organization->church->id] = $organization->church->name . ' - ' . $organization->church->location;
+                $organizationOptions[$organization->church->id] = $organization->church->name.' - '.$organization->church->location;
             });
 
             $view->with('organizationOptions', collect($organizationOptions)->sort()->toArray());
@@ -81,8 +79,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {

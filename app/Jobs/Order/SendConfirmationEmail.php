@@ -13,14 +13,15 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class SendConfirmationEmail implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public $order;
 
     /**
      * Create a new job instance.
-     *
-     * @return void
      */
     public function __construct(Order $order)
     {
@@ -29,8 +30,6 @@ class SendConfirmationEmail implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
     public function handle()
     {

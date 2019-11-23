@@ -19,7 +19,7 @@ class RegisterController extends Controller
             return redirect('/');
         }
 
-        if ($user->hash !== $hash && ! request()->hasValidSignature()) {
+        if ($user->hash !== $hash && !request()->hasValidSignature()) {
             abort(401);
         }
 
@@ -28,7 +28,7 @@ class RegisterController extends Controller
 
     public function register(User $user)
     {
-        if (! request()->hasValidSignature()) {
+        if (!request()->hasValidSignature()) {
             abort(401);
         }
 

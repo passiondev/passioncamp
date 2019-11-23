@@ -10,7 +10,7 @@ class DashboardTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->artisan('migrate:fresh');

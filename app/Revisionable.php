@@ -13,7 +13,7 @@ trait Revisionable
 
     public function revision()
     {
-        $lastActivity = $this->activity()->latest()->first();
+        $lastActivity = $this->activities()->latest()->first();
 
         $properties['attributes'] = static::logChanges($this);
         $properties['old'] = optional($lastActivity)->changes()['attributes'] ?? [];

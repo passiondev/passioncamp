@@ -2,7 +2,6 @@
 
 namespace App\Collections;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 
 class OrderItemCollection extends Collection
@@ -10,7 +9,7 @@ class OrderItemCollection extends Collection
     public function active()
     {
         return $this->filter(function ($item) {
-            return ! $item->is_canceled;
+            return !$item->is_canceled;
         });
     }
 
@@ -24,10 +23,10 @@ class OrderItemCollection extends Collection
     public function unassigendSort()
     {
         return $this->sortBy(function ($ticket, $key) {
-            return vsprintf( "%02d__%s__%d__%s__%s", [
-                $ticket->person->grade == 0 ? 99 : $ticket->person->grade,
-                $ticket->person->gender == 'M' ? 1 : -1,
-                $ticket->agegroup == 'leader' ? 1 : -1,
+            return vsprintf('%02d__%s__%d__%s__%s', [
+                0 == $ticket->person->grade ? 99 : $ticket->person->grade,
+                'M' == $ticket->person->gender ? 1 : -1,
+                'leader' == $ticket->agegroup ? 1 : -1,
                 $ticket->person->first_name,
                 $ticket->person->last_name,
             ]);
@@ -38,10 +37,10 @@ class OrderItemCollection extends Collection
     {
         return $this->sortBy(function ($ticket, $key) {
             return sprintf(
-                "%s__%02d__%d__%s__%s",
-                $ticket->agegroup == 'leader' ? -1 : 1,
-                $ticket->person->grade == 0 ? 99 : $ticket->person->grade,
-                $ticket->person->gender == 'M' ? 1 : -1,
+                '%s__%02d__%d__%s__%s',
+                'leader' == $ticket->agegroup ? -1 : 1,
+                0 == $ticket->person->grade ? 99 : $ticket->person->grade,
+                'M' == $ticket->person->gender ? 1 : -1,
                 $ticket->person->first_name,
                 $ticket->person->last_name
             );

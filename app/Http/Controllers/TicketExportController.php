@@ -22,11 +22,11 @@ class TicketExportController extends Controller
                    ->with('person', 'order.user.person', 'order.organization.church', 'roomAssignment.room.hotel', 'waiver')
                    ->get();
 
-        if (! $tickets->count()) {
+        if (!$tickets->count()) {
             return redirect()->back();
         }
 
-        $includeAdditionalFields = auth()->user()->isSuperAdmin() || auth()->user()->organization->slug == 'pcc';
+        $includeAdditionalFields = auth()->user()->isSuperAdmin() || 'pcc' == auth()->user()->organization->slug;
 
         (new TicketExport($tickets, $includeAdditionalFields))->download();
         die();

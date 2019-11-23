@@ -26,7 +26,7 @@ class ProfileController extends Controller
         request()->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id,
+            'email' => 'required|unique:users,email,'.$user->id,
         ]);
 
         $user->update([

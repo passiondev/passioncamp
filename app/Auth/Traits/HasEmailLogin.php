@@ -3,6 +3,7 @@
 namespace App\Auth\Traits;
 
 use App\EmailLogin;
+use Illuminate\Support\Str;
 use App\Mail\MagicLinkRequested;
 use Illuminate\Support\Facades\Mail;
 
@@ -13,17 +14,12 @@ trait HasEmailLogin
         return $this->hasOne(EmailLogin::class);
     }
 
-    protected function deleteExistingMagicToken()
-    {
-        $this->emailLogin()->delete();
-    }
-
     public function createMagicToken()
     {
         $this->deleteExistingMagicToken();
 
         $this->emailLogin()->create([
-            'token' => str_random(32),
+            'token' => Str::random(32),
         ]);
 
         return $this;
@@ -38,6 +34,11 @@ trait HasEmailLogin
 
     public function canUseMagicLink()
     {
-        return $this->access === null;
+        return null === $this->access;
+    }
+
+    protected function deleteExistingMagicToken()
+    {
+        $this->emailLogin()->delete();
     }
 }

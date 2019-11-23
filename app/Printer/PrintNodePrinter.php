@@ -2,7 +2,6 @@
 
 namespace App\Printer;
 
-use App\Jobs\PrintNodeJob;
 use PrintNode\Entity\PrintJob;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 

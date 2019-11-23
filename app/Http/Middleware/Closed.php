@@ -9,13 +9,14 @@ class Closed
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if ($request->user()->organization && $request->user()->organization->slug == 'pcc') {
+        if ($request->user()->organization && 'pcc' == $request->user()->organization->slug) {
             return $next($request);
         }
 

@@ -35,12 +35,12 @@ class TransactionSplit extends Model
             return 'Refund';
         }
 
-        if (in_array($this->transaction->source, ['other'])) {
+        if (\in_array($this->transaction->source, ['other'], true)) {
             return $this->transaction->identifier;
         }
 
         if ($this->transaction->cc_brand) {
-            return $this->transaction->cc_brand . ' ' . $this->transaction->cc_last4;
+            return $this->transaction->cc_brand.' '.$this->transaction->cc_last4;
         }
 
         return 'Credit Card';

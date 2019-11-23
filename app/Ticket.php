@@ -13,7 +13,9 @@ use Facades\App\Contracts\Printing\Factory as Printer;
 
 class Ticket extends OrderItem
 {
-    use SoftDeletes, Searchable, Revisionable;
+    use SoftDeletes;
+    use Searchable;
+    use Revisionable;
 
     protected $table = 'order_items';
 
@@ -50,17 +52,6 @@ class Ticket extends OrderItem
     protected $observables = [
         'canceled',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::observe(TicketObserver::class);
-
-        static::addGlobalScope('type', function (Builder $builder) {
-            $builder->where('type', '=', 'ticket');
-        });
-    }
 
     public function scopeForUser($query, $user = null)
     {
@@ -151,21 +142,21 @@ class Ticket extends OrderItem
 
     public function getNameAttribute()
     {
-        return $this->person && strlen($this->person->first_name)
+        return $this->person && \strlen($this->person->first_name)
                ? $this->person->name
                : "Ticket #{$this->id}";
     }
 
     public function getFirstNameAttribute()
     {
-        if ($this->person && strlen($this->person->first_name)) {
+        if ($this->person && \strlen($this->person->first_name)) {
             return $this->person->first_name;
         }
     }
 
     public function getLastNameAttribute()
     {
-        if ($this->person && strlen($this->person->last_name)) {
+        if ($this->person && \strlen($this->person->last_name)) {
             return $this->person->last_name;
         }
     }
@@ -179,11 +170,11 @@ class Ticket extends OrderItem
     {
         $attribute = parent::getAttribute($key);
 
-        if (is_null($attribute) && $this->exists && isset($this->ticket_data)) {
+        if (null === $attribute && $this->exists && isset($this->ticket_data)) {
             $attribute = $this->ticket_data->get($key);
         }
 
-        if (is_null($attribute) && $this->exists && $this->relationLoaded('person')) {
+        if (null === $attribute && $this->exists && $this->relationLoaded('person')) {
             $attribute = $this->person->$key;
         }
 
@@ -260,7 +251,7 @@ class Ticket extends OrderItem
 
     public function setPersonAttribute($person)
     {
-        if (is_array($person)) {
+        if (\is_array($person)) {
             $person = optional($this->person)->exists
                 ? tap($this->person->fill($person))->save()
                 : Person::create($person);
@@ -277,9 +268,9 @@ class Ticket extends OrderItem
     public function getUnassignedSortAttribute()
     {
         return vsprintf('%02d__%s__%s__%s__%s', [
-            $this->person->grade == 0 ? 99 : $this->person->grade,
-            $this->person->gender == 'M' ? 'z' : 'a',
-            $this->agegroup == 'leader' ? 'z' : 'a',
+            0 == $this->person->grade ? 99 : $this->person->grade,
+            'M' == $this->person->gender ? 'z' : 'a',
+            'leader' == $this->agegroup ? 'z' : 'a',
             $this->person->first_name,
             $this->person->last_name,
         ]);
@@ -288,9 +279,9 @@ class Ticket extends OrderItem
     public function getAssignedSortAttribute()
     {
         return vsprintf('%s__%02d__%s__%s__%s', [
-            $this->agegroup == 'leader' ? 'a' : 'z',
-            $this->person->grade == 0 ? 99 : $this->person->grade,
-            $this->person->gender == 'M' ? 'z' : 'a',
+            'leader' == $this->agegroup ? 'a' : 'z',
+            0 == $this->person->grade ? 99 : $this->person->grade,
+            'M' == $this->person->gender ? 'z' : 'a',
             $this->person->first_name,
             $this->person->last_name,
         ]);
@@ -310,7 +301,7 @@ class Ticket extends OrderItem
                 'field73148311M' => optional($this->person->birthdate)->format('F'),
                 'field73148311D' => optional($this->person->birthdate)->format('d'),
                 'field73148311Y' => optional($this->person->birthdate)->format('Y'),
-                'gender' => $this->person->gender == 'F' ? 'Female' : 'Male',
+                'gender' => 'F' == $this->person->gender ? 'Female' : 'Male',
             ]),
         ]);
     }
@@ -319,11 +310,11 @@ class Ticket extends OrderItem
     {
         $templateIds = ['d670b0e6610cd423b4e56413510036369fc58eae'];
 
-        if ($this->order->organization->slug == 'pcc') {
+        if ('pcc' == $this->order->organization->slug) {
             $templateIds = ['081d3928c758b4a8448018e1f0ceaa99595d723a'];
         }
 
-        $request = new TemplateSignatureRequest;
+        $request = new TemplateSignatureRequest();
 
         $request->fromArray([
             'template_ids' => $templateIds,
@@ -375,5 +366,16 @@ class Ticket extends OrderItem
         }
 
         return $this->order->user->person->email;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::observe(TicketObserver::class);
+
+        static::addGlobalScope('type', function (Builder $builder) {
+            $builder->where('type', '=', 'ticket');
+        });
     }
 }
