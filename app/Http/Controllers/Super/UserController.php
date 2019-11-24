@@ -64,7 +64,7 @@ class UserController extends Controller
         $this->validate(request(), [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,'.$user->id,
+            'email' => 'required|unique:users,email,' . $user->id,
         ]);
 
         if (auth()->user()->isSuperAdmin()) {
@@ -78,7 +78,7 @@ class UserController extends Controller
         }
 
         $user->update(request(['email', 'flags']));
-        $user->person()->update(request(['first_name', 'last_name']));
+        $user->person->update(request(['first_name', 'last_name']));
 
         return redirect()->route(auth()->user()->isSuperAdmin() ? 'user.index' : 'account.settings');
     }
