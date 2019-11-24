@@ -4,6 +4,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -36,6 +37,7 @@ return [
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single', 'bugsnag', 'syslog'],
+            'ignore_exceptions' => false,
         ],
 
         'single' => [
@@ -48,7 +50,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
-            'days' => 7,
+            'days' => 14,
         ],
 
         'slack' => [
@@ -72,6 +74,7 @@ return [
         'stderr' => [
             'driver' => 'monolog',
             'handler' => StreamHandler::class,
+            'formatter' => env('LOG_STDERR_FORMATTER'),
             'with' => [
                 'stream' => 'php://stderr',
             ],
@@ -79,7 +82,7 @@ return [
 
         'syslog' => [
             'driver' => 'syslog',
-            'level' => 'info',
+            'level' => 'debug',
         ],
 
         'errorlog' => [
@@ -91,4 +94,5 @@ return [
             'driver' => 'bugsnag',
         ],
     ],
+
 ];
