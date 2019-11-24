@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -64,5 +63,4 @@ return [
         'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => 'https://portal.passioncamp.268generation.com/oauth/google/callback',
     ],
-
 ];

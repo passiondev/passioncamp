@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Arr;
 use App\User;
+use Illuminate\Support\Arr;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterCreateRequest extends FormRequest
