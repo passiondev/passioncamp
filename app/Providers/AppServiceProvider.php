@@ -87,11 +87,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind('stripe.conference', function () {
-            return new StripePaymentGateway(config('services.stripe.secret'));
+            return new StripePaymentGateway(config('settings.stripe.secret'));
         });
 
         $this->app->bind('stripe.pcc', function () {
-            return new StripePaymentGateway(config('services.stripe.pcc.secret'));
+            return new StripePaymentGateway(config('settings.stripe.pcc.secret'));
         });
 
         $this->app->bind(PaymentGateway::class, 'stripe.conference');

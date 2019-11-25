@@ -63,6 +63,15 @@ return [
             'retry_after' => 90,
             'block_for' => null,
         ],
+
+        'redis-long-running' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'default',
+            'retry_after' => 1200,
+            'block_for' => null,
+        ],
+
     ],
 
     /*
@@ -77,6 +86,7 @@ return [
     */
 
     'failed' => [
+        'driver' => env('QUEUE_FAILED_DRIVER', 'database'),
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],

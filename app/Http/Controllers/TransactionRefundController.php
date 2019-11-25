@@ -37,7 +37,7 @@ class TransactionRefundController extends Controller
                 'charge' => $split->transaction->identifier,
                 'amount' => request('amount') * 100,
             ], [
-                'api_key' => config('services.stripe.secret'),
+                'api_key' => config('settings.stripe.secret'),
                 'stripe_account' => $split->order->organization->setting('stripe_user_id'),
             ]);
         } catch (\Exception $e) {

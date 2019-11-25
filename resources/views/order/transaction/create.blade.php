@@ -76,6 +76,6 @@
 @section('foot')
     <script src="https://js.stripe.com/v2/"></script>
     <script>
-        Stripe.setPublishableKey('{{ config('services.stripe.key') }}');
+        Stripe.setPublishableKey('{{ config('settings.stripe.key') }}');
     </script>
 @endsection

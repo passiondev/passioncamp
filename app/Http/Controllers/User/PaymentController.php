@@ -42,7 +42,7 @@ class PaymentController extends Controller
                     'name' => auth()->user()->person->name,
                 ],
             ], [
-                'api_key' => config('services.stripe.secret'),
+                'api_key' => config('settings.stripe.secret'),
                 'stripe_account' => 'acct_16y17LI1xefq0oDy',
             ]);
         } catch (\Exception $e) {
