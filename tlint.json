@@ -1,0 +1,7 @@
+{
+    "preset": "tighten",
+    "disabled": ["NoCompact", "RequestValidation", "ApplyMiddlewareInRoutes"],
+    "excluded": [
+      "tests/"
+    ]
+  }
