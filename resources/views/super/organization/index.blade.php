@@ -22,7 +22,7 @@
                     <th class="pb-0 text-center border-left">@icon('key')</th>
                     <th class="pb-0 text-center border-left">@icon('checkmark', 'text-success')</th>
                 </tr>
-                <tr class="table-sm" style="font-size:90%;">
+                {{-- <tr class="table-sm" style="font-size:90%;">
                     <th class="text-info pt-0 text-right thead-default"></th>
                     <th class="text-info pt-0 text-center">${{ number_format($organizations->sum('cached_balance') / 100) }}</th>
                     <th class="text-info pt-0 text-center border-left border-right">{{ number_format($organizations->sum('cached_tickets_sum')) }}</th>
@@ -32,14 +32,11 @@
                     <th class="text-info pt-0 text-center border-left">{{ number_format($organizations->sum('cached_rooms_count')) }}</th>
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('cached_key_received_rooms_count')) }}</th>
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->where('is_checked_in', true)->count()) }}</th>
-                </tr>
-                <tr class="text-info table-sm">
-                    <td colspan="7"></td>
-                </tr>
+                </tr> --}}
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)
-                    @cache('super.organization._index_row', ['organization' => $organization], 15, $organization->cacheKey())
+                    @include('super.organization._index_row', ['organization' => $organization])
                 @endforeach
             </tbody>
         </table>

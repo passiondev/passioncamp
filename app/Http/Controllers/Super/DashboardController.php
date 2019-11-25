@@ -9,6 +9,7 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
+        return '';
         $organizations = Organization::with('settings')->get();
 
         $data = [
