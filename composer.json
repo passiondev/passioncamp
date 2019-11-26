@@ -30,6 +30,7 @@
         "guzzlehttp/guzzle": "^6.0",
         "hellosign/hellosign-php-sdk": "^3.5",
         "itbz/fpdf": "^1.7",
+        "lab404/laravel-impersonate": "^1.4",
         "laravel/framework": "^6.5",
         "laravel/horizon": "^3.4",
         "laravel/scout": "^7.2",
