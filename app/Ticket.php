@@ -88,13 +88,34 @@ class Ticket extends OrderItem
         return $filters->apply($query);
     }
 
-    public function scopeOrderByPersonName($query)
+    public function scopeOrderByPersonName($query, $sortAsc = true)
     {
         $query->orderBySub(
-            Person::select('last_name')->whereRaw('person_id = people.id')
+            Person::select('last_name')->whereRaw('person_id = people.id'), $sortAsc
         )->orderBySub(
-            Person::select('first_name')->whereRaw('person_id = people.id')
+            Person::select('first_name')->whereRaw('person_id = people.id'), $sortAsc
         )->with('person');
+    }
+
+    public function scopeOrderByStatus($query, $sortAsc = true)
+    {
+        $query->orderBySub(Waiver::select('status')->whereRaw('waivers.ticket_id = order_items.id'), $sortAsc);
+    }
+
+    public function scopeResolveLatestWaiver($query, $column = 'id', $where = null)
+    {
+        $query->addSubSelect('latest_waiver_' . $column, Waiver::select($column)
+            ->whereColumn('ticket_id', 'order_items.id')
+            ->when($where, function ($q) use ($where) {
+                $where($q);
+            })
+            ->latest()
+        );
+    }
+
+    public function latestWaiver()
+    {
+        return $this->belongsTo(Waiver::class);
     }
 
     public function waiver()
