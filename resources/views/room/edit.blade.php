@@ -21,9 +21,14 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="description" class="col-md-3 col-form-label text-md-right">Description</label>
+                        <label for="description" class="col-md-3 col-form-label text-md-right">Room Type</label>
                         <div class="col-md-6">
-                            <input type="text" name="description" id="description" class="form-control" placeholder="ie, 6th Grade Girls" value="{{ old('description', $room->description) }}">
+                            <select name="description" id="description" class="form-control">
+                                <option></option>
+                                <option value="Leader Only" @if(old('description') == 'Leader Only') selected @endif>Leader Only</option>
+                                <option value="Girls Room" @if(old('description') == 'Girls Room') selected @endif>Girls Room</option>
+                                <option value="Guys Room" @if(old('description') == 'Guys Room') selected @endif>Guys Room</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -32,6 +37,21 @@
                             <input type="text" name="notes" id="notes" class="form-control" placeholder="ie, King Bed OK" value="{{ old('notes', $room->notes) }}">
                         </div>
                     </div>
+
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="adp_required" id="adp_required" class="form-check-input" value="1" @if (old('adp_required', $room->adp_required)) checked @endif>
+                            ADP Required
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="king_preferred" id="king_preferred" class="form-check-input" value="1" @if (old('king_preferred', $room->king_preferred)) checked @endif>
+                            King Bed Preferred
+                        </label>
+                    </div>
+
                     @if (Auth::user()->isSuperAdmin())
                         <div class="form-group row">
                             <label for="name" class="col-md-3 col-form-label text-md-right">Name</label>
