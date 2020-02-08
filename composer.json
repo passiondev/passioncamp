@@ -37,6 +37,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^6.0",
         "league/csv": "^9.0",
+        "livewire/livewire": "^0.7.3",
         "maatwebsite/excel": "^3.1",
         "mandrill/mandrill": "^1.0",
         "money/money": "^2.0",
@@ -101,7 +102,8 @@
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
+            "@php artisan package:discover",
+            "php artisan vendor:publish --tag=livewire:assets --ansi"
         ]
     },
     "config": {

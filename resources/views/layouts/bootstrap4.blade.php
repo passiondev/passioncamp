@@ -11,6 +11,7 @@
     <title>{{ isset($title) ? $title.' | ' : '' }} {{ config('app.name') }}</title>
 
     <link href="{{ asset(mix('/css/bootstrap4.css')) }}" rel="stylesheet">
+    @livewireStyles
 
     <script>
         window.store = {};
@@ -205,6 +206,7 @@
     <!-- Scripts -->
     @yield('foot')
     <script src="{{ mix('/js/app.js') }}"></script>
+    @livewireScripts
     @stack('scripts')
     {{ svg_spritesheet() }}
 </body>

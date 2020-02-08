@@ -5,6 +5,7 @@ namespace App\Providers;
 use App;
 use App\Policies;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         App\AccountUser::class => Policies\AccountUserPolicy::class,
         App\OrgItem::class => Policies\OrgItemPolicy::class,
         App\TransactionSplit::class => Policies\TransactionSplitPolicy::class,
+        DatabaseNotification::class => Policies\DatabaseNotificationPolicy::class,
     ];
 
     /**
