@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\OrganizationNotification;
 use App\Organization;
 use Illuminate\Http\Request;
-use App\Notifications\OrganizationNotification;
 
 class OrganizationNotificationController extends Controller
 {
@@ -19,6 +19,12 @@ class OrganizationNotificationController extends Controller
             'subject' => 'required',
         ]);
 
-        Organization::active()->get()->each->notify(new OrganizationNotification($request->input('subject')));
+        $organizations = $request->filled('organization')
+            ? Organization::whereKey($request->input('organization'))->get()
+            : Organization::active()->get();
+
+        $organizations->each->notify(
+            new OrganizationNotification($request->input('subject'))
+        );
     }
 }
