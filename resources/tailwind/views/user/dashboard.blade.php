@@ -4,7 +4,7 @@
 <div class="container">
     @if ($user->balance > 0)
         <div class="alert alert-warning">
-            <p>You have a balance of {{ money_format('%.2n', $user->balance / 100) }} due. <a href="{{ route('user.payments.index') }}">Click here to make a payment.</a></p>
+            <p>You have a balance of {{ \Money\Money::USD($user->balance / 100) }} due. <a href="{{ route('user.payments.index') }}">Click here to make a payment.</a></p>
         </div>
     @endif
 
@@ -34,7 +34,7 @@
                                 <td>
                                     {{ $ticket->order->organization->church->name }}
                                 </td>
-                                <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
+                                <td>{{ \Money\Money::USD($ticket->price / 100) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

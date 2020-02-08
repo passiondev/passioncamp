@@ -109,7 +109,7 @@ class OrganizationPaymentController extends Controller
         $payment->transaction->delete();
 
         $organization->addNote(
-            sprintf('Deleted %s payment.', money_format('%.2n', $payment->amount / 100))
+            sprintf('Deleted %s payment.', \Money\Money::USD($payment->amount / 100))
         );
 
         return redirect()

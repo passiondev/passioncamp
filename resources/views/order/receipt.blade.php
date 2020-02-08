@@ -13,13 +13,13 @@
 
                 <tr>
                     <td width="80%" style="padding: 10px 0;font-size:14px;border-top: 1px solid #EDEFF2;">Ticket x {{ $order->activeTickets->count() }}</td>
-                    <td class="align-right" width="20%" style="text-align: right;padding: 10px 0;font-size:14px;border-top: 1px solid #EDEFF2;font-variant-numeric: tabular-nums;">{{ money_format('%.2n', $order->ticket_total / 100) }}</td>
+                    <td class="align-right" width="20%" style="text-align: right;padding: 10px 0;font-size:14px;border-top: 1px solid #EDEFF2;font-variant-numeric: tabular-nums;">{{ \Money\Money::USD($order->ticket_total / 100) }}</td>
                 </tr>
 
                 @if($order->donation_total > 0)
                     <tr>
                         <td width="80%" style="padding: 10px 0;font-size:14px">Donation</td>
-                        <td class="align-right" width="20%" style="text-align: right;padding: 10px 0;font-size:14px;font-variant-numeric: tabular-nums;">{{ money_format('%.2n', $order->donation_total / 100) }}</td>
+                        <td class="align-right" width="20%" style="text-align: right;padding: 10px 0;font-size:14px;font-variant-numeric: tabular-nums;">{{ \Money\Money::USD($order->donation_total / 100) }}</td>
                     </tr>
                 @endif
 
@@ -28,7 +28,7 @@
                         <p class="total-cell_label" style="padding: 0 15px 0 0;margin: 0;text-align: left;font-weight: bold;margin-top: 0;">Total</p>
                     </td>
                     <td width="20%" class="total-cell" valign="middle" style="border-top: 1px solid #EDEFF2;padding: 15px 0 10px 0;">
-                        <p style="margin: 0;text-align: right;font-weight: bold;margin-top: 0;font-variant-numeric: tabular-nums;">{{ money_format('%.2n', $order->grand_total / 100) }}</p>
+                        <p style="margin: 0;text-align: right;font-weight: bold;margin-top: 0;font-variant-numeric: tabular-nums;">{{ \Money\Money::USD($order->grand_total / 100) }}</p>
                     </td>
                 </tr>
 
@@ -45,7 +45,7 @@
                         </td>
                         <td width="20%" class="total-cell" valign="middle" style="padding: 2px 0;font-size:14px">
                             <p style="margin: 0;text-align: right;font-variant-numeric: tabular-nums;">
-                                {{ money_format('%.2n', $transaction->amount / 100) }}
+                                {{ \Money\Money::USD($transaction->amount / 100) }}
                             </p>
                         </td>
                     </tr>
@@ -58,7 +58,7 @@
                     </td>
                     <td width="20%" class="total-cell" valign="middle" style="padding: 10px 0;font-size:14px">
                         <p style="margin: 0;text-align: right;font-weight: bold;font-variant-numeric: tabular-nums;">
-                            {{ money_format('%.2n', $order->balance / 100) }}
+                            {{ \Money\Money::USD($order->balance / 100) }}
                         </p>
                     </td>
                 </tr>

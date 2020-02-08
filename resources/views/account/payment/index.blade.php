@@ -58,7 +58,7 @@
                     @foreach ($transactions->reverse() as $split)
                         <tr>
                             <td>{{ $split->name }}</td>
-                            <td>{{ money_format('%.2n', $split->amount / 100) }}</td>
+                            <td>{{ \Money\Money::USD($split->amount / 100) }}</td>
                             <td><time datetime="{{ $split->created_at->toAtomString() }}" title="{{ $split->created_at->toAtomString() }}">{{ $split->created_at->diffForHumans() }}</time></td>
                         </tr>
                     @endforeach

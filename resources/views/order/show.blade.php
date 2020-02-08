@@ -40,7 +40,7 @@
                             <td>
                                 @include('ticket/partials/label')
                             </td>
-                            <td>{{ money_format('%.2n', $ticket->price / 100) }}</td>
+                            <td>{{ \Money\Money::USD($ticket->price / 100) }}</td>
                             <td>
                                 @can ('update', $ticket)
                                     <a class="btn btn-outline-secondary btn-sm" href="{{ route('tickets.edit', $ticket) }}">edit</a>

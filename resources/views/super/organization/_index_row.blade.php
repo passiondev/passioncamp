@@ -5,7 +5,7 @@
         {{ $organization->church->location }}</small>
     </td>
     {{-- <td class="text-center {{ $organization->cached_balance > 0 ? 'table-warning' : '' }}">
-        {{ $organization->cached_balance == 0 ? '--' : money_format('%.0n', $organization->cached_balance / 100) }}
+        {{ $organization->cached_balance == 0 ? '--' : \Money\Money::USD('%.0n', $organization->cached_balance / 100) }}
     </td> --}}
     {{-- <td class="text-center border-left border-right">
         {{ $organization->cached_tickets_sum }}
