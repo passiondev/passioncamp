@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "845f6a5fb8ebf59f19f65a736fcb6421",
+    "content-hash": "9e103b408d2a3b88dd02a161afaad5fa",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -8512,6 +8512,44 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "jasonmccreary/laravel-test-assertions",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jasonmccreary/laravel-test-assertions.git",
+                "reference": "a53b94e8d43dfcd913756427c937e03b99b5de12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jasonmccreary/laravel-test-assertions/zipball/a53b94e8d43dfcd913756427c937e03b99b5de12",
+                "reference": "a53b94e8d43dfcd913756427c937e03b99b5de12",
+                "shasum": ""
+            },
+            "require": {
+                "mockery/mockery": "^1.0",
+                "php": ">=7.2",
+                "phpunit/phpunit": "^7.5|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JMac\\Testing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jason McCreary",
+                    "email": "jason@pureconcepts.net"
+                }
+            ],
+            "description": "A set of helpful assertions when testing Laravel applications.",
+            "time": "2020-01-03T14:22:22+00:00"
         },
         {
             "name": "laravel/dusk",

@@ -35,6 +35,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('super', function ($user) {
+            return $user->isSuperAdmin();
+        });
+
         Gate::define('makeStripePayments', function (App\User $user, App\Organization $organization) {
             return (bool) $organization->setting('stripe_access_token');
         });

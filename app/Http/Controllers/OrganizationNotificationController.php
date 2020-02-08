@@ -8,6 +8,11 @@ use App\Notifications\OrganizationNotification;
 
 class OrganizationNotificationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'can:super']);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
