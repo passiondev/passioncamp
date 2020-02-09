@@ -140,6 +140,11 @@
                                         Users
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ action('OrganizationNotificationController@index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'OrganizationNotificationController') ? 'active' :'' }}">
+                                        Notifications
+                                    </a>
+                                </li>
                             @endif
                             @if (Auth::user()->isChurchAdmin())
                                 <li class="nav-item">

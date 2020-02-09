@@ -39,6 +39,15 @@
             <h3 class="card-header">Sent Notifications</h3>
             <div>
                 <table class="table table-responsive table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Church</th>
+                            <th>Message</th>
+                            <th>Sent At</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
                     @foreach ($notifications as $notification)
                         <tr>
                             <td>
@@ -48,10 +57,12 @@
                                 <small>{{ Str::limit($notification->data['subject'], 20) }}</small>
                             </td>
                             <td>
-                                {{ $notification->read() ? 'read' : 'new' }}
+                                {{ $notification->created_at }}
                             </td>
                             <td>
-                                {{ $notification->created_at }}
+                                @if($notification->unread())
+                                    <span class="badge badge-success">new</span>
+                                @endif
                             </td>
                             <td>
                                 <form action="{{ action('OrganizationNotificationController@destroy', $notification) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this notification?')">
