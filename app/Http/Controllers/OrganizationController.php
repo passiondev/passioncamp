@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Church;
-use App\Person;
-use App\Organization;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsAdmin;
+use App\Organization;
+use App\Person;
 
 class OrganizationController extends Controller
 {

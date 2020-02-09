@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Laravel\Scout\Searchable;
+use App\Jobs\Waiver\RequestWaiverSignature;
 use App\Observers\TicketObserver;
-use Illuminate\Support\Facades\Auth;
+use Facades\App\Contracts\Printing\Factory as Printer;
 use HelloSign\TemplateSignatureRequest;
 use Illuminate\Database\Eloquent\Builder;
-use App\Jobs\Waiver\RequestWaiverSignature;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Facades\App\Contracts\Printing\Factory as Printer;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Scout\Searchable;
 
 class Ticket extends OrderItem
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class ImpersonationController extends Controller
@@ -58,7 +58,7 @@ class ImpersonationController extends Controller
         // We will make sure we have an impersonator's user ID in the session and if the
         // value doesn't exist in the session we will log this user out of the system
         // since they aren't really impersonating anyone and manually hit this URL.
-        if (!$request->session()->has('spark:impersonator')) {
+        if (! $request->session()->has('spark:impersonator')) {
             Auth::logout();
 
             return redirect('/');

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Item;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use App\Item;
 
 class TicketItemController extends Controller
 {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Super;
 
-use App\Organization;
 use App\Http\Controllers\Controller;
+use App\Organization;
 
 class DashboardController extends Controller
 {

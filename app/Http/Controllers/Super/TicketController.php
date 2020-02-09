@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Super;
 
-use App\Ticket;
 use App\Http\Controllers\Controller;
+use App\Ticket;
 use Illuminate\Routing\UrlGenerator;
 
 class TicketController extends Controller

@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Services\Printing\PrintManager;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use App\Contracts\Printing\Factory as PrintingFactory;
 use App\Contracts\Printing\Printer as PrinterContract;
+use App\Services\Printing\PrintManager;
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Support\ServiceProvider;
 
 class PrintNodeServiceProvider extends ServiceProvider implements DeferrableProvider
 {

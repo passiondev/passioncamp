@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Ticket;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TicketPolicy
@@ -74,7 +74,7 @@ class TicketPolicy
     public function cancel(User $user, Ticket $ticket)
     {
         return $this->view($user, $ticket)
-            && !$ticket->canceled_at
+            && ! $ticket->canceled_at
             && 'pcc' == $ticket->order->organization->slug;
     }
 }

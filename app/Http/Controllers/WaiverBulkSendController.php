@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
+use App\Organization;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class WaiverBulkSendController extends Controller
 {
@@ -32,7 +32,7 @@ class WaiverBulkSendController extends Controller
 
             $attendee->createWaiver();
 
-            ++$waiversSent;
+            $waiversSent++;
         });
 
         return redirect()->back()

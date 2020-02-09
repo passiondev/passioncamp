@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use Carbon\Carbon;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class RoomTest extends TestCase
 {

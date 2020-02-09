@@ -51,7 +51,7 @@ class PrintManager
 
         $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
 
-        if (!method_exists($this, $driverMethod)) {
+        if (! method_exists($this, $driverMethod)) {
             throw new InvalidArgumentException("Driver [{$config['driver']}] is not supported.");
         }
 

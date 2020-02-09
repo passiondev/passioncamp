@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Item;
-use App\OrgItem;
-use App\Organization;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use App\Item;
+use App\Organization;
+use App\OrgItem;
 
 class OrganizationItemController extends Controller
 {

@@ -2,19 +2,19 @@
 
 namespace Tests\Feature;
 
-use Mockery;
+use App\Contracts\EsignProvider;
+use App\Jobs\CancelSignatureRequest;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
+use App\Jobs\Waiver\RequestWaiverSignature;
+use App\Jobs\Waiver\SendReminder;
 use App\Order;
 use App\Waiver;
 use Carbon\Carbon;
-use Tests\TestCase;
-use App\Contracts\EsignProvider;
-use App\Jobs\Waiver\SendReminder;
-use App\Jobs\CancelSignatureRequest;
-use Illuminate\Support\Facades\Queue;
-use App\Jobs\Waiver\FetchAndUpdateStatus;
-use App\Jobs\Waiver\RequestWaiverSignature;
 use Facades\App\Services\Esign\ProviderFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
+use Mockery;
+use Tests\TestCase;
 
 class WaiversTest extends TestCase
 {

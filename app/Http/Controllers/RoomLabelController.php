@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Room;
-use PrintNode;
-use Dompdf\Dompdf;
 use App\Filters\RoomFilters;
-use App\Jobs\PrintRoomLabelJob;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\Authenticate;
-use Illuminate\Auth\AuthenticationException;
 use App\Http\Middleware\VerifyUserHasSelectedPrinter;
+use App\Jobs\PrintRoomLabelJob;
+use App\Room;
+use Dompdf\Dompdf;
 use Facades\App\Contracts\Printing\Factory as Printer;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
+use PrintNode;
 
 class RoomLabelController extends Controller
 {
@@ -20,7 +20,7 @@ class RoomLabelController extends Controller
         $this->middleware(Authenticate::class)->except('show');
 
         $this->middleware(function ($request, $next) {
-            if (!Auth::check() && !$request->hasValidSignature()) {
+            if (! Auth::check() && ! $request->hasValidSignature()) {
                 throw new AuthenticationException();
             }
 

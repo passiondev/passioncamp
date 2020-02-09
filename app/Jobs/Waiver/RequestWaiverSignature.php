@@ -4,11 +4,11 @@ namespace App\Jobs\Waiver;
 
 use App\WaiverStatus;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\App;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class RequestWaiverSignature implements ShouldQueue
 {

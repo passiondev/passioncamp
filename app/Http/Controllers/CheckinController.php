@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
 use App\Http\Middleware\Authenticate;
 use App\Jobs\Ticket\PrintWristbandJob;
+use App\Ticket;
 
 class CheckinController extends Controller
 {

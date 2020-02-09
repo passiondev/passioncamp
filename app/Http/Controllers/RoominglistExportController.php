@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use App\Jobs\GenerateRoomingListVersionExport;
+use App\Jobs\NotifyUserOfCompletedExport;
 use App\RoomingListVersion;
 use Illuminate\Http\Request;
-use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Storage;
-use App\Jobs\NotifyUserOfCompletedExport;
-use App\Jobs\GenerateRoomingListVersionExport;
-use App\Http\Middleware\VerifyUserIsSuperAdmin;
 
 class RoominglistExportController extends Controller
 {

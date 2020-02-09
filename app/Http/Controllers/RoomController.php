@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Room;
-use App\Hotel;
-use App\Organization;
 use App\Filters\RoomFilters;
-use Illuminate\Http\Request;
+use App\Hotel;
 use App\Http\Middleware\Authenticate;
+use App\Organization;
+use App\Room;
+use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {

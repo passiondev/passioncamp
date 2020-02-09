@@ -2,9 +2,9 @@
 
 namespace App\Services\Printing;
 
-use PrintNode;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Cache;
+use PrintNode;
 
 class PrintNodePrinter extends Printer
 {

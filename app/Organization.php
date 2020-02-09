@@ -583,7 +583,7 @@ class Organization extends Model
     {
         $setting = $this->settings()->where('key', $key)->first();
 
-        if (!$setting) {
+        if (! $setting) {
             $setting = new OrganizationSettings();
             $setting->key = $key;
             $setting->organization()->associate($this);

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Order;
 use Illuminate\Http\Request;
-use App\Http\Middleware\Authenticate;
 
 class OrderNoteController extends Controller
 {

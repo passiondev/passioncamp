@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Api;
 
-use Tests\TestCase;
 use App\Organization;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class TicketPriceTest extends TestCase
 {

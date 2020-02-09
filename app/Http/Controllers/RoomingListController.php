@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Room;
 use App\Hotel;
-use App\Ticket;
-use App\Organization;
-use App\PrintJobHandler;
-use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Organization;
+use App\PrintJobHandler;
 use App\PrintNode\RoominglistPrintNodeClient;
+use App\Room;
+use App\Ticket;
+use Illuminate\Http\Request;
 
 class RoomingListController extends Controller
 {

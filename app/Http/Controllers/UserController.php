@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Http\Middleware\Authenticate;
+use App\User;
 
 class UserController extends Controller
 {

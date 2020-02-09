@@ -2,9 +2,9 @@
 
 namespace App\Http\ViewComposers;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use PrintNode\Client as PrintNode;
-use Illuminate\Support\Facades\Session;
 
 class RoominglistPrinterIndexComposer
 {
