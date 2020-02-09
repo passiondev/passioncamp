@@ -44,13 +44,17 @@ class RoomController extends Controller
             : view('room.index', compact('rooms', 'organizations', 'hotels'));
     }
 
-    public function edit(Room $room)
+    public function edit(Request $request, Room $room)
     {
         request()->intended(url()->previous());
 
         $this->authorize($room);
 
         $maxCapacity = $room->organization->slug == 'pcc' ? 5 : 4;
+
+        if ($request->user()->isSuperAdmin()) {
+            $maxCapacity = 5;
+        }
 
         return view('room.edit', compact('room', 'maxCapacity'));
     }
