@@ -113,14 +113,14 @@
                         <blockquote class="blockquote">
                             <p class="mb-0">
                                 {!! nl2br($note->body) !!}
-                                @can('update', $note)
-                                    <footer class="blockquote-footer">
-                                        {{ $note->author ? $note->author->email :'' }}, <time datetime="{{ $note->created_at->toAtomString() }}" title="{{ $note->created_at->toAtomString() }}"><i>{{ $note->created_at->diffForHumans() }}</i></time>
+                                <footer class="blockquote-footer">
+                                    {{ $note->author ? $note->author->email :'' }}, <time datetime="{{ $note->created_at->toAtomString() }}" title="{{ $note->created_at->toAtomString() }}"><i>{{ $note->created_at->diffForHumans() }}</i></time>
+                                    @can('update', $note)
                                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editNote-{{ $note->id }}">
                                             edit
                                         </button>
-                                    </footer>
-                                @endcan
+                                    @endcan
+                                </footer>
                             </p>
                         </blockquote>
                         @can('update', $note)
@@ -156,7 +156,7 @@
                             </div>
                         @endcan
                     @endforeach
-                    </div>
+                </div>
                 <form action="{{ action('OrderNoteController@store', $order) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="form-group">
