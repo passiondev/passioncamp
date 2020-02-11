@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
 use App\Http\Middleware\Authenticate;
+use App\Organization;
 
 class OrganizationNoteController extends Controller
 {

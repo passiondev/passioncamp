@@ -16,7 +16,7 @@ class VerifyUserHasSelectedPrinter
      */
     public function handle($request, Closure $next)
     {
-        if (!$request->session()->has('printer')) {
+        if (! $request->session()->has('printer')) {
             $request->intended(url()->previous());
 
             return redirect()->route('printers.index');

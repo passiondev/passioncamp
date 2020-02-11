@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use App\Contracts\EsignProvider;
-use KevinEm\AdobeSign\AdobeSign;
-use Illuminate\Support\ServiceProvider;
-use App\Services\Esign\LogEsignProvider;
-use League\OAuth2\Client\Token\AccessToken;
 use App\Services\Esign\AdobeSignEsignProvider;
+use App\Services\Esign\LogEsignProvider;
+use Illuminate\Support\ServiceProvider;
+use KevinEm\AdobeSign\AdobeSign;
 use KevinEm\OAuth2\Client\AdobeSign as OAuth2Client;
+use League\OAuth2\Client\Token\AccessToken;
 
 class EsignServiceProvider extends ServiceProvider
 {
@@ -46,7 +46,7 @@ class EsignServiceProvider extends ServiceProvider
             return new AccessToken(json_decode($token, true));
         });
 
-        if (!$accessToken) {
+        if (! $accessToken) {
             throw new \Exception('Adobe Sign not authorized.');
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
 use App\Http\Middleware\Authenticate;
+use App\Ticket;
 
 class TicketController extends Controller
 {
@@ -33,7 +33,7 @@ class TicketController extends Controller
 
         $tickets = Ticket::search(request('query'));
 
-        if (!auth()->user()->isSuperAdmin()) {
+        if (! auth()->user()->isSuperAdmin()) {
             $tickets->where('organization_id', auth()->user()->organization_id);
         }
 

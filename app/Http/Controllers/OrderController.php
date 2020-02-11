@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
 use App\Http\Middleware\Authenticate;
+use App\Order;
 
 class OrderController extends Controller
 {

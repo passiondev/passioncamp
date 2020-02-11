@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {

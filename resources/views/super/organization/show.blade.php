@@ -131,9 +131,48 @@
                     <blockquote class="blockquote">
                         <p class="mb-0">
                             {!! nl2br($note->body) !!}
-                            <footer class="blockquote-footer">{{ $note->author ? $note->author->email :'' }}, <time datetime="{{ $note->created_at->toAtomString() }}" title="{{ $note->created_at->toAtomString() }}"><i>{{ $note->created_at->diffForHumans() }}</i></time></footer>
+                            @can('update', $note)
+                                <footer class="blockquote-footer">
+                                    {{ $note->author ? $note->author->email :'' }}, <time datetime="{{ $note->created_at->toAtomString() }}" title="{{ $note->created_at->toAtomString() }}"><i>{{ $note->created_at->diffForHumans() }}</i></time>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editNote-{{ $note->id }}">
+                                        edit
+                                    </button>
+                                </footer>
+                            @endcan
                         </p>
                     </blockquote>
+                    @can('update', $note)
+                        <div class="modal fade" id="editNote-{{ $note->id }}" tabindex="-1" role="dialog" aria-labelledby="editNoteLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editNoteLabel">Edit note</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('notes.update', $note) }}" method="POST" id="edit-note-{{ $note->id }}-form">
+                                            @csrf
+                                            @method('PATCH')
+                                            <textarea name="body" id="body" cols="30" rows="4" class="form-control">{{ $note->body }}</textarea>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        @can('delete', $note)
+                                            <form action="{{ route('notes.destroy', $note) }}" method="POST" id="destroy-note-{{ $note->id }}-form">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            <button type="button" class="btn btn-sm btn-outline-danger mr-auto" onclick="confirm('Are you sure?') && document.getElementById('destroy-note-{{ $note->id }}-form').submit()">Delete note</button>
+                                        @endcan
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="document.getElementById('edit-note-{{ $note->id }}-form').submit()">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
                 @endforeach
                 <form action="{{ action('OrganizationNoteController@store', $organization) }}" method="POST">
                     {{ csrf_field() }}

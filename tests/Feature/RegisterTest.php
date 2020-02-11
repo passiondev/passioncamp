@@ -2,19 +2,19 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use App\Order;
-use App\Ticket;
-use App\Occurrence;
-use Tests\TestCase;
-use App\Organization;
-use App\Mail\WaiverRequest;
-use Illuminate\Support\Carbon;
 use App\Billing\FakePaymentGateway;
+use App\Jobs\Order\SendConfirmationEmail;
+use App\Mail\WaiverRequest;
+use App\Occurrence;
+use App\Order;
+use App\Organization;
+use App\Ticket;
+use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Mail;
-use App\Jobs\Order\SendConfirmationEmail;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {

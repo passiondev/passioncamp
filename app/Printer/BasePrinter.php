@@ -39,7 +39,7 @@ abstract class BasePrinter
             return false;
         }
 
-        if (!Str::endsWith($this->filename, '.pdf')) {
+        if (! Str::endsWith($this->filename, '.pdf')) {
             return false;
         }
 

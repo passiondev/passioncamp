@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Super;
 
-use Illuminate\Support\Carbon;
-use KevinEm\AdobeSign\AdobeSign;
 use App\Http\Controllers\Controller;
 use function GuzzleHttp\json_encode;
+use Illuminate\Support\Carbon;
+use KevinEm\AdobeSign\AdobeSign;
 use KevinEm\OAuth2\Client\AdobeSign as OAuth2Client;
 
 class AdobeSignController extends Controller
@@ -30,12 +30,12 @@ class AdobeSignController extends Controller
 
         $adobeSign = new AdobeSign($provider);
 
-        if (!request()->has('code')) {
+        if (! request()->has('code')) {
             $authorizationUrl = $adobeSign->getAuthorizationUrl();
             // session()->forget('oauth2state');
             session()->flash('oauth2state', $provider->getState());
             echo $authorizationUrl;
-        } elseif (!request()->has('state') || request('state') !== session('oauth2state')) {
+        } elseif (! request()->has('state') || request('state') !== session('oauth2state')) {
             echo 'Invalid state';
             print_r([request('state'), session('oauth2state')]);
         } else {

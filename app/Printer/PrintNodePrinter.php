@@ -2,8 +2,8 @@
 
 namespace App\Printer;
 
-use PrintNode\Entity\PrintJob;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use PrintNode\Entity\PrintJob;
 
 class PrintNodePrinter extends BasePrinter implements PrinterContract
 {

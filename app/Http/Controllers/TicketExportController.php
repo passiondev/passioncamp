@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
 use App\Exports\TicketExport;
 use App\Http\Middleware\Authenticate;
+use App\Ticket;
 
 class TicketExportController extends Controller
 {
@@ -22,7 +22,7 @@ class TicketExportController extends Controller
                    ->with('person', 'order.user.person', 'order.organization.church', 'roomAssignment.room.hotel', 'waiver')
                    ->get();
 
-        if (!$tickets->count()) {
+        if (! $tickets->count()) {
             return redirect()->back();
         }
 

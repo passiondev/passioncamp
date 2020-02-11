@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Organization;
 use App\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class WaiverBulkSendTest extends TestCase
 {
@@ -65,7 +65,7 @@ class WaiverBulkSendTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get("/waivers")
+            ->get('/waivers')
             ->assertDontSee('Send all');
 
         $this
@@ -85,7 +85,7 @@ class WaiverBulkSendTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get("/waivers")
+            ->get('/waivers')
             ->assertOk()
             ->assertSee('Send all');
     }

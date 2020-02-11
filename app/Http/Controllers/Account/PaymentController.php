@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Account;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\VerifyUserIsChurchAdmin;
+use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {

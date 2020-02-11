@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use App\Organization;
 use App\Mail\AccountUserCreated;
-use Illuminate\Support\Facades\Mail;
+use App\Organization;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class CreateOrganizationUserTest extends TestCase
 {

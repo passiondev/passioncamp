@@ -30,5 +30,7 @@ class UserPolicy
         if ($authUser->id == $user->id) {
             return false;
         }
+
+        return $authUser->isSuperAdmin();
     }
 }

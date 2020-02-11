@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class RoomsTest extends TestCase
 {
@@ -31,7 +31,7 @@ class RoomsTest extends TestCase
             ])->id,
         ]);
 
-        $response = $this->json('GET', '/admin/rooms?organization=' . $room->organization_id);
+        $response = $this->json('GET', '/admin/rooms?organization='.$room->organization_id);
 
         $response->assertStatus(200);
         $response->assertSee('my-church');
@@ -56,7 +56,7 @@ class RoomsTest extends TestCase
             ])->id,
         ]);
 
-        $response = $this->json('GET', '/admin/rooms?hotel=' . $room->hotel_id);
+        $response = $this->json('GET', '/admin/rooms?hotel='.$room->hotel_id);
 
         $response->assertStatus(200);
         $response->assertSee('my-hotel');

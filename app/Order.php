@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Collections\OrderCollection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {

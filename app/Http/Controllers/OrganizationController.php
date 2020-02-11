@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Church;
-use App\Person;
-use App\Organization;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsAdmin;
+use App\Organization;
+use App\Person;
+use Illuminate\Support\Facades\DB;
 
 class OrganizationController extends Controller
 {
@@ -18,7 +19,32 @@ class OrganizationController extends Controller
     public function index()
     {
         $organizations = Organization::orderByChurchName()
-            ->with('church', 'settings', 'contact')
+            ->with([
+                'church',
+                'items',
+                'settings',
+                'contact',
+                'activeAttendees' => function ($query) {
+                    $query->with('roomAssignment', 'waiver');
+                },
+            ])
+            ->withCount([
+                'items as cost_sum' => function ($query) {
+                    $query->select(DB::raw('SUM(quantity * cost)'));
+                },
+                'tickets as tickets_sum' => function ($query) {
+                    $query->select(DB::raw('SUM(quantity)'));
+                },
+                'transactions as paid_sum' => function ($query) {
+                    $query->select(DB::raw('SUM(amount)'));
+                },
+                'hotelItems as hotels_sum' => function ($query) {
+                    $query->select(DB::raw('SUM(quantity)'));
+                },
+                'rooms',
+                'keyReceivedRooms',
+                'checkedInRooms',
+            ])
             ->get();
 
         return view('super.organization.index', compact('organizations'));

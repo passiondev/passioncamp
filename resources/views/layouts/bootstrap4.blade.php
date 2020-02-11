@@ -50,9 +50,9 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav">
-                    @if (Session::has('spark:impersonator'))
+                    @impersonating
                         <li class="nav-item"><a class="nav-link" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
-                    @endif
+                    @endImpersonating
                     @if (Session::has('printer'))
                         <li class="nav-item mr-3">
                             <a class="nav-link" href="{{ route('printers.index') }}">@icon('printer') {{ Session::get('printer.name') }}</a>
