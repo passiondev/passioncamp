@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c2beaf2ea16583f3f900d88a031e0f1",
+    "content-hash": "e1a26a40dc40d2fc14f0a18c156b2e2b",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -6278,40 +6278,41 @@
         },
         {
             "name": "spipu/html2pdf",
-            "version": "v4.6.1",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spipu/html2pdf.git",
-                "reference": "4898439e170ebf032513b8d3a83f0f5ffe85fece"
+                "reference": "7dca57b61fdb2d6920635ff2332dbc82d4be19f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spipu/html2pdf/zipball/4898439e170ebf032513b8d3a83f0f5ffe85fece",
-                "reference": "4898439e170ebf032513b8d3a83f0f5ffe85fece",
+                "url": "https://api.github.com/repos/spipu/html2pdf/zipball/7dca57b61fdb2d6920635ff2332dbc82d4be19f3",
+                "reference": "7dca57b61fdb2d6920635ff2332dbc82d4be19f3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2",
-                "tecnickcom/tcpdf": "~6.2.0"
+                "ext-mbstring": "*",
+                "php": "^5.4 || ^7.0",
+                "tecnickcom/tcpdf": "^6.2"
+            },
+            "require-dev": {
+                "phake/phake": "^2.0",
+                "phpunit/phpunit": "^4.0 || ^5.0",
+                "squizlabs/php_codesniffer": "^3.0"
             },
             "suggest": {
                 "ext-gd": "Allows to embed images into the PDF",
-                "fagundes/zff-html2pdf": "zff-html2pdf module ~0.1.1, if you need to integrate HTML2PDF with Zend Framework 2 (zf2)"
+                "fagundes/zff-html2pdf": "if you need to integrate Html2Pdf with Zend Framework 2 (zf2)"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "html2pdf.class.php",
-                    "_class/exception.class.php",
-                    "_class/locale.class.php",
-                    "_class/myPdf.class.php",
-                    "_class/parsingHtml.class.php",
-                    "_class/parsingCss.class.php"
-                ]
+                "psr-4": {
+                    "Spipu\\Html2Pdf\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "OSL-3.0"
             ],
             "authors": [
                 {
@@ -6320,14 +6321,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "HTML2PDF is a HTML to PDF converter written in PHP5 (it uses TCPDF). OFFICIAL PACKAGE",
+            "description": "Html2Pdf is a HTML to PDF converter written in PHP5 (it uses TCPDF). OFFICIAL PACKAGE",
             "homepage": "http://html2pdf.fr/",
             "keywords": [
                 "html",
                 "html2pdf",
                 "pdf"
             ],
-            "time": "2016-04-05T12:25:17+00:00"
+            "time": "2018-10-26T13:33:18+00:00"
         },
         {
             "name": "stripe/stripe-php",

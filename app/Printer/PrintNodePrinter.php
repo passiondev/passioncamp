@@ -4,12 +4,14 @@ namespace App\Printer;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use PrintNode\Entity\PrintJob;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class PrintNodePrinter extends BasePrinter implements PrinterContract
 {
     use DispatchesJobs;
 
     private $printer_id;
+
     private $printNode;
 
     public function __construct($printNode, $printer_id)
@@ -18,12 +20,12 @@ class PrintNodePrinter extends BasePrinter implements PrinterContract
         $this->printNode = $printNode;
     }
 
-    public function getContent($pdf)
+    public function getContent(Html2Pdf $pdf)
     {
-        return base64_encode($pdf->Output($this->getFilename(), 'S'));
+        return base64_encode($pdf->output($this->getFilename(), 'S'));
     }
 
-    public function output($pdf)
+    public function output(Html2Pdf $pdf)
     {
         $printJob = new PrintJob($this->printNode);
         $printJob->printer = $this->printer_id;

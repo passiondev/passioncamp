@@ -11,6 +11,7 @@ use App\PrintNode\RoominglistPrintNodeClient;
 use App\Room;
 use App\Ticket;
 use Illuminate\Http\Request;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class RoomingListController extends Controller
 {
@@ -181,7 +182,7 @@ class RoomingListController extends Controller
 
     public function label(Request $request, Room $room)
     {
-        $pdf = new \HTML2PDF('P', [50.8, 58.7], 'en', true, 'UTF-8', 0);
+        $pdf = new Html2Pdf('P', [50.8, 58.7], 'en', true, 'UTF-8', 0);
         $pdf->writeHTML(view('roominglist/partials/label', compact('room'))->render());
 
         $handler = new PrintJobHandler(RoominglistPrintNodeClient::init());

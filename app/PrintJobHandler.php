@@ -5,11 +5,14 @@ namespace App;
 use App\Printer\PdfPrinter;
 use App\Printer\PrintNodePrinter;
 use PrintNode\Client as PrintNode;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class PrintJobHandler
 {
     private $printer;
+
     private $title;
+
     private $printNode;
 
     public function __construct(PrintNode $printNode)
@@ -22,9 +25,11 @@ class PrintJobHandler
         switch ($printer_id) {
             case 'PDF':
                 $this->printer = new PdfPrinter();
+
                 break;
             default:
                 $this->printer = new PrintNodePrinter($this->printNode, $printer_id);
+
                 break;
         }
 
@@ -38,7 +43,7 @@ class PrintJobHandler
         return $this;
     }
 
-    public function output($pdf)
+    public function output(Html2Pdf $pdf)
     {
         return $this->printer
             ->title($this->title)
