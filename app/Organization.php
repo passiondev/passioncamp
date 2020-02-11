@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use App\Collections\OrganizationCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,6 +11,7 @@ class Organization extends Model
     use SoftDeletes;
     use Notated;
     use Cacheable;
+    use Notifiable;
 
     protected $casts = [
         'tickets_sum' => 'integer',
@@ -59,7 +61,7 @@ class Organization extends Model
     public function scopeSearchByChurchName($query, $name)
     {
         $query->whereHas('church', function ($q) use ($name) {
-            $q->where('name', 'LIKE', $name.'%');
+            $q->where('name', 'LIKE', $name . '%');
         });
     }
 
@@ -143,7 +145,7 @@ class Organization extends Model
     public function scopeWithPaidSum($query, $source = null)
     {
         return $query->addSubSelect(
-            $source ? $source.'_paid_sum' : 'paid_sum',
+            $source ? $source . '_paid_sum' : 'paid_sum',
             TransactionSplit::withoutTrashed()
                 ->selectRaw('SUM(transaction_splits.amount)')
                 ->when($source, function ($q) use ($source) {

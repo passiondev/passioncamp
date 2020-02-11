@@ -5,6 +5,7 @@ namespace App\Providers;
 use App;
 use App\Policies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         App\AccountUser::class => Policies\AccountUserPolicy::class,
         App\OrgItem::class => Policies\OrgItemPolicy::class,
         App\TransactionSplit::class => Policies\TransactionSplitPolicy::class,
+        DatabaseNotification::class => Policies\DatabaseNotificationPolicy::class,
     ];
 
     /**
@@ -34,6 +36,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('super', function ($user) {
+            return $user->isSuperAdmin();
+        });
 
         Gate::define('makeStripePayments', function (App\User $user, App\Organization $organization) {
             return (bool) $organization->setting('stripe_access_token');

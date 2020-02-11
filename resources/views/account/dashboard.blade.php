@@ -3,6 +3,13 @@
 @section('content')
 
     <div class="ui container Dashboard">
+
+        @if ($organization->unreadNotifications)
+            <div class="mb-5">
+                @livewire('organization-notification', $organization->unreadNotifications)
+            </div>
+        @endif
+
         <div class="row mb-5">
             <div class="col">
                 <div class="card text-center mb-3">

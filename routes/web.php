@@ -55,6 +55,10 @@ Route::prefix('admin')->as('admin.')->group(function () {
     Route::resource('tickets', 'Super\TicketController')->only('index');
     Route::resource('users', 'Super\UserController')->only('index', 'create', 'store', 'edit', 'update');
     Route::get('rooms', 'RoomController@index')->name('rooms.index');
+
+    Route::get('notifications', 'OrganizationNotificationController@index');
+    Route::post('notifications', 'OrganizationNotificationController@store');
+    Route::delete('notifications/{notification}', 'OrganizationNotificationController@destroy');
 });
 
 if (config('passioncamp.enable_rooms')) {
