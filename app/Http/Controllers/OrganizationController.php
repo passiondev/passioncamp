@@ -7,6 +7,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsAdmin;
 use App\Organization;
 use App\Person;
+use App\WaiverStatus;
 use Illuminate\Support\Facades\DB;
 
 class OrganizationController extends Controller
@@ -24,9 +25,6 @@ class OrganizationController extends Controller
                 'items',
                 'settings',
                 'contact',
-                'activeAttendees' => function ($query) {
-                    $query->with('roomAssignment', 'waiver');
-                },
             ])
             ->withCount([
                 'items as cost_sum' => function ($query) {
@@ -44,6 +42,18 @@ class OrganizationController extends Controller
                 'rooms',
                 'keyReceivedRooms',
                 'checkedInRooms',
+                'activeAttendees',
+                'activeAttendees as assigned_to_room_count' => function ($query) {
+                    $query->select(DB::raw('COUNT(*)'))
+                        ->join('room_assignments', 'order_items.id', 'ticket_id');
+                },
+                'activeAttendees as completed_waivers_count' => function ($query) {
+                    $query->select(DB::raw('COUNT(*)'))
+                        ->join('waivers', function ($query) {
+                            $query->on('order_items.id', 'ticket_id')
+                                ->where('status', WaiverStatus::COMPLETE);
+                        });
+                },
             ])
             ->get();
 
