@@ -47,9 +47,9 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav">
-                @if (Session::has('spark:impersonator'))
+                @impersonating
                     <li class="nav-item"><a class="nav-link" href="{{ action('Auth\ImpersonationController@stopImpersonating') }}">End Impersonation</a></li>
-                @endif
+                @endImpersonating
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
