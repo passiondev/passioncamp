@@ -108,10 +108,6 @@ class OrganizationPaymentController extends Controller
         $payment->delete();
         $payment->transaction->delete();
 
-        $organization->addNote(
-            sprintf('Deleted %s payment.', \Money\Money::USD($payment->amount / 100))
-        );
-
         return redirect()
             ->action('OrganizationController@show', $organization)
             ->with('success', 'Payment deleted.');
