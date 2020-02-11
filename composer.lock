@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "006f717fe040325b701700066cd19797",
+    "content-hash": "9c2beaf2ea16583f3f900d88a031e0f1",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
