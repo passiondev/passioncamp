@@ -11,7 +11,6 @@
     <title>{{ isset($title) ? $title.' | ' : '' }} {{ config('app.name') }}</title>
 
     <link href="{{ asset(mix('/css/bootstrap4.css')) }}" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v1.1.5/dist/alpine.js" defer></script>
     <script>
         window.store = {};
     </script>
