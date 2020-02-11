@@ -23,7 +23,7 @@ class WaiverPolicy
 
     public function viewAny(User $user)
     {
-        return false;
+        return $user->isChurchAdmin();
     }
 
     public function view(User $user, Waiver $waiver)
