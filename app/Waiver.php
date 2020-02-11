@@ -25,6 +25,14 @@ class Waiver extends Model
         });
     }
 
+    public static function completedOffline(): self
+    {
+        return new self([
+            'provider' => 'offline',
+            'status' => WaiverStatus::COMPLETE,
+        ]);
+    }
+
     public function scopeComplete($query)
     {
         return $query->where('status', WaiverStatus::COMPLETE);
@@ -77,8 +85,8 @@ class Waiver extends Model
     {
         return vsprintf('%s/%s/%s.pdf', [
             'Passion Camp 2019 Waivers',
-            $this->ticket->owner->organization_id.' - '.$this->ticket->owner->organization->church->name,
-            $this->ticket_id.' - '.$this->ticket->name,
+            $this->ticket->owner->organization_id . ' - ' . $this->ticket->owner->organization->church->name,
+            $this->ticket_id . ' - ' . $this->ticket->name,
         ]);
     }
 

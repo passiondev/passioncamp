@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0098215b9e7740f35d9bdbee3446acfe",
+    "content-hash": "006f717fe040325b701700066cd19797",
     "packages": [
         {
             "name": "adam-paterson/oauth2-stripe",
@@ -1251,16 +1251,16 @@
         },
         {
             "name": "fzaninotto/faker",
-            "version": "v1.9.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f"
+                "reference": "c981c04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fc10d778e4b84d5bd315dad194661e091d307c6f",
-                "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/c981c04",
+                "reference": "c981c04",
                 "shasum": ""
             },
             "require": {
@@ -1297,7 +1297,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2019-12-12T13:22:17+00:00"
+            "time": "2019-11-23T11:16:50+00:00"
         },
         {
             "name": "graham-campbell/guzzle-factory",
@@ -10462,11 +10462,19 @@
             "time": "2019-11-24T13:36:37+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "1.9.1",
+            "alias_normalized": "1.9.1.0",
+            "version": "9999999-dev",
+            "package": "fzaninotto/faker"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "nsbucky/echosignv3": 20,
-        "zondicons/blade-bridge": 20
+        "zondicons/blade-bridge": 20,
+        "fzaninotto/faker": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

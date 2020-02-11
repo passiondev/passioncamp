@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\TicketFilters;
 use App\Http\Middleware\Authenticate;
 use App\Jobs\Waiver\SendReminder;
-use App\Organization;
-use App\Ticket;
 use App\Waiver;
-use Illuminate\Http\Request;
 
 class WaiverController extends Controller
 {
@@ -17,25 +13,11 @@ class WaiverController extends Controller
         $this->middleware(Authenticate::class);
     }
 
-    public function index(TicketFilters $filters)
+    public function index()
     {
-        $this->authorize('create', Waiver::class);
+        $this->authorize('viewAny', Waiver::class);
 
-        $tickets = Ticket::forUser(auth()->user())
-            ->active()
-            ->when(auth()->user()->isSuperAdmin(), function ($q) use ($filters) {
-                $q->filter($filters);
-            })
-            ->with('person', 'waiver', 'order.organization.church', 'order.user.person')
-            ->orderByPersonName();
-
-        $tickets = $filters->hasFilters() || auth()->user()->isChurchAdmin()
-            ? $tickets->get()
-            : $tickets->paginate();
-
-        $organizations = Organization::orderByChurchName()->with('church')->get();
-
-        return view('waivers.index', compact('tickets', 'organizations'));
+        return view('waivers.index');
     }
 
     public function reminder(Waiver $waiver)
