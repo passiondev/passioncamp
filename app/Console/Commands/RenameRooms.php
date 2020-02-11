@@ -14,7 +14,7 @@ class RenameRooms extends Command
         $orgIds = $this->argument('organizationIds');
 
         Organization::has('rooms')
-            ->when(!empty($orgIds), function ($q) use ($orgIds) {
+            ->when(! empty($orgIds), function ($q) use ($orgIds) {
                 $q->whereIn('id', $orgIds);
             })
             ->each(function ($organization) {

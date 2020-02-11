@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
-use App\TransactionSplit;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use App\Organization;
+use App\TransactionSplit;
 
 class OrganizationPaymentController extends Controller
 {

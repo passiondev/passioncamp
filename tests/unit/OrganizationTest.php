@@ -1,10 +1,10 @@
 <?php
 
 use App\Order;
-use App\Ticket;
-use Tests\TestCase;
 use App\Organization;
+use App\Ticket;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class OrganizationTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
+use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {

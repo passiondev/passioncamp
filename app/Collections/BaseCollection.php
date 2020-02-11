@@ -2,8 +2,8 @@
 
 namespace App\Collections;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 
 abstract class BaseCollection extends Collection
 {

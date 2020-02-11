@@ -10,7 +10,7 @@
                         Attendees <span class="badge badge-pill badge-success">{{ $user->tickets->count() }}</span>
                     </div>
                     <div class="item right">
-                        {{ money_format('%0.2n', $user->ticket_total / 100) }}
+                        {{ \Money\Money::USD('%0.2n', $user->ticket_total / 100) }}
                     </div>
                 </div>
             </li>
@@ -21,7 +21,7 @@
                             Donation
                         </div>
                         <div class="item right">
-                            {{ money_format('%0.2n', $user->donation_total / 100) }}
+                            {{ \Money\Money::USD('%0.2n', $user->donation_total / 100) }}
                         </div>
                     </div>
                 </li>
@@ -32,7 +32,7 @@
                         Total
                     </div>
                     <div class="item right">
-                        {{ money_format('%0.2n', $user->grand_total / 100) }}
+                        {{ \Money\Money::USD('%0.2n', $user->grand_total / 100) }}
                     </div>
                 </div>
             </li>
@@ -42,7 +42,7 @@
                         Payments
                     </div>
                     <div class="item right">
-                        {{ money_format('%0.2n', $user->transactions_total / 100) }}
+                        {{ \Money\Money::USD('%0.2n', $user->transactions_total / 100) }}
                     </div>
                 </div>
             </li>
@@ -52,7 +52,7 @@
                         Balance
                     </div>
                     <div class="item right">
-                        {{ money_format('%0.2n', $user->balance / 100) }}
+                        {{ \Money\Money::USD('%0.2n', $user->balance / 100) }}
                     </div>
                 </div>
             </li>
@@ -87,7 +87,7 @@
                                 @endunless
                             </div>
                             <div class="item right item--{{ $split->amount > 0 ? 'success' : 'warning' }}">
-                                {{ money_format('%0.2n', $split->amount / 100) }}
+                                {{ \Money\Money::USD('%0.2n', $split->amount / 100) }}
                             </div>
                         </div>
                         @if ($split->transaction->source == 'stripe')

@@ -3,13 +3,13 @@
 namespace Tests\Unit\Organization;
 
 use App\Item;
-use App\OrgItem;
-use Tests\TestCase;
+use App\Jobs\Organization\DeployRooms;
 use App\Organization;
+use App\OrgItem;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
-use App\Jobs\Organization\DeployRooms;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class DeployRoomsTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
 use App\Exports\OrderExport;
 use App\Http\Middleware\Authenticate;
+use App\Order;
 
 class OrderExportController extends Controller
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
 use Facades\App\Contracts\Printing\Factory as Printer;
+use Illuminate\Http\Request;
 
 class SelectedPrinterController extends Controller
 {

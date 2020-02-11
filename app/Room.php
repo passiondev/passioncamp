@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Events\RoomDeleted;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Room extends Model
 {
@@ -94,7 +94,7 @@ class Room extends Model
 
     public function getIsAtCapacityAttribute()
     {
-        return (bool) !$this->remaining;
+        return (bool) ! $this->remaining;
     }
 
     public function getRemainingAttribute()

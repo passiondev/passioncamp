@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 use App\Room;
 use App\Ticket;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class TicketRevisionTest extends TestCase
 {

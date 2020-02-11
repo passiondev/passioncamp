@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Organization;
-use League\Csv\Reader;
 use Illuminate\Console\Command;
+use League\Csv\Reader;
 
 class ChurchImport extends Command
 {
@@ -42,7 +42,7 @@ class ChurchImport extends Command
 
         $keys = collect($csv->getRecords())
             ->reject(function ($row) {
-                return !empty($row['new id']);
+                return ! empty($row['new id']);
             })
             ->map(function ($row) {
                 $organization = new Organization();

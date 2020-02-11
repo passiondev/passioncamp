@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Auth\Traits\HasEmailLogin;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -122,7 +122,7 @@ class User extends Authenticatable
 
     public function getHashAttribute()
     {
-        if (!$this->email) {
+        if (! $this->email) {
             return hash_hmac('sha256', $this->id, env('APP_KEY'));
         }
 

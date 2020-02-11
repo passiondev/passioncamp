@@ -4,11 +4,11 @@ namespace App\Jobs\Order;
 
 use App\Order;
 use Illuminate\Bus\Queueable;
-use Spatie\Newsletter\Newsletter;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Spatie\Newsletter\Newsletter;
 
 class AddToMailChimp implements ShouldQueue
 {

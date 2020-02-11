@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use App\Ticket;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyTicketCanBeAddedToOrganization;
+use App\Order;
+use App\Ticket;
 
 class OrderTicketController extends Controller
 {

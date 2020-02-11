@@ -2,9 +2,9 @@
 
 namespace App\Services\Esign;
 
+use App\Contracts\EsignProvider;
 use Illuminate\Support\Str;
 use Psr\Log\LoggerInterface;
-use App\Contracts\EsignProvider;
 
 class LogEsignProvider implements EsignProvider
 {

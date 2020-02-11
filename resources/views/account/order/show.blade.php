@@ -31,7 +31,7 @@
                                     @include('ticket/partials/label')
                                 </td>
                                 @can ('record-transactions', $order->organization)
-                                    <td>{{ money_format('%.2n', $ticket->price) }}</td>
+                                    <td>{{ \Money\Money::USD($ticket->price) }}</td>
                                 @endcan
                                 <td>
                                     {{ $ticket->waiver->status }}

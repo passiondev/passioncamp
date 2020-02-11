@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\TicketFilters;
+use App\Http\Middleware\Authenticate;
+use App\Jobs\Waiver\SendReminder;
+use App\Organization;
 use App\Ticket;
 use App\Waiver;
-use App\Organization;
 use Illuminate\Http\Request;
-use App\Filters\TicketFilters;
-use App\Jobs\Waiver\SendReminder;
-use App\Http\Middleware\Authenticate;
 
 class WaiverController extends Controller
 {
@@ -42,7 +42,7 @@ class WaiverController extends Controller
     {
         $this->authorize('remind', $waiver);
 
-        if (!$waiver->canBeReminded()) {
+        if (! $waiver->canBeReminded()) {
             abort(403, 'This waiver cannot be reminded.');
         }
 

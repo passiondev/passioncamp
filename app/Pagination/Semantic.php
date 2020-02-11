@@ -2,11 +2,11 @@
 
 namespace App\Pagination;
 
-use Illuminate\Support\HtmlString;
-use Illuminate\Pagination\UrlWindow;
-use Illuminate\Pagination\UrlWindowPresenterTrait;
 use Illuminate\Contracts\Pagination\Paginator as PaginatorContract;
 use Illuminate\Contracts\Pagination\Presenter as PresenterContract;
+use Illuminate\Pagination\UrlWindow;
+use Illuminate\Pagination\UrlWindowPresenterTrait;
+use Illuminate\Support\HtmlString;
 
 class Semantic implements PresenterContract
 {
@@ -72,7 +72,7 @@ class Semantic implements PresenterContract
         // If the current page is greater than or equal to the last page, it means we
         // can't go any further into the pages, as we're already on this last page
         // that is available, so we will make it the "next" link style disabled.
-        if (!$this->paginator->hasMorePages()) {
+        if (! $this->paginator->hasMorePages()) {
             return $this->getDisabledTextWrapper($text);
         }
 

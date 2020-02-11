@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Laravel\Telescope\Telescope;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Laravel\Telescope\IncomingEntry;
+use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider

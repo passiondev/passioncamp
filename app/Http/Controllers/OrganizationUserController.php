@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\AccountUser;
-use App\Organization;
-use App\Mail\AccountUserCreated;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Auth\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use App\Mail\AccountUserCreated;
+use App\Organization;
+use App\User;
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Support\Facades\Mail;
 
 class OrganizationUserController extends Controller
 {

@@ -77,11 +77,11 @@ class Registration
 
     public function shouldPayDeposit($payDeposit = true)
     {
-        if (!$this->canPayDeposit()) {
+        if (! $this->canPayDeposit()) {
             return $this;
         }
 
-        $this->payInFull = !$payDeposit;
+        $this->payInFull = ! $payDeposit;
 
         return $this;
     }

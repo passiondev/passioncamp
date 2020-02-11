@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Organization;
-use League\Csv\Reader;
 use Illuminate\Console\Command;
+use League\Csv\Reader;
 
 class ImportPayments extends Command
 {

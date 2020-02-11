@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
+use Facades\App\Contracts\Printing\Factory as Printer;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Facades\App\Contracts\Printing\Factory as Printer;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Redis;
 
 class PrintRoomLabelJob implements ShouldQueue
 {

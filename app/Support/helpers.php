@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('number_ordinal')) {
+if (! function_exists('number_ordinal')) {
     function number_ordinal($number)
     {
         $ends = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'];

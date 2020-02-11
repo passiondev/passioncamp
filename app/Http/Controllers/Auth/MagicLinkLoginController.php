@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\EmailLogin;
-use Illuminate\Http\Request;
 use App\Auth\MagicAuthentication;
+use App\EmailLogin;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MagicLinkLoginController extends Controller
 {
@@ -23,7 +23,7 @@ class MagicLinkLoginController extends Controller
     {
         $request->validate([
             'email' => ['bail', 'required', 'email', 'exists:users', function ($attribute, $value, $fail) {
-                if (!User::where('email', $value)->first()->canUseMagicLink()) {
+                if (! User::where('email', $value)->first()->canUseMagicLink()) {
                     return $fail('The user is invalid.');
                 }
             }],

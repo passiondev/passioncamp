@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Webhooks;
 
-use App\Waiver;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\Waiver\FetchAndUpdateStatus;
+use App\Waiver;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class HelloSignController extends Controller

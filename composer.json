@@ -39,6 +39,7 @@
         "league/csv": "^9.0",
         "maatwebsite/excel": "^3.1",
         "mandrill/mandrill": "^1.0",
+        "money/money": "^2.0",
         "nothingworks/blade-svg": "^0.3.2",
         "nsbucky/echosignv3": "dev-master",
         "predis/predis": "^1.1",

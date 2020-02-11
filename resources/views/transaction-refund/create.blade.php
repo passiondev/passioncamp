@@ -20,7 +20,7 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label text-md-right">Original Amount</label>
                         <div class="col-md-6">
-                            <p class="form-control-static">{{ money_format('%.2n', $transaction->transaction->amount / 100) }}</p>
+                            <p class="form-control-static">{{ \Money\Money::USD($transaction->transaction->amount / 100) }}</p>
                         </div>
                     </div>
 
