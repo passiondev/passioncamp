@@ -47,8 +47,8 @@ class Waiver extends Model
 
     public function canBeReminded()
     {
-        // updated more than 24 hours ago
-        return Carbon::now()->subHour(24)->gt($this->updated_at) && WaiverStatus::PENDING == $this->status;
+        // updated more than 12 hours ago
+        return Carbon::now()->subHour(12)->gt($this->updated_at) && WaiverStatus::PENDING == $this->status;
     }
 
     public function isComplete()
