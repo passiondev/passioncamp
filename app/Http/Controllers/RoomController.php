@@ -69,8 +69,9 @@ class RoomController extends Controller
                 'capacity', 'description',
                 'name', 'roomnumber', 'confirmation_number',
                 'is_checked_in', 'is_key_received',
+                'adp_required', 'king_preferred',
             ])
-            : request(['capacity', 'description'])
+            : request(['capacity', 'description', 'adp_required', 'king_preferred'])
         );
 
         return redirect()->intended(action('RoomingListController@index'));
