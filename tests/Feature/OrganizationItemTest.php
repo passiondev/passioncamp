@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Item;
-use Illuminate\Support\Facades\Event;
 use App\Events\OrgItemSaved;
+use App\Item;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class OrganizationItemTest extends TestCase
 {
@@ -28,7 +27,7 @@ class OrganizationItemTest extends TestCase
     }
 
     /** @test */
-    function test_an_item_can_be_added_to_an_organization()
+    public function test_an_item_can_be_added_to_an_organization()
     {
         Event::fake();
 
@@ -36,7 +35,7 @@ class OrganizationItemTest extends TestCase
             'item' => Item::first()->id,
             'quantity' => 1,
             'notes' => 'notes test',
-            'cost' => '99'
+            'cost' => '99',
         ]);
 
         // redirects to org

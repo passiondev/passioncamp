@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\Order;
-use App\Ticket;
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\VerifyTicketCanBeAddedToOrganization;
 use App\Http\Middleware\VerifyUserIsChurchAdmin;
 use App\Http\Requests\AccountTicketCreateRequest;
-use App\Http\Middleware\VerifyTicketCanBeAddedToOrganization;
+use App\Order;
+use App\Ticket;
 
 class TicketController extends Controller
 {

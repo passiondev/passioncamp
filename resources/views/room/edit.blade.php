@@ -14,7 +14,7 @@
                         <label for="capacity" class="col-md-3 col-form-label text-md-right">Capacity</label>
                         <div class="col-md-6">
                             <select name="capacity" id="capacity" class="form-control">
-                                @foreach (range(4,5) as $capacity)
+                                @foreach (range(4, $maxCapacity) as $capacity)
                                     <option value="{{ $capacity }}" @if (old('capacity', $room->capacity) == $capacity) selected @endif>{{ $capacity }}</option>
                                 @endforeach
                             </select>
@@ -29,12 +29,6 @@
                                 <option value="Girls Room" @if(old('description') == 'Girls Room') selected @endif>Girls Room</option>
                                 <option value="Guys Room" @if(old('description') == 'Guys Room') selected @endif>Guys Room</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="notes" class="col-md-3 col-form-label text-md-right">Notes</label>
-                        <div class="col-md-6">
-                            <input type="text" name="notes" id="notes" class="form-control" placeholder="ie, King Bed OK" value="{{ old('notes', $room->notes) }}">
                         </div>
                     </div>
 

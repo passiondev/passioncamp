@@ -33,9 +33,9 @@
             <div class="left menu">
             </div>
             <div class="right menu">
-                @if (Session::has('spark:impersonator'))
+                @impersonating
                     <a class="item" href="{{ route('user.stop-impersonating') }}">End Impersonation</a>
-                @endif
+                @endImpersonating
 
                 <div class="mobile hidden">
                 </div>

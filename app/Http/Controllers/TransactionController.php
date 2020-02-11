@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\TransactionSplit;
 use App\Http\Middleware\Authenticate;
+use App\TransactionSplit;
 
 class TransactionController extends Controller
 {

@@ -13,7 +13,7 @@
                     <div class="alert alert-info">
                         <h3>Important Info About Creating Your Rooming List</h3>
                         <p>All hotel rooms sleep 4 people and account for 2 people in each of the following bed types: king, queen, double, and sleeper sofa. For example, a room with a king bed and sleeper sofa will sleep 4 people.</p>
-                        <p>If you place a 5th person in a room, you will need to bring an air mattress. <i>Roll-aways/cots may be requested but <strong>CANNOT</strong> be guaranteed.</i></p>
+                        <p>If you place a 5th person in a room, you will need to bring an air mattress.</p>
                     </div>
                     <div class="row">
                         @foreach ($rooms as $room)

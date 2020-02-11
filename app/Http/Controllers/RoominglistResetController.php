@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use Illuminate\Support\Facades\DB;
 
 class RoominglistResetController extends Controller
 {

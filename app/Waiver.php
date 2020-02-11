@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use App\Jobs\CancelSignatureRequest;
+use Carbon\Carbon;
 use Facades\App\Services\Esign\ProviderFactory as EsignProviderFactory;
 
 class Waiver extends Model
@@ -47,8 +47,8 @@ class Waiver extends Model
 
     public function canBeReminded()
     {
-        // updated more than 24 hours ago
-        return Carbon::now()->subHour(24)->gt($this->updated_at) && WaiverStatus::PENDING == $this->status;
+        // updated more than 12 hours ago
+        return Carbon::now()->subHour(12)->gt($this->updated_at) && WaiverStatus::PENDING == $this->status;
     }
 
     public function isComplete()
@@ -84,7 +84,7 @@ class Waiver extends Model
 
     public function cancelSignatureRequest()
     {
-        if (!$this->provider_agreement_id) {
+        if (! $this->provider_agreement_id) {
             return;
         }
 

@@ -1,13 +1,13 @@
 <?php
 
-use App\Item;
-use App\User;
 use App\Hotel;
+use App\Item;
 use App\Order;
-use App\Ticket;
-use App\OrgItem;
 use App\Organization;
+use App\OrgItem;
+use App\Ticket;
 use App\TransactionSplit;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder

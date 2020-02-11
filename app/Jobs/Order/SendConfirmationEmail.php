@@ -2,14 +2,14 @@
 
 namespace App\Jobs\Order;
 
+use App\Mail\OrderConfirmation;
 use App\Order;
 use Illuminate\Bus\Queueable;
-use App\Mail\OrderConfirmation;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class SendConfirmationEmail implements ShouldQueue
 {

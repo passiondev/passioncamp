@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
 use App\Http\Middleware\Authenticate;
+use App\Ticket;
 
 class TicketAssignmentController extends Controller
 {

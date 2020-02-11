@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Waiver;
-use Tests\TestCase;
 use App\Contracts\EsignProvider;
-use Illuminate\Support\Facades\Queue;
 use App\Jobs\Waiver\RequestWaiverSignature;
+use App\Waiver;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Queue;
+use Tests\TestCase;
 
 class WaiverTest extends TestCase
 {

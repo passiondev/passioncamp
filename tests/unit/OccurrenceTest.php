@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use App\Occurrence;
-use Tests\TestCase;
 use Illuminate\Support\Carbon;
+use Tests\TestCase;
 
 class OccurrenceTest extends TestCase
 {

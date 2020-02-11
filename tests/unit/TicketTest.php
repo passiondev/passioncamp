@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
-use Mockery;
-use Carbon\Carbon;
-use Tests\TestCase;
 use App\Contracts\EsignProvider;
-use Illuminate\Support\Facades\Event;
+use Carbon\Carbon;
 use Facades\App\Services\Esign\ProviderFactory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Event;
+use Mockery;
+use Tests\TestCase;
 
 class TicketTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Room;
 use App\Ticket;
-use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Validator;
 
 class RoomAssignmentController extends Controller

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Super;
 
-use App\User;
-use App\Person;
-use App\Mail\AccountUserCreated;
 use App\Http\Controllers\Controller;
+use App\Mail\AccountUserCreated;
+use App\Person;
+use App\User;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
@@ -64,7 +64,7 @@ class UserController extends Controller
         $this->validate(request(), [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users,email,' . $user->id,
+            'email' => 'required|unique:users,email,'.$user->id,
         ]);
 
         if (auth()->user()->isSuperAdmin()) {

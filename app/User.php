@@ -3,15 +3,17 @@
 namespace App;
 
 use App\Auth\Traits\HasEmailLogin;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
     use HasEmailLogin;
+    use Impersonate;
 
     protected $guarded = [];
 
@@ -122,7 +124,7 @@ class User extends Authenticatable
 
     public function getHashAttribute()
     {
-        if (!$this->email) {
+        if (! $this->email) {
             return hash_hmac('sha256', $this->id, env('APP_KEY'));
         }
 

@@ -3,9 +3,9 @@
 namespace App\Auth\Traits;
 
 use App\EmailLogin;
-use Illuminate\Support\Str;
 use App\Mail\MagicLinkRequested;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 trait HasEmailLogin
 {

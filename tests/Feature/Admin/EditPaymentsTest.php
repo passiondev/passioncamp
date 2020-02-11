@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
-use Tests\TestCase;
-use App\Transaction;
 use App\Organization;
+use App\Transaction;
 use App\TransactionSplit;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class EditPaymentsTest extends TestCase
 {

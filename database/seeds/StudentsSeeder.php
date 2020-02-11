@@ -1,11 +1,11 @@
 <?php
 
-use App\User;
-use App\Order;
 use App\Church;
-use App\Ticket;
+use App\Order;
 use App\Organization;
+use App\Ticket;
 use App\TransactionSplit;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class StudentsSeeder extends Seeder

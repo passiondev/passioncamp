@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Order;
-use App\Occurrence;
-use App\Organization;
-use Illuminate\Support\Carbon;
+use App\Billing\PaymentFailedException;
 use App\Billing\PaymentGateway;
+use App\Http\Requests\RegisterCreateRequest;
+use App\Jobs\Order\SendConfirmationEmail;
+use App\Occurrence;
+use App\Order;
+use App\Organization;
+use App\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Billing\PaymentFailedException;
-use App\Jobs\Order\SendConfirmationEmail;
-use App\Http\Requests\RegisterCreateRequest;
 use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
@@ -36,7 +36,7 @@ class RegisterController extends Controller
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
-        if (!$this->organization->canAddTickets() || $this->occurrence->isSoldOut()) {
+        if (! $this->organization->canAddTickets() || $this->occurrence->isSoldOut()) {
             return view('register.closed', ['occurrence' => $this->occurrence]);
         }
 
@@ -107,7 +107,7 @@ class RegisterController extends Controller
 
     public function confirmation()
     {
-        if (!session()->has('order_id')) {
+        if (! session()->has('order_id')) {
             return redirect()->route('register.create');
         }
 

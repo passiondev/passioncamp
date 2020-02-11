@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Ticket;
 use App\WaiverStatus;
-use App\Http\Middleware\Authenticate;
 
 class TicketWaiverController extends Controller
 {

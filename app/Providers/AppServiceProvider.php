@@ -2,17 +2,17 @@
 
 namespace App\Providers;
 
-use Mandrill;
-use Laravel\Horizon\Horizon;
 use App\Billing\PaymentGateway;
-use Illuminate\Support\Collection;
 use App\Billing\StripePaymentGateway;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\ServiceProvider;
+use App\Http\Controllers\RegisterController;
 use HelloSign\Client as HelloSignClient;
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Controllers\RegisterController;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Horizon\Horizon;
+use Mandrill;
 
 class AppServiceProvider extends ServiceProvider
 {

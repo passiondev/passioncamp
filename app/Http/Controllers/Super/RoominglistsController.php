@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Super;
 
-use App\RoomingListVersion;
 use App\Http\Controllers\Controller;
+use App\RoomingListVersion;
 
 class RoominglistsController extends Controller
 {

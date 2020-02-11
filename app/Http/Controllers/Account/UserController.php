@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Account;
 
-use App\User;
 use App\AccountUser;
-use Illuminate\Http\Request;
-use App\Mail\AccountUserCreated;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\VerifyUserIsChurchAdmin;
+use App\Mail\AccountUserCreated;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Stripe;
-use App\TransactionSplit;
 use App\Http\Middleware\Authenticate;
+use App\TransactionSplit;
+use Stripe;
 
 class TransactionRefundController extends Controller
 {
