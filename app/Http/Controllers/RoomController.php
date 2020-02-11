@@ -60,11 +60,11 @@ class RoomController extends Controller
         $room->update(
             auth()->user()->isSuperAdmin()
             ? request([
-                'capacity', 'description', 'notes',
+                'capacity', 'description',
                 'name', 'roomnumber', 'confirmation_number',
                 'is_checked_in', 'is_key_received',
             ])
-            : request(['capacity', 'description', 'notes'])
+            : request(['capacity', 'description'])
         );
 
         return redirect()->intended(action('RoomingListController@index'));

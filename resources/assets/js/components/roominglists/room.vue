@@ -11,7 +11,6 @@
                 <slot name="actions"></slot>
             </div>
             <h6 class="mb-0 text-muted" style="font-size:90%">{{ room.description }}</h6>
-            <p class="card-text text-muted" style="font-size:90%">{{ room.notes }}</p>
         </header>
         <div class="card-block">
             <div class="statistics justify-content-center mb-3">
