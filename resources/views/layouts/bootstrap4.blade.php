@@ -11,7 +11,6 @@
     <title>{{ isset($title) ? $title.' | ' : '' }} {{ config('app.name') }}</title>
 
     <link href="{{ asset(mix('/css/bootstrap4.css')) }}" rel="stylesheet">
-
     <script>
         window.store = {};
     </script>
@@ -19,6 +18,8 @@
     @include('layouts._bugsnag')
 
     @yield('head')
+
+    @livewireAssets
 </head>
 <body>
     <div id="app">

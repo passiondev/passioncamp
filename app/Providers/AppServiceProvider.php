@@ -43,13 +43,15 @@ class AppServiceProvider extends ServiceProvider
 
         Builder::macro('addSubSelect', function ($column, $query) {
             if (null === $this->getQuery()->columns) {
-                $this->select($this->getQuery()->from.'.*');
+                $this->select($this->getQuery()->from . '.*');
             }
 
             return $this->selectSub($query->limit(1)->getQuery(), $column);
         });
 
-        Builder::macro('orderBySub', function ($query, $direction = 'asc') {
+        Builder::macro('orderBySub', function ($query, $sortAsc = true) {
+            $direction = $sortAsc ? 'asc' : 'desc';
+
             return $this->orderByRaw("({$query->limit(1)->toSql()}) {$direction}");
         });
 
@@ -67,7 +69,7 @@ class AppServiceProvider extends ServiceProvider
             $organizationOptions = [];
 
             \App\Organization::with('church')->each(function ($organization) use (&$organizationOptions) {
-                $organizationOptions[$organization->church->id] = $organization->church->name.' - '.$organization->church->location;
+                $organizationOptions[$organization->church->id] = $organization->church->name . ' - ' . $organization->church->location;
             });
 
             $view->with('organizationOptions', collect($organizationOptions)->sort()->toArray());

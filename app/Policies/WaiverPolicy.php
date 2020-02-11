@@ -23,7 +23,7 @@ class WaiverPolicy
 
     public function viewAny(User $user)
     {
-        return $user->isSuperAdmin();
+        return false;
     }
 
     public function view(User $user, Waiver $waiver)
@@ -33,7 +33,7 @@ class WaiverPolicy
 
     public function create(User $user)
     {
-        return true;
+        return false;
     }
 
     public function update(User $user, Waiver $waiver)
