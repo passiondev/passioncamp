@@ -2,8 +2,8 @@
 
 namespace App\Services\Esign;
 
-use HelloSign\TemplateSignatureRequest;
 use HelloSign\Client as HelloSignClient;
+use HelloSign\TemplateSignatureRequest;
 
 class HelloSignEsignProvider
 {

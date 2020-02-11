@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Person;
-use Illuminate\Http\Request;
 use App\Http\Middleware\Authenticate;
+use App\Person;
+use App\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {

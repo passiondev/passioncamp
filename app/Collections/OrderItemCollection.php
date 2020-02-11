@@ -9,7 +9,7 @@ class OrderItemCollection extends Collection
     public function active()
     {
         return $this->filter(function ($item) {
-            return !$item->is_canceled;
+            return ! $item->is_canceled;
         });
     }
 

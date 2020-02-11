@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\User;
 use App\Order;
+use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrderPolicy
@@ -34,7 +34,7 @@ class OrderPolicy
 
     public function recordTransaction(User $user, Order $order)
     {
-        if (!$order->organization->settings->exists('use_transactions')) {
+        if (! $order->organization->settings->exists('use_transactions')) {
             return false;
         }
 

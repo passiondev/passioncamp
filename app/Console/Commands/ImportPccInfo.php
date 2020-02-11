@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Ticket;
-use League\Csv\Reader;
 use Illuminate\Console\Command;
+use League\Csv\Reader;
 
 class ImportPccInfo extends Command
 {
@@ -35,7 +35,7 @@ class ImportPccInfo extends Command
 
         collect($csv->getRecords())
         ->each(function ($row) {
-            if (!$row['id']) {
+            if (! $row['id']) {
                 return;
             }
 

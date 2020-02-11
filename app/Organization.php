@@ -37,6 +37,18 @@ class Organization extends Model
         });
     }
 
+    public function isActive(): bool
+    {
+        return $this->items
+            ->filter(function ($item) {
+                return $item->org_type === 'ticket' || $item->org_type === 'hotel';
+            })
+            ->filter(function ($item) {
+                return $item->quantity > 0;
+            })
+            ->count() > 0;
+    }
+
     public function scopeOrderByChurchName($query)
     {
         $query->orderBySub(
@@ -106,7 +118,9 @@ class Organization extends Model
     {
         return $query->addSubSelect(
             'cost_sum',
-            OrgItem::withoutTrashed()->selectRaw('SUM(quantity * cost)')->whereRaw('order_items.owner_id = organizations.id')
+            OrgItem::withoutTrashed()->selectRaw('SUM(quantity * cost)')
+                ->whereRaw('order_items.owner_id = organizations.id')
+                ->whereRaw("order_items.owner_type = 'App\\\\Organization'")
         );
     }
 
@@ -267,7 +281,7 @@ class Organization extends Model
             return $assigned_to_room_count;
         }
 
-        return tap($this->assignedToRoom()->count(), function ($assigned_to_room_count) {
+        return tap($this->activeAttendees->filter->roomAssignment->count(), function ($assigned_to_room_count) {
             $this->setAttribute('assigned_to_room_count', $assigned_to_room_count);
         });
     }
@@ -411,7 +425,7 @@ class Organization extends Model
             return $active_attendees_count;
         }
 
-        return tap($this->activeAttendees()->count(), function ($active_attendees_count) {
+        return tap($this->activeAttendees->count(), function ($active_attendees_count) {
             $this->setAttribute('active_attendees_count', $active_attendees_count);
         });
     }
@@ -476,7 +490,7 @@ class Organization extends Model
             return $completed_waivers_count;
         }
 
-        return tap($this->completedWaivers()->count(), function ($completed_waivers_count) {
+        return tap($this->activeAttendees->filter->waiver->count(), function ($completed_waivers_count) {
             $this->setAttribute('completed_waivers_count', $completed_waivers_count);
         });
     }
@@ -492,7 +506,7 @@ class Organization extends Model
             return $is_checked_in;
         }
 
-        return (bool) $this->cached_checked_in_rooms_count || (bool) $this->setting('checked_in');
+        return (bool) $this->checked_in_rooms_count || (bool) $this->setting('checked_in');
     }
 
     public function getActiveAttendeesTotalAttribute()
@@ -583,7 +597,7 @@ class Organization extends Model
     {
         $setting = $this->settings()->where('key', $key)->first();
 
-        if (!$setting) {
+        if (! $setting) {
             $setting = new OrganizationSettings();
             $setting->key = $key;
             $setting->organization()->associate($this);

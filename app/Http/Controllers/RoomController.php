@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Room;
-use App\Hotel;
-use App\Organization;
 use App\Filters\RoomFilters;
-use Illuminate\Http\Request;
+use App\Hotel;
 use App\Http\Middleware\Authenticate;
+use App\Organization;
+use App\Room;
+use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -44,13 +44,19 @@ class RoomController extends Controller
             : view('room.index', compact('rooms', 'organizations', 'hotels'));
     }
 
-    public function edit(Room $room)
+    public function edit(Request $request, Room $room)
     {
         request()->intended(url()->previous());
 
         $this->authorize($room);
 
-        return view('room.edit', compact('room'));
+        $maxCapacity = $room->organization->slug == 'pcc' ? 5 : 4;
+
+        if ($request->user()->isSuperAdmin()) {
+            $maxCapacity = 5;
+        }
+
+        return view('room.edit', compact('room', 'maxCapacity'));
     }
 
     public function update(Room $room)
@@ -60,11 +66,11 @@ class RoomController extends Controller
         $room->update(
             auth()->user()->isSuperAdmin()
             ? request([
-                'capacity', 'description', 'notes',
+                'capacity', 'description',
                 'name', 'roomnumber', 'confirmation_number',
                 'is_checked_in', 'is_key_received',
             ])
-            : request(['capacity', 'description', 'notes'])
+            : request(['capacity', 'description'])
         );
 
         return redirect()->intended(action('RoomingListController@index'));

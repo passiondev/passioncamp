@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class RegisterController extends Controller
 {
@@ -19,7 +19,7 @@ class RegisterController extends Controller
             return redirect('/');
         }
 
-        if ($user->hash !== $hash && !request()->hasValidSignature()) {
+        if ($user->hash !== $hash && ! request()->hasValidSignature()) {
             abort(401);
         }
 
@@ -28,7 +28,7 @@ class RegisterController extends Controller
 
     public function register(User $user)
     {
-        if (!request()->hasValidSignature()) {
+        if (! request()->hasValidSignature()) {
             abort(401);
         }
 

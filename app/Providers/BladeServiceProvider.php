@@ -13,7 +13,7 @@ class BladeServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::directive('currency', function ($expression) {
-            return "<?php echo money_format('%.2n', $expression); ?>";
+            return "<?php echo \Money\Money::USD($expression); ?>";
         });
         Blade::directive('daydatetime', function ($expression) {
             return "<?php echo with($expression)->toDayDateTimeString(); ?>";

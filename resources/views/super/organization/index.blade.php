@@ -22,17 +22,17 @@
                     <th class="pb-0 text-center border-left">@icon('key')</th>
                     <th class="pb-0 text-center border-left">@icon('checkmark', 'text-success')</th>
                 </tr>
-                {{-- <tr class="table-sm" style="font-size:90%;">
+                <tr class="table-sm" style="font-size:90%;">
                     <th class="text-info pt-0 text-right thead-default"></th>
-                    <th class="text-info pt-0 text-center">${{ number_format($organizations->sum('cached_balance') / 100) }}</th>
-                    <th class="text-info pt-0 text-center border-left border-right">{{ number_format($organizations->sum('cached_tickets_sum')) }}</th>
-                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('cached_active_attendees_count')) }}</th>
-                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('cached_assigned_to_room_count')) }}</th>
-                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('cached_completed_waivers_count')) }}</th>
-                    <th class="text-info pt-0 text-center border-left">{{ number_format($organizations->sum('cached_rooms_count')) }}</th>
-                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('cached_key_received_rooms_count')) }}</th>
+                    <th class="text-info pt-0 text-center">${{ number_format($organizations->sum('balance') / 100) }}</th>
+                    <th class="text-info pt-0 text-center border-left border-right">{{ number_format($organizations->sum('tickets_sum')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('active_attendees_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('assigned_to_room_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('completed_waivers_count')) }}</th>
+                    <th class="text-info pt-0 text-center border-left">{{ number_format($organizations->filter->isActive()->sum('rooms_count')) }}</th>
+                    <th class="text-info pt-0 text-center">{{ number_format($organizations->sum('key_received_rooms_count')) }}</th>
                     <th class="text-info pt-0 text-center">{{ number_format($organizations->where('is_checked_in', true)->count()) }}</th>
-                </tr> --}}
+                </tr>
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)

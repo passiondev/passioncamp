@@ -16,7 +16,7 @@ class StripeController extends Controller
             'redirectUri' => route('stripe.connect'),
         ]);
 
-        if (!isset($_GET['code'])) {
+        if (! isset($_GET['code'])) {
             // If we don't have an authorization code then get one
             $authUrl = $provider->getAuthorizationUrl(['scope' => 'read_write']);
             $_SESSION['oauth2state'] = $provider->getState();

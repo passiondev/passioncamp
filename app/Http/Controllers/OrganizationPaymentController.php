@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
-use App\TransactionSplit;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\VerifyUserIsSuperAdmin;
+use App\Organization;
+use App\TransactionSplit;
 
 class OrganizationPaymentController extends Controller
 {
@@ -107,10 +107,6 @@ class OrganizationPaymentController extends Controller
     {
         $payment->delete();
         $payment->transaction->delete();
-
-        $organization->addNote(
-            sprintf('Deleted %s payment.', money_format('%.2n', $payment->amount / 100))
-        );
 
         return redirect()
             ->action('OrganizationController@show', $organization)

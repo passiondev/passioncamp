@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\RoutePayloadSignature;
+use Closure;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class VerifyPayloadSignature

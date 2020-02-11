@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Contracts\EsignProvider;
 use App\Jobs\Waiver\CancelAgreement;
+use Illuminate\Console\Command;
 
 class CancelAllPendingAdobeSignRequests extends Command
 {

@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Ticket;
 use App\Mail\WaiverRequest;
-use Illuminate\Support\Carbon;
+use App\Ticket;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 
 class SendWaiverToTickets extends Command
@@ -54,7 +54,7 @@ class SendWaiverToTickets extends Command
 
         $this->info('Tickets: '.$tickets->count());
 
-        if (!$tickets->count()) {
+        if (! $tickets->count()) {
             $this->line('Bye!');
 
             return;
@@ -68,7 +68,7 @@ class SendWaiverToTickets extends Command
             ];
         }));
 
-        if (!$this->confirm('Proceed?')) {
+        if (! $this->confirm('Proceed?')) {
             $this->line('Bye!');
 
             return;

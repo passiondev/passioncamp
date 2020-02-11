@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\User;
-use Illuminate\Support\Arr;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 
 class RegisterCreateRequest extends FormRequest
 {

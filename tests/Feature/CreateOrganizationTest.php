@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
 use App\Organization;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class CreateOrganizationTest extends TestCase
 {

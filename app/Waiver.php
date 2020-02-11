@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use App\Jobs\CancelSignatureRequest;
+use Carbon\Carbon;
 use Facades\App\Services\Esign\ProviderFactory as EsignProviderFactory;
 
 class Waiver extends Model
@@ -84,7 +84,7 @@ class Waiver extends Model
 
     public function cancelSignatureRequest()
     {
-        if (!$this->provider_agreement_id) {
+        if (! $this->provider_agreement_id) {
             return;
         }
 

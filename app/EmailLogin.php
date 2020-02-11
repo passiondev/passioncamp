@@ -2,9 +2,9 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
 class EmailLogin extends Model
 {
@@ -16,7 +16,7 @@ class EmailLogin extends Model
     {
         $this->delete();
 
-        if (!$this->isExpired()) {
+        if (! $this->isExpired()) {
             throw new \RuntimeException('This link is expired.');
         }
 
@@ -24,7 +24,7 @@ class EmailLogin extends Model
             throw new \RuntimeException('This link is invalid.');
         }
 
-        if (!$this->user->canUseMagicLink()) {
+        if (! $this->user->canUseMagicLink()) {
             throw new \RuntimeException('This user is invalid.');
         }
 

@@ -3,10 +3,10 @@
 namespace App;
 
 use App\Auth\Traits\HasEmailLogin;
-use Illuminate\Notifications\Notifiable;
-use Lab404\Impersonate\Models\Impersonate;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Lab404\Impersonate\Models\Impersonate;
 
 class User extends Authenticatable
 {
@@ -98,7 +98,7 @@ class User extends Authenticatable
         }
 
         if ($this->organization) {
-            return $this->organization->church->name . ' - ' . $this->organization->church->location;
+            return $this->organization->church->name.' - '.$this->organization->church->location;
         }
     }
 

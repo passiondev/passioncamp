@@ -1,11 +1,11 @@
 <?php
 
+use App\Jobs\Order\SendConfirmationEmail;
+use App\Jobs\Waiver\FetchAndUpdateStatus;
 use App\Order;
 use App\Waiver;
 use Carbon\Carbon;
 use Illuminate\Foundation\Inspiring;
-use App\Jobs\Order\SendConfirmationEmail;
-use App\Jobs\Waiver\FetchAndUpdateStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ Artisan::command('passioncamp:update-waivers', function ($organizationIds = []) 
         ->chunk(100, function ($waivers) use (&$count) {
             $waivers->each(function ($waiver) use (&$count) {
                 dispatch(new FetchAndUpdateStatus($waiver));
-                ++$count;
+                $count++;
             });
         });
 
