@@ -12,8 +12,8 @@
                 <div id="rooms-scroll" style="overflow-y: scroll; overflow-x: hidden">
                     <div class="alert alert-info">
                         <h3>Important Info About Creating Your Rooming List</h3>
-                        <p>All hotel rooms sleep 4 people and account for 2 people in each of the following bed types: king, queen, double, and sleeper sofa. For example, a room with a king bed and sleeper sofa will sleep 4 people.</p>
-                        <p>If you place a 5th person in a room, you will need to bring an air mattress.</p>
+                        <p>Each room accounts for sleeping space for 4 people. All rooms will be one of the following bed types: two beds (double or queen) or a queen/ king bed with a sleeper sofa.</p>
+                        <p>We will do our best to ensure that all groups are assigned to rooms on the same floor or as close together as possible. Please note that writing a personal note in each of your rooms to request nearby placement/rooms on the same floor is not necessary.</p>
                     </div>
                     <div class="row">
                         @foreach ($rooms as $room)

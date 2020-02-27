@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\VerifyUserIsChurchAdmin;
+
 Route::post('/ticket-price', 'TicketPriceController');
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -30,6 +32,7 @@ Route::namespace('User')->as('user.')->group(function () {
 Route::prefix('account')->namespace('Account')->as('account.')->group(function () {
     Route::get('dashboard', 'DashboardController')->name('dashboard');
     Route::get('settings', 'SettingsController')->name('settings');
+    Route::view('forms', 'account.forms')->name('forms')->middleware(['auth', VerifyUserIsChurchAdmin::class]);
     Route::resource('payments', 'PaymentController')->only('index', 'store');
     Route::resource('users', 'UserController')->only('create', 'store', 'destroy');
     Route::resource('tickets', 'TicketController')->only('create', 'store');
