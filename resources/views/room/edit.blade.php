@@ -34,8 +34,8 @@
 
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input type="checkbox" name="adp_required" id="adp_required" class="form-check-input" value="1" @if (old('adp_required', $room->adp_required)) checked @endif>
-                            ADP Required
+                            <input type="checkbox" name="ada_required" id="ada_required" class="form-check-input" value="1" @if (old('ada_required', $room->ada_required)) checked @endif>
+                            ADA Required
                         </label>
                     </div>
 
