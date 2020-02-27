@@ -32,18 +32,21 @@
                         </div>
                     </div>
 
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" name="ada_required" id="ada_required" class="form-check-input" value="1" @if (old('ada_required', $room->ada_required)) checked @endif>
-                            ADA Required
-                        </label>
-                    </div>
-
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" name="king_preferred" id="king_preferred" class="form-check-input" value="1" @if (old('king_preferred', $room->king_preferred)) checked @endif>
-                            King Bed Preferred
-                        </label>
+                    <div class="form-group row">
+                        <div class="col-md-6 offset-md-3">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" name="ada_required" id="ada_required" class="form-check-input" value="1" @if (old('ada_required', $room->ada_required)) checked @endif>
+                                    ADA Required
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" name="king_preferred" id="king_preferred" class="form-check-input" value="1" @if (old('king_preferred', $room->king_preferred)) checked @endif>
+                                    King Bed Preferred
+                                </label>
+                            </div>
+                        </div>
                     </div>
 
                     @if (Auth::user()->isSuperAdmin())
