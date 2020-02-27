@@ -179,8 +179,8 @@
                                     </li>
                                 @endif
                                 <li class="nav-item">
-                                    <a href="https://passion-forms.formstack.com/forms/passion_camp_2019_request" class="nav-link" target="_blank">
-                                        Registration &amp; Hotel Requests
+                                    <a href="{{ route('account.forms') }}" class="nav-link">
+                                        Passion Camp Group Forms
                                     </a>
                                 </li>
                                 <li class="nav-item">
