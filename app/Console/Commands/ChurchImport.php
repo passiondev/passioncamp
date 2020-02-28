@@ -37,7 +37,7 @@ class ChurchImport extends Command
      */
     public function handle()
     {
-        $csv = Reader::createFromPath(storage_path('app/2019/church.csv'));
+        $csv = Reader::createFromPath(storage_path('app/2020/church.csv'));
         $csv->setHeaderOffset(0);
 
         $keys = collect($csv->getRecords())
@@ -45,7 +45,9 @@ class ChurchImport extends Command
                 return ! empty($row['new id']);
             })
             ->map(function ($row) {
-                $organization = new Organization();
+                $organization = new Organization([
+                    'id' => $row['ORG ID'],
+                ]);
 
                 $church = tap($organization->church->fill([
                     'name' => $row['Church Name'],
@@ -85,7 +87,12 @@ class ChurchImport extends Command
 
                 $organization->save();
 
-                $organization->addNote($row['Notes']);
+                $organization->users()->create([
+                    'name' => sprintf('%s %s', $row['Contact First'], $row['Contact Last']),
+                    'email' => $row['Contact Email'],
+                ]);
+
+                // $organization->addNote($row['Notes']);
 
                 return $organization->id;
             })
