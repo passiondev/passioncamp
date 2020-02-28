@@ -1,0 +1,138 @@
+﻿ORG ID,source,identifier,amount
+1,other,transferred to Passion Conferences account on June 27,30000
+2,other,check 90964 received 7/3,22500
+3,other,check 24405 received 7/1,4000
+4,other,check 127446 received 7/10,6250
+6,other,check 1167 received 7/1,2000
+8,other,check 1577 received 6/25,3750
+12,other,check 23586 received 6/27,2000
+14,other,check 11584 received 7/3,10000
+20,other,check 036993 received 9/3,2000
+39,other,check 26977 received 7/3,3250
+46,other,check 49684 received 9/5,2000
+53,other,check 36218310 received 9/5,2400
+60,other,check 23649 received 10/2,2500
+64,other,check 17126 received 10/31,4000
+75,other,check 5007 received 12/19,1000
+80,other,check 0088061689 received 1/9,1750
+81,other,check 10365 received 1/9,1000
+83,other,check 21553 received 1/23,1250
+85,other,check 190 received 1/15,800
+89,other,check 004066 received 1/15,1250
+100,other,check 1191 received 1/23,1300
+101,other,check 104891 received 2/6,2500
+102,other,check 30506 received 1/29,1250
+113,other,check 4950 received 2/6,700
+132,other,check 89211 received 8/8,1500
+5,stripe,pi_1EuP9yAD1oCai5xuqlzItzzW,2450
+7,stripe,ch_1El5WcAD1oCai5xu2499HHSy,7500
+9,stripe,ch_1El5nqAD1oCai5xuc6jUsJ6A,5600
+10,stripe,ch_1El6EWAD1oCai5xukZeHwevJ,6000
+11,stripe,ch_1El6EfAD1oCai5xuqXlSM2tq,1000
+13,stripe,ch_1El6c8AD1oCai5xuC0IqJpXQ,2000
+16,stripe,ch_1ElI6GAD1oCai5xuo3DAK15B,750
+18,stripe,ch_1ElODfAD1oCai5xuGGLHVZGb,2400
+19,stripe,ch_1ElSwKAD1oCai5xugtaeOCAg,1500
+21,stripe,ch_1ElfR0AD1oCai5xubGvB9NVo,600
+22,stripe,ch_1ElfiTAD1oCai5xuTro0xHbO,2000
+23,stripe,pi_1G0r8bAD1oCai5xue0AoKrmc,2000
+25,stripe,ch_1EmMxZAD1oCai5xust5LMx3s,2500
+26,stripe,pi_1EtzKXAD1oCai5xulE6Y0zpa,8750
+28,stripe,ch_1EmP4NAD1oCai5xuepnwV2tQ,1000
+29,stripe,ch_1EmRyKAD1oCai5xua78Gq0HG,3000
+30,stripe,ch_1EmSP0AD1oCai5xul2pF5v53,2000
+31,stripe,ch_1EmXCMAD1oCai5xu4aAMenOY,1400
+32,stripe,pi_1FJjd9AD1oCai5xuwG3pdfRB,1000
+33,stripe,ch_1EmgodAD1oCai5xuwHWgvORi,2800
+34,stripe,ch_1EmhHwAD1oCai5xuxPU1QE9F,1500
+35,stripe,ch_1EmiITAD1oCai5xuz9Emzbij,1250
+37,stripe,ch_1EnRvAAD1oCai5xuifCPYaHR,3750
+38,stripe,ch_1Emmz2AD1oCai5xuvm4MrLcZ,3000
+40,stripe,ch_1EnRQtAD1oCai5xuiFE3eGFe,1000
+41,stripe,ch_1EnRmrAD1oCai5xuPm9VpNyy,2500
+42,stripe,ch_1EpEp0AD1oCai5xuMZYOb1VK,3600
+43,stripe,ch_1Eo9jeAD1oCai5xuaKSItWBs,6250
+44,stripe,ch_1EtxZ2AD1oCai5xu9HBVAaAM,1500
+45,stripe,ch_1EyK58AD1oCai5xudh8Pn25q,2000
+47,stripe,ch_1F4AyyAD1oCai5xussLK11YV,1750
+49,stripe,ch_1F4cBDAD1oCai5xusT3tHbk7,1000
+50,stripe,ch_1F5GCnAD1oCai5xuixjqbveX,5000
+51,stripe,ch_1F6moJAD1oCai5xuJIuZd8S3,1500
+52,stripe,ch_1F730oAD1oCai5xupUmF4jD8,3500
+54,stripe,ch_1FC5UEAD1oCai5xu3gsyt0s8,2250
+55,stripe,ch_1FCTqQAD1oCai5xuCGMjoD3z,1000
+56,stripe,ch_1FFPbZAD1oCai5xuxVSp9b6S,1500
+58,stripe,ch_1FGoZoAD1oCai5xuv6OYyRjQ,2000
+59,stripe,pi_1FJ4D8AD1oCai5xuMTvFtkxS,800
+61,stripe,pi_1FK6i2AD1oCai5xuSFToRXpY,2000
+62,stripe,pi_1FLsQxAD1oCai5xuuvDmuQVn,4000
+65,stripe,pi_1FS37LAD1oCai5xuQIxaXZDI,2500
+66,stripe,pi_1FTTpsAD1oCai5xuOOqIEBn5,1000
+67,stripe,pi_1FUfvdAD1oCai5xukpuWXu6z,2750
+69,stripe,pi_1FYz1mAD1oCai5xuWGz2eDMZ,3500
+70,stripe,pi_1FZ03nAD1oCai5xuUicyPREj,1000
+71,stripe,pi_1FZKtqAD1oCai5xukQPZBAgQ,1250
+72,stripe,pi_1Fa35NAD1oCai5xuUHpAsnuQ,1600
+73,stripe,pi_1FeR1AAD1oCai5xu4gH0MVO3,900
+74,stripe,pi_1FgGtoAD1oCai5xu3hVXegse,5000
+76,stripe,pi_1FhimOAD1oCai5xuG94TiZVs,550
+77,stripe,pi_1FlHb6AD1oCai5xuODI8zYlY,1000
+78,stripe,pi_1FlgOMAD1oCai5xuVw7NDxO7,2000
+79,stripe,pi_1Fli6UAD1oCai5xuGP5Nhc7X,850
+82,stripe,pi_1Fr5fPAD1oCai5xuHMJ5YZWu,1000
+84,stripe,pi_1FwHHsAD1oCai5xujwOtGP2c,250
+86,stripe,pi_1FwvrYAD1oCai5xu4M4mo1Hj,1250
+87,stripe,pi_1Fy0UgAD1oCai5xuJgNMg5Ls,3250
+88,stripe,pi_1Fy2lKAD1oCai5xuJgFQ8wgn,1800
+90,stripe,pi_1FymLZAD1oCai5xue5kSgabe,1200
+91,stripe,pi_1G0XjVAD1oCai5xujWAi1jyR,800
+92,stripe,pi_1G4YGbAD1oCai5xunTyDv7p6,1750
+93,stripe,pi_1G0Ys4AD1oCai5xuZJRhekBy,750
+94,stripe,pi_1G0bb6AD1oCai5xu8rpPTQQw,5000
+95,stripe,pi_1G0blhAD1oCai5xunquKutgf,750
+97,stripe,pi_1G1ERJAD1oCai5xuP4BzFVt1,750
+98,stripe,pi_1G1EdWAD1oCai5xu5xXEsUT6,200
+99,stripe,pi_1G1LeuAD1oCai5xuM9gcY81w,500
+103,stripe,pi_1G2lzHAD1oCai5xuiPLI6XBJ,1750
+104,stripe,pi_1G3ADUAD1oCai5xuJ8Kp2u5B,800
+105,stripe,pi_1GFo9qAD1oCai5xulqluZlI6,1500
+106,stripe,pi_1G3oj4AD1oCai5xuuc2H7TWy,2000
+108,stripe,pi_1G3t2IAD1oCai5xupnxKAVMg,2500
+109,stripe,pi_1G4B4iAD1oCai5xuVK1cnY3t,2000
+110,stripe,pi_1G4XRVAD1oCai5xu229n68Vl,2000
+111,stripe,pi_1G5ICHAD1oCai5xuGR2hIa2N,1000
+112,stripe,pi_1G5No3AD1oCai5xuXgeiZ074,1700
+114,stripe,pi_1G8bhHAD1oCai5xuPWeY4s9Z,600
+115,stripe,pi_1G6HikAD1oCai5xuNvYBhEqj,750
+116,stripe,pi_1G6NZDAD1oCai5xuYdvgEaK9,2500
+117,stripe,pi_1G6VdYAD1oCai5xu9vytX4AF,1000
+118,stripe,pi_1G6gavAD1oCai5xuOdRX2ay5,2500
+119,stripe,pi_1G79KtAD1oCai5xunkYjf7WP,1900
+120,stripe,pi_1G7pICAD1oCai5xuLZjO7rN4,2000
+121,stripe,pi_1G88DqAD1oCai5xuV3I9y62l,2000
+122,stripe,pi_1G88jmAD1oCai5xuvEA3AmSM,2000
+123,stripe,pi_1G8WnXAD1oCai5xu9zKYjRP7,750
+124,stripe,pi_1G9E0UAD1oCai5xuZGOPcGVa,2500
+125,stripe,pi_1GARHnAD1oCai5xukNQWHaB0,250
+127,stripe,pi_1GAhtAAD1oCai5xujjCLLRXY,250
+128,stripe,pi_1GB0w1AD1oCai5xuZ5LUcq1n,1000
+130,stripe,pi_1GDvJlAD1oCai5xul3thrymL,1150
+131,stripe,pi_1GDwaeAD1oCai5xuHoyBp66F,1900
+133,stripe,pi_1GENexAD1oCai5xugsELLUX6,1550
+134,stripe,pi_1GESvkAD1oCai5xutpn1oYCp,100
+135,stripe,pi_1GFojhAD1oCai5xuHx7oQ98P,750
+15,other,check 23660 received 7/3,5900
+15,stripe,pi_1F0VbrAD1oCai5xuyL0RxDjV,300
+17,other,check 0039409965 received 10/30,300
+17,other,check 0041921899,300
+17,other,check 0046436657 1/9,300
+17,other,check 0002355541 2/6,300
+24,other,check 23516 received 6/25,2300
+24,stripe,ch_1EuPMHAD1oCai5xuelM4oJMA,500
+27,stripe,ch_1EmOrqAD1oCai5xuH5eob4xE,550
+36,other,Wire Transfer 6/28, Wire Transfer 12/2,950
+63,stripe,pi_1FNP2cAD1oCai5xu3HX9t5uc,1250
+68,stripe,pi_1FYaOkAD1oCai5xuzr4XXTKb,1400
+63,other,check 15466 2/18,250
+68,other,check 37969 received 1/9,2000
+126,other,check,3000
