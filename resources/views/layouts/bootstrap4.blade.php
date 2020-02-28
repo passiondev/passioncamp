@@ -30,7 +30,7 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand py-0 align-self-start align-self-md-auto" href="{{ url('/') }}">
-                <img src="{{ url('img/camp-logo.svg') }}" alt="Passion Camp" height="40">
+                <img src="https://res.cloudinary.com/passionconf/image/upload/c_scale,f_auto,h_80,q_auto/v1582922237/passioncamp2020/PCA20-001_Logo-White.png" alt="Passion Camp" height="40">
             </a>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
