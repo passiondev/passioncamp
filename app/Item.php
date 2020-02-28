@@ -10,7 +10,7 @@ class Item extends Model
 
     public function getFullNameAttribute()
     {
-        return sprintf('%s %s', $this->name, ucfirst($this->type));
+        return trim(sprintf('%s %s', $this->name, $this->type == 'other' ?: ucfirst($this->type)));
     }
 
     public function scopeWithPurchasedSum($query)
