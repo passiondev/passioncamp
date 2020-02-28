@@ -13,6 +13,8 @@ class Organization extends Model
     use Cacheable;
     use Notifiable;
 
+    protected $guarded = [];
+
     protected $casts = [
         'tickets_sum' => 'integer',
         'hotels_sum' => 'integer',

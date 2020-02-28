@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Organization;
 use Illuminate\Console\Command;
+use Illuminate\Support\LazyCollection;
 use League\Csv\Reader;
 
 class ImportPayments extends Command
@@ -22,10 +23,14 @@ class ImportPayments extends Command
      */
     public function handle()
     {
-        $csv = Reader::createFromPath(storage_path('app/2019/payments.csv'));
+        $csv = Reader::createFromPath(storage_path('app/2020/payments.csv'));
         $csv->setHeaderOffset(0);
 
-        collect($csv->getRecords())
+        LazyCollection::make(function () use ($csv) {
+            foreach ($csv->getRecords() as $row) {
+                yield $row;
+            }
+        })
             ->each(function ($row) {
                 $organization = Organization::findOrFail($row['ORG ID']);
 
