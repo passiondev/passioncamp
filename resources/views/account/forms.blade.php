@@ -8,7 +8,7 @@
     <div class="list-group mt-4" style="max-width: 30rem">
         <a
             class="list-group-item justify-content-between"
-            href="https://passionforms.formstack.com/forms/pc2020registrationrequests"
+            href="https://passion-forms.formstack.com/forms/pc2020registrationrequests"
             target="_blank"
         >
             Registration Add/Drop Request Form
