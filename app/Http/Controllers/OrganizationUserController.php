@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\AccountUser;
-use App\Http\Middleware\VerifyUserIsSuperAdmin;
 use App\Mail\AccountUserCreated;
 use App\Organization;
 use App\User;
@@ -14,7 +13,7 @@ class OrganizationUserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([Authenticate::class, VerifyUserIsSuperAdmin::class]);
+        $this->middleware([Authenticate::class, 'can:super']);
     }
 
     public function create(Organization $organization)

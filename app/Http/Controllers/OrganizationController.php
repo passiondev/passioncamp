@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Church;
 use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\VerifyUserIsAdmin;
 use App\Organization;
 use App\Person;
 use App\WaiverStatus;
@@ -14,7 +13,7 @@ class OrganizationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([Authenticate::class, VerifyUserIsAdmin::class]);
+        $this->middleware([Authenticate::class, 'can:super']);
     }
 
     public function index()

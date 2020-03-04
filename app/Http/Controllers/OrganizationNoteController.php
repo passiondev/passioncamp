@@ -9,7 +9,7 @@ class OrganizationNoteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(Authenticate::class);
+        $this->middleware([Authenticate::class, 'can:super']);
     }
 
     public function store(Organization $organization)

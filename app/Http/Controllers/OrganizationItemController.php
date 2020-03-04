@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\VerifyUserIsSuperAdmin;
 use App\Item;
 use App\Organization;
 use App\OrgItem;
@@ -12,7 +11,7 @@ class OrganizationItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([Authenticate::class, VerifyUserIsSuperAdmin::class]);
+        $this->middleware([Authenticate::class, 'can:super']);
 
         $this->authorizeResource(OrgItem::class, 'item');
     }
