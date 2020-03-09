@@ -20,7 +20,7 @@
     "require": {
         "php": "^7.2",
         "adam-paterson/oauth2-stripe": "^1.1",
-        "algolia/algoliasearch-client-php": "^1.17",
+        "algolia/algoliasearch-client-php": "^2.2",
         "bugsnag/bugsnag-laravel": "^2.17",
         "codedge/laravel-fpdf": "^1.5",
         "doctrine/dbal": "^2.7",
