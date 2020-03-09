@@ -22,3 +22,11 @@
         props: ['ticket']
     }
 </script>
+<style scoped>
+.ticket {
+    cursor: grab;
+}
+.ticket.sortable-chosen {
+    cursor: grabbing;
+}
+</style>
