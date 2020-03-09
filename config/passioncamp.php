@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'year' => 2019,
+    'year' => 2020,
 
     'enable_rooms' => env('ENABLE_ROOMS', false),
 

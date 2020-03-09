@@ -84,9 +84,9 @@ class Waiver extends Model
     public function dropboxFilePath()
     {
         return vsprintf('%s/%s/%s.pdf', [
-            'Passion Camp 2019 Waivers',
-            $this->ticket->owner->organization_id . ' - ' . $this->ticket->owner->organization->church->name,
-            $this->ticket_id . ' - ' . $this->ticket->name,
+            'Passion Camp 2020 Waivers',
+            $this->ticket->owner->organization_id.' - '.$this->ticket->owner->organization->church->name,
+            $this->ticket_id.' - '.$this->ticket->name,
         ]);
     }
 
