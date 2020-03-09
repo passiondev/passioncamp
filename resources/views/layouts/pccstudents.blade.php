@@ -23,9 +23,13 @@
     @yield('head')
 </head>
 <body style="padding-top:0">
-    <header style="background-color: black">
+    <header
+        id=""
+        class="text-center"
+        style="{{ $occurrence->header_bg ? "background-image: url($occurrence->header_bg);" : '' }} {{ $occurrence->header_bg_color ? "background-color: $occurrence->header_bg_color;" : '' }} background-position: center; background-repeat: no-repeat; background-size: cover; "
+    >
         <div class="container">
-            <img data-src="https://res.cloudinary.com/pcc/image/upload/f_auto,q_auto,w_1200/v1551727604/students_registration/passioncamp2019/header-big.jpg" alt="{{ $occurrence->title }}" class="cld-responsive img-fluid">
+            <img data-src="{{ $occurrence->header_fg }}" alt="{{ $occurrence->title }}" class="cld-responsive img-fluid">
         </div>
     </header>
     <div id="page-header-banner" class="py-4">
@@ -33,7 +37,7 @@
             <img data-src="https://res.cloudinary.com/pcc/image/upload/w_auto,dpr_auto,f_auto,q_auto/v1541435334/students_registration/logo.png" class="cld-responsive" alt="PCC Students" style="width:252px;">
             <h2 style="color: black; font-weight: bold" class="m-0 mt-3 mt-sm-0">
                 Passion Camp
-                <small style="font-size: 87.5%; font-weight: normal" class="d-block d-md-inline">June 10–14, 2019</small>
+                <small style="font-size: 87.5%; font-weight: normal" class="d-block d-md-inline">June 15&ndash;19, 2020</small>
             </h2>
         </div>
     </div>

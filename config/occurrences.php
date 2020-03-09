@@ -5,7 +5,8 @@ return [
         'slug' => 'pcc',
         'title' => 'Passion Camp',
         'title_short' => 'Passion Camp',
-        'header_bg' => 'https://res.cloudinary.com/pcc/image/upload/f_auto,q_auto,w_1200/v1551727604/students_registration/passioncamp2019/header-big.jpg',
+        'header_bg' => 'https://res.cloudinary.com/passionconf/image/upload/f_auto,q_auto,w_1200/v1583759901/passioncamp2020/pcc/bg.jpg',
+        'header_fg' => 'https://res.cloudinary.com/passionconf/image/upload/f_auto,q_auto/v1583760654/passioncamp2020/pcc/fg.png',
         'pricing' => [
             '2020-01-01' => '399',
             '2020-04-06' => '425',
