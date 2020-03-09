@@ -26,7 +26,14 @@
 
             <div class="tickets">
                 <div class="list-group">
-                    <ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"></ticket>
+                    <draggable
+                        :list="tickets"
+                        :options="draggableOptions"
+                        @change="onChange"
+                        style="min-height: 1rem"
+                    >
+                        <ticket v-for="ticket in tickets" :key="ticket.id" :ticket="ticket"></ticket>
+                    </draggable>
                 </div>
             </div>
         </div>
