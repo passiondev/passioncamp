@@ -12,21 +12,21 @@
     "devDependencies": {
         "axios": "^0.18.1",
         "bootstrap": "4.0.0-alpha.6",
-        "cross-env": "^5.1",
+        "cross-env": "^5.2.1",
         "jquery": "^3.4.1",
-        "laravel-echo": "^1.5.2",
-        "laravel-mix": "^4.0.16",
-        "lodash": "^4.17.5",
+        "laravel-echo": "^1.6.1",
+        "laravel-mix": "^4.1.4",
+        "lodash": "^4.17.15",
         "pusher-js": "^4.3.1",
-        "sass": "^1.21.0",
-        "sass-loader": "7.*",
-        "vue": "^2.6.10",
+        "sass": "^1.26.2",
+        "sass-loader": "^7.3.1",
+        "vue": "^2.6.11",
         "vue-select": "^2.6.4",
-        "vue-template-compiler": "^2.6.10",
-        "vuedraggable": "^2.21.0"
+        "vue-template-compiler": "^2.6.11",
+        "vuedraggable": "^2.23.2"
     },
     "dependencies": {
         "es6-promise-promise": "^1.0.0",
-        "form-backend-validation": "^2.3.6"
+        "form-backend-validation": "^2.3.9"
     }
 }
