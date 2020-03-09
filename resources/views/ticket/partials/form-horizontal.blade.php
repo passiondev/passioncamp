@@ -70,7 +70,7 @@
     <div class="col-md-6 offset-md-3">
         <ticket-considerations
             style="margin-bottom:0"
-            :considerations="{{ json_encode(old('considerations', $ticket->considerations), JSON_FORCE_OBJECT) }}"
+            :considerations="{{ json_encode(old('considerations', $ticket->considerations ?? []), JSON_FORCE_OBJECT) }}"
             input-name="considerations"
         ></ticket-considerations>
     </div>
