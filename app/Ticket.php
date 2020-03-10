@@ -104,7 +104,7 @@ class Ticket extends OrderItem
 
     public function scopeResolveLatestWaiver($query, $column = 'id', $where = null)
     {
-        $query->addSubSelect('latest_waiver_' . $column, Waiver::select($column)
+        $query->addSubSelect('latest_waiver_'.$column, Waiver::select($column)
             ->whereColumn('ticket_id', 'order_items.id')
             ->when($where, function ($q) use ($where) {
                 $where($q);
@@ -337,15 +337,19 @@ class Ticket extends OrderItem
 
         $request = new TemplateSignatureRequest();
 
-        $request->fromArray([
-            'template_ids' => $templateIds,
-            'signers' => [
-                'Adult Participant or Parent / Guardian of Minor Participant' => [
-                    'name' => $this->order->user->person->name,
-                    'email_address' => $this->waiver_signer_email,
-                ],
+        $customFields = [
+            [
+                'name' => 'participant_name', // Participant Name
+                'value' => $this->person->name,
             ],
-            'custom_fields' => json_encode([
+            [
+                'name' => 'participant_gender', // Male \/ Female
+                'value' => $this->person->gender,
+            ],
+        ];
+
+        if ($this->order->organization->slug != 'pcc') {
+            $customFields = array_merge($customFields, [
                 [
                     'name' => 'church_name', // Church Name
                     'value' => $this->order->organization->church->name,
@@ -354,15 +358,18 @@ class Ticket extends OrderItem
                     'name' => 'church_location', // Church City, State
                     'value' => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
                 ],
-                [
-                    'name' => 'participant_name', // Participant Name
-                    'value' => $this->person->name,
+            ]);
+        }
+
+        $request->fromArray([
+            'template_ids' => $templateIds,
+            'signers' => [
+                'Adult Participant or Parent / Guardian of Minor Participant' => [
+                    'name' => $this->order->user->person->name,
+                    'email_address' => $this->waiver_signer_email,
                 ],
-                [
-                    'name' => 'participant_gender', // Male \/ Female
-                    'value' => $this->person->gender,
-                ],
-            ]),
+            ],
+            'custom_fields' => json_encode($customFields),
             'metadata' => [
                 'name' => $this->person->name,
                 'church' => "{$this->order->organization->church->name}, {$this->order->organization->church->city}, {$this->order->organization->church->state}",
