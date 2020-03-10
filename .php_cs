@@ -9,7 +9,15 @@ $rules = [
     ],
     'blank_line_after_namespace' => true,
     'blank_line_after_opening_tag' => true,
-    'blank_line_before_statement' => true,
+    'blank_line_before_statement' => [
+        'statements' => [
+            'continue',
+            'declare',
+            'return',
+            'throw',
+            'try',
+        ],
+    ],
     'braces' => true,
     'cast_spaces' => true,
     'class_definition' => true,
