@@ -47,43 +47,6 @@
                             </div>
                             <p class="form-text text-muted" style="margin-top:-.25rem; font-size:80%; font-style: italic;">Please provide a parent's email address to ensure your registration confirmation is received.</p>
                         </div>
-                        <div class="card-block">
-                            <h4>Address</h4>
-                            <div class="row">
-                                <div class="col-lg-10 col-xl-8">
-                                    <div class="form-group" :class="{ 'has-danger' : errors.has('street') }">
-                                        <label for="billing__street" class="form-control-label">Street</label>
-                                        <input type="text" v-model="form.street" id="billing__street" class="form-control">
-                                        <div class="form-control-feedback" v-if="errors.has('street')">
-                                            {{ errors.first('street') }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group" :class="{ 'has-danger' : errors.has('city') }">
-                                        <label for="billing__city" class="form-control-label">City</label>
-                                        <input type="text" v-model="form.city" id="billing__city" class="form-control">
-                                        <div class="form-control-feedback" v-if="errors.has('city')">
-                                            {{ errors.first('city') }}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-sm-6" :class="{ 'has-danger' : errors.has('state') }">
-                                            <label for="billing__state" class="form-control-label">State</label>
-                                            <input type="text" v-model="form.state" id="billing__state" class="form-control">
-                                            <div class="form-control-feedback" v-if="errors.has('state')">
-                                                {{ errors.first('state') }}
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-sm-6" :class="{ 'has-danger' : errors.has('zip') }">
-                                            <label for="billing__zip" class="form-control-label">Zip Code</label>
-                                            <input type="text" v-model="form.zip" id="billing__zip" class="form-control">
-                                            <div class="form-control-feedback" v-if="errors.has('zip')">
-                                                {{ errors.first('zip') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </section>
 
@@ -226,7 +189,7 @@
                 </section>
 
                 <section>
-                    <p class="lead">Full payment is due by May 5th. <strong>Full Passion Camp registration is non-refundable after this date.</strong></p>
+                    <p class="lead">Full payment is due by May 4th. <strong>Full Passion Camp registration is non-refundable after this date.</strong></p>
 
                     <p><i>Upon clicking submit, your credit card will be charged <strong>{{ payment_amount | currency }}</strong> for your Passion Camp registration.</i></p>
 
@@ -314,10 +277,6 @@
                     last_name: null,
                     email: null,
                     phone: null,
-                    street: null,
-                    city: null,
-                    state: null,
-                    zip: null,
                     num_tickets: null,
                     rep: null,
                     code: null,

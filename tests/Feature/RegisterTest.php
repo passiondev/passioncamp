@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Billing\FakePaymentGateway;
 use App\Jobs\Order\SendConfirmationEmail;
-use App\Mail\WaiverRequest;
 use App\Occurrence;
 use App\Order;
 use App\Organization;
@@ -13,7 +12,6 @@ use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -74,7 +72,7 @@ class RegisterTest extends TestCase
     /** @test */
     public function deposits_can_be_paid()
     {
-        Carbon::setTestNow('2019-03-04');
+        // Carbon::setTestNow('2020-03-04');
         $this->register(['payment_type' => 'deposit', 'num_tickets' => '1', 'tickets' => []]);
 
         $order = Order::first();
@@ -104,29 +102,6 @@ class RegisterTest extends TestCase
         $this->assertEquals('Rep Name', $order->order_data->get('rep'));
     }
 
-    /** @not-a-test */
-    public function it_sends_a_waiver_email_to_each_ticket()
-    {
-        // Mail::fake();
-
-        // $response = $this->register([
-        //     'contact' => [
-        //         'first_name' => 'Matt',
-        //         'last_name' => 'Floyd',
-        //         'email' => 'test-email@example.com',
-        //         'phone' => '7062240124',
-        //     ],
-        // ]);
-
-        // Ticket::all()->each(function ($ticket) {
-        //     Mail::assertQueued(WaiverRequest::class, function ($mail) use ($ticket) {
-        //         return $mail->ticket->is($ticket) &&
-        //             $mail->hasTo('test-email@example.com') &&
-        //             $mail->hasTo($ticket->order->user->person->email);
-        //     });
-        // });
-    }
-
     private function register($params = [])
     {
         factory(Organization::class)->create(['slug' => 'pcc']);
@@ -136,10 +111,6 @@ class RegisterTest extends TestCase
             'last_name' => 'Floyd',
             'email' => 'matt.floyd@268generation.com',
             'phone' => '7062240124',
-            'street' => '3180 windfield cir',
-            'city' => 'tucker',
-            'state' => 'ga',
-            'zip' => '30084',
             'tickets' => [
                 1 => [
                     'first_name' => 'One',

@@ -18,15 +18,18 @@ use Illuminate\Validation\ValidationException;
 class RegisterController extends Controller
 {
     protected $organization;
+
     protected $occurrence;
+
     protected $can_pay_deposit;
+
     protected $paymentGateway;
 
     public function __construct(PaymentGateway $paymentGateway)
     {
         $this->organization = $this->getOrganization();
         $this->occurrence = new Occurrence(config('occurrences.pcc'));
-        $this->can_pay_deposit = now()->lte(Carbon::parse('2019-05-03')->endOfDay());
+        $this->can_pay_deposit = now()->lte(Carbon::parse('2020-05-03')->endOfDay());
         $this->paymentGateway = $paymentGateway;
     }
 
@@ -49,6 +52,7 @@ class RegisterController extends Controller
 
     public function store(RegisterCreateRequest $request)
     {
+        logger('test', $request->all());
         $user = User::firstOrCreate(
             [
                 'email' => $request->input('email'),
@@ -59,10 +63,6 @@ class RegisterController extends Controller
                     'last_name',
                     'email',
                     'phone',
-                    'street',
-                    'city',
-                    'state',
-                    'zip',
                 ]),
             ]
         );

@@ -6,9 +6,10 @@ use Illuminate\Support\Carbon;
 
 class Registration
 {
-    public static $closedDate = '2019-06-03';
+    public static $closedDate = '2020-06-07';
 
-    public static $depositCutoffDate = '2019-05-03';
+    public static $depositCutoffDate = '2020-05-03';
+
     protected $organization;
 
     protected $user;
