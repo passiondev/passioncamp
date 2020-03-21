@@ -12,7 +12,6 @@
             target="_blank"
         >
             Registration Add/Drop Request Form
-            <span class="badge badge-success badge-pill">NEW</span>
         </a>
         <a
             class="list-group-item justify-content-between"
@@ -20,24 +19,30 @@
             target="_blank"
         >
             Hotel Request Form
-            <span class="badge badge-success badge-pill">NEW</span>
         </a>
-        <span class="list-group-item justify-content-between text-muted">
-            <span style="color:#cad2e2">Group Leader Agreement</span>
-            <strong style="font-size:80%;">Coming Soon</strong>
-        </span>
-        <span class="list-group-item justify-content-between text-muted">
+        <div class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                Group Leader Agreement
+                @if (auth()->user()->organization->setting('group_leader_agreement_signed'))
+                    <span class="badge badge-success badge-pill">COMPLETE</span>
+                @else
+                    <strong style="font-size:80%;">Pending</strong>
+                @endif
+            </div>
+            <p style="font-size:85%" class="text-muted mt-2 mb-0">You will receive your group leader agreement via email from HelloSign soon.</p>
+        </div>
+        <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Hotel Authorization Form</span>
             <strong style="font-size:80%;">Coming Soon</strong>
-        </span>
-        <span class="list-group-item justify-content-between text-muted">
+        </div>
+        <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Student and Leader Waivers</span>
             <strong style="font-size:80%;">Coming Soon</strong>
-        </span>
-        <span class="list-group-item justify-content-between text-muted">
+        </div>
+        <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Parking Pass Request Form</span>
             <strong style="font-size:80%;">Coming Soon</strong>
-        </span>
+        </div>
     </div>
 </div>
 
