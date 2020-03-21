@@ -134,6 +134,10 @@ class OrganizationController extends Controller
             $organization->setting('checked_in', (bool) request('checked_in') ? time() : '');
         }
 
+        if ((bool) $organization->setting('group_leader_agreement_signed') != (bool) request('group_leader_agreement_signed')) {
+            $organization->setting('group_leader_agreement_signed', (bool) request('group_leader_agreement_signed') ? time() : '');
+        }
+
         return redirect()->action('OrganizationController@show', $organization)->with('success', 'Church updated.');
     }
 }
