@@ -329,10 +329,10 @@ class Ticket extends OrderItem
 
     public function toHelloSignSignatureRequest()
     {
-        $templateIds = ['d670b0e6610cd423b4e56413510036369fc58eae'];
+        $templateIds = ['d38e5b98bb3ce96121b06feedde0e1080f572ba4'];
 
         if ('pcc' == $this->order->organization->slug) {
-            $templateIds = ['1f0b329dd4da72f2e88dc84d4c8cbdd9d0cf1fa8'];
+            $templateIds = ['32ab1cdf1bb4b21cc35373492d4245055102719a'];
         }
 
         $request = new TemplateSignatureRequest();
@@ -346,25 +346,20 @@ class Ticket extends OrderItem
                 'name' => 'participant_gender', // Male \/ Female
                 'value' => $this->person->gender,
             ],
+            [
+                'name' => 'church_name', // Church Name
+                'value' => $this->order->organization->church->name,
+            ],
+            [
+                'name' => 'church_location', // Church City, State
+                'value' => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
+            ],
         ];
-
-        if ($this->order->organization->slug != 'pcc') {
-            $customFields = array_merge($customFields, [
-                [
-                    'name' => 'church_name', // Church Name
-                    'value' => $this->order->organization->church->name,
-                ],
-                [
-                    'name' => 'church_location', // Church City, State
-                    'value' => "{$this->order->organization->church->city}, {$this->order->organization->church->state}",
-                ],
-            ]);
-        }
 
         $request->fromArray([
             'template_ids' => $templateIds,
             'signers' => [
-                'Adult Participant or Parent / Guardian of Minor Participant' => [
+                'Parent / Guardian' => [
                     'name' => $this->order->user->person->name,
                     'email_address' => $this->waiver_signer_email,
                 ],
