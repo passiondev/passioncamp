@@ -164,7 +164,7 @@
                                         </a>
                                     </li>
                                 @endif
-                                @if (Route::has('waivers.index') && auth()->user()->can('create', App\Waiver::class))
+                                @if (Route::has('waivers.index') && auth()->user()->can('viewAny', App\Waiver::class))
                                     <li class="nav-item">
                                         <a href="{{ route('waivers.index') }}" class="nav-link {{ Str::contains(Request::route()->getActionName(), 'WaiverController') ? 'active' :'' }}">
                                             Waivers
