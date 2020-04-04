@@ -20,7 +20,7 @@
         >
             Hotel Request Form
         </a>
-        <div class="list-group-item">
+        <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Group Leader Agreement</span>
             <strong style="font-size:80%;">Coming Soon</strong>
         </div>
