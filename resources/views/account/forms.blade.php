@@ -21,15 +21,8 @@
             Hotel Request Form
         </a>
         <div class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                Group Leader Agreement
-                @if (auth()->user()->organization->setting('group_leader_agreement_signed'))
-                    <span class="badge badge-success badge-pill">COMPLETE</span>
-                @else
-                    <strong style="font-size:80%;">Pending</strong>
-                @endif
-            </div>
-            <p style="font-size:85%" class="text-muted mt-2 mb-0">You will receive your group leader agreement via email from HelloSign soon.</p>
+            <span style="color:#cad2e2">Group Leader Agreement</span>
+            <strong style="font-size:80%;">Coming Soon</strong>
         </div>
         <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Hotel Authorization Form</span>
