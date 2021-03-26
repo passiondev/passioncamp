@@ -13,7 +13,7 @@
                     <div class="alert alert-info">
                         <h3>Important Info About Creating Your Rooming List</h3>
                         <p>Each room accounts for sleeping space for 4 people. All rooms will be one of the following bed types: two beds (double or queen) or a queen/ king bed with a sleeper sofa.</p>
-                        <p>We will do our best to ensure that all groups are assigned to rooms on the same floor or as close together as possible. Please note that writing a personal note in each of your rooms to request nearby placement/rooms on the same floor is not necessary.</p>
+                        <p>We will do our best to ensure that all groups are assigned to rooms on the same floor or as close together as possible.</p>
                     </div>
                     <div class="row">
                         @foreach ($rooms as $room)

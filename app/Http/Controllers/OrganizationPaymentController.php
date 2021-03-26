@@ -39,8 +39,8 @@ class OrganizationPaymentController extends Controller
                     'amount' => request('amount') * 100,
                     'currency' => 'usd',
                     'source' => request('stripeToken'),
-                    'description' => 'Passion Camp',
-                    'statement_descriptor' => 'Passion Camp',
+                    'description' => 'Passion Camp 2021',
+                    'statement_descriptor' => 'Passion Camp 2021',
                     'metadata' => [
                         'church' => $organization->church->name,
                     ],

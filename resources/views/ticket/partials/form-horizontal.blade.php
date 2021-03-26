@@ -52,7 +52,7 @@
                 <option value="{{ $key }}" @if (old('ticket.grade', $ticket->grade) == $key) selected @endif>{{ $value }}</option>
             @endforeach
         </select>
-        <p class="form-text text-muted mb-0">Completed as of June {{ config('passioncamp.year') }} </p>
+        <p class="form-text text-muted mb-0">Completed as of June 2021 </p>
     </div>
 </div>
 
