@@ -70,7 +70,7 @@
                         @endcan
                     </div>
                     <div class="item right item--{{ $split->amount>0 ? 'success' : 'warning' }}">
-                        {{ $split->amount }}
+                        {{ number_format($split->amount / 100, 2, '.', '') }}
                     </div>
                 </div>
                 @if ($split->transaction->source == 'stripe')
