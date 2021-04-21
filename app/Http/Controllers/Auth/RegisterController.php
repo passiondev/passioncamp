@@ -19,6 +19,8 @@ class RegisterController extends Controller
             return redirect('/');
         }
 
+        request()->request->remove('_hsenc');
+        
         if ($user->hash !== $hash && ! request()->hasValidSignature()) {
             abort(401);
         }
