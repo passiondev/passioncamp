@@ -20,6 +20,7 @@ class RegisterController extends Controller
         }
 
         request()->request->remove('_hsenc');
+        request()->request->remove('_hsmi');
         
         if ($user->hash !== $hash && ! request()->hasValidSignature()) {
             abort(401);
