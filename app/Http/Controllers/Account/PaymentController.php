@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\VerifyUserIsChurchAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentNotification;
 
 class PaymentController extends Controller
 {
@@ -55,6 +57,9 @@ class PaymentController extends Controller
             'cc_brand' => $charge->source->brand,
             'cc_last4' => $charge->source->last4,
         ]);
+
+        Mail::to(['misty.paige@268generation.com', 'bethany.pedersen@268generation.com', 'kyle.neeley@268generation.com'])->send(new PaymentNotification($organization->church->name, $charge->amount));
+
 
         return redirect()->action('Account\PaymentController@index')->withSuccess('Payment received.');
     }

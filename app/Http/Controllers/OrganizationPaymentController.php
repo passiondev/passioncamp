@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Middleware\Authenticate;
 use App\Organization;
 use App\TransactionSplit;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentNotification;
 
 class OrganizationPaymentController extends Controller
 {
@@ -63,6 +65,9 @@ class OrganizationPaymentController extends Controller
                 'identifier' => request('identifier'),
             ]);
         }
+
+            Mail::to(['misty.paige@268generation.com', 'bethany.pedersen@268generation.com', 'kyle.neeley@268generation.com'])->send(new PaymentNotification($organization->church->name, $charge->amount));
+
 
         return redirect()
             ->action('OrganizationController@show', $organization)
