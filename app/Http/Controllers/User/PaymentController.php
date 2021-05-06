@@ -58,6 +58,8 @@ class PaymentController extends Controller
             'cc_last4' => $charge->source->last4,
         ]);
 
+         Mail::to(['misty.paige@268generation.com', 'bethany.pedersen@268generation.com'])->send(new PaymentNotification($organization->church->name, $charge->amount));
+
         return redirect()->route('user.payments.index')
             ->withSuccess('Payment received.');
     }
