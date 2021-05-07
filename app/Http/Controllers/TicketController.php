@@ -14,10 +14,11 @@ class TicketController extends Controller
 
     public function index()
     {
-        $tickets = Ticket::forUser(auth()->user())
-            ->with(['person', 'order.organization.church'])
-            ->paginate();
+        $tickets = Ticket::forUser(auth()->user());
        
+        $tickets = $tickets->paginate();
+        
+        $tickets->load('person', 'order.organization.church');
         
 
         if ('last' == request()->query('page')) {
