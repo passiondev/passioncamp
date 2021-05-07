@@ -16,7 +16,7 @@ class TicketController extends Controller
     {
         $tickets = Ticket::forUser(auth()->user());
        
-        
+        $tickets = $tickets->paginate();
         
         $tickets->load('person', 'order');
         
