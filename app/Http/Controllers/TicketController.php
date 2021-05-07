@@ -16,11 +16,11 @@ class TicketController extends Controller
     {
         $tickets = Ticket::forUser(auth()->user());
        
-        $tickets = $tickets->paginate();
+        
         
         $tickets->load('person', 'order');
         
-        ddd($tickets);
+        dd($tickets);
         
 
         if ('last' == request()->query('page')) {
