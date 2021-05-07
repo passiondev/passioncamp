@@ -19,6 +19,8 @@ class TicketController extends Controller
         $tickets = $tickets->paginate();
         
         $tickets->load('person', 'order.organization.church');
+        
+        ddd($tickets);
 
         if ('last' == request()->query('page')) {
             return redirect()->route('tickets.index', ['page' => $tickets->lastPage()]);
