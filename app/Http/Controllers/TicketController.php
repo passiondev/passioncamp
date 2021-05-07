@@ -18,7 +18,7 @@ class TicketController extends Controller
        
         $tickets = $tickets->paginate();
         
-        $tickets->load('person', 'order');
+        $tickets->load('person', 'order.organization.church');
         
 
         
