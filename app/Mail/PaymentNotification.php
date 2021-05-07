@@ -36,6 +36,6 @@ class PaymentNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.order.internal_payment_notification');
+        return $this->markdown('emails.order.internal_payment_notification');
     }
 }
