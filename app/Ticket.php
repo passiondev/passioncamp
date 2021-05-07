@@ -58,7 +58,7 @@ class Ticket extends OrderItem
         $user = $user ?? Auth::user();
 
         if ($user->isSuperAdmin()) {
-            return $query->where('owner_type','App\\\Order');
+            return $query->where('owner_type',"App\Order");
         }
 
         if ($user->isChurchAdmin()) {
