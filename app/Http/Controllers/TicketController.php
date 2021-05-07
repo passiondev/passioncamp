@@ -15,7 +15,7 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::forUser(auth()->user())
-            ->with('person')
+            ->with(['person', 'order.organization.church'])
             ->paginate();
         
         
