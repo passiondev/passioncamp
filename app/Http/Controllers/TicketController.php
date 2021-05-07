@@ -18,6 +18,8 @@ class TicketController extends Controller
        
         $tickets = $tickets->paginate();
         
+        dd($tickets);
+        
         $tickets->load('person', 'order.organization.church');
         
 
