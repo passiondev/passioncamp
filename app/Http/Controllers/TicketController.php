@@ -18,9 +18,9 @@ class TicketController extends Controller
        
         $tickets = $tickets->paginate();
         
-        dd($tickets);
-        
         $tickets->load('person', 'order.organization.church');
+        
+                dd($tickets);
         
 
         if ('last' == request()->query('page')) {
