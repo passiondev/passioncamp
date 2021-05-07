@@ -20,7 +20,7 @@ class TicketController extends Controller
         
         $tickets->load('person', 'order');
         
-        dd($tickets);
+
         
 
         if ('last' == request()->query('page')) {
