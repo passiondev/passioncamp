@@ -26,7 +26,7 @@ class PaymentNotification extends Mailable
     public function __construct($church_name, $amount)
     {
         $this->church_name = $church_name;
-        $this->amount = $amount;
+        $this->amount = $amount / 100;
     }
 
     /**
