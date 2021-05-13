@@ -66,8 +66,7 @@ class OrganizationPaymentController extends Controller
             ]);
         }
 
-            Mail::to(['misty.paige@268generation.com', 'bethany.pedersen@268generation.com', 'kyle.neeley@268generation.com'])->send(new PaymentNotification($organization->church->name, $charge->amount));
-
+       
 
         return redirect()
             ->action('OrganizationController@show', $organization)
