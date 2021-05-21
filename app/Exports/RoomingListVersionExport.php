@@ -26,7 +26,7 @@ class RoomingListVersionExport implements WithMultipleSheets
             return [$room->id => $room->revision()];
         });
 
-        $tickets = Ticket::with('order.organization.church')->get();
+        $tickets = Ticket::where('owner_type',"App\Order")->with('order.organization.church')->get();
 
         $ticketChanges = $tickets->mapWithKeys(function ($ticket) {
             return [$ticket->id => $ticket->revision()];
