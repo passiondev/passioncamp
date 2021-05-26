@@ -329,7 +329,7 @@ class Ticket extends OrderItem
 
     public function toHelloSignSignatureRequest()
     {
-        $templateIds = ['d38e5b98bb3ce96121b06feedde0e1080f572ba4'];
+        $templateIds = ['71d9f8bc74f0ce83d851bb0bf76c1d5ed54b46fe'];
 
         if ('pcc' == $this->order->organization->slug) {
             $templateIds = ['32ab1cdf1bb4b21cc35373492d4245055102719a'];
