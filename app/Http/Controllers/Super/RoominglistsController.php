@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Super;
 
 use App\Http\Controllers\Controller;
 use App\RoomingListVersion;
+use Illuminate\Support\Facades\Storage;
 
 class RoominglistsController extends Controller
 {
@@ -16,7 +17,12 @@ class RoominglistsController extends Controller
     public function index()
     {
         $versions = RoomingListVersion::all();
+        
+        
 
-        return view('super.roominglists.index', compact('versions'));
+        $files = Storage::files('exports');
+        dd($files);
+
+        return view('super.roominglists.index', compact('versions', 'files'));
     }
 }
