@@ -34,8 +34,7 @@ class RoomingListVersionExport implements WithMultipleSheets
         $ticketChanges = $tickets->mapWithKeys(function ($ticket) {
             return [$ticket->id => $ticket->revision()];
         });
-        
-        dd($ticketChanges);
+
 
         $allRooms = $rooms->map(function ($room) use ($roomChanges, $ticketChanges) {
             return [
