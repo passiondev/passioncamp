@@ -343,6 +343,14 @@ class Ticket extends OrderItem
                 'value' => $this->person->name,
             ],
             [
+                'name' => 'participant_name_2', // Participant Name (Again)
+                'value' => $this->person->name,
+            ],
+            [
+                'name' => 'participant_name_3', // Participant Name (Again)
+                'value' => $this->person->name,
+            ],
+            [
                 'name' => 'participant_gender', // Male \/ Female
                 'value' => $this->person->gender,
             ],
