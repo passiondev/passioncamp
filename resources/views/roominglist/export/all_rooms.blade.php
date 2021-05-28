@@ -1,6 +1,7 @@
 <table>
     <thead>
         <tr>
+            <th>Count</th>
             <th>ID</th>
             <th>Confirmation #</th>
             <th>Church</th>
@@ -26,6 +27,7 @@
     <tbody>
         @foreach ($allRooms as $room)
             <tr>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $room['id'] }}</td>
                 <td>{{ $room['confirmation_number'] }}</td>
                 <td>{{ $room['church'] }}</td>
