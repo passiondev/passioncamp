@@ -21,12 +21,12 @@ class RoomingListVersionExport implements WithMultipleSheets
     public function sheets(): array
     {
         $rooms = Room::with('organization.church', 'tickets.person')->has('organization')->get();
-        
-        dd($rooms);
 
         $roomChanges = $rooms->mapWithKeys(function ($room) {
             return [$room->id => $room->revision()];
         });
+        
+        dd($roomChanges);
 
         $tickets = Ticket::where('owner_type',"App\Order")->with('order.organization.church')->get();
 
