@@ -31,11 +31,13 @@ class RoomingListVersionExport implements WithMultipleSheets
         
 
         $tickets = Ticket::where('owner_type',"App\Order")->with('order.organization.church')->get();
-        dd($tickets);
+        
         
         $ticketChanges = $tickets->mapWithKeys(function ($ticket) {
             return [$ticket->id => $ticket->revision()];
         });
+        
+        dd($ticketChanges);
 
         $allRooms = $rooms->map(function ($room) use ($roomChanges, $ticketChanges) {
             return [
