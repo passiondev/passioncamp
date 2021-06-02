@@ -29,10 +29,6 @@
             <strong style="font-size:80%;">Coming Soon</strong>
         </div>
         <div class="list-group-item justify-content-between text-muted">
-            <span style="color:#cad2e2">Student and Leader Waivers</span>
-            <strong style="font-size:80%;">Coming Soon</strong>
-        </div>
-        <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Parking Pass Request Form</span>
             <strong style="font-size:80%;">Coming Soon</strong>
         </div>
