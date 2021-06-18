@@ -20,14 +20,20 @@
         >
             Hotel Request Form
         </a>
-        <div class="list-group-item justify-content-between text-muted">
-            <span style="color:#cad2e2">Group Leader Agreement</span>
-            <strong style="font-size:80%;">Coming Soon</strong>
-        </div>
-        <div class="list-group-item justify-content-between text-muted">
-            <span style="color:#cad2e2">Hotel Policy Agreement</span>
-            <strong style="font-size:80%;">Coming Soon</strong>
-        </div>
+        <a
+            class="list-group-item justify-content-between"
+            href="https://app.hellosign.com/s/DSy0MS5H"
+            target="_blank"
+        >
+            Group Leader Agreement
+        </a>
+        <a
+            class="list-group-item justify-content-between"
+            href="https://app.hellosign.com/s/51SW6SBn"
+            target="_blank"
+        >
+            Hotel Policy Agreement
+        </a>
         <div class="list-group-item justify-content-between text-muted">
             <span style="color:#cad2e2">Parking Pass Request Form</span>
             <strong style="font-size:80%;">Coming Soon</strong>
