@@ -46,7 +46,7 @@ class TicketTransformer extends TransformerAbstract
                 'price' => $ticket->price / 100,
                 'checked_in_at' => $ticket->checked_in_at,
                 'code' => $ticket->code,
-                'rep' => $ticket->order->order_data->get('rep'),
+                //'rep' => $ticket->order->order_data->get('rep'),
             ];
         }
 
