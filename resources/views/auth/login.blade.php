@@ -9,6 +9,11 @@
     @endif
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
+            <div class="alert alert-info" role="alert">
+                <h3>The Passion Camp Portal is now closed.</h3> <br/>If there are any changes that need to be made to your account, please email <a href="mailto:bethany.pedersen@268generation.com">bethany.pedersen@268generation.com</a>.
+            </div>
+        </div>
+        <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-header">Login</div>
                 <div class="card-block">
