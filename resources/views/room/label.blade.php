@@ -45,7 +45,7 @@
             @endforeach
         </div>
 
-        <div style="position:absolute;bottom:0;left:0;right:0;">
+        <div style="position:absolute;bottom:0;left:0;right:0; padding-left: 10pt">
             {{ $room->name }}
         </div>
     </div>
