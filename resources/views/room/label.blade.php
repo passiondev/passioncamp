@@ -3,7 +3,7 @@
 <head>
     <style>
         @page {
-            size: 51mm 52mm;
+            size: 53mm 69mm;
             margin: 0;
         }
         body {
