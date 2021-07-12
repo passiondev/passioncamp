@@ -13,6 +13,7 @@
         }
         .container {
             position: relative;
+            padding-left: 5pt;
         }
         .fn {
             float: footnote;
